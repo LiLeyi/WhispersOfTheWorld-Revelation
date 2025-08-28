@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>主菜单测试</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+    }
+    .menu-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .menu-button {
+        display: block;
+        margin: 20px auto;
+        padding: 15px 50px;
+        font-size: 24px;
+        background-color: #222;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .menu-button:hover {
+        background-color: #555;
+    }
+</style>
+</head>
+<body>
+
+<div class="menu-container">
+    <h1>世界的低语：启示录</h1>
+    <button class="menu-button" id="startGameBtn">开始游戏</button>
+    <button class="menu-button" id="loadSaveBtn">存档</button>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="#" type="audio/ogg">
+</audio>
+
+<script>
+    document.getElementById('startGameBtn').addEventListener('click', function() {
+        window.location.href = 'sences/sc0/sc0-1.html'; // 跳转游戏页面
+    });
+    document.getElementById('loadSaveBtn').addEventListener('click', function() {
+          window.location.href = 'load.html'; // 跳转游戏页面
+    });
+</script>
+</body>
+</html>

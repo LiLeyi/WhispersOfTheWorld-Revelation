@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>世界的低语：启示录</title>
+    <!--游戏网站小图标-->
+    <link href="#" type="image/x-icon" rel="icon">
+</head>
+
+<body>
+    <div class="background-slider">
+        <div class="background-image" id="bg1"></div>
+        <div class="background-image" id="bg2"></div>
+    </div>
+
+    <!--一些基本交互-->
+    <div id="move"></div>
+    <div id="dialog"></div>
+    <div id="text-box">
+        <p id="name"></p>
+        <p id="texts"></p>
+    </div>
+
+    <!--角色小图标-->
+    <div id="small">
+        <img src="#" id="small_pic" style="display: none;">
+    </div>
+
+    <img id="left-sprite" class="sprite left" src="#" alt="Left Sprite">
+    <img id="center-sprite" class="sprite center" src="#" alt="Center Sprite">
+    <img id="right-sprite" class="sprite right" src="#" alt="Right Sprite">
+
+    <!--选项容器-->
+    <div id="selection_box"></div>
+
+    <!--菜单-->
+    <div id="menu">
+        <button class="op" id="op_return"><strong>return</strong></button>
+        <button class="op" id="op_load"><strong>load</strong></button>
+        <button class="op" id="op_auto"><strong>auto</strong></button>
+        <button class="op" id="op_skip"><strong>skip</strong></button>
+    </div>
+
+    <!--跳过弹窗-->
+    <div class="menuwindow" id="skip">
+        <h1 class="menutitle">是否跳过这一章节</h1>
+        <div class="menuitemleft">
+            <button type="submit" class="btn" id="skip_yes">YES</button>
+        </div>
+        <div class="menuitemright">
+            <button type="submit" class="btn" id="skip_no">NO</button>
+        </div>
+    </div>
+
+    <!--返回弹窗-->
+    <div class="menuwindow" id="return">
+        <h1 class="menutitle">是否返回标题</h1>
+        <div class="menuitemleft">
+            <button type="submit" class="btn" id="return_yes">YES</button>
+        </div>
+        <div class="menuitemright">
+            <button type="submit" class="btn" id="return_no">NO</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

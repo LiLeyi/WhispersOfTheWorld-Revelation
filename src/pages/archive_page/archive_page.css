@@ -1,0 +1,102 @@
+/* 顶部导航栏 */
+.navbar-custom {
+    background-color: #767676;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+.navbar-custom a, .navbar-custom button {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.navbar-custom a:hover, .navbar-custom button:hover {
+    text-decoration: underline;
+}
+
+/* 容器居中 */
+#saveSlotsContainer {
+    margin-top: 50px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+/* 每行使用 flex 布局 */
+.row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+/* 存档槽样式 */
+.save-slot {
+    flex: 1;
+    min-width: 0;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+}
+
+/* 存档信息 */
+.save-info h2 {
+    margin-bottom: 5px;
+}
+
+/* 存档按钮 */
+.save-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.save-button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+.save-button.delete {
+    background-color: #dc3545;
+}
+
+.save-button.delete:hover {
+    background-color: #c82333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .save-slot {
+        min-width: unset;
+        max-width: unset;
+    }
+}

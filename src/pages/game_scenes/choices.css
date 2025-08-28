@@ -1,0 +1,104 @@
+/* 选项 */
+#selection_box {
+    position: absolute;
+    bottom: 45%;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25; /* 确保选项显示在立绘上方 */
+}
+
+.selection {
+    width: 600px;
+    height: auto;
+    margin-top: 20px;
+    padding: 25px;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    /*font-family: 'xingshu', sans-serif;*/
+    font-family: 'Poppins', sans-serif;
+    color: #2D3C70;
+    gap: 20px;
+    text-shadow: 2px 2px 5px black;
+    opacity: 0.8;
+    border-radius: 85px;
+    backdrop-filter: blur(5px);
+    background-color: #BBBBBB;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    border: 2px rgba(255, 255, 255, 0.4) solid;
+    border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
+    border-right: 2px rgba(40, 40, 40, 0.35) solid;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 30; /* 确保选项按钮显示在最上层 */
+}
+
+.selection:hover {
+    transform: translateX(4px);
+    transform: translateY(-4px);
+    backdrop-filter: blur(20px);
+    box-shadow: rgba(0, 0, 0, 0.8) 2px 8px 8px;
+    color: #702D2F;
+}
+
+.selection:active {
+    transform: translateY(4px);
+    box-shadow: rgba(0, 0, 0, 0.8) 2px 8px 8px;
+    color: rgb(169, 209, 255);
+}
+
+/* 特殊选项 */
+#_selection_box {
+    position: absolute;
+    bottom: 45%;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25; /* 确保特殊选项显示在立绘上方 */
+}
+
+._selection {
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+    padding: 25px;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    /*font-family: 'xingshu', sans-serif;*/
+    font-family: 'Poppins', sans-serif;
+    font-size: 125%;
+    color: rgb(233, 233, 233);
+    gap: 20px;
+    text-shadow: 2px 2px 5px black;
+    
+    border-radius: 85px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(1, 100, 114, 0.3);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    border: 2px rgba(255, 255, 255, 0.4) solid;
+    border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
+    border-right: 2px rgba(40, 40, 40, 0.35) solid;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 30; /* 确保特殊选项按钮显示在最上层 */
+}
+
+._selection:hover {
+    transform: translateX(4px);
+    transform: translateY(-4px);
+    backdrop-filter: blur(20px);
+    box-shadow: rgba(0, 0, 0, 0.8) 2px 8px 8px;
+    color: rgb(162, 204, 251);
+}
+
+._selection:active {
+    transform: translateY(4px);
+    box-shadow: rgba(0, 0, 0, 0.8) 2px 8px 8px;
+    color: rgb(169, 209, 255);
+}
