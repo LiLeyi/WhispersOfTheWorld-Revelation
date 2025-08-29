@@ -4,18 +4,22 @@
  */
 export class ArchiveManager {
     private static instance: ArchiveManager;
+    private static currentArchiveId: string = "default";
     private gameData: {
         items: Record<string, boolean>;
         characterAffection: Record<string, number>;
         flags: Record<string, any>;
     };
+    private archiveId: string;
 
     private constructor() {
+        this.archiveId = ArchiveManager.currentArchiveId;
         this.gameData = {
             items: {},
             characterAffection: {},
             flags: {}
         };
+        console.log(`[ArchiveManager] 创建新实例，存档ID: ${this.archiveId}`);
         this.loadFromLocalStorage();
     }
 
@@ -23,10 +27,30 @@ export class ArchiveManager {
      * 获取 ArchiveManager 的单例实例
      */
     public static getInstance(): ArchiveManager {
-        if (!ArchiveManager.instance) {
+        // 检查当前实例是否与当前存档ID匹配
+        if (!ArchiveManager.instance || ArchiveManager.instance.archiveId !== ArchiveManager.currentArchiveId) {
             ArchiveManager.instance = new ArchiveManager();
         }
+        console.log(`[ArchiveManager] 获取实例，存档ID: ${ArchiveManager.instance.archiveId}`);
         return ArchiveManager.instance;
+    }
+
+    /**
+     * 设置当前存档ID并刷新实例
+     * @param archiveId 存档ID
+     */
+    public static setCurrentArchiveId(archiveId: string): void {
+        console.log(`[ArchiveManager] 设置存档ID从 ${ArchiveManager.currentArchiveId} 到 ${archiveId}`);
+        ArchiveManager.currentArchiveId = archiveId;
+        // 不再立即刷新实例，而是在下次获取实例时按需刷新
+    }
+
+    /**
+     * 获取当前存档ID
+     */
+    public static getCurrentArchiveId(): string {
+        console.log(`[ArchiveManager] 获取当前存档ID: ${ArchiveManager.currentArchiveId}`);
+        return ArchiveManager.currentArchiveId;
     }
 
     /**
@@ -34,17 +58,23 @@ export class ArchiveManager {
      */
     private loadFromLocalStorage(): void {
         try {
-            const savedData = localStorage.getItem("gameArchiveData");
+            const storageKey = `gameArchiveData_${this.archiveId}`;
+            console.log(`[ArchiveManager] 尝试从localStorage加载数据，键: ${storageKey}`);
+            const savedData = localStorage.getItem(storageKey);
             if (savedData) {
+                console.log(`[ArchiveManager] 找到存档数据: ${savedData}`);
                 const parsedData = JSON.parse(savedData);
                 this.gameData = {
                     items: parsedData.items || {},
                     characterAffection: parsedData.characterAffection || {},
                     flags: parsedData.flags || {}
                 };
+                console.log(`[ArchiveManager] 加载的物品:`, this.gameData.items);
+            } else {
+                console.log(`[ArchiveManager] 未找到存档数据`);
             }
         } catch (e) {
-            console.error("无法从 localStorage 加载存档数据:", e);
+            console.error("[ArchiveManager] 无法从 localStorage 加载存档数据:", e);
         }
     }
 
@@ -53,9 +83,12 @@ export class ArchiveManager {
      */
     private saveToLocalStorage(): void {
         try {
-            localStorage.setItem("gameArchiveData", JSON.stringify(this.gameData));
+            const storageKey = `gameArchiveData_${this.archiveId}`;
+            console.log(`[ArchiveManager] 保存数据到localStorage，键: ${storageKey}`);
+            localStorage.setItem(storageKey, JSON.stringify(this.gameData));
+            console.log(`[ArchiveManager] 保存的物品:`, this.gameData.items);
         } catch (e) {
-            console.error("无法保存存档数据到 localStorage:", e);
+            console.error("[ArchiveManager] 无法保存存档数据到 localStorage:", e);
         }
     }
 
@@ -65,7 +98,9 @@ export class ArchiveManager {
      * @returns 是否拥有该物品
      */
     public hasItem(itemName: string): boolean {
-        return this.gameData.items[itemName] || false;
+        const hasItem = this.gameData.items[itemName] || false;
+        console.log(`[ArchiveManager] 检查物品 ${itemName}: ${hasItem}`);
+        return hasItem;
     }
 
     /**
@@ -73,6 +108,7 @@ export class ArchiveManager {
      * @param itemName 物品名称
      */
     public addItem(itemName: string): void {
+        console.log(`[ArchiveManager] 添加物品: ${itemName}`);
         this.gameData.items[itemName] = true;
         this.saveToLocalStorage();
     }
@@ -82,6 +118,7 @@ export class ArchiveManager {
      * @param itemName 物品名称
      */
     public removeItem(itemName: string): void {
+        console.log(`[ArchiveManager] 移除物品: ${itemName}`);
         delete this.gameData.items[itemName];
         this.saveToLocalStorage();
     }
@@ -92,7 +129,9 @@ export class ArchiveManager {
      * @returns 好感度值
      */
     public getAffection(characterName: string): number {
-        return this.gameData.characterAffection[characterName] || 0;
+        const affection = this.gameData.characterAffection[characterName] || 0;
+        console.log(`[ArchiveManager] 获取 ${characterName} 好感度: ${affection}`);
+        return affection;
     }
 
     /**
@@ -101,6 +140,7 @@ export class ArchiveManager {
      * @param value 好感度值
      */
     public setAffection(characterName: string, value: number): void {
+        console.log(`[ArchiveManager] 设置 ${characterName} 好感度为: ${value}`);
         this.gameData.characterAffection[characterName] = value;
         this.saveToLocalStorage();
     }
@@ -112,6 +152,7 @@ export class ArchiveManager {
      */
     public increaseAffection(characterName: string, value: number): void {
         const current = this.getAffection(characterName);
+        console.log(`[ArchiveManager] 增加 ${characterName} 好感度: ${current} + ${value}`);
         this.setAffection(characterName, current + value);
     }
 
@@ -122,6 +163,7 @@ export class ArchiveManager {
      */
     public decreaseAffection(characterName: string, value: number): void {
         const current = this.getAffection(characterName);
+        console.log(`[ArchiveManager] 减少 ${characterName} 好感度: ${current} - ${value}`);
         this.setAffection(characterName, current - value);
     }
 
@@ -131,6 +173,7 @@ export class ArchiveManager {
      * @param value 标志位值
      */
     public setFlag(flagName: string, value: any): void {
+        console.log(`[ArchiveManager] 设置标志位 ${flagName}: ${value}`);
         this.gameData.flags[flagName] = value;
         this.saveToLocalStorage();
     }
@@ -142,8 +185,10 @@ export class ArchiveManager {
      * @returns 标志位值
      */
     public getFlag(flagName: string, defaultValue: any = null): any {
-        return this.gameData.flags[flagName] !== undefined ? 
+        const value = this.gameData.flags[flagName] !== undefined ? 
             this.gameData.flags[flagName] : defaultValue;
+        console.log(`[ArchiveManager] 获取标志位 ${flagName}: ${value}`);
+        return value;
     }
 
     /**
@@ -151,6 +196,7 @@ export class ArchiveManager {
      * @returns 存档数据
      */
     public getAllData(): any {
+        console.log(`[ArchiveManager] 获取所有存档数据`);
         return {
             items: { ...this.gameData.items },
             characterAffection: { ...this.gameData.characterAffection },
@@ -163,6 +209,7 @@ export class ArchiveManager {
      * @param data 存档数据
      */
     public restoreFromData(data: any): void {
+        console.log(`[ArchiveManager] 从外部数据恢复存档:`, data);
         this.gameData = {
             items: data.items || {},
             characterAffection: data.characterAffection || {},
@@ -175,11 +222,20 @@ export class ArchiveManager {
      * 清空所有数据
      */
     public clearAll(): void {
+        console.log(`[ArchiveManager] 清空所有数据`);
         this.gameData = {
             items: {},
             characterAffection: {},
             flags: {}
         };
         this.saveToLocalStorage();
+    }
+    
+    /**
+     * 获取当前存档ID
+     */
+    public getArchiveId(): string {
+        console.log(`[ArchiveManager] 获取实例存档ID: ${this.archiveId}`);
+        return this.archiveId;
     }
 }

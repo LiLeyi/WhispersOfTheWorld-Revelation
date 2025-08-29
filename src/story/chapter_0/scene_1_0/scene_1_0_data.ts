@@ -1,10 +1,9 @@
 // 第0章第1幕分支0
 import { Scene } from '../../../types/SceneTypes';
-import gameScene from '../../../pages/game_scenes/game_scenes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 
 // 定义第0章第1幕分支0
-const chapter0_scene_1_0: Scene = {
+const scene: Scene = {
     id: "chapter_0_scene_1_0",
     title: "第0章：左边的道路",
     nodes: [
@@ -27,14 +26,13 @@ const chapter0_scene_1_0: Scene = {
             id: "node2",
             elements: {
                 name: "旁白",
-                text: "你检查了一下口袋，发现了一把钥匙。"
+                text: "应该如何进去呢？"
             },
             choices: [
                 {
                     text: "尝试用钥匙开门",
                     next: "use_key",
                     condition: () => {
-                        // 使用 ArchiveManager 检查是否拥有钥匙
                         const archiveManager = ArchiveManager.getInstance();
                         return archiveManager.hasItem("ancient_key");
                     }
@@ -43,7 +41,11 @@ const chapter0_scene_1_0: Scene = {
                     text: "寻找其他入口",
                     next: "find_another_entrance"
                 }
-            ]
+            ],
+            action: ()=>{
+                const archiveManager = ArchiveManager.getInstance();
+                // 可以根据需要添加其他逻辑
+            }
         },
         // 有用钥匙的分支
         {
@@ -115,13 +117,13 @@ const chapter0_scene_1_0: Scene = {
                 text: "你走近箱子，仔细观察上面的符号。突然，箱子自动打开了，里面放着一本古老的书籍。"
             },
             condition: () => {
-                // 只有拥有钥匙的玩家才能看到这个节点
                 const archiveManager = ArchiveManager.getInstance();
+                // 只有拥有钥匙的玩家才能看到这个节点
                 return archiveManager.hasItem("ancient_key");
             },
             action: () => {
-                // 玩家获得了书籍
                 const archiveManager = ArchiveManager.getInstance();
+                // 玩家获得了书籍
                 archiveManager.addItem("ancient_book");
                 // 增加神秘人好感度
                 archiveManager.increaseAffection("mysterious_man", 5);
@@ -148,8 +150,8 @@ const chapter0_scene_1_0: Scene = {
             },
             next: "../scene_2/scene_2_data.ts", // 跳转到下一场景
             action: () => {
-                // 玩家成功带着书逃离
                 const archiveManager = ArchiveManager.getInstance();
+                // 玩家成功带着书逃离
                 const escapedWithBook = archiveManager.getFlag("escapedWithBook", false);
                 if (!escapedWithBook) {
                     archiveManager.setFlag("escapedWithBook", true);
@@ -167,8 +169,8 @@ const chapter0_scene_1_0: Scene = {
             },
             next: "chapter_0_scene_0#fork_in_road", // 返回分岔路口
             action: () => {
-                // 玩家离开了教堂
                 const archiveManager = ArchiveManager.getInstance();
+                // 玩家离开了教堂
                 archiveManager.setFlag("leftChurch", true);
                 // 减少神秘人好感度
                 archiveManager.decreaseAffection("mysterious_man", 5);
@@ -178,9 +180,4 @@ const chapter0_scene_1_0: Scene = {
     ]
 };
 
-// 当DOM加载完成后启动场景
-document.addEventListener("DOMContentLoaded", function() {
-    gameScene.loadScene(chapter0_scene_1_0);
-});
-
-export default chapter0_scene_1_0;
+export default scene;

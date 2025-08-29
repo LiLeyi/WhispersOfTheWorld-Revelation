@@ -1,10 +1,9 @@
 // 第0章第1幕分支1
 import { Scene } from '../../../types/SceneTypes';
-import gameScene from '../../../pages/game_scenes/game_scenes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 
 // 定义第0章第1幕分支1
-const chapter0_scene_1_1: Scene = {
+const scene: Scene = {
     id: "chapter_0_scene_1_1",
     title: "第0章：右边的道路",
     nodes: [
@@ -110,8 +109,8 @@ const chapter0_scene_1_1: Scene = {
                 text: "我一直在等你，就像那个给你钥匙的人一样。我是这片森林的守护者。"
             },
             action: () => {
-                // 记录遇到狼
                 const archiveManager = ArchiveManager.getInstance();
+                // 记录遇到狼
                 archiveManager.setFlag("metWolf", true);
                 // 增加狼的好感度
                 archiveManager.increaseAffection("wolf", 10);
@@ -166,8 +165,8 @@ const chapter0_scene_1_1: Scene = {
                 text: "你环顾四周，确认安全后继续前行。不久，你来到了一片开阔地。"
             },
             action: () => {
-                // 记录躲藏事件
                 const archiveManager = ArchiveManager.getInstance();
+                // 记录躲藏事件
                 archiveManager.setFlag("hidFromWolf", true);
                 // 减少狼的好感度
                 archiveManager.decreaseAffection("wolf", 5);
@@ -198,8 +197,8 @@ const chapter0_scene_1_1: Scene = {
                 text: "我愿意接受你的帮助。"
             },
             action: () => {
-                // 玩家接受了狼的帮助
                 const archiveManager = ArchiveManager.getInstance();
+                // 玩家接受了狼的帮助
                 archiveManager.setFlag("acceptedWolfHelp", true);
                 archiveManager.increaseAffection("wolf", 15);
             },
@@ -212,8 +211,8 @@ const chapter0_scene_1_1: Scene = {
                 text: "我想独自解决我的问题。"
             },
             action: () => {
-                // 玩家拒绝了狼的帮助
                 const archiveManager = ArchiveManager.getInstance();
+                // 玩家拒绝了狼的帮助
                 archiveManager.setFlag("rejectedWolfHelp", true);
                 archiveManager.decreaseAffection("wolf", 10);
             },
@@ -234,8 +233,8 @@ const chapter0_scene_1_1: Scene = {
                 text: "狼消失在夜色中，留下你独自一人。你继续前行，心中对刚才的经历充满疑惑。"
             },
             action: () => {
-                // 结束场景
                 const archiveManager = ArchiveManager.getInstance();
+                // 结束场景
                 archiveManager.setFlag("completedRightPath", true);
             },
             next: "chapter_0_scene_0#fork_in_road" // 返回分岔路口
@@ -243,9 +242,4 @@ const chapter0_scene_1_1: Scene = {
     ]
 };
 
-// 当DOM加载完成后启动场景
-document.addEventListener("DOMContentLoaded", function() {
-    gameScene.loadScene(chapter0_scene_1_1);
-});
-
-export default chapter0_scene_1_1;
+export default scene;

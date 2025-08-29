@@ -1,10 +1,9 @@
 // 第0章场景数据
 import { Scene } from '../../../types/SceneTypes';
-import gameScene from '../../../pages/game_scenes/game_scenes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 
 // 定义第0章的起始场景
-const chapter0_scene_0: Scene = {
+const scene: Scene = {
     id: "chapter_0_scene_0",
     title: "第0章：开始",
     nodes: [
@@ -70,7 +69,6 @@ const chapter0_scene_0: Scene = {
                         archiveManager.addItem("ancient_key");
                         // 增加神秘人好感度
                         archiveManager.increaseAffection("mysterious_man", 10);
-                        console.log("获得了古老的钥匙");
                     }
                 },
                 {
@@ -102,8 +100,25 @@ const chapter0_scene_0: Scene = {
                 sprite: {
                     center: null
                 }
+            }
+        },
+        {
+            id: "take_key_3",
+            elements: {
+                name: "旁白",
+                text: "你将钥匙小心地收好，继续向前走去。前方的道路分成了两条，一条通向左边的古老建筑，另一条通向右边的森林。",
+                background: "sc3.1/page3.0.JPG"
             },
-            next: "fork_in_road"
+            choices: [
+                {
+                    text: "走向左边的建筑",
+                    next: "chapter_0_scene_1_0" // 跳转到新场景
+                },
+                {
+                    text: "走向右边的森林",
+                    next: "chapter_0_scene_1_1" // 跳转到另一个新场景
+                }
+            ]
         },
         // 拒绝钥匙的分支
         {
@@ -117,60 +132,48 @@ const chapter0_scene_0: Scene = {
             id: "refuse_key_1",
             elements: {
                 name: "神秘人",
-                text: "那么，你将只能靠自己了。愿命运眷顾你。"
-            }
+                text: "你真的确定吗？一旦错过，可能再也没有机会了。"
+            },
+            choices: [
+                {
+                    text: "坚持拒绝",
+                    next: "refuse_key_2"
+                },
+                {
+                    text: "改变主意，接受钥匙",
+                    next: "take_key"
+                }
+            ]
         },
         {
             id: "refuse_key_2",
             elements: {
+                name: "神秘人",
+                text: "那么，祝你好运。希望你不会后悔这个决定。"
+            }
+        },
+        {
+            id: "refuse_key_3",
+            elements: {
                 name: "旁白",
-                text: "神秘人叹了口气，消失在夜色中。你继续独自前行。",
+                text: "神秘人消失在夜色中。你继续向前走去。前方的道路分成了两条，一条通向左边的古老建筑，另一条通向右边的森林。",
+                background: "sc3.1/page3.0.JPG",
                 sprite: {
                     center: null
                 }
             },
-            next: "fork_in_road"
-        },
-        // 分岔路口
-        {
-            id: "fork_in_road",
-            elements: {
-                background: "sc3.1/page2.0.JPG",
-                name: "旁白",
-                text: "你来到一个分岔路口。左边的小路通向一座古老的建筑，右边的小路消失在黑暗中。"
-            },
             choices: [
                 {
-                    text: "走左边的路",
-                    next: "chapter_0_scene_1_0",
-                    condition: () => {
-                        // 可以根据好感度值来影响选项的可用性
-                        const archiveManager = ArchiveManager.getInstance();
-                        const mysteriousManAffection = archiveManager.getAffection("mysterious_man");
-                        // 好感度足够高时才能选择这条路
-                        return mysteriousManAffection >= 5;
-                    },
-                    action: () => {
-                        const archiveManager = ArchiveManager.getInstance();
-                        archiveManager.setFlag("tookLeftPath", true);
-                    }
+                    text: "走向左边的建筑",
+                    next: "chapter_0_scene_1_0" // 跳转到新场景
                 },
                 {
-                    text: "走右边的路",
-                    next: "chapter_0_scene_1_1",
-                    action: () => {
-                        const archiveManager = ArchiveManager.getInstance();
-                        archiveManager.setFlag("tookRightPath", true);
-                    }
+                    text: "走向右边的森林",
+                    next: "chapter_0_scene_1_1" // 跳转到另一个新场景
                 }
             ]
         }
     ]
 };
 
-// 当DOM加载完成后启动场景
-document.addEventListener("DOMContentLoaded", function () {
-    gameScene.loadScene(chapter0_scene_0);
-});
-
-export default chapter0_scene_0;
+export default scene;

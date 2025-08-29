@@ -10,10 +10,7 @@ module.exports = (env, argv) => {
       index: './src/index.ts',
       main_menu: './src/pages/main_menu/main_menu.ts',
       archive_page: './src/pages/archive_page/archive_page.ts',
-      game_scene: './src/pages/game_scenes/game_scenes.ts',
-      chapter_0_scene_0: './src/story/chapter_0/scene_0/scene_0_data.ts',
-      chapter_0_scene_1_0: './src/story/chapter_0/scene_1_0/scene_1_0_data.ts',
-      chapter_0_scene_1_1: './src/story/chapter_0/scene_1_1/scene_1_1_data.ts'
+      game_scene: './src/pages/game_scenes/game_scenes.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',

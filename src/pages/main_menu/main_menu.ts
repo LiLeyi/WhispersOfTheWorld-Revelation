@@ -1,4 +1,5 @@
 import './main_menu.css';
+import { SceneRegistry } from '../../story/SceneRegistry';
 
 // 主菜单功能
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,16 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (lastGamePage && lastClick) {
                     // 有存档，询问用户是否继续
                     if (confirm("检测到存档，是否继续游戏？")) {
-                        // 根据页面路径确定正确的URL
-                        let redirectUrl = lastGamePage;
-                        if (lastGamePage.includes('scene_0')) {
-                            redirectUrl = '../game_scenes/game_scenes.html?scene=chapter_0_scene_0&click=' + lastClick;
-                        } else if (lastGamePage.includes('scene_1_0')) {
-                            redirectUrl = '../game_scenes/game_scenes.html?scene=chapter_0_scene_1_0&click=' + lastClick;
-                        } else if (lastGamePage.includes('scene_1_1')) {
-                            redirectUrl = '../game_scenes/game_scenes.html?scene=chapter_0_scene_1_1&click=' + lastClick;
+                        // 通过SceneRegistry实现数据驱动的场景跳转
+                        // 从lastGamePage中提取场景名称
+                        let sceneName = null;
+                        for (const registeredSceneName in SceneRegistry) {
+                            if (lastGamePage.includes(registeredSceneName)) {
+                                sceneName = registeredSceneName;
+                                break;
+                            }
                         }
-                        window.location.href = redirectUrl;
+                        
+                        // 如果找到匹配的场景名称，则跳转到该场景
+                        if (sceneName) {
+                            const redirectUrl = `../game_scenes/game_scenes.html?scene=${sceneName}&click=${lastClick}`;
+                            window.location.href = redirectUrl;
+                        } else {
+                            // 如果未找到匹配的场景，跳转到默认场景
+                            window.location.href = `../game_scenes/game_scenes.html?scene=chapter_0_scene_0&click=${lastClick}`;
+                        }
                     } else {
                         // 警告用户先保存存档
                         if (confirm("是否放弃当前存档并开始新游戏？\n\n注意：此操作将丢失未保存的进度！")) {
