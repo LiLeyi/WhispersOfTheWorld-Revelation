@@ -117,6 +117,11 @@ export class ChoiceManager {
                                 if (this.setCurrentNodeIndexCallback) {
                                     this.setCurrentNodeIndexCallback(targetNodeIndex);
                                 }
+                                // 更新点击次数，确保存档正确
+                                if (this.getCurrentNodeIndexCallback) {
+                                    const currentClickCount = this.getCurrentNodeIndexCallback();
+                                    localStorage.setItem("nowclick", currentClickCount.toString());
+                                }
                                 if (this.renderCurrentNodeCallback) {
                                     this.renderCurrentNodeCallback();
                                 }
@@ -140,6 +145,11 @@ export class ChoiceManager {
                                 if (this.setCurrentNodeIndexCallback) {
                                     this.setCurrentNodeIndexCallback(targetNodeIndex);
                                 }
+                                // 更新点击次数，确保存档正确
+                                if (this.getCurrentNodeIndexCallback) {
+                                    const currentClickCount = this.getCurrentNodeIndexCallback();
+                                    localStorage.setItem("nowclick", currentClickCount.toString());
+                                }
                                 if (this.renderCurrentNodeCallback) {
                                     this.renderCurrentNodeCallback();
                                 }
@@ -147,6 +157,11 @@ export class ChoiceManager {
                                 // 节点不在当前场景中，可能是直接引用的节点对象
                                 console.log("SceneNode不在当前场景中，直接渲染");
                                 // 这种情况下，我们需要特殊处理，可能需要修改当前节点
+                                // 更新点击次数，确保存档正确
+                                if (this.getCurrentNodeIndexCallback) {
+                                    const currentClickCount = this.getCurrentNodeIndexCallback();
+                                    localStorage.setItem("nowclick", currentClickCount.toString());
+                                }
                                 if (this.renderCurrentNodeCallback) {
                                     this.renderCurrentNodeCallback();
                                 }

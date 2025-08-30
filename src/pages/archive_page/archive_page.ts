@@ -40,14 +40,10 @@ function renderSlots(){
 
             div.innerHTML = `
                 <div class="save-info">
-                    <h2>存档 ${index + 1}</h2>
-                    ${slot ? `
-                        <p>${slot.date}</p>
-                        <p>${slot.chapter}</p>
-                    ` : `
-                        <p>无数据</p>
-                        <p>-</p>
-                    `}
+                    <h2>存档${index + 1}</h2>
+                    <p>${slot ? slot.date : '空'}</p>
+                    <p>${slot ? slot.chapter : ''}</p>
+                    <p>点击数: ${slot ? slot.click : 'N/A'}</p>
                 </div>
                 <div class="save-buttons">
                     <button class="save-button load" onclick="loadGame(${index})">
@@ -81,6 +77,8 @@ function renderSlots(){
 // 加载存档
 function loadGame(index: number){
     const slot = saveData[index];
+    console.log(`[ArchivePage] 开始加载存档 ${index}:`, slot);
+    
     if(!slot){
         alert('该存档为空');
         return;
@@ -89,20 +87,29 @@ function loadGame(index: number){
     // 恢复用户状态
     if(slot.userFlags){
         localStorage.setItem("userArr", JSON.stringify(slot.userFlags));
+        console.log(`[ArchivePage] 恢复用户状态:`, slot.userFlags);
     }
+    
     localStorage.setItem("nowclick", String(slot.click));
+    console.log(`[ArchivePage] 设置点击数: ${slot.click}`);
+    
     localStorage.setItem("MSYbackgroundIMG", slot.background || "");
+    console.log(`[ArchivePage] 设置背景: ${slot.background}`);
+    
     localStorage.setItem("MSYgamename", slot.chapter || "");
+    console.log(`[ArchivePage] 设置章节: ${slot.chapter}`);
 
     // 恢复游戏数据（物品、好感度等）
     if (slot.gameData) {
         const archiveManager = ArchiveManager.getInstance();
         archiveManager.restoreFromData(slot.gameData);
+        console.log(`[ArchivePage] 恢复游戏数据:`, slot.gameData);
     }
 
     // 恢复previousElements状态（包含sprite信息）
     if (slot.previousElements) {
         localStorage.setItem("previousElements", JSON.stringify(slot.previousElements));
+        console.log(`[ArchivePage] 恢复场景元素状态:`, slot.previousElements);
     }
 
     const clickSound = document.getElementById('clickSound') as HTMLAudioElement | null;
@@ -110,7 +117,8 @@ function loadGame(index: number){
 
     // 跳转回游戏场景页面，并传递场景信息
     const page = "../game_scenes/game_scenes.html";
-    const url = `${page}?scene=${slot.chapter}&click=${slot.click || 0}`;
+    const url = `${page}?scene=${slot.chapter}&click=${slot.click || 0}&referrer=archive_page`;
+    console.log(`[ArchivePage] 跳转到URL: ${url}`);
     window.location.href = url;
 }
 
@@ -132,12 +140,14 @@ function saveGame(index: number){
         page: "../game_scenes/game_scenes.html",
         click: parseInt(nowclick),
         background: background,
-        chapter: chapter,
+        chapter: chapter,  // 这里保存的是场景ID而不是标题
         userFlags: JSON.parse(localStorage.getItem("userArr") || "[]"),
         gameData: gameData, // 保存游戏数据
         previousElements: previousElements ? JSON.parse(previousElements) : undefined // 保存场景元素状态
     };
 
+    console.log(`[ArchivePage] 保存存档 ${index}:`, slot);
+    
     saveData[index] = slot;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
     renderSlots();
@@ -192,6 +202,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 渲染存档槽
     renderSlots();
+    
+    // 输出所有存档信息到控制台，便于调试
+    console.log("[ArchivePage] 当前所有存档数据:", saveData);
 });
 
 // 导出函数以便在HTML中使用
