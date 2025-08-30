@@ -38,9 +38,18 @@ class GameScene {
         this.init();
     }
 
- private init(): void {
+    private init(): void {
+        console.log("[GameScene] 开始初始化游戏场景");
+
         // 从URL参数获取存档ID
         const urlParams = new URLSearchParams(window.location.search);
+        // 手动构建参数对象以避免使用不兼容的API
+        const paramsObj: Record<string, string> = {};
+        urlParams.forEach((value, key) => {
+            paramsObj[key] = value;
+        });
+        console.log("[GameScene] URL参数:", paramsObj);
+
         // 如果URL中没有存档ID，则尝试从localStorage获取，否则生成新的
         let archiveId = urlParams.get('archiveId');
         if (!archiveId) {
@@ -52,12 +61,12 @@ class GameScene {
 
         // 设置当前存档ID并刷新ArchiveManager实例
         ArchiveManager.setCurrentArchiveId(archiveId);
-        
+
         // 设置TextManager的存档ID
         this.textManager.setCurrentArchiveId(archiveId);
 
         console.log(`[GameScene] 使用存档ID: ${archiveId}`);
-        
+
         // 绑定事件
         this.bindEvents();
 
@@ -75,6 +84,8 @@ class GameScene {
 
         this.clickCount = clickParam ? parseInt(clickParam) :
             parseInt(localStorage.getItem("nowclick") || "0") || 0;
+
+        console.log(`[GameScene] 场景参数: ${sceneParam}, 点击参数: ${clickParam}, 当前点击数: ${this.clickCount}`);
 
         // 检查是否是从存档页面进入（通过referrer参数判断）
         const referrer = urlParams.get("referrer");
@@ -123,6 +134,7 @@ class GameScene {
         } else {
             // 如果不是新游戏，清除新游戏标记
             sessionStorage.removeItem("isNewGame");
+            console.log("不是新游戏，保留现有状态");
         }
 
         // 标记是否为新游戏，供loadScene方法使用
@@ -135,9 +147,11 @@ class GameScene {
 
         // 根据URL参数加载场景
         if (sceneParam) {
+            console.log(`[GameScene] 根据URL参数加载场景: ${sceneParam}`);
             this.loadSceneByName(sceneParam);
         } else {
             // 默认加载第0章起始场景
+            console.log(`[GameScene] 加载默认场景: chapter_0_scene_0`);
             this.loadSceneByName('chapter_0_scene_0');
         }
     }
@@ -160,7 +174,7 @@ class GameScene {
         }
         ArchiveManager.setCurrentArchiveId(archiveId);
         // 同时更新TextManager的存档ID
-        
+
         this.textManager.setCurrentArchiveId(archiveId);
         // 从场景注册表中加载场景
         if (SceneRegistry[sceneName]) {
@@ -184,7 +198,7 @@ class GameScene {
     }
 
     public loadScene(scene: Scene): void {
-        console.log("loadScene开始，isNewGame标记:", (this as any)._isNewGame);
+        console.log("[GameScene] loadScene开始，场景:", scene, "isNewGame标记:", (this as any)._isNewGame);
         this.currentScene = scene;
         // 移除initialState的使用，因为我们现在使用ArchiveManager管理状态
         this.currentState = {};
@@ -214,6 +228,7 @@ class GameScene {
             console.log("从localStorage恢复previousElements");
             try {
                 this.previousElements = JSON.parse(savedPreviousElements);
+                console.log("恢复的previousElements:", this.previousElements);
                 // 不再清除sprite信息，而是保留它以确保读档后立绘能正确显示
                 // if (this.previousElements.sprite) {
                 //     this.previousElements.sprite = undefined;
@@ -245,10 +260,23 @@ class GameScene {
 
         console.log("恢复previousElements:", this.previousElements);
 
-        // 保存当前页面路径供存档用
-        localStorage.setItem("currentPage", window.location.pathname + '?scene=' + scene.id);
-        localStorage.setItem("lastGamePage", window.location.pathname + '?scene=' + scene.id);
-        localStorage.setItem("MSYgamename", scene.title);
+        // 保存当前页面路径供存档用（仅在非读档情况下更新）
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrer = urlParams.get("referrer");
+        const isFromArchive = referrer && referrer.includes("archive_page");
+
+        console.log("URL参数检查 - referrer:", referrer, "isFromArchive:", isFromArchive);
+
+        if (!isFromArchive) {
+            console.log("非读档情况，更新localStorage页面信息");
+            localStorage.setItem("currentPage", window.location.pathname + '?scene=' + scene.id);
+            localStorage.setItem("lastGamePage", window.location.pathname + '?scene=' + scene.id);
+            // 重要：这里保存的是场景ID，而不是标题
+            localStorage.setItem("MSYgamename", scene.id);
+        } else {
+            console.log("读档情况，保留原始localStorage页面信息");
+            console.log("当前localStorage中的MSYgamename:", localStorage.getItem("MSYgamename"));
+        }
 
         // 设置点击次数（从存档或URL参数）
         this.currentNodeIndex = this.clickCount;
@@ -256,12 +284,14 @@ class GameScene {
 
         // 确保索引不会超出范围
         if (this.currentNodeIndex >= scene.nodes.length) {
+            console.log(`节点索引${this.currentNodeIndex}超出范围${scene.nodes.length}，重置为0`);
             this.currentNodeIndex = 0;
         }
 
         // 立即更新背景以确保读档后背景正确显示
         if (this.previousElements.background) {
             // 修改这里，确保背景被正确设置
+            console.log("设置previousElements中的背景:", this.previousElements.background);
             this.backgroundManager.setBackground(this.previousElements.background, false);
         } else if (localStorage.getItem("MSYbackgroundIMG")) {
             // 即使previousElements中没有背景，但localStorage中有，也要设置
@@ -272,6 +302,7 @@ class GameScene {
                 name: undefined,
                 text: ""
             };
+            console.log("设置localStorage中的背景:", backgroundElement.background);
             this.backgroundManager.setBackground(backgroundElement.background, false);
         }
 
@@ -599,7 +630,7 @@ class GameScene {
 
     private startAutoClick(): void {
         const autoButton = document.getElementById("op_auto");
-        
+
         // 实现自动播放功能
         if (this.autoClickInterval) {
             // 如果已经存在自动播放，就停止它
