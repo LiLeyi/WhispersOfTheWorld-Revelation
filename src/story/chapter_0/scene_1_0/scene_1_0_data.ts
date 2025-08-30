@@ -432,6 +432,9 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "好好好，我会的。"
+            },
+            action: () => {
+                alert('测试结束')
             }
         }
     ]

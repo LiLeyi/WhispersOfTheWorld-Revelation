@@ -19,32 +19,28 @@ const scene: Scene = {
             id: "node1",
             elements: {
                 name: "旁白",
-                text: "与那个女孩一起。",
-                bgm: "bgm1"
+                text: "与那个女孩一起。"
             }
         },
         {
             id: "node2",
             elements: {
                 name: "旁白",
-                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。",
-                bgm: "bgm1"
+                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
             }
         },
         {
             id: "node3",
             elements: {
                 name: "旁白",
-                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。",
-                bgm: "bgm1"
+                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。"
             }
         },
         {
             id: "node4",
             elements: {
                 name: "旁白",
-                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。",
-                bgm: "bgm1"
+                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。"
             }
         },
         {

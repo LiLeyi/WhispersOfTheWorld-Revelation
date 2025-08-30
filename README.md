@@ -85,6 +85,21 @@ export default scene;
 
 nodes数组里存储每一个节点的数据（每一个节点都有对话呀什么的）。对于每一个节点，接口查看[这里](src/types/SceneTypes.ts)的SceneNode，注释都写出了配置的作用。也可以把已有代码作为参考。
 
+对于获取物品的记录，角色好感度等，采用ArchiveManager进行管理。可以在action里使用。部分使用例（更多去看ArchiveManager代码）：
+
+```ts
+const archiveManager = ArchiveManager.getInstance(); // 使用前必须拿到实例
+
+archiveManager.increaseAffection("character_name", 10); // 给一个角色加10点好感度
+archiveManager.set_flag("turn_left", true); // 记录向左走
+archiveManager.addItem("key"); // 记录拿到物品
+archiveManager.removeItem("key"); // 删除物品
+
+console.log(archiveManager.hasItem("key")) // 打印是否有这个物品
+console.log(archiveManager.getAffection("character_name")) // 打印角色好感度
+console.log(archiveManager.get_flag("turn_left")) // 打印是否向左走
+```
+
 
 
 ## 注意事项（大家在编写代码过程中可以在这边加）
