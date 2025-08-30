@@ -48,14 +48,14 @@ module.exports = (env, argv) => {
           test: /\.(mp3|wav|ogg)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'assets/bgm/[name][ext]'
+            filename: 'assets/bgm/[name].[hash:8][ext]'
           }
         },
         {
           test: /\.(ttf|woff|woff2|eot)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'assets/fonts/[name][ext]'
+            filename: 'assets/fonts/[name].[hash:8][ext]'
           }
         }
       ],
