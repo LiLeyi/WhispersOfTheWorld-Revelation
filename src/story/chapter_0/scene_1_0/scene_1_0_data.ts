@@ -9,7 +9,7 @@ const scene: Scene = {
         {
             id: "intro_black_screen_1",
             elements: {
-                background: "black_screen_white_text.jpg",
+                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "Listen, my heart, to the whispers of the world with which it makes love to you."
             }
@@ -47,13 +47,6 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "将要崩塌的意识忽明忽灭，所幸这已足以让自己回想起到底发生了什么。"
-            }
-        },
-        {
-            id: "black_screen_1",
-            elements: {
-                name: "旁白",
-                text: "<背景全黑>"
             }
         },
         {

@@ -559,16 +559,16 @@ const scene: Scene = {
     id: "node76",
     elements: {
         name: "光泠",
-        text: "这个世界什么也无法保证，但我能向您确定一点。（微笑）"
+        text: "这个世界什么也无法保证，但我能向您确定一点。"
     }
 },
 {
     id: "node77",
     elements: {
         name: "光泠",
-        text: "我会跟随您见证旅途的所有景色，陪您到最后一刻。（笑）"
+        text: "我会跟随您见证旅途的所有景色，陪您到最后一刻。"
     },
-    next:"chapter_1_scene_0"
+    next:"chapter_0_scene_1_0"
 },
 
         /*{
