@@ -40,15 +40,20 @@ function renderSlots(){
 
             div.innerHTML = `
                 <div class="save-info">
-                    <h2>存档${index + 1}</h2>
-                    <p>${slot ? slot.date : '空'}</p>
-                    <p>${slot ? slot.chapter : ''}</p>
+                    <h2>存档 ${index + 1}</h2>
+                    ${slot ? `
+                        <p>${slot.date}</p>
+                        <p>${slot.chapter}</p>
+                    ` : `
+                        <p>无数据</p>
+                        <p>-</p>
+                    `}
                 </div>
                 <div class="save-buttons">
-                    <button class="save-button" onclick="loadGame(${index})">
+                    <button class="save-button load" onclick="loadGame(${index})">
                         读取
                     </button>
-                    <button class="save-button" onclick="saveGame(${index})">
+                    <button class="save-button save" onclick="saveGame(${index})">
                         保存
                     </button>
                     <button class="save-button delete" onclick="deleteGame(${index})">
@@ -56,6 +61,10 @@ function renderSlots(){
                     </button>
                 </div>
             `;
+             // 添加empty类到空存档槽
+            if (!slot) {
+                div.classList.add('empty');
+            }
             rowDiv.appendChild(div);
         }
         container.appendChild(rowDiv);
