@@ -9,7 +9,8 @@ const scene: Scene = {
     id: "node1",
     elements: {
         name: "旁白",
-        text: "？？？：准备好踏上旅程了吗？与那个女孩一起。"
+        text: "？？？：准备好踏上旅程了吗？与那个女孩一起。",
+        bgm:"bgm1"
     }
 },
 {
