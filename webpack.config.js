@@ -12,7 +12,8 @@ module.exports = (env, argv) => {
       archive_page: './src/pages/archive_page/archive_page.ts',
       game_scene: './src/pages/game_scenes/game_scenes.ts',
       login: './src/pages/login_page/login.ts',
-      register: './src/pages/login_page/register.ts'
+      register: './src/pages/login_page/register.ts',
+      settings: './src/pages/settings/settings.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',
@@ -96,6 +97,11 @@ module.exports = (env, argv) => {
         template: './src/pages/login_page/register.html',
         filename: 'pages/login_page/register.html',
         chunks: ['register'],
+      }),
+       new HtmlWebpackPlugin({
+        template: './src/pages/settings/settings.html',
+        filename: 'pages/settings/settings.html',
+        chunks: ['settings'],
       }),
       new CopyWebpackPlugin({
         patterns: [
