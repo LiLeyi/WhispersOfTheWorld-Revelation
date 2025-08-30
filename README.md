@@ -17,6 +17,8 @@
 * index.html：主页面（先显示登录页面，登录完后为主页面）
 * index.ts：主页面脚本
 
+
+
 ## 环境配置
 
 ### 配置步骤
@@ -47,6 +49,49 @@
 * package.json：项目依赖包版本信息，例如我们要用到、下载的webpack、ts这些都记录在里面。还有项目的构建、监视指令也写在这里的
 * tsconfig：typescript的配置文件，里面有ts的编译选项，比如编译成es5、es6、es2017等等，以及编译时是否生成sourcemap等等
 * webpack.config.js：webpack的配置文件，里面有webpack的配置项，比如入口文件、输出文件、loader、plugin等等
+
+
+
+## 剧情编写文档
+
+### 文件结构
+
+剧情数据全部放在src/story文件夹中。SceneRegistry.ts负责注册所有场景（每添加一幕就要在这里面添加一行对应代码）。
+
+每一章放在一个文件夹中，文件夹名统一采用"chapter_" + 序号，例如"chapter_0"、"chapter_1"。
+
+每一章的文件中，每一幕需要开一个文件夹，文件夹名统一采用"scene_" + 序号，或者"scene_" + 序号 + 序号，例如"scene_0"、"scene_1_1"。每一幕的文件中放一个ts文件，名字为文件夹名+"_data.ts"。
+
+### 幕数据格式
+
+每一幕的数据需要严格遵从以下模式：
+
+```typescript
+// 第x章场景数据
+import { Scene } from '../../../types/SceneTypes';
+import { ArchiveManager } from '../../../components/ArchiveManager';
+
+// 定义第x章的起始场景
+const scene: Scene = {
+    id: "chapter_x_scene_y",       // 或 "chapter_x_scene_y_z"
+    title: "这一幕的名称",          // 幕标题
+    nodes: [
+      // 节点...
+    ]
+};
+
+export default scene;
+```
+
+nodes数组里存储每一个节点的数据（每一个节点都有对话呀什么的）。对于每一个节点，接口查看[这里](src/types/SceneTypes.ts)的SceneNode，注释都写出了配置的作用。也可以把已有代码作为参考。
+
+
+
+## 注意事项（大家在编写代码过程中可以在这边加）
+
+* 新开游戏时一定要在链接后面带参数new_game=true
+
+
 
 ## 剧情可视化编辑器
 

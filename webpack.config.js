@@ -13,13 +13,13 @@ module.exports = (env, argv) => {
       game_scene: './src/pages/game_scenes/game_scenes.ts',
       login: './src/pages/login_page/login.ts',
       register: './src/pages/login_page/register.ts',
+      log_page: './src/pages/log_page/log_page.ts',
+      settings: './src/pages/settings/settings.ts',
 
 
       detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
       detail_huangwenxi: './src/pages/about_us/detail_page/huangwenxi/index.ts',
-      detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts',
-      log_page: './src/pages/log_page/log_page.ts',
-      settings: './src/pages/settings/settings.ts'
+      detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',

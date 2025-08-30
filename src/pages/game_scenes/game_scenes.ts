@@ -23,7 +23,7 @@ class GameScene {
     private choiceManager: ChoiceManager;
     private previousElements: SceneElement = {
         background: undefined,
-        music: undefined,
+        soundEffect: undefined,
         bgm: undefined,
         name: undefined,
         text: "",
@@ -109,7 +109,7 @@ class GameScene {
             archiveManager.clearAll();
             this.previousElements = {
                 background: undefined,
-                music: undefined,
+                soundEffect: undefined,
                 bgm: undefined,
                 name: undefined,
                 text: "",
@@ -224,7 +224,7 @@ class GameScene {
                 const savedBackground = localStorage.getItem("MSYbackgroundIMG") || undefined;
                 this.previousElements = {
                     background: savedBackground,
-                    music: undefined,
+                    soundEffect: undefined,
                     bgm: undefined,
                     name: undefined,
                     text: "",
@@ -236,7 +236,7 @@ class GameScene {
             const savedBackground = localStorage.getItem("MSYbackgroundIMG") || undefined;
             this.previousElements = {
                 background: savedBackground,
-                music: undefined,
+                soundEffect: undefined,
                 bgm: undefined,
                 name: undefined,
                 text: "",
@@ -267,7 +267,7 @@ class GameScene {
             // 即使previousElements中没有背景，但localStorage中有，也要设置
             const backgroundElement: SceneElement = {
                 background: localStorage.getItem("MSYbackgroundIMG") || undefined,
-                music: undefined,
+                soundEffect: undefined,
                 bgm: undefined,
                 name: undefined,
                 text: ""
@@ -363,9 +363,9 @@ class GameScene {
             background: current.background === null ? undefined :
                 (current.background !== undefined ? current.background :
                     previous.background),
-            music: current.music === null ? undefined :
-                (current.music !== undefined ? current.music :
-                    previous.music),
+            soundEffect: current.soundEffect === null ? undefined :
+                (current.soundEffect !== undefined ? current.soundEffect :
+                    previous.soundEffect),
             bgm: current.bgm === null ? undefined :
                 (current.bgm !== undefined ? current.bgm :
                     previous.bgm),
@@ -405,8 +405,8 @@ class GameScene {
 
     private updateMusic(element: SceneElement): void {
         // 更新音效
-        if (element.music) {
-            this.audioManager.playSoundEffect(element.music);
+        if (element.soundEffect) {
+            this.audioManager.playSoundEffect(element.soundEffect);
         }
 
         // 更新背景音乐
