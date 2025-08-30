@@ -174,9 +174,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (latestSlotIndex >= 0) {
                 loadGame(latestSlotIndex);
             } else {
-                alert("没有找到可用的存档");
-                // 返回主菜单
-                window.location.href = "../main_menu/main_menu.html";
+                // 没有找到存档时，返回游戏界面而不是主菜单
+                const lastGamePage = localStorage.getItem("lastGamePage") || "../main_menu/main_menu.html";
+                window.location.href = lastGamePage;
             }
         });
     }
