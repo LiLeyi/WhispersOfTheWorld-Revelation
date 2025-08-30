@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>注册</title>
+  <link rel="stylesheet" href="../../dist/pages/login_page/style.css">
+</head>
+<body>
+  <div class="form-box">
+    <h2><span data-zh="用户注册" data-en="User Register">用户注册</span></h2>
+
+    <button class="lang-btn">EN</button>
+
+    <input type="text" id="reg-username" placeholder="用户名 / Username" data-zh="用户名" data-en="Username">
+    <input type="password" id="reg-password" placeholder="密码 / Password" data-zh="密码" data-en="Password">
+    <input type="password" id="reg-confirm" placeholder="请再次输入密码 / Confirm Password" data-zh="请再次输入密码" data-en="Confirm Password">
+    <div id="strength-msg" class="strength-msg"></div>
+
+    <button id="reg-btn" data-zh="注册" data-en="Register">注册</button>
+
+    <p>
+      <span data-zh="已有账户？" data-en="Already have an account?"></span>
+      <a href="login.html" data-zh="去登录" data-en="Login">去登录</a>
+    </p>
+  </div>
+
+  <script type="module" src="../../dist/register/register.bundle.js"></script>
+</body>
+</html>
