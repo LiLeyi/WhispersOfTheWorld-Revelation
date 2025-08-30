@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
-  
+
   return {
     entry: {
       index: './src/index.ts',
@@ -12,7 +12,12 @@ module.exports = (env, argv) => {
       archive_page: './src/pages/archive_page/archive_page.ts',
       game_scene: './src/pages/game_scenes/game_scenes.ts',
       login: './src/pages/login_page/login.ts',
-      register: './src/pages/login_page/register.ts'
+      register: './src/pages/login_page/register.ts',
+
+
+      detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
+      detail_huangwenxi: './src/pages/about_us/detail_page/huangwenxi/index.ts',
+      detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',
@@ -34,7 +39,7 @@ module.exports = (env, argv) => {
           test: /\.(png|jpg|jpeg|gif)$/i,
           type: 'asset/resource',
           generator: {
-            filename: 'assets/images/[name][ext]'
+            filename: 'assets/images/[name].[hash:8][ext]'
           }
         },
         {
@@ -97,10 +102,72 @@ module.exports = (env, argv) => {
         filename: 'pages/login_page/register.html',
         chunks: ['register'],
       }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/about_us.html',
+        filename: 'pages/about_us/about_us.html',
+        chunks: [] // 空的也要写这个！！！！！！！！！！！！！！！
+      }),
+
+
+
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/hanxutong/index.html',
+        filename: 'pages/about_us/detail_page/hanxutong/index.html',
+        chunks: ['detail_hanxutong']
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/huangwenxi/index.html',
+        filename: 'pages/about_us/detail_page/huangwenxi/index.html',
+        chunks: ['detail_huangwenxi']
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/luoxi/index.html',
+        filename: 'pages/about_us/detail_page/luoxi/index.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/luoxi/contact.html',
+        filename: 'pages/about_us/detail_page/luoxi/contact.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/luoxi/from.html',
+        filename: 'pages/about_us/detail_page/luoxi/from.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/luoxi/game.html',
+        filename: 'pages/about_us/detail_page/luoxi/game.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/luoxi/hobit.html',
+        filename: 'pages/about_us/detail_page/luoxi/hobit.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/shiruijie/index.html',
+        filename: 'pages/about_us/detail_page/shiruijie/index.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/zhangshurui/index.html',
+        filename: 'pages/about_us/detail_page/zhangshurui/index.html',
+        chunks: []
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/about_us/detail_page/lileyi/index.html',
+        filename: 'pages/about_us/detail_page/lileyi/index.html',
+        chunks: ['detail_lileyi']
+      }),
+      
+
+
+
       new CopyWebpackPlugin({
         patterns: [
-          { 
-            from: 'src/assets/images', 
+          {
+            from: 'src/assets/images',
             to: 'assets/images',
             // 确保目录结构被保持
             noErrorOnMissing: true

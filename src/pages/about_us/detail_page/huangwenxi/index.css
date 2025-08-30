@@ -1,0 +1,17 @@
+body{
+    background: url('../../../../assets/images/about_us/detail/huangwenxi/background.jpg');
+    margin:50 auto;
+    width: 70%;
+    font-family: "SimSun", serif;
+}
+h1{
+    text-align: center;
+}
+p{
+    text-align: center;
+    width: 50%;
+    margin:50 auto;
+}
+h2{
+    text-align: center;
+}

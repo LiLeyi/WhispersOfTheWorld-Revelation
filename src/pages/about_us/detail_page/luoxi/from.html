@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>来历</title>
+  <style>
+    /* ===== 粒子画布样式 ===== */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg,#f7fafc 0%,#edf2f7 100%);
+    }
+
+    /* 确保内容在粒子上层 */
+    .fade-box, h2, p, .nav {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 全局样式 ===== */
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(135deg,#f7fafc 0%,#edf2f7 100%);
+      font-family:"PingFang SC","Helvetica Neue",sans-serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    /* 卡片 */
+    .fade-box{
+      max-width:660px;
+      margin:0 20px;
+      padding:40px 60px 30px;
+      background:rgba(255,255,255,.85);
+      border-radius:16px;
+      box-shadow:0 4px 20px rgba(0,0,0,.06);
+      color:#4a5568;
+      text-align:center;
+
+      animation:fadeIn 2s ease forwards;
+      opacity:0;
+    }
+    @keyframes fadeIn{
+      0%{opacity:0;transform:translateY(20px);}
+      100%{opacity:1;transform:translateY(0);}
+    }
+
+    .fade-box h2{
+      margin:0 0 20px;
+      color:#2d3748;
+      font-size:1.6em;
+      letter-spacing:1px;
+    }
+
+    .fade-box p{
+      font-size:1.15em;
+      line-height:1.9;
+      margin:8px 0;
+    }
+
+    /* 导航链（放卡片底部） */
+    .nav{
+      margin-top:30px;
+      font-size:14px;
+    }
+    .nav a{margin:0 6px;}
+
+    /* ===== 链接动效 ===== */
+    a{
+      position:relative;
+      display:inline-block;
+      color:#007acc;
+      text-decoration:none;
+      transition:all .3s ease;
+    }
+    a:link    {color:#007acc;}
+    a:visited {color:#800080;}
+    a:hover   {color:#1e90ff;transform:translateY(3px);}
+    a:active  {color:#ff4500;transform:translateY(5px);}
+    a::after{
+      content:"";
+      position:absolute;
+      width:0;height:2px;
+      left:0;bottom:-2px;
+      background:currentColor;
+      transition:width .3s ease;
+    }
+    a:hover::after{width:100%;}
+  </style>
+</head>
+
+<body>
+  <!-- 粒子画布 -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <div class="fade-box">
+    <h2>来历</h2>
+    <p>来自银河系猎户座旋臂边缘的星系，排行倒数老三的星球。</p>
+    <p>本是广东的一只憋佬仔，现住于北京理工大学良乡校区。</p>
+    <p>也是成为"京✌"了。</p>
+
+    <!-- 导航在底部 -->
+    <div class="nav">
+      <a href="index.html">个人介绍</a> &gt; <a href="#">来历</a>
+    </div>
+  </div>
+
+  <script>
+    // 粒子背景JavaScript代码
+    (function() {
+      // 获取canvas元素
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 设置canvas尺寸为窗口大小
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      resizeCanvas();
+      
+      // 粒子配置
+      const particles = [];
+      const particleCount = 60; // 粒子数量减少一些，更适合这个页面
+      const maxDistance = 120; // 增加连线距离
+      const particleSize = 2.5; // 粒子大小稍小
+      const particleSpeed = 0.4; // 速度稍慢
+      
+      // 颜色配置 - 使用更柔和的色调
+      const colors = [
+        'rgba(192, 181, 163, 0.7)',
+        'rgba(0, 122, 204, 0.6)',
+        'rgba(30, 144, 255, 0.6)',
+      ];
+      
+      // 粒子类
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * particleSize + 1;
+          this.speedX = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.speedY = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // 边界检查
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // 初始化粒子
+      function init() {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      // 绘制连线
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = 1 - distance / maxDistance;
+              ctx.strokeStyle = `rgba(192, 181, 163, ${opacity * 0.3})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      // 动画循环
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      
+      // 窗口调整大小时重置canvas尺寸
+      window.addEventListener('resize', resizeCanvas);
+      
+      // 启动动画
+      init();
+      animate();
+    })();
+  </script>
+</body>
+</html>

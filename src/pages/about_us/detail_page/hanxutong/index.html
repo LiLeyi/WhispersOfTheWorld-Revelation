@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="Shortcut Icon" href="../../../../assets/images/about_us/detail/hanxutong/team_icon.png" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韩旭彤个人介绍</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      cursor: url('../../../../assets/images/about_us/detail/hanxutong/zhizhen.png'), auto;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <div id="sideNav">
+    <button id="closeNav" class="close-btn">&times;</button>
+    <ul>
+      <li><a href="#about">关于我</a></li>
+      <li><a href="#contact">联系方式</a></li>
+    </ul>
+  </div>
+  <!-- 鼠标触发区域 -->
+  <div id="hoverArea"></div>
+  <style>
+    #sideNav {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      /* 初始隐藏 */
+      width: 300px;
+      height: 100%;
+      background-color: #cacaca;
+      color: white;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      padding-top: 50px;
+      box-shadow: 2px 0 5px rgba(248, 248, 248, 0.5);
+    }
+
+    #sideNav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #sideNav ul li {
+      padding: 15px 20px;
+    }
+
+    #sideNav ul li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+
+    #sideNav ul li a:hover {
+      background-color: #ffffff;
+      border-radius: 4px;
+    }
+
+    #sideNav.show {
+      left: 0;
+    }
+
+    /* 关闭按钮样式 */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 30px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    /* 鼠标触发区域 */
+    #hoverArea {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 30px;
+      /* 增加触发区域宽度 */
+      height: 100%;
+      z-index: 999;
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      cursor: url('../../../../assets/images/about_us/detail/hanxutong/zhizhen.png'), auto;
+      overflow-x: hidden;
+    }
+
+    /* Canvas 放在底层，不挡内容 */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+  <script>
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // 创建粒子
+    let particles = [];
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 3 + 1,
+        dx: (Math.random() - 0.5) * 1.5,
+        dy: (Math.random() - 0.5) * 1.5,
+        alpha: Math.random() * 0.5 + 0.3
+      });
+    }
+
+    // 绘制粒子 + 渐变背景
+    function drawParticles() {
+      ctx.fillStyle = "#555"; // 灰色背景
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 绘制粒子
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200,200,200,${p.alpha})`;
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+
+    const sideNav = document.getElementById('sideNav');
+    const hoverArea = document.getElementById('hoverArea');
+    const closeNav = document.getElementById('closeNav');
+
+    // 鼠标进入左侧区域，导航栏滑出
+    hoverArea.addEventListener('mouseenter', () => {
+      sideNav.classList.add('show');
+    });
+
+    // 点击关闭按钮关闭导航栏
+    closeNav.addEventListener('click', () => {
+      sideNav.classList.remove('show');
+    });
+
+    // 点击导航栏外部区域关闭导航栏
+    document.addEventListener('click', (event) => {
+      if (sideNav.classList.contains('show') &&
+        !sideNav.contains(event.target) &&
+        !hoverArea.contains(event.target)) {
+        sideNav.classList.remove('show');
+      }
+    });
+
+  </script>
+  <div class="container">
+    <div class="main-content">
+      <div class="content">
+        <h1>哈基米大家组成员</h1>
+        <h2>韩旭彤</h2>
+        <img src="../../../../assets/images/about_us/detail/hanxutong/hxt.png">
+        <div class="text-box">
+          <div class="text">
+            <h3>组长 / CIO / 项目经理 / 程序员 / 视频剪辑 </h3>
+            <blockquote>
+              <p>哈基米哦南北绿豆🤔</p>
+              <p>哈洗嘎纳哈呀库😱</p>
+              <p>欧妈吉里叮咚鸡🥰</p>
+              <p>叮咚叮咚哈基米🤓</p>
+              <p>大狗一段带一段😎</p>
+              <p>漫波越打越难捋🤪</p>
+              <p>哈呀酷哦哈基米🙄</p>
+              <p>漫波基米带段一😈</p>
+            </blockquote>
+            <p id="about">关于我</p>
+            <p>北理计算机科学与技术专业大二在读学生</p>
+            <p>平时爱好是看看动漫，打打游戏，刷刷视频，<s>喜欢往QQ群搬石</s>，最喜欢的动漫角色就是一直在用的头像</p>
+            <p>本人非常内向，害怕去人多的地方，但是在线上还是挺活跃的；比较老实，可能有时候会认为别人开的玩笑是真的...（</p>
+            <p>人有些抽象，也会时不时发表一些逆天言论</p>
+            <p>大一以前没有学过代码，只有大一下C语言的学习经历😭</p>
+            <p>虽然如此，但是因为对计算机专业挺感兴趣，就选择了计算机科学和技术这个专业</p>
+            <p>希望可以通过自己的努力，通过课程学习和案例学习，逐渐提高自己，也希望通过这个项目，能取得收获和进步</p>
+            <p id="contact">联系方式</p>
+            <p>Bilibili:<a href="https://space.bilibili.com/413786410?spm_id_from=333.1007.0.0">泠氿丶</a></p>
+            <p>Github博客:<a href="https://github.com/HanaShirosaki09">HanaShirosaki09</a></p>
+            <p><a
+                href="https://www.bilibili.com/video/BV1UT42167xb/?spm_id_from=333.337.search-card.all.click&vd_source=511c2ad4bc500eec17feff0f08237d10">点击查看更多内容😎</a>
+            </p>
+          </div>
+        </div>
+        <div class="footer">
+          <p>© 2025 哈基米大家组 保留所有权利。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

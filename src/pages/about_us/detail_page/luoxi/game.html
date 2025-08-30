@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>游戏</title>
+  <style>
+    /* ===== 粒子画布样式 ===== */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #f9f7f2;
+    }
+
+    /* 确保内容在粒子上层 */
+    .list-box, .list, .item, h2, p {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 全局样式 ===== */
+    html,body{
+      height:100%;
+      margin:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#f9f7f2;
+      font-family:"Microsoft YaHei",sans-serif;
+    }
+
+    /* 列表卡片：与首页同款 + 浮入动画 */
+    .list-box{
+      width:740px;
+      max-width:90%;
+      padding:40px 50px;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      text-align:center;
+
+      /* 浮入动画 */
+      animation:fadeIn 2s ease forwards;
+      opacity:0;
+    }
+    @keyframes fadeIn{
+      0%{opacity:0;transform:translateY(20px);}
+      100%{opacity:1;transform:translateY(0);}
+    }
+
+    .list{
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* 单条：图片 + 文字 */
+    .item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.1em;
+      color:#333;
+      /* 初始隐藏，用于单个动画 */
+      opacity:0;
+      transform:translateY(20px);
+    }
+    .item img{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      object-fit:cover;
+      flex-shrink:0;
+    }
+
+    /* ===== 链接动效 ===== */
+    a{
+      position:relative;
+      display:inline-block;
+      color:#007acc;
+      text-decoration:none;
+      transition:all .3s ease;
+    }
+    a:link    {color:#007acc;}
+    a:visited {color:#800080;}
+    a:hover   {color:#1e90ff;transform:translateY(3px);}
+    a:active  {color:#ff4500;transform:translateY(5px);}
+    a::after{
+      content:"";
+      position:absolute;
+      width:0;height:2px;
+      left:0;bottom:-2px;
+      background:currentColor;
+      transition:width .3s ease;
+    }
+    a:hover::after{width:100%;}
+  </style>
+</head>
+
+<body>
+  <!-- 粒子画布 -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <div class="list-box">
+    <h2 style="margin-top:0;">游戏</h2>
+    <div class="list">
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/juequ.jpg" alt="">
+        <span>加强大安比！</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/boring.jpg" alt="">
+        <span>506不要竖倒拇指了！</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/huangshi.jpg" alt="">
+        <span>等压战争。(≖‿≖)</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/wangzhe.jpg" alt="">
+        <span>…………</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/yuanqi.jpg" alt="">
+        <span>跟我的火力全开说去吧</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/buluo.jpg" alt="">
+        <span>还我天鹰火炮！</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/csgo.jpg" alt="">
+        <span>你得跟我上A大。</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/xie_e.jpg" alt="">
+        <span>永动机这块。</span>
+      </div>
+
+      <div class="item">
+        <img src="../../../../assets/images/about_us/detail/luoxi/liar bar.jpg" alt="">
+        <span>我手早就按在x键上了</span>
+      </div>
+    </div>
+
+    <!-- 返回首页 -->
+    <p style="margin-top:30px;">
+      <a href="index.html">个人介绍</a>&gt;<a href="#">游戏</a>
+    </p>
+  </div>
+
+  <script>
+    // 等待 DOM 加载完成
+    document.addEventListener('DOMContentLoaded', () => {
+      // 逐个为 .item 设置浮入动画
+      const items = document.querySelectorAll('.item');
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, index * 200); // 每个延迟 200ms，可自行调整
+      });
+    });
+
+    // 粒子背景JavaScript代码
+    (function() {
+      // 获取canvas元素
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 设置canvas尺寸为窗口大小
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      resizeCanvas();
+      
+      // 粒子配置
+      const particles = [];
+      const particleCount = 80;
+      const maxDistance = 100;
+      const particleSize = 3;
+      const particleSpeed = 0.5;
+      
+      // 颜色配置
+      const colors = [
+        '#c0b5a3',
+        '#007acc',
+        '#1e90ff',
+      ];
+      
+      // 粒子类
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * particleSize + 1;
+          this.speedX = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.speedY = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // 边界检查
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // 初始化粒子
+      function init() {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      // 绘制连线
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = 1 - distance / maxDistance;
+              ctx.strokeStyle = `rgba(192, 181, 163, ${opacity * 0.5})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      // 动画循环
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      
+      // 窗口调整大小时重置canvas尺寸
+      window.addEventListener('resize', resizeCanvas);
+      
+      // 启动动画
+      init();
+      animate();
+    })();
+  </script>
+</body>
+</html>

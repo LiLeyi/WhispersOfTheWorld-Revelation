@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>个人介绍</title>
+  <style>
+    /* 粒子画布样式 */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #f9f7f2;
+    }
+
+    /* 确保内容在粒子上层 */
+    .box, .card, h1, p {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* 1. 让页面整体水平+垂直居中 */
+    html,body{
+      height:100%;
+      margin:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#f9f7f2;
+      font-family:"Microsoft YaHei",sans-serif;
+    }
+
+    /* 2. 主容器：白卡片 */
+    .box{
+      width:740px;
+      padding:40px 50px;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      text-align:center;
+    }
+    .box h1{margin-top:0;}
+
+    /* 3. 三栏横向 Flex */
+    .row{
+      display:flex;
+      justify-content:center;
+      gap:30px;
+      margin-top:30px;
+    }
+    .card{
+      flex:1 1 220px;
+      padding:20px;
+      background:#fafafa;
+      border:1px solid #c0b5a3;
+      border-radius:8px;
+    }
+    .card h3{
+      margin-top:0;
+      border-bottom:2px solid #c0b5a3;
+      padding-bottom:4px;
+    }
+    
+
+    /* 4. 链接颜色 */
+    a {
+      position: relative;
+      display: inline-block;
+      color: #007acc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    /* 未访问的链接 */
+    a:link {
+      color: #007acc;
+    }
+
+    /* 已访问的链接 */
+    a:visited {
+      color: #800080;
+    }
+
+    /* 悬停效果：颜色变化 + 向下移动 */
+    a:hover {
+      color: #1e90ff;
+      transform: translateY(3px);
+    }
+
+    /* 点击时（active）的反馈 */
+    a:active {
+      color: #ff4500;
+      transform: translateY(5px);
+    }
+
+    /* 下划线动画（悬停时出现） */
+    a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -2px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+
+    a:hover::after {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="particle-canvas"></canvas>
+  
+  <div class="box">
+    <!-- 主标题 -->
+    <h1>个人介绍</h1>
+    <p>姓名：<strong>罗夕</strong> </p>
+    <p>英文名：<em><strong>Rossi</strong></em></p>
+    <img src="../../../../assets/images/about_us/detail/luoxi/touxiang.jpg" alt="头像" style="width:100px;height:100px;border-radius:50%;margin-top:10px;">
+    
+    <!-- 三栏并列 -->
+    <div class="row">
+      <!-- 爱好 -->
+      <div class="card">
+        <h3><a href="hobit.html">爱好</a></h3>
+      </div>
+
+      <!-- 来历 -->
+      <div class="card">
+        <h3><a href="from.html">来历</a></h3>
+      </div>
+
+      <!-- 游戏 -->
+      <div class="card">
+        <h3><a href="game.html">游戏</a></h3>
+      </div>
+    </div>
+
+    <!-- 示例：底部导航（可选） -->
+    <p style="margin-top:40px;">
+      个人介绍
+    </p>
+    <a href="contact.html" style="font-size:12px; line-height:1; padding:2px 4px;">联系我</a>
+  </div>
+
+  <script>
+    // 粒子背景JavaScript代码
+    (function() {
+      // 获取canvas元素
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 设置canvas尺寸为窗口大小
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      resizeCanvas();
+      
+      // 粒子配置
+      const particles = [];
+      const particleCount = 80;
+      const maxDistance = 100;
+      const particleSize = 3;
+      const particleSpeed = 0.5;
+      
+      // 颜色配置
+      const colors = [
+        '#c0b5a3',
+        '#007acc',
+        '#1e90ff',
+      ];
+      
+      // 粒子类
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * particleSize + 1;
+          this.speedX = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.speedY = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // 边界检查
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // 初始化粒子
+      function init() {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      // 绘制连线
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = 1 - distance / maxDistance;
+              ctx.strokeStyle = `rgba(192, 181, 163, ${opacity * 0.5})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      // 动画循环
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      
+      // 窗口调整大小时重置canvas尺寸
+      window.addEventListener('resize', resizeCanvas);
+      
+      // 启动动画
+      init();
+      animate();
+    })();
+  </script>
+</body>
+</html>

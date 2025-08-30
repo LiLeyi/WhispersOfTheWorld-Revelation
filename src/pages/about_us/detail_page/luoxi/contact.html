@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>联系</title>
+  <style>
+    /* ===== 页面整体样式 ===== */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      padding-top: 50px;
+    }
+
+    /* 背景图容器 */
+.bg-wrapper {
+  width: 80%;           /* 占屏幕宽度 80% */
+  max-width: 800px;     /* 最大不超过 800px */
+  aspect-ratio: 4 / 3;  /* 保持宽高比例 4:3 */
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;   /* 给 ::before 定位用 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* 背景图淡化 */
+.bg-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;   /* 等价于 top:0; left:0; right:0; bottom:0; */
+  background: url("../../../../assets/images/about_us/detail/luoxi/yuanshasha.jpg") center/cover no-repeat;
+  filter: brightness(0.5);
+  z-index: 0;
+}
+    /* 主容器 */
+    .container {
+      position: relative;
+      top: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px 50px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 600px;
+      margin: auto;
+      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* 悬停动画 */
+    .container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+    }
+
+    /* 职务标题 */
+    .job-title {
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      font-family: "Courier New", monospace;
+      color: #1a1a1a;
+    }
+
+    /* 划掉文字效果 */
+    #black-slave {
+      text-decoration: line-through;
+      text-decoration-color: red;
+      margin-left: 5px;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      color: #c0392b;
+    }
+
+    /* 电话信息 */
+    .tel-info {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-family: "Arial", sans-serif;
+      color: #2c3e50;
+    }
+
+    /* 超链接样式 */
+    a {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin: 5px 10px;
+      font-size: 1.1em;
+      font-family: "Verdana", sans-serif;
+      color: #007acc;
+    }
+
+    /* 未访问 */
+    a:link { color: #007acc; }
+    /* 已访问 */
+    a:visited { color: #800080; }
+    /* 悬停效果 */
+    a:hover { color: #1e90ff; transform: translateY(3px); }
+    /* 点击效果 */
+    a:active { color: #ff4500; transform: translateY(5px); }
+    /* 下划线动画 */
+    a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -2px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    a:hover::after { width: 100%; }
+
+    /* 链接区域 */
+    .link-group { margin-top: 20px; }
+
+    /* 导航链接字体颜色 */
+    .link-group a { 
+      font-family: "Trebuchet MS", sans-serif;
+      color: #34495e;
+    }
+    .link-group a:hover { color: #e67e22; }
+  </style>
+</head>
+
+<body>
+  
+  <div class="bg-wrapper">
+    <div class="container">
+      <!-- 职务 -->
+      <div class="job-title">
+        职务：<span style="color:#2980b9;">程序员</span> | 
+        <span style="color:#8e44ad;">网页测试调试员</span> | 
+        <span id="black-slave">牛马</span>
+      </div>
+
+      <!-- 电话信息 -->
+      <div class="tel-info">
+        Tel: 斐波那契数列第60项-402866836110
+      </div>
+
+      <!-- 答案链接 -->
+      <div class="link-group">
+        <a href="https://www.bilibili.com/video/BV1GJ411x7h7/?spm_id_from=333.337.search-card.all.click&vd_source=986e535cd05cc4d8f8ace68fe7996096" 
+           target="_blank" rel="noopener noreferrer">答案</a>
+      </div>
+      <!-- 页面导航链接 -->
+      <div class="link-group">
+        <a href="index.html">个人介绍</a>><a href="#">联系我</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

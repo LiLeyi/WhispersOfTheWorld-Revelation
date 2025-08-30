@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>爱好</title>
+  <style>
+    /* ===== 粒子画布样式 ===== */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #f9f7f2;
+    }
+
+    /* 确保内容在粒子上层 */
+    .box, .content, h2, p, .nav {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== 与首页同一套全局样式 ===== */
+    html,body{
+      height:100%;
+      margin:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#f9f7f2;
+      font-family:"Microsoft YaHei",sans-serif;
+    }
+
+    /* 卡片容器：与首页 .box 同款 + 浮入动画 */
+    .box{
+      max-width:740px;
+      padding:40px 50px;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      text-align:center;
+
+      /* 浮入动画 */
+      animation:fadeIn 2s ease forwards;
+      opacity:0;
+    }
+    @keyframes fadeIn{
+      0%{opacity:0;transform:translateY(20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    /* 正文段落 */
+    .content{
+      font-size:1.15em;
+      line-height:1.9;
+      color:#4a5568;
+      max-width:620px;
+      margin:0 auto;
+    }
+
+    /* 导航链 */
+    .nav{
+      margin-bottom:30px;
+    }
+
+    /* ===== 与首页完全一致的链接动效 ===== */
+    a{
+      position:relative;
+      display:inline-block;
+      color:#007acc;
+      text-decoration:none;
+      transition:all .3s ease;
+    }
+    a:link    {color:#007acc;}
+    a:visited {color:#800080;}
+    a:hover   {color:#1e90ff;transform:translateY(3px);}
+    a:active  {color:#ff4500;transform:translateY(5px);}
+    a::after{
+      content:"";
+      position:absolute;
+      width:0;height:2px;
+      left:0;bottom:-2px;
+      background:currentColor;
+      transition:width .3s ease;
+    }
+    a:hover::after{width:100%;}
+  </style>
+</head>
+
+<body>
+  <!-- 粒子画布 -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <div class="box">
+    <!-- 正文 -->
+    <div class="content">
+      <h2 style="margin-top:0;">爱好</h2>
+      <p>
+        爱好十分广泛，除了"画"不行以外，"琴棋书"样样精通，样样稀松。<br>
+        喜欢运动，球类运动都有涉足一些，但是最喜欢的还是踢足球。<br>
+        长假没事会跟同学出去旅行。<br>
+        虽然不太擅长敲代码，但是在努力地学，加油！
+      </p>
+    </div>
+
+    <!-- 导航 -->
+    <div class="nav">
+      <a href="index.html">个人介绍</a> &gt; <a href="#">爱好</a>
+    </div>
+  </div>
+
+  <script>
+    // 粒子背景JavaScript代码
+    (function() {
+      // 获取canvas元素
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // 设置canvas尺寸为窗口大小
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      resizeCanvas();
+      
+      // 粒子配置
+      const particles = [];
+      const particleCount = 80;
+      const maxDistance = 100;
+      const particleSize = 3;
+      const particleSpeed = 0.5;
+      
+      // 颜色配置
+      const colors = [
+        '#c0b5a3',
+        '#007acc',
+        '#1e90ff',
+      ];
+      
+      // 粒子类
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * particleSize + 1;
+          this.speedX = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.speedY = Math.random() * particleSpeed * 2 - particleSpeed;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // 边界检查
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // 初始化粒子
+      function init() {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      // 绘制连线
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = 1 - distance / maxDistance;
+              ctx.strokeStyle = `rgba(192, 181, 163, ${opacity * 0.5})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y); // 这里修复了拼写错误
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      // 动画循环
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      
+      // 窗口调整大小时重置canvas尺寸
+      window.addEventListener('resize', resizeCanvas);
+      
+      // 启动动画
+      init();
+      animate();
+    })();
+  </script>
+</body>
+</html>

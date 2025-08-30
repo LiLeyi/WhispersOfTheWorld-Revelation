@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('startButton');
     const loadButton = document.getElementById('loadButton');
     const settingButton = document.getElementById('settingButton');
+    const aboutUsButton = document.getElementById('aboutUsButton');
     const exitButton = document.getElementById('exitButton');
 
     if (startButton) {
@@ -88,6 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (settingButton) {
         settingButton.addEventListener('click', function() {
             alert('设置功能尚未实现');
+        });
+    }
+
+    if (aboutUsButton) {
+        aboutUsButton.addEventListener('click', function() {
+            window.location.href = '../about_us/about_us.html';
         });
     }
 

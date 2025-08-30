@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>WELCOME TO MY WORLD</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --primary: #38bdf8;
+      --primary-600: #0ea5e9;
+      --card: #111827;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: linear-gradient(180deg, var(--bg), var(--bg-soft));
+      color: var(--text)
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11, 16, 32, .7);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px
+    }
+
+    .logo {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: .5px
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text)
+    }
+
+    .nav-links a.active {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 6px
+    }
+
+    .hero {
+      padding: 96px 0 72px
+    }
+
+    .hero-title {
+      font-size: 42px;
+      margin: 0 0 12px
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      margin: 0 0 24px
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: transparent;
+      text-decoration: none
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: #001220;
+      border-color: transparent
+    }
+
+    .btn.primary:hover {
+      background: var(--primary-600)
+    }
+
+    .section {
+      padding: 64px 0;
+      border-top: 1px solid var(--border)
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin: 0 0 16px
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0;
+      margin: 16px 0 0;
+      list-style: none
+    }
+
+    .tags li {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted)
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px
+    }
+
+    .card h3 {
+      margin: 0 0 8px
+    }
+
+    .card p {
+      margin: 0 0 12px;
+      color: var(--muted)
+    }
+
+    .card-link {
+      color: var(--primary);
+      text-decoration: none
+    }
+
+    .card-link:hover {
+      color: var(--primary-600)
+    }
+
+    .contact-form .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    input,
+    textarea {
+      background: #0b1020;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 8px
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: 2px solid var(--primary-600);
+      border-color: transparent
+    }
+
+    .site-footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      position: relative
+    }
+
+    .back-to-top {
+      position: absolute;
+      right: 20px;
+      top: -18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      text-decoration: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    @media(max-width:900px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:640px) {
+      .nav-inner {
+        height: 56px
+      }
+
+      .cards {
+        grid-template-columns: 1fr
+      }
+
+      .contact-form .grid {
+        grid-template-columns: 1fr
+      }
+
+      .hero-title {
+        font-size: 32px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="site-nav">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">MySite</a>
+      <ul class="nav-links">
+        <li><a href="#home" data-link="home">首页</a></li>
+        <li><a href="#about" data-link="about">关于</a></li>
+        <li><a href="#projects" data-link="projects">情报</a></li>
+        <li><a href="#contact" data-link="contact">联系</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header id="home" class="hero" data-section="home">
+    <div class="container">
+      <h1 class="hero-title">你好<br>我是<em>张书瑞</em>
+        <sub>
+          <em>Abyssword</em>
+        </sub><br>
+        <img src="../../../../assets/images/about_us/detail/zhangshurui/nanami.jpeg" height="355" width="526">
+      </h1>
+      <p class="hero-sub">
+        无为名尸，无为谋府，无为事任，无为知主
+        <sub>——《庄子·应帝王》</sub>
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn primary">详细情报</a>
+        <a href="#contact" class="btn">联系我</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" class="section" data-section="about">
+    <div class="container">
+      <h2 class="section-title">关于我</h2>
+      <div class="section-content">
+        <p>北京理工大学2024级本科生，计算机科学与技术专业，来自中国重庆</p>
+        <ul class="tags">
+          <li>街头健身</li>
+          <li>腕力</li>
+          <li>游戏</li>
+          <li>二次元</li>
+          <li>音乐</li>
+          <li>哲学</li>
+          <li>文学</li>
+          <li>围棋</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section" data-section="projects">
+    <div class="container">
+      <h2 class="section-title">目前可公开的情报</h2>
+      <p>保持神秘感👁️👁️</p>
+      <p>更多信息、商务合作请私信了解</p>
+      <div class="cards">
+        <article class="card">
+          <h3>街头健身</h3>
+          <p>街头极限健身（Street
+            Workout/Calisthenics），是极限运动的分支及街头文化的一部分，也被称为"街头健身"、"街健"，主要通过静态力量动作与动态花式动作提升身体机能，训练体系包含徒手健身与器械结合模式，具有低器械依赖性特点。目标成为具有一定实力的全能型选手。
+          </p>
+          <a class="card-link" href="#about">挑战自我，超越极限</a>
+        </article>
+        <article class="card">
+          <h3>腕力</h3>
+          <p>
+            腕力运动，也称掰手腕、手臂摔跤（Arm-wrestling），是以比拼臂力和腕力为主的竞技运动。专业的腕力运动作为一项严谨而复杂的专项运动、极限运动，兼具对运动员力量与技术的要求。即使天赋糟糕，我也甘愿为之付出——为了打破天赋的枷锁，超越羸弱的自我。
+          </p>
+          <a class="card-link" href="#contact">欢迎交流切磋</a>
+        </article>
+        <article class="card">
+          <h3>游戏</h3>
+          <p>
+            作为游戏爱好者，我享受游玩过程中带给我的兴奋、激情、感动、震撼与畅爽。恐怖游戏是我心头好，动作游戏是我掌中宝，RPG带我畅游多元世界，更多类型的游戏我也都有所涉猎。游戏已然成为我最大的兴趣之一，也是单调生活中不可或缺的一部分。
+          </p>
+          <a class="card-link" href="#contact">热忱之心不可泯灭</a>
+        </article><br>
+      </div>
+      <pre>人类之所以伟大，正在于他是一座桥梁而非目的：人类之所以可爱，正在于他是一个跨越的过程而非结果。</pre>
+    </div>
+  </section>
+
+  <section id="contact" class="section" data-section="contact">
+    <div class="container">
+      <h2 class="section-title">联系我</h2>
+      <p>我的邮箱：shenmiren0610@foxmail.com</p>
+      <p>我的steam账户：清云 （好友代码：1095980557）</p>
+      <pre>欢迎合作交流</pre>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> 张书瑞. 保留所有权利。</p>
+    </div>
+    <a href="#home" class="back-to-top" aria-label="返回顶部">↑</a>
+  </footer>
+
+  <script>
+    (function () {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+      const links = document.querySelectorAll('.nav-links a');
+      const sections = Array.from(document.querySelectorAll('[data-section]'));
+      const backTop = document.querySelector('.back-to-top');
+      function onScroll() {
+        const offset = 120; let current = 'home';
+        for (const el of sections) {
+          const r = el.getBoundingClientRect();
+          if (r.top - offset <= 0) current = el.getAttribute('data-section') || current;
+        }
+        links.forEach(a => {
+          const name = a.getAttribute('data-link');
+          if (name === current) a.classList.add('active'); else a.classList.remove('active');
+        });
+        if (backTop) {
+          if (window.scrollY > 240) backTop.classList.add('visible'); else backTop.classList.remove('visible');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+      // 禁用占位链接点击
+      document.querySelectorAll('[aria-disabled]')?.forEach(a => a.addEventListener('click', e => e.preventDefault()));
+    })();
+  </script>
+</body>
+
+</html>
