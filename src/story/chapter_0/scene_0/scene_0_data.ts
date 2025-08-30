@@ -4,42 +4,47 @@ import { ArchiveManager } from '../../../components/ArchiveManager';
 // 定义第0章场景
 const scene: Scene = {
     id: "chapter_0_scene_0",
-    title: "第0章：开始",
+    title: "第0幕：开始",
     nodes: [
         {
             id: "start",
             elements: {
                 background: "sc3.1/page1.JPG",
                 name: "旁白",
-                text: "准备好踏上旅程了吗？"
+                text: "准备好踏上旅程了吗？",
+                bgm: "bgm1"
             }
         },
         {
             id: "node1",
             elements: {
                 name: "旁白",
-                text: "与那个女孩一起。"
+                text: "与那个女孩一起。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node2",
             elements: {
                 name: "旁白",
-                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
+                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node3",
             elements: {
                 name: "旁白",
-                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。"
+                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node4",
             elements: {
                 name: "旁白",
-                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。"
+                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。",
+                bgm: "bgm1"
             }
         },
         {
@@ -155,7 +160,8 @@ const scene: Scene = {
             elements: {
                 name: "光泠",
                 text: "‘我叫光泠。’少女微笑着说道，‘我在这里等您。’她向你解释道，这个世界已经濒临毁灭，你将承担起拯救它的使命。"
-            }
+            },
+            next: "light_clue"
         },
         {
             id: "observe_silently",
@@ -193,7 +199,8 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "你决定跟随光泠，她微笑着转身，带领你向着远方走去。"
-            }
+            },
+            next: "arm_clue"
         },
         {
             id: "leave_graveyard_1",
@@ -217,22 +224,22 @@ const scene: Scene = {
             }
         },
         {
-    id: "final_choice",
-    elements: {
-        name: "光泠",
-        text: "‘那么，如果您没有什么特殊的打算，就请让我与您同行。或者等您下定决心，再开始行动也不迟。’"
-    },
-    choices: [
-        {
-            text: "决定跟随光泠",
-            next: "chapter_1_scene_0"  // 跳转到第一章场景ID
-        },
-        {
-            text: "独自行动",
-            next: "chapter_1_scene_0"   // 跳转到第一章场景ID
+            id: "final_choice",
+            elements: {
+                name: "光泠",
+                text: "‘那么，如果您没有什么特殊的打算，就请让我与您同行。或者等您下定决心，再开始行动也不迟。’"
+            },
+            choices: [
+                {
+                    text: "决定跟随光泠",
+                    next: "chapter_0_scene_1_0"  // 跳转到第一章场景ID
+                },
+                {
+                    text: "独自行动",
+                    next: "chapter_0_scene_1_0"   // 跳转到第一章场景ID
+                }
+            ]
         }
-    ]
-}
         /*{
             id: "begin_journey",
             elements: {
