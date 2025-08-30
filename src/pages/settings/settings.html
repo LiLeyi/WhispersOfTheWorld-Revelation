@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设置</title>
+  <link rel="stylesheet" href="../../dist/pages/settings/settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <h2><span data-zh="设置" data-en="Settings">设置</span></h2>
+    
+    <button class="lang-btn">EN</button>
+    
+    <div class="setting-item">
+      <label for="gameVolume"><span data-zh="游戏音量" data-en="Game Volume">游戏音量</span>:</label>
+      <input type="range" id="gameVolume" min="0" max="100" value="100">
+      <span id="gameVolumeValue" class="volume-value">100%</span>
+    </div>
+    
+    <div class="setting-item">
+      <label for="bgmVolume"><span data-zh="背景音乐音量" data-en="BGM Volume">背景音乐音量</span>:</label>
+      <input type="range" id="bgmVolume" min="0" max="100" value="100">
+      <span id="bgmVolumeValue" class="volume-value">100%</span>
+    </div>
+    
+    <div class="setting-item">
+      <label for="menuVolume"><span data-zh="主菜单音量" data-en="Menu Volume">主菜单音量</span>:</label>
+      <input type="range" id="menuVolume" min="0" max="100" value="100">
+      <span id="menuVolumeValue" class="volume-value">100%</span>
+    </div>
+    
+    <div class="button-group">
+      <button id="saveSettings" data-zh="保存设置" data-en="Save Settings">保存设置</button>
+      <button id="backToMenu" data-zh="返回主菜单" data-en="Back to Menu">返回主菜单</button>
+    </div>
+  </div>
+  
+  <script type="module" src="../../dist/settings/settings.bundle.js"></script>
+</body>
+</html>

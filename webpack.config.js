@@ -17,7 +17,9 @@ module.exports = (env, argv) => {
 
       detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
       detail_huangwenxi: './src/pages/about_us/detail_page/huangwenxi/index.ts',
-      detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts'
+      detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts',
+      log_page: './src/pages/log_page/log_page.ts',
+      settings: './src/pages/settings/settings.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',
@@ -107,6 +109,16 @@ module.exports = (env, argv) => {
         filename: 'pages/about_us/about_us.html',
         chunks: [] // 空的也要写这个！！！！！！！！！！！！！！！
       }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/log_page/log_page.html',
+        filename: 'pages/log_page/log_page.html',
+        chunks: ['log_page'],
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/settings/settings.html',
+        filename: 'pages/settings/settings.html',
+        chunks: ['settings'],
+      }),
 
 
 
@@ -160,7 +172,7 @@ module.exports = (env, argv) => {
         filename: 'pages/about_us/detail_page/lileyi/index.html',
         chunks: ['detail_lileyi']
       }),
-      
+
 
 
 

@@ -126,10 +126,12 @@ export class ArchiveManager {
     /**
      * 获取角色好感度
      * @param characterName 角色名称
+     * @param defaultValue 默认值
      * @returns 好感度值
      */
-    public getAffection(characterName: string): number {
-        const affection = this.gameData.characterAffection[characterName] || 0;
+    public getAffection(characterName: string, defaultValue: number = 0): number {
+        const affection = this.gameData.characterAffection[characterName] !== undefined ? 
+            this.gameData.characterAffection[characterName] : defaultValue;
         console.log(`[ArchiveManager] 获取 ${characterName} 好感度: ${affection}`);
         return affection;
     }
@@ -140,7 +142,7 @@ export class ArchiveManager {
      * @param value 好感度值
      */
     public setAffection(characterName: string, value: number): void {
-        console.log(`[ArchiveManager] 设置 ${characterName} 好感度为: ${value}`);
+        console.log(`[ArchiveManager] 设置 ${characterName} 好感度: ${value}`);
         this.gameData.characterAffection[characterName] = value;
         this.saveToLocalStorage();
     }
@@ -229,6 +231,22 @@ export class ArchiveManager {
             flags: {}
         };
         this.saveToLocalStorage();
+        
+        // 同时清除当前存档的文本历史记录
+        this.clearTextHistory();
+    }
+    
+    /**
+     * 清除当前存档的文本历史记录
+     */
+    private clearTextHistory(): void {
+        try {
+            const textHistoryKey = `gameTextHistory_${this.archiveId}`;
+            console.log(`[ArchiveManager] 清除文本历史记录，键: ${textHistoryKey}`);
+            localStorage.removeItem(textHistoryKey);
+        } catch (e) {
+            console.error("[ArchiveManager] 无法清除文本历史记录:", e);
+        }
     }
     
     /**

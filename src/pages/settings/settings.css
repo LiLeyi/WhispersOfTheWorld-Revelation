@@ -1,0 +1,91 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #000;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.settings-container {
+  background: #222;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+  border: 2px solid #fff;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.lang-btn {
+  display: inline-block;
+  margin: 8px auto 20px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-btn:hover {
+  background-color: #666;
+}
+
+.setting-item {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting-item label {
+  width: 120px;
+  font-size: 16px;
+}
+
+.setting-item input[type="range"] {
+  width: 150px;
+  height: 8px;
+  background: #555;
+  border-radius: 5px;
+  outline: none;
+}
+
+.volume-value {
+  width: 50px;
+  text-align: right;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+button {
+  padding: 12px 20px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: #333;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  flex: 1;
+  margin: 0 5px;
+}
+
+button:hover {
+  background: #555;
+}

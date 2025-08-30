@@ -15,6 +15,7 @@ class GameScene {
     private currentNodeIndex: number = 0;
     private currentState: any = {};
     private clickCount: number = 0;
+    private autoClickInterval: number | null = null;
     private backgroundManager: BackgroundManager;
     private textManager: TextManager;
     private audioManager: AudioManager;
@@ -37,7 +38,7 @@ class GameScene {
         this.init();
     }
 
-    private init(): void {
+ private init(): void {
         // 从URL参数获取存档ID
         const urlParams = new URLSearchParams(window.location.search);
         // 如果URL中没有存档ID，则尝试从localStorage获取，否则生成新的
@@ -51,11 +52,22 @@ class GameScene {
 
         // 设置当前存档ID并刷新ArchiveManager实例
         ArchiveManager.setCurrentArchiveId(archiveId);
+        
+        // 设置TextManager的存档ID
+        this.textManager.setCurrentArchiveId(archiveId);
 
         console.log(`[GameScene] 使用存档ID: ${archiveId}`);
-
+        
         // 绑定事件
         this.bindEvents();
+
+        // 添加页面卸载事件监听器，清理自动播放定时器
+        window.addEventListener('beforeunload', () => {
+            if (this.autoClickInterval) {
+                clearInterval(this.autoClickInterval);
+                this.autoClickInterval = null;
+            }
+        });
 
         // 从URL或localStorage中获取点击次数
         const sceneParam = urlParams.get('scene');
@@ -103,6 +115,9 @@ class GameScene {
                 text: "",
             };
 
+            // 清除当前存档的文本历史记录
+            this.textManager.clearTextHistory();
+
             // 设置新游戏标记，防止后续被误判
             sessionStorage.setItem("isNewGame", "true");
         } else {
@@ -127,6 +142,8 @@ class GameScene {
         }
     }
 
+
+
     private async loadSceneByName(sceneName: string): Promise<void> {
         console.log(`[GameScene] 开始加载场景: ${sceneName}`);
 
@@ -142,7 +159,9 @@ class GameScene {
             archiveId = localStorage.getItem('currentArchiveId') || 'default_' + Date.now();
         }
         ArchiveManager.setCurrentArchiveId(archiveId);
-
+        // 同时更新TextManager的存档ID
+        
+        this.textManager.setCurrentArchiveId(archiveId);
         // 从场景注册表中加载场景
         if (SceneRegistry[sceneName]) {
             try {
@@ -183,6 +202,8 @@ class GameScene {
         this.choiceManager.setGetCurrentNodeIndexCallback(() => this.currentNodeIndex);
         this.choiceManager.setSetCurrentNodeIndexCallback((index) => { this.currentNodeIndex = index; });
         this.choiceManager.setGetCurrentNodeCallback(() => this.getCurrentNode());
+        // 添加TextManager引用
+        this.choiceManager.setTextManager(this.textManager);
 
         // 从localStorage恢复previousElements状态，确保读档时能正确继承所有元素
         const savedPreviousElements = localStorage.getItem("previousElements");
@@ -444,6 +465,7 @@ class GameScene {
 
         // 绑定菜单事件
         const returnButton = document.getElementById("op_return");
+        const logButton = document.getElementById("op_log");
         const loadButton = document.getElementById("op_load");
         const autoButton = document.getElementById("op_auto");
         const skipButton = document.getElementById("op_skip");
@@ -454,6 +476,12 @@ class GameScene {
                 if (returnElement) {
                     returnElement.classList.toggle("active");
                 }
+            };
+        }
+
+        if (logButton) {
+            logButton.onclick = () => {
+                this.redirectToNewPage("../log_page/log_page.html");
             };
         }
 
@@ -570,8 +598,25 @@ class GameScene {
     }
 
     private startAutoClick(): void {
+        const autoButton = document.getElementById("op_auto");
+        
         // 实现自动播放功能
-        // 这里可以添加自动点击逻辑
+        if (this.autoClickInterval) {
+            // 如果已经存在自动播放，就停止它
+            clearInterval(this.autoClickInterval);
+            this.autoClickInterval = null;
+            if (autoButton) {
+                autoButton.textContent = "auto"; // 恢复按钮文本
+            }
+        } else {
+            // 开始自动播放，每1.5秒执行一次nextMove
+            this.autoClickInterval = setInterval(() => {
+                this.nextMove();
+            }, 1500);
+            if (autoButton) {
+                autoButton.textContent = "stop"; // 更改按钮文本表示正在自动播放
+            }
+        }
     }
 
     private redirectToNewPage(nextpage: string): void {
