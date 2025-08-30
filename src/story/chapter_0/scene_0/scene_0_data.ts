@@ -4,7 +4,7 @@ import { ArchiveManager } from '../../../components/ArchiveManager';
 // 定义第0章场景
 const scene: Scene = {
     id: "chapter_0_scene_0",
-    title: "第0章：开始",
+    title: "第0幕：开始",
     nodes: [
         {
             id: "start",
@@ -155,7 +155,8 @@ const scene: Scene = {
             elements: {
                 name: "光泠",
                 text: "‘我叫光泠。’少女微笑着说道，‘我在这里等您。’她向你解释道，这个世界已经濒临毁灭，你将承担起拯救它的使命。"
-            }
+            },
+            next: "light_clue"
         },
         {
             id: "observe_silently",
@@ -193,7 +194,8 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "你决定跟随光泠，她微笑着转身，带领你向着远方走去。"
-            }
+            },
+            next: "arm_clue"
         },
         {
             id: "leave_graveyard_1",
@@ -217,22 +219,22 @@ const scene: Scene = {
             }
         },
         {
-    id: "final_choice",
-    elements: {
-        name: "光泠",
-        text: "‘那么，如果您没有什么特殊的打算，就请让我与您同行。或者等您下定决心，再开始行动也不迟。’"
-    },
-    choices: [
-        {
-            text: "决定跟随光泠",
-            next: "chapter_1_scene_0"  // 跳转到第一章场景ID
-        },
-        {
-            text: "独自行动",
-            next: "chapter_1_scene_0"   // 跳转到第一章场景ID
+            id: "final_choice",
+            elements: {
+                name: "光泠",
+                text: "‘那么，如果您没有什么特殊的打算，就请让我与您同行。或者等您下定决心，再开始行动也不迟。’"
+            },
+            choices: [
+                {
+                    text: "决定跟随光泠",
+                    next: "chapter_0_scene_1_0"  // 跳转到第一章场景ID
+                },
+                {
+                    text: "独自行动",
+                    next: "chapter_0_scene_1_0"   // 跳转到第一章场景ID
+                }
+            ]
         }
-    ]
-}
         /*{
             id: "begin_journey",
             elements: {

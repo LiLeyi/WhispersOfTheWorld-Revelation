@@ -1,10 +1,10 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 
-// 定义第1章场景
+// 定义第1幕场景
 const scene: Scene = {
-    id: "chapter_1_scene_0",
-    title: "第1章：斑牛镇",
+    id: "chapter_0_scene_1",
+    title: "第1幕：斑牛镇",
     nodes: [
         // 开始场景：黑屏白字
         {
