@@ -75,8 +75,11 @@ class NodeGraphVisualizer(wx.Panel):
         # 收集所有连接目标，包括章节跳转节点
         chapter_targets = set()  # 用于收集章节跳转目标
         
-        # 添加连接关系
-        for node in scene.nodes:
+        # 创建一个节点ID到索引的映射，用于处理隐式连接
+        node_index_map = {node.id: i for i, node in enumerate(scene.nodes)}
+        
+        # 第一遍：添加基本连接关系
+        for i, node in enumerate(scene.nodes):
             # 处理选项连接
             if node.choices:
                 for choice in node.choices:
@@ -100,6 +103,52 @@ class NodeGraphVisualizer(wx.Panel):
                 # 收集章节跳转目标
                 if node.next.startswith("chapter_"):
                     chapter_targets.add(node.next)
+            # 处理隐式连接（相邻节点的自动连接）
+            elif i < len(scene.nodes) - 1:
+                next_node = scene.nodes[i + 1]
+                # 只有当当前节点没有显式的next或choices时才添加隐式连接
+                if not getattr(node, 'choices', None) and not getattr(node, 'next', None):
+                    self.connections.append({
+                        'from': node.id,
+                        'to': next_node.id,
+                        'label': '',
+                        'condition': getattr(node, 'condition', None)
+                    })
+                    
+        # 第二遍：处理选项节点的后续连接
+        for i, node in enumerate(scene.nodes):
+            # 如果节点有选项，检查每个选项指向的节点是否需要后续连接
+            if node.choices:
+                for choice in node.choices:
+                    choice_node_id = choice.next
+                    # 查找选项指向的节点在场景中的索引
+                    choice_node_index = node_index_map.get(choice_node_id, -1)
+                    if choice_node_index != -1 and choice_node_index < len(scene.nodes) - 1:
+                        # 选项节点的下一个节点
+                        next_node_after_choice = scene.nodes[choice_node_index + 1]
+                        # 检查选项节点是否需要连接到下一个节点
+                        choice_node = None
+                        for n in scene.nodes:
+                            if n.id == choice_node_id:
+                                choice_node = n
+                                break
+                        
+                        # 如果选项节点没有自己的next或choices，则连接到序列中的下一个节点
+                        if choice_node and not getattr(choice_node, 'next', None) and not getattr(choice_node, 'choices', None):
+                            # 检查是否已经存在相同的连接
+                            connection_exists = False
+                            for conn in self.connections:
+                                if conn['from'] == choice_node_id and conn['to'] == next_node_after_choice.id:
+                                    connection_exists = True
+                                    break
+                                    
+                            if not connection_exists:
+                                self.connections.append({
+                                    'from': choice_node_id,
+                                    'to': next_node_after_choice.id,
+                                    'label': '',
+                                    'condition': getattr(choice_node, 'condition', None)
+                                })
                     
         # 为章节跳转目标创建虚拟节点（如果它们不存在于当前场景中）
         for target in chapter_targets:

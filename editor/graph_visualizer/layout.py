@@ -105,6 +105,7 @@ class LayoutManager:
         level = 0
         
         successors = self._build_successors(connections)
+        predecessors = self._build_predecessors(connections)
         
         while queue:
             level += 1
@@ -115,7 +116,6 @@ class LayoutManager:
                     for next_node in successors[node_id]:
                         if next_node not in visited and next_node in nodes:
                             # 确保节点不会被分配到比其任何前驱节点更早的层级
-                            predecessors = self._build_predecessors(connections)
                             min_level = level
                             if next_node in predecessors:
                                 for pred in predecessors[next_node]:

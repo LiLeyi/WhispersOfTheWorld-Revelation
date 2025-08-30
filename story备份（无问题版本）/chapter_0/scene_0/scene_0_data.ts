@@ -62,7 +62,7 @@ const scene: Scene = {
             choices: [
                 {
                     text: "继续",
-                    next: "take_key_1",
+                    next: "take_key",
                     action: () => {
                         // 使用 ArchiveManager 管理物品
                         const archiveManager = ArchiveManager.getInstance();
