@@ -11,35 +11,40 @@ const scene: Scene = {
             elements: {
                 background: "sc3.1/page1.JPG",
                 name: "旁白",
-                text: "准备好踏上旅程了吗？"
+                text: "准备好踏上旅程了吗？",
+                bgm: "bgm1"
             }
         },
         {
             id: "node1",
             elements: {
                 name: "旁白",
-                text: "与那个女孩一起。"
+                text: "与那个女孩一起。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node2",
             elements: {
                 name: "旁白",
-                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
+                text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node3",
             elements: {
                 name: "旁白",
-                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。"
+                text: "像是滔天的巨浪击打峭壁，像是一阵永不休止的潮声。",
+                bgm: "bgm1"
             }
         },
         {
             id: "node4",
             elements: {
                 name: "旁白",
-                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。"
+                text: "接受着这些不知从何而来的信息，以此为基点重构自己的意识。",
+                bgm: "bgm1"
             }
         },
         {
