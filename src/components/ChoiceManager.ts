@@ -9,6 +9,7 @@ export class ChoiceManager {
     private getCurrentNodeIndexCallback: (() => number) | null = null;
     private setCurrentNodeIndexCallback: ((index: number) => void) | null = null;
     private getCurrentNodeCallback: (() => any) | null = null;
+    private textManager: any = null;
 
     /**
      * 设置当前场景引用
@@ -57,6 +58,14 @@ export class ChoiceManager {
     public setGetCurrentNodeCallback(callback: () => any): void {
         this.getCurrentNodeCallback = callback;
     }
+    
+    /**
+     * 设置文本管理器
+     * @param textManager 文本管理器实例
+     */
+    public setTextManager(textManager: any): void {
+        this.textManager = textManager;
+    }
 
     /**
      * 处理选项显示和交互
@@ -83,6 +92,11 @@ export class ChoiceManager {
                 
                 button.onclick = () => {
                     console.log("选项被点击:", choice);
+                    
+                    // 清除最后记录的文本，避免重复
+                    if (this.textManager) {
+                        this.textManager.clearLastRecordedEntries();
+                    }
                     
                     // 执行动作
                     if (choice.action) {
