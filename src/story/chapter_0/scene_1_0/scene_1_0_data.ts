@@ -1,180 +1,340 @@
-// 第0章第1幕分支0
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 
-// 定义第0章第1幕分支0
+// 定义第1章场景
 const scene: Scene = {
-    id: "chapter_0_scene_1_0",
-    title: "第0章：左边的道路",
+    id: "chapter_1_scene_0",
+    title: "第1章：斑牛镇",
     nodes: [
+        // 开始场景：黑屏白字
         {
-            id: "start",
+            id: "intro_black_screen",
             elements: {
-                background: "sc3.1/page3.0.JPG",
+                background: "black_screen_white_text.jpg",
                 name: "旁白",
-                text: "你选择了左边的小路，走向那座古老的建筑。随着你的靠近，建筑的轮廓逐渐清晰起来。"
+                text: "Listen, my heart, to the whispers of the world with which it makes love to you."
             }
         },
         {
-            id: "node1",
+            id: "intro_quote",
             elements: {
                 name: "旁白",
-                text: "这是一座废弃的教堂，斑驳的墙壁上爬满了藤蔓。大门紧闭，但你注意到门锁已经锈蚀。"
+                text: "“如果因为思念太阳而终日哭泣，那么星星也将离你而去。” 模糊的记忆中出现了这样的话语，但从何而来，却无从寻觅。但那并不重要。重要的是，我在哪里？"
             }
         },
         {
-            id: "node2",
+            id: "intro_pain",
             elements: {
                 name: "旁白",
-                text: "应该如何进去呢？"
-            },
-            choices: [
-                {
-                    text: "尝试用钥匙开门",
-                    next: "use_key",
-                    condition: () => {
-                        const archiveManager = ArchiveManager.getInstance();
-                        return archiveManager.hasItem("ancient_key");
-                    }
-                },
-                {
-                    text: "寻找其他入口",
-                    next: "find_another_entrance"
-                }
-            ],
-            action: ()=>{
-                const archiveManager = ArchiveManager.getInstance();
-                // 可以根据需要添加其他逻辑
-            }
-        },
-        // 有用钥匙的分支
-        {
-            id: "use_key",
-            elements: {
-                name: "旁白",
-                text: "你拿出那把神秘的钥匙，插入锁孔。钥匙完美地契合了锁芯。"
+                text: "如海啸般狂暴的剧痛不停撕扯着我的神经，动弹不得的麻木身躯如今除了那刻骨铭心的痛楚外一无所有。将要崩塌的意识忽明忽灭，所幸这已足以让自己回想起到底发生了什么。"
             }
         },
         {
-            id: "use_key_1",
+            id: "black_screen",
             elements: {
                 name: "旁白",
-                text: "随着一声轻响，门锁打开了。你推开门，走进了教堂。"
-            },
-            next: "enter_church"
-        },
-        // 没有钥匙或不使用钥匙的分支
-        {
-            id: "find_another_entrance",
-            elements: {
-                name: "旁白",
-                text: "你绕着教堂走了一圈，寻找其他的入口。在建筑的侧面，你发现了一扇半开的窗户。"
+                text: "<背景全黑>"
             }
         },
         {
-            id: "find_another_entrance_1",
+            id: "wake_up_1",
             elements: {
                 name: "旁白",
-                text: "你小心地爬进窗户，进入了教堂内部。"
-            },
-            next: "enter_church"
-        },
-        // 进入教堂
-        {
-            id: "enter_church",
-            elements: {
-                background: "sc3.1/page3.1.JPG",
-                name: "旁白",
-                text: "教堂内部昏暗而寂静。月光透过彩色玻璃窗洒在地面上，形成斑驳的光影。"
-            },
-            action: () => {
-                // 记录玩家进入教堂
-                const archiveManager = ArchiveManager.getInstance();
-                archiveManager.setFlag("enteredChurch", true);
+                text: "是了，我的身躯被无情地撕碎，惟有仅剩的半截残躯还吊着最后一口气。"
             }
         },
         {
-            id: "enter_church_1",
+            id: "pain_1",
             elements: {
                 name: "旁白",
-                text: "在祭坛前，你看到一个古老的箱子。箱子上刻着复杂的符号，与你钥匙上的符号相似。"
-            },
-            choices: [
-                {
-                    text: "检查箱子",
-                    next: "examine_chest"
-                },
-                {
-                    text: "离开教堂",
-                    next: "leave_church"
-                }
-            ]
-        },
-        {
-            id: "examine_chest",
-            elements: {
-                name: "旁白",
-                text: "你走近箱子，仔细观察上面的符号。突然，箱子自动打开了，里面放着一本古老的书籍。"
-            },
-            condition: () => {
-                const archiveManager = ArchiveManager.getInstance();
-                // 只有拥有钥匙的玩家才能看到这个节点
-                return archiveManager.hasItem("ancient_key");
-            },
-            action: () => {
-                const archiveManager = ArchiveManager.getInstance();
-                // 玩家获得了书籍
-                archiveManager.addItem("ancient_book");
-                // 增加神秘人好感度
-                archiveManager.increaseAffection("mysterious_man", 5);
+                text: "被硬生生扯断的手臂已不知被丢弃至哪里，零碎的肢干被宣告永远与我分离。半截脊柱裸露在空气中，鲜红的液体从森然的断面下迸射而出。"
             }
         },
         {
-            id: "examine_chest_1",
+            id: "thoughts_1",
             elements: {
                 name: "旁白",
-                text: "你拿起书籍，封面上写着《世界的低语》。就在这时，教堂开始摇晃，你意识到这里即将坍塌。"
-            },
-            choices: [
-                {
-                    text: "带着书逃离",
-                    next: "escape_with_book"
-                }
-            ]
-        },
-        {
-            id: "escape_with_book",
-            elements: {
-                name: "旁白",
-                text: "你紧紧抱着书籍冲出教堂，在身后建筑坍塌的瞬间逃了出来。你安全了，但手中多了一本神秘的书。"
-            },
-            next: "../scene_2/scene_2_data.ts", // 跳转到下一场景
-            action: () => {
-                const archiveManager = ArchiveManager.getInstance();
-                // 玩家成功带着书逃离
-                const escapedWithBook = archiveManager.getFlag("escapedWithBook", false);
-                if (!escapedWithBook) {
-                    archiveManager.setFlag("escapedWithBook", true);
-                    // 增加更多好感度
-                    archiveManager.increaseAffection("mysterious_man", 15);
-                }
-                alert("测试结束！");
+                text: "我大概要死了吧，我想。为什么我会在这里经受如此折磨？希求得到答案，但到底触碰不到。"
             }
         },
         {
-            id: "leave_church",
+            id: "voice_1",
+            elements: {
+                name: "？？？",
+                text: "......帝王......奴隶......"
+            }
+        },
+        {
+            id: "near_death",
             elements: {
                 name: "旁白",
-                text: "你感到这里充满了不祥的气息，决定不冒险探索。你悄悄离开教堂，回到分岔路口。"
-            },
-            next: "chapter_0_scene_0#fork_in_road", // 返回分岔路口
-            action: () => {
-                const archiveManager = ArchiveManager.getInstance();
-                // 玩家离开了教堂
-                archiveManager.setFlag("leftChurch", true);
-                // 减少神秘人好感度
-                archiveManager.decreaseAffection("mysterious_man", 5);
-                alert("测试结束！");
+                text: "耳边隐约传来冰冷的声音，好似在宣告着我的死亡。意识将要涣散。眼前最后出现的，是山一般的钢铁怪兽，还有闪烁着刺眼红芒的灼热炮口。"
+            }
+        },
+        {
+            id: "explosion",
+            elements: {
+                name: "旁白",
+                text: "一切都结束了，我想。轰鸣般的毁灭之音伴随着热浪，咆哮着吞没了一切。"
+            }
+        },
+        {
+            id: "nightmare_wake_up",
+            elements: {
+                name: "旁白",
+                text: "再次从噩梦中惊醒，发现冷汗从额间流下。抬头看去，光泠正静静地注视着我。"
+            }
+        },
+        {
+            id: "lightling_concern",
+            elements: {
+                name: "光泠",
+                text: "您还好吗？（微笑） 是做了什么可怕的噩梦吗？（微笑）"
+            }
+        },
+        {
+            id: "response_1",
+            elements: {
+                name: "你",
+                text: "是有一些吓人画面。不过没事。"
+            }
+        },
+        {
+            id: "lightling_1",
+            elements: {
+                name: "光泠",
+                text: "希望您不要被吓到哭鼻子。我怕哄不好您。（笑）"
+            }
+        },
+        {
+            id: "you_will_be_fine",
+            elements: {
+                name: "你",
+                text: "当然不会，好吧。我们现在在哪里？"
+            }
+        },
+        {
+            id: "lightling_location",
+            elements: {
+                name: "光泠",
+                text: "斑牛镇。（微笑） 看来您还需要一点时间。（微笑）"
+            }
+        },
+        {
+            id: "resting",
+            elements: {
+                name: "旁白",
+                text: "抛开噩梦的余韵，记忆逐渐清晰起来。自从离开废墟，我发现自己对外界的感知变得十分敏锐而清晰，仿佛世间万物都在向我袒露心扉。也好像能听见某些神秘的絮语，不知从何处传来。"
+            }
+        },
+        {
+            id: "lightling_clue",
+            elements: {
+                name: "光泠",
+                text: "光泠说，我会受到‘关键之物’的吸引。于是，听从内心的声音，跟随光泠的指引，我们来到了这个名为‘斑牛镇’的地方。"
+            }
+        },
+        {
+            id: "lightling_2",
+            elements: {
+                name: "光泠",
+                text: "在这里找到了可以下榻的地方，便决定先稍作休息，养精蓄锐。既然被指引到了这里，那么确有必要好好探索一番。"
+            }
+        },
+        {
+            id: "you_rest",
+            elements: {
+                name: "你",
+                text: "你也需要好好休息一下吧。"
+            }
+        },
+        {
+            id: "lightling_response",
+            elements: {
+                name: "光泠",
+                text: "我已经休息得足够，谢谢您。（笑）"
+            }
+        },
+        {
+            id: "you_ask",
+            elements: {
+                name: "你",
+                text: "你去过镇上了么？"
+            }
+        },
+        {
+            id: "lightling_no",
+            elements: {
+                name: "光泠",
+                text: "不，我一直在您身边，等您醒来。（微笑）"
+            }
+        },
+        {
+            id: "knowledge_of_town",
+            elements: {
+                name: "你",
+                text: "对于这里，你知道多少？"
+            }
+        },
+        {
+            id: "lightling_info",
+            elements: {
+                name: "光泠",
+                text: "斑牛镇看上去就是个很普通的小镇。居民自给自足，安居乐业，对自己的生活感到很满足。（微笑）"
+            }
+        },
+        {
+            id: "you_wonder",
+            elements: {
+                name: "你",
+                text: "听上去不错。"
+            }
+        },
+        {
+            id: "lightling_wonder",
+            elements: {
+                name: "光泠",
+                text: "是的。似乎是这样。（微笑）"
+            }
+        },
+        {
+            id: "lightling_3",
+            elements: {
+                name: "光泠",
+                text: "似乎？"
+            }
+        },
+        {
+            id: "you_acknowledge",
+            elements: {
+                name: "你",
+                text: "我们可以出去逛逛，探索一下这里。（笑）"
+            }
+        },
+        {
+            id: "lightling_response_2",
+            elements: {
+                name: "光泠",
+                text: "嗯，谢谢你陪着我。（微笑）"
+            }
+        },
+        {
+            id: "lightling_4",
+            elements: {
+                name: "光泠",
+                text: "您已经谢过了。（微笑）"
+            }
+        },
+        {
+            id: "humor_conversation",
+            elements: {
+                name: "你",
+                text: "之前是因为你耐心等我缓过神，这次是因为你一直和我在一起。如果我真的被噩梦吓哭了，确实得劳烦你安慰我了。"
+            }
+        },
+        {
+            id: "lightling_laugh",
+            elements: {
+                name: "光泠",
+                text: "幸好您胆量足够。（微笑）"
+            }
+        },
+        {
+            id: "lightling_suggestion",
+            elements: {
+                name: "光泠",
+                text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。（笑）"
+            }
+        },
+        {
+            id: "you_tease",
+            elements: {
+                name: "你",
+                text: "哄我睡着吗？搞不好又要做噩梦了。"
+            }
+        },
+        {
+            id: "lightling_magic",
+            elements: {
+                name: "光泠",
+                text: "那我就用神奇的魔法，把噩梦赶走。（微笑）"
+            }
+        },
+        {
+            id: "you_decline",
+            elements: {
+                name: "你",
+                text: "不过我再怎么样也不是什么小孩子了。"
+            }
+        },
+        {
+            id: "lightling_playful",
+            elements: {
+                name: "光泠",
+                text: "是吗？那也可以用大人的方法。（微笑）"
+            }
+        },
+        {
+            id: "you_question",
+            elements: {
+                name: "你",
+                text: "嗯？那是什么？"
+            }
+        },
+        {
+            id: "lightling_secret",
+            elements: {
+                name: "光泠",
+                text: "既然您没有被吓哭，那么请原谅我暂时保密。（微笑）"
+            }
+        },
+        {
+            id: "you_sigh",
+            elements: {
+                name: "你",
+                text: "可惜了，我还想体验一下的。或许下次真的该哭一哭了。"
+            }
+        },
+        {
+            id: "lightling_refuse",
+            elements: {
+                name: "光泠",
+                text: "拒绝假哭。（笑）"
+            }
+        },
+        {
+            id: "you_thank",
+            elements: {
+                name: "你",
+                text: "到时候再说吧。总之谢谢你陪我说这些。"
+            }
+        },
+        {
+            id: "lightling_repeated_thanks",
+            elements: {
+                name: "光泠",
+                text: "已经是第三次说谢谢了。（微笑）"
+            }
+        },
+        {
+            id: "you_explain",
+            elements: {
+                name: "你",
+                text: "唉，我总是忍不住想要表达我的感激之情。"
+            }
+        },
+        {
+            id: "lightling_welcome",
+            elements: {
+                name: "光泠",
+                text: "那么请您尽管说吧！我并不讨厌。（微笑）"
+            }
+        },
+        {
+            id: "you_agree",
+            elements: {
+                name: "你",
+                text: "好好好，我会的。"
             }
         }
     ]
