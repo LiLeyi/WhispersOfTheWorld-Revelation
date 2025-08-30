@@ -434,7 +434,7 @@ class GameScene {
         console.log("已保存背景到localStorage:", backgroundToUse);
     }
 
-    private updateMusic(element: SceneElement): void {
+        private updateMusic(element: SceneElement): void {
         // 更新音效
         if (element.soundEffect) {
             this.audioManager.playSoundEffect(element.soundEffect);
@@ -445,7 +445,6 @@ class GameScene {
             this.audioManager.updateBackgroundMusic(element.bgm);
         }
     }
-
     private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
