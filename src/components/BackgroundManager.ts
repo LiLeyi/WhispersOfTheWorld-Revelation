@@ -33,15 +33,15 @@ export class BackgroundManager {
      * @returns 完整的背景图片URL
      */
     private getBackgroundImagePath(backgroundPath: string): string {
-        // 如果是绝对路径（以/开头），则直接返回
-        if (backgroundPath.startsWith('/')) {
-            return backgroundPath;
-        }
-        
-        // 构造相对于当前页面的路径
-        // 在生产环境中，我们需要向上两级目录然后进入assets/images/background
-        return `../../assets/images/background/${backgroundPath}`;
+    // 如果是绝对路径（以/开头），则直接返回
+    if (backgroundPath.startsWith('/')) {
+        return backgroundPath;
     }
+    
+    // 构造相对于当前页面的路径
+    // 在game_scenes目录中，需要向上三级目录然后进入assets/images/background
+    return `../../../assets/images/background/${backgroundPath}`;
+}
 
     /**
      * 设置背景图片
