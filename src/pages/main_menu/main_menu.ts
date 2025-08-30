@@ -10,6 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (startButton) {
         startButton.addEventListener('click', function() {
+            // 检查是否登录
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+    alert("请先登录再开始游戏！");
+    window.location.href = "../login_page/login.html";
+    return;
+    }
+    
             // 尝试读取存档，如果失败则重新开始
             try {
                 const lastGamePage = localStorage.getItem("lastGamePage");

@@ -10,7 +10,9 @@ module.exports = (env, argv) => {
       index: './src/index.ts',
       main_menu: './src/pages/main_menu/main_menu.ts',
       archive_page: './src/pages/archive_page/archive_page.ts',
-      game_scene: './src/pages/game_scenes/game_scenes.ts'
+      game_scene: './src/pages/game_scenes/game_scenes.ts',
+      login: './src/pages/login_page/login.ts',
+      register: './src/pages/login_page/register.ts'
     },
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-map' : 'inline-source-map',
@@ -84,6 +86,16 @@ module.exports = (env, argv) => {
         template: './src/pages/game_scenes/game_scenes.html',
         filename: 'pages/game_scenes/game_scenes.html',
         chunks: ['game_scene'],
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/login_page/login.html',
+        filename: 'pages/login_page/login.html',
+        chunks: ['login'],
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/login_page/register.html',
+        filename: 'pages/login_page/register.html',
+        chunks: ['register'],
       }),
       new CopyWebpackPlugin({
         patterns: [
