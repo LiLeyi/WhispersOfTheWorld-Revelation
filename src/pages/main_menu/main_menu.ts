@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (settingButton) {
-        settingButton.addEventListener('click', function() {
-            alert('设置功能尚未实现');
-        });
-    }
+    settingButton.addEventListener('click', function() {
+        window.location.href = '../settings/settings.html';
+    });
+}
 
     if (exitButton) {
         exitButton.addEventListener('click', function() {

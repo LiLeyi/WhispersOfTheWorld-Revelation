@@ -15,3 +15,7 @@ build
 # IDE and editor files
 .vscode
 .idea
+
+# Python cache directories
+**/__pycache__/
+editor/story-editor-env
