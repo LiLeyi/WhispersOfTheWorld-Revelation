@@ -1,84 +1,149 @@
-body {
+/* 全局样式重置 */
+* {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
-    color: #fff;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 20% 30%, rgba(92, 37, 141, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(66, 165, 245, 0.2) 0%, transparent 40%);
-    z-index: -1;
-}
-
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    padding: 0 8%;
+    padding: 0;
     box-sizing: border-box;
 }
 
-.title-section {
+body {
+    font-family: 'KaiTi', '楷体', Arial, sans-serif;
+   
+   background-image: '插图.png';
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* 主容器 */
+.main-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* 页面标题 */
+.page-title {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+}
+
+.page-title h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.2em;
+    background: linear-gradient(45deg, #031719, #f22e2e, #1f2037, #f23939);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 8s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* 插图面板 */
+.illustration-panel {
+    width: 100%;
+    height: 100vh;
+    
+    
+    border-right: 2px solid ;
+  
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    overflow: hidden;
+}
+
+.illustration-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('插图.png') center/cover;
+    opacity: 1;
+    z-index: -1;
+}
+
+/* 右侧内容区域 */
+
+
+/* 顶部Logo面板 */
+.logo-panel {
+    width: 60%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('logo.png') center/cover no-repeat;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+/* 菜单容器 */
+.menu-container {
     flex: 1;
-    text-align: left;
-    animation: fadeInLeft 1s ease-out;
-    padding-left: 50px;
-}
-
-.game-title {
-    font-family: 'ZCOOL KuaiLe', cursive;
-    font-size: 5rem;
-    margin: 0;
-    background: linear-gradient(to right, #f8f8f8, #a0a0a0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    line-height: 1.2;
-}
-
-.game-title span {
-    display: block;
-    font-size: 6rem;
-    background: linear-gradient(to right, #ffffff, #64b5f6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.menu-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 300px;
-    animation: fadeInRight 1s ease-out;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
 }
 
+/* 菜单按钮基础样式 */
 .menu-button {
-    padding: 18px 30px;
-    font-size: 1.4rem;
-    background: rgba(30, 30, 46, 0.7);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
     cursor: pointer;
-    transition: all 0.4s ease;
-    color: #e0e0e0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    min-width: 180px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .menu-button::before {
@@ -88,68 +153,179 @@ body::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-}
-
-.menu-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.15);
-    border-color: rgba(100, 181, 246, 0.5);
-    background: rgba(42, 42, 70, 0.8);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
 }
 
 .menu-button:hover::before {
     left: 100%;
 }
 
-.menu-button span {
-    position: relative;
-    z-index: 1;
-    display: block;
+.menu-button:hover {
+    transform: translateX(-10px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 1);
 }
 
-@keyframes fadeInLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.menu-button:active {
+    transform: translateX(-5px) scale(0.98);
 }
 
-@keyframes fadeInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+/* 阶梯式布局 - 每个按钮向左偏移 */
+#aboutUsButton {
+    margin-right: 20px;
+}
+
+#startButton {
+    margin-right: 120px;
+}
+
+#loadButton {
+    margin-right: 220px;
+}
+
+#settingButton {
+    margin-right: 320px;
+}
+
+#achieveButton {
+    margin-right: 420px;
+}
+
+#CGButton {
+    margin-right: 520px;
+}
+
+#MusicButton {
+    margin-right: 620px;
+}
+
+#exitButton {
+    margin-right: 720px;
+}
+
+/* 特殊按钮样式 */
+#aboutUsButton {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+#aboutUsButton:hover {
+    background: linear-gradient(135deg, #ff5252, #d63031);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+}
+
+#startButton {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+}
+
+#startButton:hover {
+    background: linear-gradient(135deg, #26d0ce, #2c3e50);
+}
+
+#exitButton {
+    background: linear-gradient(135deg, #ff7675, #d63031);
+    color: white;
+}
+
+#exitButton:hover {
+    background: linear-gradient(135deg, #e17055, #c44569);
 }
 
 /* 响应式设计 */
-@media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        padding: 0 5%;
+@media (max-width: 1200px) {
+    .illustration-panel {
+        width: 40%;
     }
     
-    .title-section {
-        margin-bottom: 50px;
-        padding-left: 0;
+    .menu-button {
+        min-width: 160px;
+        padding: 12px 25px;
+        font-size: 14px;
     }
     
-    .game-title {
-        font-size: 3.5rem;
+    .page-title h1 {
+        font-size: 2.8rem;
     }
     
-    .game-title span {
-        font-size: 4rem;
+    .logo-panel {
+        width: 70%;
+        height: 45px;
     }
 }
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .illustration-panel {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .content-area {
+        padding: 20px;
+    }
+    
+    .menu-container {
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .menu-button {
+        margin-right: 0 !important;
+        min-width: 200px;
+    }
+    
+    .page-title h1 {
+        font-size: 2rem;
+    }
+    
+    .logo-panel {
+        width: 80%;
+        height: 40px;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-button {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.menu-button:nth-child(1) { animation-delay: 0.1s; }
+.menu-button:nth-child(2) { animation-delay: 0.2s; }
+.menu-button:nth-child(3) { animation-delay: 0.3s; }
+.menu-button:nth-child(4) { animation-delay: 0.4s; }
+.menu-button:nth-child(5) { animation-delay: 0.5s; }
+.menu-button:nth-child(6) { animation-delay: 0.6s; }
+.menu-button:nth-child(7) { animation-delay: 0.7s; }
+.menu-button:nth-child(8) { animation-delay: 0.8s; }
+
+/* 背景动画 */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+

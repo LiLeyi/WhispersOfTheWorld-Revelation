@@ -1,39 +1,70 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>世界的低语：启示录</title>
-<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界低语 - 启示录</title>
+    <link rel="stylesheet" href="main_menu.css">
 </head>
 <body>
+    <div class="main-container">
+        <!-- 页面标题 -->
+        <div class="page-title">
+            <h1>世界的低语—启示录</h1>
+        </div>
 
-<div class="container">
-    <div class="title-section">
-        <h1 class="game-title">世界的低语：<span>启示录</span></h1>
-    </div>
-    
-    <div class="menu-section">
-        <div class="menu-button" id="startButton">
-            <span>开始游戏</span>
+        <!-- 左侧插图区域 -->
+        <div class="illustration-panel">
+            <!-- 图片链接位置：插图.jpg -->
+             <img='插图.png';>
         </div>
-        <div class="menu-button" id="loadButton">
-            <span>存档</span>
-        </div>
-        <div class="menu-button" id="settingButton">
-            <span>设置</span>
-        </div>
-        <div class="menu-button" id="aboutUsButton">
-            <span>关于</span>
-        </div>
-        <div class="menu-button" id="exitButton">
-            <span>退出</span>
-        </div>
-    </div>
-</div>
 
-<audio id="bgMusic" autoplay loop>
-    <source src="#" type="audio/ogg">
-</audio>
+        <!-- 右侧内容区域 -->
+        
+            <!-- 顶部Logo区域 -->
+            <div class="logo-panel">
+                <!-- 图片链接位置：logo.jpg -->
+            </div>
+
+            <!-- 菜单按钮区域 -->
+            <div class="menu-container">
+                <!-- 关于我们按钮（新增） -->
+                <button class="menu-button" id="aboutUsButton">
+                    <span>About Us</span>
+                </button>
+
+                <!-- 主要菜单按钮 -->
+                <button class="menu-button" id="startButton">
+                    <span>New game</span>
+                </button>
+
+                <button class="menu-button" id="loadButton">
+                    <span>Load</span>
+                </button>
+
+                <button class="menu-button" id="settingButton">
+                    <span>Config</span>
+                </button>
+
+                <button class="menu-button" id="achieveButton">
+                    <span>Achievement</span>
+                </button>
+
+                <button class="menu-button" id="CGButton">
+                    <span>CG library</span>
+                </button>
+
+                <button class="menu-button" id="MusicButton">
+                    <span>Music library</span>
+                </button>
+
+                <button class="menu-button" id="exitButton">
+                    <span>Exit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main_menu.ts"></script>
 </body>
 </html>
