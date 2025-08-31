@@ -21,50 +21,6 @@ const scene: Scene = {
         }
     },
     {
-        id: "test_game",
-        elements: {
-            name: "旁白",
-            text: "小游戏测试"
-        },
-        game: {
-            id: "jumping_game",
-            config: {
-                platformCount: 5,
-                minPlatformWidth: 200,
-                maxPlatformWidth: 400,
-                gravity: 0.04,
-                maxJumpVelocity: 7,
-                aimMinAngle: -Math.PI / 3,  // 60度向上
-                aimMaxAngle: -Math.PI / 12,  // 30度向上
-                aimSpeed: 0.005,
-            },
-            end: [
-                {
-                    condition: (score: number) => score >= 5,
-                    next: "test1"
-                },
-                {
-                    condition: (score: number) => true, // 默认条件，总是为真
-                    next: "test2"
-                }
-            ]
-        }
-    },
-    {
-        id: "test1",
-        elements: {
-            name: "旁白",
-            text: "拿到了五分！"
-        }
-    },
-    {
-        id: "test2",
-        elements: {
-            name: "旁白",
-            text: "默认qwq"
-        }
-    },
-    {
         id: "node3",
         elements: {
             name: "旁白",

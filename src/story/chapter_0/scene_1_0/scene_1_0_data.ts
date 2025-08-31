@@ -126,7 +126,7 @@ const scene: Scene = {
                 text: "轰鸣般的毁灭之音伴随着热浪，咆哮着吞没了一切。"
             }
         },
-                {
+        {
             id: "explosion_3",
             elements: {
                 name: "旁白",
@@ -329,7 +329,7 @@ const scene: Scene = {
                 text: "之前是因为你耐心等我缓过神，这次是因为你一直和我在一起。"
             }
         },
-         {
+        {
             id: "humor_conversation_2",
             elements: {
                 name: "你",
@@ -439,9 +439,6 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "好好好，我会的。"
-            },
-            action: () => {
-                alert('测试结束')
             }
         },
         {
@@ -743,21 +740,21 @@ const scene: Scene = {
             elements: {
                 name: "？",
                 text: "我看见你了，行走在深渊之索上的人。"
-},
+            },
         },
         {
             id: "mysterious_person_5",
             elements: {
                 name: "？",
                 text: "你空无一物，却背负全世界的重量。"
-},
+            },
         },
         {
             id: "mysterious_person_5_1",
             elements: {
                 name: "旁白",
                 text: "你不知自己是谁，却被迫回答为何。"
-},
+            },
         },
         {
             id: "mysterious_person_6",
@@ -1212,6 +1209,69 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "嗯。（无表情）"
+            }
+        },
+        {
+            id: "you_11",
+            elements: {
+                name: "旁白",
+                text: "前面是一片废墟，进入时要多加小心"
+            }
+        },
+        {
+            id: "test_game",
+            elements: {
+                name: "旁白",
+                text: "小游戏测试"
+            },
+            game: {
+                id: "jumping_game",
+                config: {
+                    platformCount: 5,
+                    minPlatformWidth: 200,
+                    maxPlatformWidth: 400,
+                    gravity: 0.04,
+                    maxJumpVelocity: 7,
+                    aimMinAngle: -Math.PI / 3,  // 60度向上
+                    aimMaxAngle: -Math.PI / 12,  // 30度向上
+                    aimSpeed: 0.005,
+                },
+                end: [
+                    {
+                        condition: (score: number) => score >= 5,
+                        next: "test1"
+                    },
+                    {
+                        condition: (score: number) => true, // 默认条件，总是为真
+                        next: "test2"
+                    }
+                ]
+            }
+        },
+        {
+            id: "test1",
+            elements: {
+                name: "旁白",
+                text: "拿到了五分！"
+            },
+            next: "test_end"
+        },
+        {
+            id: "test2",
+            elements: {
+                name: "旁白",
+                text: "未拿到五分"
+            },
+            next: "test_end"
+        },
+        {
+            id: "test_end",
+            elements: {
+                name: "旁白",
+                text: "测试完成"
+            },
+            action: () => {
+                alert('测试完成')
             }
         }
     ]

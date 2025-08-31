@@ -7,8 +7,8 @@
 
 body {
     font-family: 'KaiTi', '楷体', Arial, sans-serif;
-   
-   background-image: '插图.png';
+
+    background-image: '../../assets/images/background/sc0.1/0-1-1.jpg';
     min-height: 100vh;
     overflow: hidden;
 }
@@ -47,9 +47,12 @@ body {
 }
 
 @keyframes titleGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
@@ -59,10 +62,10 @@ body {
 .illustration-panel {
     width: 100%;
     height: 100vh;
-    
-    
-    border-right: 2px solid ;
-  
+
+
+    border-right: 2px solid;
+
     align-items: center;
     justify-content: center;
     position: absolute;
@@ -76,7 +79,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('插图.png') center/cover;
+    background-image: '../../assets/images/background/sc0.1/0-1-1.jpg' center/cover;
     opacity: 1;
     z-index: -1;
 }
@@ -110,7 +113,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('logo.png') center/cover no-repeat;
+    /* background: url('logo.png') center/cover no-repeat; */
     opacity: 0.8;
     z-index: 1;
 }
@@ -240,17 +243,17 @@ body {
     .illustration-panel {
         width: 40%;
     }
-    
+
     .menu-button {
         min-width: 160px;
         padding: 12px 25px;
         font-size: 14px;
     }
-    
+
     .page-title h1 {
         font-size: 2.8rem;
     }
-    
+
     .logo-panel {
         width: 70%;
         height: 45px;
@@ -261,30 +264,30 @@ body {
     .main-container {
         flex-direction: column;
     }
-    
+
     .illustration-panel {
         width: 100%;
         height: 200px;
     }
-    
+
     .content-area {
         padding: 20px;
     }
-    
+
     .menu-container {
         align-items: center;
         gap: 10px;
     }
-    
+
     .menu-button {
         margin-right: 0 !important;
         min-width: 200px;
     }
-    
+
     .page-title h1 {
         font-size: 2rem;
     }
-    
+
     .logo-panel {
         width: 80%;
         height: 40px;
@@ -297,6 +300,7 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -307,25 +311,49 @@ body {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-.menu-button:nth-child(1) { animation-delay: 0.1s; }
-.menu-button:nth-child(2) { animation-delay: 0.2s; }
-.menu-button:nth-child(3) { animation-delay: 0.3s; }
-.menu-button:nth-child(4) { animation-delay: 0.4s; }
-.menu-button:nth-child(5) { animation-delay: 0.5s; }
-.menu-button:nth-child(6) { animation-delay: 0.6s; }
-.menu-button:nth-child(7) { animation-delay: 0.7s; }
-.menu-button:nth-child(8) { animation-delay: 0.8s; }
+.menu-button:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.menu-button:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.menu-button:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.menu-button:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.menu-button:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.menu-button:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.menu-button:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.menu-button:nth-child(8) {
+    animation-delay: 0.8s;
+}
 
 /* 背景动画 */
 @keyframes gradientShift {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
 }
-
