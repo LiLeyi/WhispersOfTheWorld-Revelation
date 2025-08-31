@@ -7,6 +7,7 @@ import { SpriteManager } from '../../components/SpriteManager';
 import { ChoiceManager } from '../../components/ChoiceManager';
 import { SceneRegistry } from '../../story/SceneRegistry';
 import { ArchiveManager } from '../../components/ArchiveManager';
+import { JumpingGame } from '../mini_games/jumping_game/JumpingGame';
 
 // 注意：不要在这里导入所有场景数据，而是在需要时动态导入
 
@@ -29,6 +30,9 @@ class GameScene {
         text: "",
     };
 
+    // 在GameScene类中添加小游戏容器
+    private miniGameContainer: HTMLDivElement = document.createElement('div');
+
     constructor() {
         this.backgroundManager = new BackgroundManager();
         this.textManager = new TextManager();
@@ -39,6 +43,10 @@ class GameScene {
     }
 
     private init(): void {
+        // 创建小游戏容器
+        this.miniGameContainer.id = 'mini-game-container';
+        this.miniGameContainer.style.display = 'none';
+        document.body.appendChild(this.miniGameContainer);
         console.log("[GameScene] 开始初始化游戏场景");
 
         // 从URL参数获取存档ID
@@ -336,6 +344,12 @@ class GameScene {
             return;
         }
 
+        // 检查是否有小游戏需要执行
+        if (node.game) {
+            this.handleMiniGame(node);
+            return;
+        }
+
         // 执行节点动作（仅在动作条件满足时执行）
         if (node.action && (!node.actionCondition || node.actionCondition())) {
             node.action();
@@ -434,7 +448,7 @@ class GameScene {
         console.log("已保存背景到localStorage:", backgroundToUse);
     }
 
-        private updateMusic(element: SceneElement): void {
+    private updateMusic(element: SceneElement): void {
         // 更新音效
         if (element.soundEffect) {
             this.audioManager.playSoundEffect(element.soundEffect);
@@ -445,6 +459,7 @@ class GameScene {
             this.audioManager.updateBackgroundMusic(element.bgm);
         }
     }
+
     private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
@@ -472,6 +487,122 @@ class GameScene {
             // 出错时跳转到主菜单
             window.location.href = '../main_menu/main_menu.html';
         });
+    }
+
+    private handleMiniGame(node: SceneNode): void {
+        // 检查是否是小游戏节点
+        if (!node.game) {
+            console.error('尝试处理小游戏，但节点没有game属性');
+            return;
+        }
+
+        // 保存当前的点击处理函数
+        const moveElement = document.getElementById("move");
+        const dialogElement = document.getElementById("dialog");
+        const textBoxElement = document.getElementById("text-box");
+        
+        const originalMoveHandler = moveElement ? moveElement.onclick : null;
+        const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
+        const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
+
+        // 隐藏对话框和其他游戏场景元素
+        const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
+        dialogElements.forEach(el => {
+            (el as HTMLElement).style.display = 'none';
+        });
+
+        // 禁用场景点击事件
+        if (moveElement) moveElement.onclick = null;
+        if (dialogElement) dialogElement.onclick = null;
+        if (textBoxElement) textBoxElement.onclick = null;
+
+        // 显示小游戏容器并隐藏其他元素
+        this.miniGameContainer.style.display = 'block';
+        this.miniGameContainer.style.position = 'fixed';
+        this.miniGameContainer.style.top = '0';
+        this.miniGameContainer.style.left = '0';
+        this.miniGameContainer.style.width = '100%';
+        this.miniGameContainer.style.height = '100%';
+        this.miniGameContainer.style.zIndex = '1000';
+
+        // 创建游戏容器，使用正确的CSS路径
+        this.miniGameContainer.innerHTML = `
+            <div id="jumping-game-container" style="width:100%;height:100%;position:relative;">
+                <canvas id="game-canvas" style="width:100%;height:100%;display:block;"></canvas>
+                <div id="game-ui" style="position:absolute;top:10px;left:10px;color:white;font-family:Arial,sans-serif;z-index:10;">
+                    <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.5);padding:5px 10px;border-radius:5px;">分数: 0</div>
+                    <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);padding:20px;border-radius:10px;text-align:center;display:none;z-index:20;">
+                        <h2>游戏结束</h2>
+                        <div id="final-score" style="margin-bottom:10px;">最终得分: 0</div>
+                        <button id="restart-button" style="padding:10px 20px;font-size:16px;border:none;border-radius:5px;background:#4CAF50;color:white;cursor:pointer;margin-top:10px;">重新开始</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // 确保DOM已更新后再创建游戏实例
+        setTimeout(() => {
+                        // 创建游戏实例
+            const game = new JumpingGame((score: number) => {
+                // 游戏结束后处理跳转
+                this.miniGameContainer.style.display = 'none';
+                
+                // 重新显示对话框元素
+                dialogElements.forEach(el => {
+                    (el as HTMLElement).style.display = '';
+                });
+
+                // 恢复场景点击事件
+                if (moveElement) moveElement.onclick = originalMoveHandler;
+                if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+
+                // 根据分数跳转到相应的节点
+                let nextNodeId: string = "default";
+                
+                // 如果有新的end数组配置，使用新方式处理跳转
+                if (node.game!.end && Array.isArray(node.game!.end)) {
+                    // 遍历end数组找到符合条件的跳转
+                    for (const endConfig of node.game!.end) {
+                        if (endConfig.condition(score)) {
+                            nextNodeId = endConfig.next;
+                            break;
+                        }
+                    }
+                } 
+                // 否则使用旧的next对象方式（向后兼容）
+                else if (node.game!.next) {
+                    nextNodeId = node.game!.next.default || Object.values(node.game!.next)[0];
+                    
+                    // 查找符合分数条件的节点
+                    for (const scoreThreshold in node.game!.next) {
+                        if (scoreThreshold !== 'default' && score >= parseInt(scoreThreshold)) {
+                            nextNodeId = node.game!.next[scoreThreshold];
+                        }
+                    }
+                }
+
+                // 跳转到下一个节点而不是场景
+                // 查找目标节点在当前场景中的索引
+                if (this.currentScene) {
+                    const targetNodeIndex = this.currentScene.nodes.findIndex(n => n.id === nextNodeId);
+                    if (targetNodeIndex !== -1) {
+                        // 如果找到了节点，跳转到该节点
+                        this.currentNodeIndex = targetNodeIndex;
+                        // 更新点击次数，确保存档正确
+                        localStorage.setItem("nowclick", targetNodeIndex.toString());
+                        // 渲染新节点
+                        this.renderCurrentNode();
+                    } else {
+                        // 如果没找到节点，尝试作为场景ID处理
+                        this.navigateToScene(nextNodeId);
+                    }
+                } else {
+                    // 如果没有当前场景，尝试作为场景ID处理
+                    this.navigateToScene(nextNodeId);
+                }
+            }, node.game!.config);
+        }, 0);
     }
 
     private bindEvents(): void {
