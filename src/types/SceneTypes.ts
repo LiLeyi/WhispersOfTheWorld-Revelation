@@ -1,4 +1,4 @@
-import { JumpingGameConfig } from "./MiniGameConfig";
+import { CardGameConfig, JumpingGameConfig } from "./MiniGameConfig";
 
 // 场景元素接口
 export interface SceneElement {
@@ -34,7 +34,7 @@ export interface SceneNode {
     action?: () => void;                // 节点动作。进入节点时执行的动作
     game?: {
         id: string;                     // 游戏ID
-        config: JumpingGameConfig;      // 游戏配置，有其他的配置需加在这里
+        config: JumpingGameConfig | CardGameConfig;      // 游戏配置，有其他的配置需加在这里
         end?: Array<{                   // 分数跳转配置数组
             condition: (score: number) => boolean; // 分数的条件
             next: string;               // 跳转的节点

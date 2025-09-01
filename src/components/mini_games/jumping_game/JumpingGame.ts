@@ -1,5 +1,5 @@
 import { JumpingGameConfig } from "../../../types/MiniGameConfig";
-import { MiniGame } from "../../../components/MiniGame";
+import { MiniGame } from "../../MiniGame";
 
 // 玩家类
 class Player {
@@ -92,6 +92,19 @@ interface JumpingGameState {
 
 // 微信跳一跳小游戏核心逻辑
 class JumpingGame extends MiniGame {
+    static readonly HTML_TEMPLATE = `
+                    <div id="jumping-game-container" style="width:100%;height:100%;position:relative;">
+                    <canvas id="game-canvas" style="width:100%;height:100%;display:block;"></canvas>
+                    <div id="game-ui" style="position:absolute;top:10px;left:10px;color:white;font-family:Arial,sans-serif;z-index:10;">
+                        <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.5);padding:5px 10px;border-radius:5px;">分数: 0</div>
+                        <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);padding:20px;border-radius:10px;text-align:center;display:none;z-index:20;">
+                            <h2>游戏结束</h2>
+                            <div id="final-score" style="margin-bottom:10px;">最终得分: 0</div>
+                            <button id="restart-button" style="padding:10px 20px;font-size:16px;border:none;border-radius:5px;background:#4CAF50;color:white;cursor:pointer;margin-top:10px;">重新开始</button>
+                        </div>
+                    </div>
+                </div>
+    `
     private finalScoreElement: HTMLElement | null = null;
     private restartButton: HTMLButtonElement | null = null;
 
@@ -191,27 +204,27 @@ class JumpingGame extends MiniGame {
             this.canvas.height = this.canvas.clientHeight;
 
             console.log(`Canvas尺寸调整: ${oldWidth}x${oldHeight} -> ${this.canvas.width}x${this.canvas.height}`);
-            
+
             // 当窗口大小改变时，需要重新调整平台和玩家位置
             this.adjustPlatformsAndPlayerOnResize(oldHeight);
         } else {
             console.warn('Canvas元素不存在，无法调整尺寸');
         }
     }
-    
+
     // 窗口大小调整时调整平台和玩家位置
     private adjustPlatformsAndPlayerOnResize(oldHeight: number) {
         if (!this.canvas) return;
-        
+
         const newHeight = this.canvas.height;
         const heightDiff = newHeight - oldHeight;
-        
+
         if (heightDiff !== 0) {
             // 调整所有平台的Y坐标
             for (const platform of this.state.platforms) {
                 platform.y += heightDiff;
             }
-            
+
             // 调整玩家Y坐标以匹配平台位置
             if (this.state.player.isOnPlatform && this.state.platforms.length > 0) {
                 // 找到玩家当前所在的平台并相应调整玩家位置
@@ -572,7 +585,7 @@ class JumpingGame extends MiniGame {
         // this.ctx.fillText(`Jump Count: ${this.state.jumpCount}`, 10, 100);
         // this.ctx.fillText(`Aim Angle: ${this.state.aimAngle.toFixed(2)}`, 10, 120);
     }
-    
+
     // 绘制玩家视线提示
     private drawAimIndicator() {
         if (!this.ctx) return;

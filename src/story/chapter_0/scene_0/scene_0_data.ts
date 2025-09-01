@@ -31,50 +31,97 @@ const scene: Scene = {
         //     video: "test.mp4", // 视频文件应放在 src/assets/video/ 目录下
         //     next: "node3" // 可选，视频播放完成后跳转到的节点
         // },
-        // {
-        //     id: "test_game",
-        //     elements: {
-        //         name: "旁白",
-        //         text: "小游戏测试"
-        //     },
-        //     game: {
-        //         id: "jumping_game",
-        //         config: {
-        //             platformCount: 5,
-        //             minPlatformWidth: 200,
-        //             maxPlatformWidth: 400,
-        //             gravity: 0.04,
-        //             maxJumpVelocity: 7,
-        //             aimMinAngle: -Math.PI / 3,  // 60度向上
-        //             aimMaxAngle: -Math.PI / 12,  // 30度向上
-        //             aimSpeed: 0.005,
-        //         },
-        //         end: [
-        //             {
-        //                 condition: (score: number) => score >= 5,
-        //                 next: "test1"
-        //             },
-        //             {
-        //                 condition: (score: number) => true, // 默认条件，总是为真
-        //                 next: "test2"
-        //             }
-        //         ]
-        //     }
-        // },
-        // {
-        //     id: "test1",
-        //     elements: {
-        //         name: "旁白",
-        //         text: "拿到了五分！"
-        //     }
-        // },
-        // {
-        //     id: "test2",
-        //     elements: {
-        //         name: "旁白",
-        //         text: "未拿到五分"
-        //     }
-        // },
+        {
+            id: "test_game",
+            elements: {
+                name: "旁白",
+                text: "小游戏测试"
+            },
+            game: {
+                id: "card_game",
+                config: {
+                    player: {
+                        actionPoints: 3,
+                        hp: 30,
+                        maxHp: 30,
+                        deck: {
+                            // 攻击卡牌
+                            'punch': 3,      // 拳击 x3
+                            'kick': 2,       // 踢击 x2
+                            'combo': 2,      // 连击 x2
+                            'uppercut': 1,   // 上勾拳 x1
+                            'jab_1': 1,      // 刺拳II x1
+
+                            // 防御卡牌
+                            'block': 2,      // 格挡 x2
+                            'dodge': 1,      // 闪避 x1
+                            'guard_1': 1,    // 严密防守II x1
+                            'counter': 1,    // 反击 x1
+
+                            // 特殊卡牌
+                            'rest': 2,       // 休息 x2
+                            'focus': 1,      // 专注 x1
+                            'adrenaline': 1, // 肾上腺素 x1
+                            'medkit': 1,     // 医疗包 x1
+                            'feint': 1       // 虚招 x1
+                        },
+                        drawCount: 2,           // 玩家每回合抽2张牌
+                        initialDrawCount: 4     // 玩家开始时抽4张牌
+                    },
+                    opponent: {
+                        actionPoints: 3,
+                        hp: 30,
+                        maxHp: 30,
+                        deck: {
+                            // 攻击卡牌
+                            'punch': 2,      // 拳击 x2
+                            'kick': 3,       // 踜击 x3
+                            'combo': 2,      // 连击 x2
+                            'hook_1': 1,     // 勾拳II x1
+                            'haymaker': 1,   // 重拳 x1
+
+                            // 防御卡牌
+                            'block': 2,      // 格挡 x2
+                            'dodge': 1,      // 闪避 x1
+                            'taunt': 1,      // 嘲讽 x1
+
+                            // 特殊卡牌
+                            'rest': 1,       // 休息 x1
+                            'berserk': 1,    // 狂暴 x1
+                            'stun': 1,       // 眩晕 x1
+                            'sacrifice': 1,  // 牺牲 x1
+                            'second_wind': 1 // 回光返照 x1
+                        },
+                        drawCount: 1,           // 对手每回合抽1张牌
+                        initialDrawCount: 3     // 对手开始时抽3张牌
+                    }
+                },
+                end: [
+                    {
+                        condition: (score: number) => score >= 1,
+                        next: "test1"
+                    },
+                    {
+                        condition: (score: number) => true, // 默认条件，总是为真
+                        next: "test2"
+                    }
+                ]
+            }
+        },
+        {
+            id: "test1",
+            elements: {
+                name: "旁白",
+                text: "拿到了一分！"
+            }
+        },
+        {
+            id: "test2",
+            elements: {
+                name: "旁白",
+                text: "未拿到五分"
+            }
+        },
         {
             id: "node3",
             elements: {

@@ -121,15 +121,6 @@ module.exports = (env, argv) => {
       }),
 
 
-      
-      // 小游戏
-      new HtmlWebpackPlugin({
-        template: './src/pages/mini_games/jumping_game/index.html',
-        filename: 'pages/mini_games/jumping_game/index.html',
-        chunks: [],
-      }),
-
-
 
       new HtmlWebpackPlugin({
         template: './src/pages/about_us/detail_page/hanxutong/index.html',
