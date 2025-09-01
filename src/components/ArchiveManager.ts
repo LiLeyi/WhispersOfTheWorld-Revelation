@@ -1,3 +1,6 @@
+import { CardManager } from "./mini_games/card_game/CardManager";
+import { Card } from './mini_games/card_game/models/Card';
+
 /**
  * 存档管理器
  * 用于管理游戏中的物品、角色好感度等数据
@@ -9,6 +12,7 @@ export class ArchiveManager {
         items: Record<string, boolean>;
         characterAffection: Record<string, number>;
         flags: Record<string, any>;
+        objects: Record<string, any>;
     };
     private archiveId: string;
 
@@ -17,7 +21,8 @@ export class ArchiveManager {
         this.gameData = {
             items: {},
             characterAffection: {},
-            flags: {}
+            flags: {},
+            objects: {}
         };
         console.log(`[ArchiveManager] 创建新实例，存档ID: ${this.archiveId}`);
         this.loadFromLocalStorage();
@@ -67,7 +72,8 @@ export class ArchiveManager {
                 this.gameData = {
                     items: parsedData.items || {},
                     characterAffection: parsedData.characterAffection || {},
-                    flags: parsedData.flags || {}
+                    flags: parsedData.flags || {},
+                    objects: parsedData.objects || {}
                 };
                 console.log(`[ArchiveManager] 加载的物品:`, this.gameData.items);
             } else {
@@ -194,6 +200,30 @@ export class ArchiveManager {
     }
 
     /**
+     * 保存对象数据
+     * @param objectName 对象名称
+     * @param objectData 对象数据
+     */
+    public saveObject(objectName: string, objectData: any): void {
+        console.log(`[ArchiveManager] 保存对象 ${objectName}:`, objectData);
+        this.gameData.objects[objectName] = objectData;
+        this.saveToLocalStorage();
+    }
+
+    /**
+     * 读取对象数据
+     * @param objectName 对象名称
+     * @param defaultValue 默认值
+     * @returns 对象数据
+     */
+    public loadObject(objectName: string, defaultValue: any = null): any {
+        const objectData = this.gameData.objects[objectName] !== undefined ?
+            this.gameData.objects[objectName] : defaultValue;
+        console.log(`[ArchiveManager] 读取对象 ${objectName}:`, objectData);
+        return objectData;
+    }
+
+    /**
      * 获取所有存档数据
      * @returns 存档数据
      */
@@ -202,7 +232,8 @@ export class ArchiveManager {
         return {
             items: { ...this.gameData.items },
             characterAffection: { ...this.gameData.characterAffection },
-            flags: { ...this.gameData.flags }
+            flags: { ...this.gameData.flags },
+            objects: { ...this.gameData.objects }
         };
     }
 
@@ -215,7 +246,8 @@ export class ArchiveManager {
         this.gameData = {
             items: data.items || {},
             characterAffection: data.characterAffection || {},
-            flags: data.flags || {}
+            flags: data.flags || {},
+            objects: data.objects || {}
         };
         this.saveToLocalStorage();
     }
@@ -228,12 +260,32 @@ export class ArchiveManager {
         this.gameData = {
             items: {},
             characterAffection: {},
-            flags: {}
+            flags: {},
+            objects: {}
         };
         this.saveToLocalStorage();
         
         // 同时清除当前存档的文本历史记录
         this.clearTextHistory();
+    }
+    
+    /**
+     * 初始化新存档数据
+     * 在创建新存档时调用，用于初始化各种游戏数据
+     */
+    public initializeNewArchive(): void {
+        console.log(`[ArchiveManager] 初始化新存档数据`);
+        // 初始化卡牌游戏的玩家卡组
+        try {
+            // 调用CardManager的静态方法来初始化卡组
+            let cm = CardManager.getInstance();
+            cm.initializePlayerDeck();
+        } catch (e) {
+            console.error("[ArchiveManager] 初始化卡牌游戏卡组时出错:", e);
+        }
+        
+        // 保存初始化后的数据
+        this.saveToLocalStorage();
     }
     
     /**
