@@ -1,13 +1,14 @@
 /* 导入字体并设置默认格式 */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-/*@font-face {
-    font-family: 'xingshu';
-    src: url("../../assets/fonts/HYMingChanKeBenW.ttf");
-}*/
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap");
 
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 /* 背景属性设置 */
@@ -27,6 +28,12 @@ body {
 
     display: flex;
     justify-content: center;
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .background-slider {
@@ -37,10 +44,10 @@ body {
     height: 100%;
     z-index: -3;
     opacity: 1;
+    transition: opacity 0.8s ease-in-out;
 }
 
 .background-image {
-    /* 移除默认背景图片，让JavaScript动态设置 */
     position: absolute;
     top: 0;
     left: 0;
@@ -49,7 +56,25 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: black;
+    background-color: #000;
+    transition: all 1s ease-in-out;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.background-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
 }
 
 #move {
@@ -58,7 +83,78 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(24, 157, 246, 0);
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* 小图标样式 */
+#small {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+#small img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#small img:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.4),
+        0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 添加全局动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 字体优化 */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+p, span, div {
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
+}
+
+button, .btn {
+    font-family: 'Crimson Text', 'Libre Baskerville', serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 /* 导入拆分的CSS文件 */
@@ -66,3 +162,75 @@ body {
 @import url('./dialog.css');
 @import url('./choices.css');
 @import url('./popup.css');
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    body {
+        font-size: 14px;
+    }
+    
+    #small img {
+        width: 55px;
+        height: 55px;
+    }
+}
+
+@media (max-width: 1000px) {
+    body {
+        font-size: 13px;
+    }
+    
+    .background-image {
+        filter: brightness(0.85) contrast(1.05);
+    }
+    
+    #small {
+        top: 15px;
+        left: 15px;
+    }
+    
+    #small img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 12px;
+    }
+    
+    .background-image {
+        filter: brightness(0.8) contrast(1);
+    }
+    
+    #small {
+        top: 12px;
+        left: 12px;
+    }
+    
+    #small img {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 11px;
+    }
+    
+    .background-image {
+        filter: brightness(0.75) contrast(0.95);
+    }
+    
+    #small {
+        top: 10px;
+        left: 10px;
+    }
+    
+    #small img {
+        width: 40px;
+        height: 40px;
+    }
+}

@@ -1,111 +1,236 @@
 /* 弹窗 */
 .menuwindow {
-    width: 320px;
-    height: 200px;
+    width: 400px;
+    height: 280px;
     position: fixed;
-    border-radius: 20px;
+    border-radius: 25px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: hidden;
+    opacity: 0;
 
-    background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(2px);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-right: 3px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 25px 45px rgba(0, 0, 0, 0.2),
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-    flex-direction: row;
-    z-index: 30; /* 确保弹窗显示在最上层 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.menuwindow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
 
 .menuwindow.active {
     visibility: visible;
-    transition: 0.5s;
+    opacity: 1;
+    animation: popupFadeIn 0.4s ease-out;
+}
+
+.menuwindow.active::before {
+    transform: translateX(100%);
+}
+
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 #config_h1 {
-    font-size: 30px;
-    /*font-family: 'xingshu';*/
-    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-family: 'Cinzel', 'Playfair Display', serif;
     text-align: center;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .menutitle {
-    font-size: 40px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     letter-spacing: 3px;
-    text-shadow: rgba(0, 0, 0, 0.8) 2px 4px 4px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
     color: #fff;
-    /*font-family: 'xingshu';*/
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Playfair Display', 'Cinzel', serif;
+    text-align: center;
+    margin-bottom: 40px;
+    line-height: 1.3;
+    text-transform: capitalize;
 }
 
 .menuitemleft {
     position: absolute;
-    bottom: 20%;
-    left: 20%;
-    width: 20%;
-    height: 20%;
+    bottom: 40px;
+    left: 50px;
+    width: 120px;
+    height: 50px;
 }
 
 .menuitemright {
     position: absolute;
-    bottom: 20%;
-    left: 60%;
-    width: 20%;
-    height: 20%;
+    bottom: 40px;
+    right: 50px;
+    width: 120px;
+    height: 50px;
 }
 
 .btn {
     width: 100%;
-    height: 45px;
-    background: rgba(0, 0, 0, 0.3);
-    border: none;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     outline: none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    border-radius: 25px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     font-weight: 600;
-    /*font-family: 'xingshu';*/
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Crimson Text', 'Libre Baskerville', serif;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-@media (max-width: 1000px) {
-    #config_h1 {
-        font-size: 20px;
-        /*font-family: 'xingshu';*/
-        font-family: 'Poppins', sans-serif;
-        text-align: center;
-        margin-top: 30px;
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .menuwindow {
+        width: 320px;
+        height: 240px;
+        border-radius: 20px;
     }
     
     .menutitle {
-        font-size: 30px;
-        font-weight: 600;
-        letter-spacing: 3px;
-        text-shadow: rgba(0, 0, 0, 0.8) 2px 4px 4px;
-        color: #fff;
-        /*font-family: 'xingshu';*/
-        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+    
+    #config_h1 {
+        font-size: 22px;
+        letter-spacing: 1.5px;
+    }
+    
+    .menuitemleft {
+        bottom: 30px;
+        left: 30px;
+        width: 100px;
+        height: 45px;
+    }
+    
+    .menuitemright {
+        bottom: 30px;
+        right: 30px;
+        width: 100px;
+        height: 45px;
     }
     
     .btn {
-        width: 100%;
         height: 45px;
-        background: rgba(0, 0, 0, 0.3);
-        border: none;
-        outline: none;
-        border-radius: 40px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-        cursor: pointer;
-        font-size: 12px;
-        color: #333;
-        font-weight: 600;
-        /*font-family: 'xingshu';*/
-        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        letter-spacing: 0.8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menuwindow {
+        width: 280px;
+        height: 200px;
+    }
+    
+    .menutitle {
+        font-size: 20px;
+        margin-bottom: 25px;
+        letter-spacing: 1.5px;
+    }
+    
+    #config_h1 {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+    
+    .menuitemleft {
+        bottom: 25px;
+        left: 25px;
+        width: 90px;
+        height: 40px;
+    }
+    
+    .menuitemright {
+        bottom: 25px;
+        right: 25px;
+        width: 90px;
+        height: 40px;
+    }
+    
+    .btn {
+        height: 40px;
+        font-size: 13px;
+        letter-spacing: 0.5px;
     }
 }

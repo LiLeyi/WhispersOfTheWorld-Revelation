@@ -3,33 +3,107 @@
     bottom: 0;
     height: 80%;
     transform: translateY(0);
-    z-index: 5; /* 将立绘置于较低层级，确保文本等内容显示在其上方 */
+    z-index: 5;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
 }
 
 .sprite.left {
     left: 5%;
-    transform: translateX(-100%);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transform: translateX(-100%) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sprite.center {
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sprite.right {
     right: 5%;
-    transform: translateX(100%);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transform: translateX(100%) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sprite.show {
     opacity: 1;
     transform: translateX(0) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
 }
 
 .sprite.center.show {
     transform: translateX(-50%) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+/* 添加精灵进入动画 */
+@keyframes spriteSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.sprite.show {
+    animation: spriteSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .sprite {
+        height: 75%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .sprite {
+        height: 70%;
+    }
+    
+    .sprite.left {
+        left: 3%;
+    }
+    
+    .sprite.right {
+        right: 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sprite {
+        height: 65%;
+    }
+    
+    .sprite.left {
+        left: 2%;
+    }
+    
+    .sprite.right {
+        right: 2%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sprite {
+        height: 60%;
+    }
+    
+    .sprite.left {
+        left: 1%;
+    }
+    
+    .sprite.right {
+        right: 1%;
+    }
 }

@@ -1,19 +1,31 @@
 /* dialog.css - 对话框相关样式 */
 #dialog {
     position: absolute;
-    bottom: 1%;
+    bottom: 2%;
     left: 3%;
     right: 3%;
-    height: 20%;
-    padding: 15px;
+    height: 22%;
+    padding: 20px;
     
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(25px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     color: #fff;
-    border-radius: 10px;
-    z-index: 15; /* 提高对话框的z-index，确保显示在立绘上方 */
+    border-radius: 20px;
+    z-index: 15;
+    transition: all 0.3s ease;
+}
+
+#dialog:hover {
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 /* 对话 */
@@ -24,34 +36,56 @@
     right: 10%;
     width: 75%;
     height: 20%;
-    z-index: 20; /* 确保文本显示在最上层 */
+    z-index: 20;
 }
 
 #text-box p#name {
-    color: rgb(231, 217, 138);
-    /*font-family: 'xingshu';*/
-    font-family: 'Poppins', sans-serif;
-    font-size: 35px;
+    color: #f0e68c;
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    font-size: 32px;
     text-align: left;
-    text-shadow: 2px 2px 5px black;
-    margin-top: 2px;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+    margin-top: 5px;
     margin-left: 5%;
     position: relative;
-    z-index: 25; /* 确保名称显示在最上层 */
+    z-index: 25;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+}
+
+#text-box p#name:hover {
+    color: #ffd700;
+    text-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.9),
+        0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 #text-box p#texts {
-    color: rgb(255, 255, 255);
-    /*font-family: 'xingshu';*/
-    font-family: 'Poppins', sans-serif;
-    font-size: 27px;
+    color: #ffffff;
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
+    font-size: 24px;
     text-align: left;
-    text-shadow: 2px 2px 5px black;
-
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
     margin-left: 12%;
     margin-bottom: 20%;
     position: relative;
-    z-index: 25; /* 确保文本内容显示在最上层 */
+    z-index: 25;
+    line-height: 1.6;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+#text-box p#texts:hover {
+    text-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.9),
+        0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 /* 菜单栏 */
@@ -61,45 +95,167 @@
     right: 5%;
     width: auto;
     height: 3%;
-    z-index: 20; /* 确保菜单显示在立绘上方 */
+    z-index: 20;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 .op {
-    float: right;
-    border-style: none;
+    border: none;
     color: white;
-    font-size: 25px;
-    background-color: rgba(0, 0, 0, 0);
-    transition: 0.2s;
-    font-family: "Poppins", sans-serif;
-    margin: 0px 10px 0px 10px;
+    font-size: 22px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    transition: all 0.3s ease;
+    font-family: 'Crimson Text', 'Libre Baskerville', serif;
+    padding: 8px 16px;
     position: relative;
-    z-index: 25; /* 确保按钮显示在最上层 */
+    z-index: 25;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.op::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 .op:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    text-decoration: none;
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
-    border-radius: 10px;
-    padding: 1px 2px 1px 2px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.op:hover::before {
+    left: 100%;
 }
 
 .op:active {
-    box-shadow: none;
-    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    #text-box p#name {
+        font-size: 28px;
+        letter-spacing: 1.8px;
+    }
+    
+    #text-box p#texts {
+        font-size: 22px;
+        letter-spacing: 0.4px;
+    }
+    
+    .op {
+        font-size: 20px;
+        padding: 6px 14px;
+        letter-spacing: 0.8px;
+    }
 }
 
 @media (max-width: 1000px) {
-    .op {
-        font-size: 16px;
+    #dialog {
+        padding: 18px;
+        border-radius: 18px;
     }
     
     #text-box p#name {
-        font-size: 23px;
+        font-size: 24px;
+        letter-spacing: 1.5px;
     }
     
     #text-box p#texts {
         font-size: 20px;
+        letter-spacing: 0.3px;
+    }
+    
+    .op {
+        font-size: 18px;
+        padding: 6px 12px;
+        gap: 12px;
+        letter-spacing: 0.7px;
+    }
+    
+    #menu {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    #dialog {
+        padding: 15px;
+        border-radius: 15px;
+        height: 20%;
+    }
+    
+    #text-box p#name {
+        font-size: 20px;
+        letter-spacing: 1.2px;
+    }
+    
+    #text-box p#texts {
+        font-size: 18px;
+        letter-spacing: 0.2px;
+    }
+    
+    .op {
+        font-size: 16px;
+        padding: 5px 10px;
+        gap: 10px;
+        letter-spacing: 0.6px;
+    }
+    
+    #menu {
+        gap: 10px;
+        right: 3%;
+    }
+}
+
+@media (max-width: 480px) {
+    #dialog {
+        padding: 12px;
+        border-radius: 12px;
+        height: 18%;
+    }
+    
+    #text-box p#name {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+    
+    #text-box p#texts {
+        font-size: 16px;
+        letter-spacing: 0.1px;
+    }
+    
+    .op {
+        font-size: 14px;
+        padding: 4px 8px;
+        gap: 8px;
+        letter-spacing: 0.5px;
+    }
+    
+    #menu {
+        gap: 8px;
+        right: 2%;
     }
 }

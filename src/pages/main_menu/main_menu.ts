@@ -98,13 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 if (exitButton) {
-    exitButton.addEventListener('click', function() {
+    exitButton.addEventListener('click', () => {
         if (confirm('确定要退出游戏吗？')) {
-            // 清除登录状态但保留账号信息
+            // 清除登录状态
             localStorage.removeItem("currentUser");
-            // 清除其他游戏相关状态（可选）
-            // localStorage.removeItem("lastGamePage");
-            // localStorage.removeItem("nowclick");
+            // 跳转到空白页并尝试关闭
+            window.location.href = 'about:blank';
             window.close();
         }
     });
