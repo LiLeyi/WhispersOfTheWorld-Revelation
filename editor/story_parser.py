@@ -4,6 +4,14 @@ from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, asdict
 from typing import Union
 
+# 尝试导入 Lark 解析器
+try:
+    from story_parser_grammar import parse_scene_file as lark_parse_scene_file
+    USE_LARK = True
+except ImportError:
+    USE_LARK = False
+    print("Lark not available, using regex parser")
+
 @dataclass
 class SceneElement:
     background: Optional[str] = None
@@ -63,6 +71,13 @@ class StoryParser:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
+            # 如果 Lark 可用，优先使用 Lark 解析器
+            if USE_LARK:
+                scene = lark_parse_scene_file(content)
+                if scene:
+                    return scene
+            
+            # 否则使用原来的正则表达式解析器
             # 提取场景ID
             scene_id_match = re.search(r'id:\s*["\']([^"\']+)["\']', content)
             scene_id = scene_id_match.group(1) if scene_id_match else "unknown"
@@ -108,8 +123,11 @@ class StoryParser:
         """解析节点信息"""
         nodes = []
         
+        # 首先移除多行注释
+        content_no_multiline_comments = self._remove_multiline_comments(content)
+        
         # 首先提取nodes数组的内容
-        nodes_array_match = re.search(r'nodes:\s*\[(.*)\]', content, re.DOTALL)
+        nodes_array_match = re.search(r'nodes:\s*\[(.*)\]', content_no_multiline_comments, re.DOTALL)
         if not nodes_array_match:
             return nodes
             
@@ -147,7 +165,9 @@ class StoryParser:
                 brace_count -= 1
                 if brace_count == 0 and node_start != -1:
                     node_str = nodes_content[node_start:i+1]
-                    nodes_list.append(node_str)
+                    # 检查节点是否在注释中
+                    if not self._is_in_comment(nodes_content, node_start, i):
+                        nodes_list.append(node_str)
                     node_start = -1
         
         # 解析每个节点字符串
@@ -169,8 +189,8 @@ class StoryParser:
             choices = self._parse_choices(choices_content) if choices_content else None
             
             # 提取next属性（如果存在）
-            next_match = re.search(r'next:\s*["\']([^"\']+)["\']', node_str)
-            next_value = next_match.group(1) if next_match else None
+            # 修改方法来避免匹配注释中的内容
+            next_value = self._extract_next_value(node_str)
             
             node = SceneNode(
                 id=node_id,
@@ -181,6 +201,53 @@ class StoryParser:
             nodes.append(node)
             
         return nodes
+    
+    def _remove_multiline_comments(self, content: str) -> str:
+        """移除多行注释"""
+        # 使用正则表达式移除多行注释 /* ... */
+        return re.sub(r'/\*.*?\*/', '', content, flags=re.DOTALL)
+    
+    def _is_in_comment(self, content: str, start: int, end: int) -> bool:
+        """检查指定范围是否在注释中"""
+        # 检查在start位置之前最近的注释标记
+        before_start = content[:start]
+        
+        # 查找最近的多行注释开始标记
+        last_multiline_start = before_start.rfind('/*')
+        last_multiline_end = before_start.rfind('*/')
+        
+        # 如果有多行注释开始标记且未被结束，则在注释中
+        if last_multiline_start != -1 and (last_multiline_end == -1 or last_multiline_end < last_multiline_start):
+            return True
+            
+        # 检查单行注释
+        last_newline = before_start.rfind('\n')
+        if last_newline == -1:
+            last_line = before_start
+        else:
+            last_line = before_start[last_newline+1:]
+            
+        # 如果该行有单行注释标记，则在注释中
+        if '//' in last_line:
+            return True
+            
+        return False
+    
+    def _extract_next_value(self, node_str: str) -> Optional[str]:
+        """从节点字符串中提取next值，避免匹配注释中的内容"""
+        lines = node_str.split('\n')
+        for line in lines:
+            # 跳过注释行
+            stripped_line = line.strip()
+            if stripped_line.startswith('//'):
+                continue
+                
+            # 在非注释行中查找next属性
+            next_match = re.search(r'next:\s*["\']([^"\']+)["\']', line)
+            if next_match:
+                return next_match.group(1)
+                
+        return None
     
     def _parse_elements(self, content: str) -> SceneElement:
         """解析场景元素"""

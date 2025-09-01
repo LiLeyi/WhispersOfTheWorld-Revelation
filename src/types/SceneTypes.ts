@@ -39,8 +39,8 @@ export interface SceneNode {
             condition: (score: number) => boolean; // 分数的条件
             next: string;               // 跳转的节点
         }>;
-        next?: Record<string, string>;  // 旧的分数跳转配置（为了向后兼容）
-    } | null;                           
+    } | null;
+    video?: string | null;              // 视频路径。这个路径的根目录是src/assets/video/。播放完后会跳转到下一个场景
 }
 
 // 场景接口

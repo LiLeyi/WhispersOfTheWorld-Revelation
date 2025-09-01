@@ -110,14 +110,10 @@ class JumpingGame extends MiniGame {
 
         this.scoreElement = document.getElementById('score');
         this.gameOverElement = document.getElementById('game-over');
-        this.finalScoreElement = document.getElementById('final-score');
-        this.restartButton = document.getElementById('restart-button') as HTMLButtonElement;
 
         console.log('UI元素:', {
             scoreElement: this.scoreElement,
-            gameOverElement: this.gameOverElement,
-            finalScoreElement: this.finalScoreElement,
-            restartButton: this.restartButton
+            gameOverElement: this.gameOverElement
         });
 
         // 初始化配置 - 使用传入的配置或默认配置
@@ -158,12 +154,9 @@ class JumpingGame extends MiniGame {
             aimAngleDirection: 1
         };
 
-        console.log('初始视角角度:', this.state.aimAngle);
-
-        this.init();
+        // 注意：不要在这里调用this.init()，应该由start()方法调用
     }
 
-    // 修改init方法，添加更多错误检查
     protected init() {
         if (!this.canvas) {
             console.error('无法找到游戏canvas元素');
@@ -179,6 +172,12 @@ class JumpingGame extends MiniGame {
         // 事件监听
         this.setupEventListeners();
 
+        // 注意：不要在这里启动游戏循环，应该由start()方法处理
+    }
+
+    public start(): void {
+        // 调用父类的start方法
+        super.start();
         // 开始游戏循环
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -459,7 +458,7 @@ class JumpingGame extends MiniGame {
                 // 如果是新平台，增加分数
                 if (!platform.visited) {
                     this.state.score++;
-                    this.updateScoreDisplay();
+                    this.updateScoreDisplay(); // 调用基类的方法更新分数显示
                     platform.visited = true;
                 }
                 break;
@@ -702,6 +701,16 @@ class JumpingGame extends MiniGame {
         // 重新开始游戏循环
         this.updateScoreDisplay();
         requestAnimationFrame(() => this.gameLoop());
+    }
+
+    /**
+     * 更新分数显示
+     * 覆盖基类方法以使用本地状态
+     */
+    protected updateScoreDisplay(): void {
+        if (this.scoreElement) {
+            this.scoreElement.textContent = `分数: ${this.state.score}`;
+        }
     }
 }
 

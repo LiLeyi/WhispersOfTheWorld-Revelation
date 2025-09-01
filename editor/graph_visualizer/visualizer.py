@@ -68,6 +68,8 @@ class NodeGraphVisualizer(wx.Panel):
         self.node_positions = {}
         self.selected_node = None
         
+        print("=== DEBUG: Starting scene processing ===")
+        
         # 添加所有节点
         for node in scene.nodes:
             self.nodes[node.id] = node
@@ -78,10 +80,17 @@ class NodeGraphVisualizer(wx.Panel):
         # 创建一个节点ID到索引的映射，用于处理隐式连接
         node_index_map = {node.id: i for i, node in enumerate(scene.nodes)}
         
+        print("=== DEBUG: Node Index Map ===")
+        for node_id, index in node_index_map.items():
+            print(f"Node ID: {node_id}, Index: {index}")
+        
         # 第一遍：添加基本连接关系
+        print("=== DEBUG: First pass - Basic connections ===")
         for i, node in enumerate(scene.nodes):
+            print(f"Processing node {node.id} at index {i}")
             # 处理选项连接
             if node.choices:
+                print(f"  Node {node.id} has choices:")
                 for choice in node.choices:
                     self.connections.append({
                         'from': node.id,
@@ -89,6 +98,7 @@ class NodeGraphVisualizer(wx.Panel):
                         'label': choice.text,
                         'condition': getattr(choice, 'condition', None)
                     })
+                    print(f"    Added choice connection: {node.id} -> {choice.next} ('{choice.text}')")
                     # 收集章节跳转目标
                     if choice.next.startswith("chapter_"):
                         chapter_targets.add(choice.next)
@@ -100,55 +110,78 @@ class NodeGraphVisualizer(wx.Panel):
                     'label': '',  # 去掉"[自动跳转]"标签
                     'condition': getattr(node, 'condition', None)
                 })
+                print(f"  Added next connection: {node.id} -> {node.next}")
                 # 收集章节跳转目标
                 if node.next.startswith("chapter_"):
                     chapter_targets.add(node.next)
             # 处理隐式连接（相邻节点的自动连接）
             elif i < len(scene.nodes) - 1:
                 next_node = scene.nodes[i + 1]
-                # 只有当当前节点没有显式的next或choices时才添加隐式连接
-                if not getattr(node, 'choices', None) and not getattr(node, 'next', None):
+                # 只有当当前节点没有显式的next时才添加隐式连接
+                if not getattr(node, 'next', None):
                     self.connections.append({
                         'from': node.id,
                         'to': next_node.id,
                         'label': '',
                         'condition': getattr(node, 'condition', None)
                     })
+                    print(f"  Added implicit connection: {node.id} -> {next_node.id}")
+            else:
+                print(f"  Node {node.id} has no next attribute and is at the end, no implicit connection added")
                     
         # 第二遍：处理选项节点的后续连接
-        for i, node in enumerate(scene.nodes):
+        print("=== DEBUG: Second pass - Post-choice connections ===")
+        for node in scene.nodes:
             # 如果节点有选项，检查每个选项指向的节点是否需要后续连接
             if node.choices:
+                print(f"Processing choices for node {node.id}")
                 for choice in node.choices:
                     choice_node_id = choice.next
-                    # 查找选项指向的节点在场景中的索引
-                    choice_node_index = node_index_map.get(choice_node_id, -1)
-                    if choice_node_index != -1 and choice_node_index < len(scene.nodes) - 1:
-                        # 选项节点的下一个节点
-                        next_node_after_choice = scene.nodes[choice_node_index + 1]
-                        # 检查选项节点是否需要连接到下一个节点
-                        choice_node = None
-                        for n in scene.nodes:
-                            if n.id == choice_node_id:
-                                choice_node = n
-                                break
-                        
-                        # 如果选项节点没有自己的next或choices，则连接到序列中的下一个节点
-                        if choice_node and not getattr(choice_node, 'next', None) and not getattr(choice_node, 'choices', None):
-                            # 检查是否已经存在相同的连接
-                            connection_exists = False
-                            for conn in self.connections:
-                                if conn['from'] == choice_node_id and conn['to'] == next_node_after_choice.id:
-                                    connection_exists = True
-                                    break
-                                    
-                            if not connection_exists:
-                                self.connections.append({
-                                    'from': choice_node_id,
-                                    'to': next_node_after_choice.id,
-                                    'label': '',
-                                    'condition': getattr(choice_node, 'condition', None)
-                                })
+                    print(f"  Checking choice to {choice_node_id}")
+                    # 确保选项指向的节点在当前场景中
+                    if choice_node_id in node_index_map:
+                        choice_node_index = node_index_map[choice_node_id]
+                        print(f"    Choice node index: {choice_node_index}")
+                        # 确保选项节点不是最后一个节点
+                        if choice_node_index < len(scene.nodes) - 1:
+                            # 选项节点的下一个节点
+                            next_node_after_choice = scene.nodes[choice_node_index + 1]
+                            print(f"    Next node after choice: {next_node_after_choice.id}")
+                            # 查找选项节点对象
+                            choice_node = self.nodes.get(choice_node_id)
+                            
+                            # 如果选项节点没有自己的next，则连接到序列中的下一个节点
+                            if choice_node and not getattr(choice_node, 'next', None):
+                                # 检查是否已经存在相同的连接
+                                connection_exists = False
+                                for conn in self.connections:
+                                    if conn['from'] == choice_node_id and conn['to'] == next_node_after_choice.id:
+                                        connection_exists = True
+                                        print(f"    Connection {choice_node_id} -> {next_node_after_choice.id} already exists")
+                                        break
+                                        
+                                if not connection_exists:
+                                    self.connections.append({
+                                        'from': choice_node_id,
+                                        'to': next_node_after_choice.id,
+                                        'label': '',
+                                        'condition': getattr(choice_node, 'condition', None)
+                                    })
+                                    print(f"    Added post-choice connection: {choice_node_id} -> {next_node_after_choice.id}")
+                                else:
+                                    print(f"    Skipped duplicate connection: {choice_node_id} -> {next_node_after_choice.id}")
+                            else:
+                                if choice_node:
+                                    next_attr = getattr(choice_node, 'next', None)
+                                    print(f"    Choice node {choice_node_id} has next attribute: {next_attr}, skipping implicit connection")
+                                else:
+                                    print(f"    Choice node {choice_node_id} not found")
+                        else:
+                            print(f"    Choice node {choice_node_id} is the last node, no next node to connect to")
+                    else:
+                        print(f"    Choice node {choice_node_id} not found in node_index_map")
+            else:
+                print(f"Node {node.id} has no choices")
                     
         # 为章节跳转目标创建虚拟节点（如果它们不存在于当前场景中）
         for target in chapter_targets:
@@ -159,6 +192,10 @@ class NodeGraphVisualizer(wx.Panel):
                     elements=SceneElement(text=f"跳转到 {target}")
                 )
                 self.nodes[target] = virtual_node
+            
+        print("=== DEBUG: All connections ===")
+        for i, conn in enumerate(self.connections):
+            print(f"{i+1}. From: {conn['from']} -> To: {conn['to']}, Label: '{conn['label']}'")
             
         self.calculate_layout()
         self.Refresh()

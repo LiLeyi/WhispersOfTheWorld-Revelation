@@ -194,7 +194,8 @@ module.exports = (env, argv) => {
             noErrorOnMissing: true
           },
           { from: 'src/assets/bgm', to: 'assets/bgm' },
-          { from: 'src/assets/fonts', to: 'assets/fonts' }
+          { from: 'src/assets/fonts', to: 'assets/fonts' },
+          { from: 'src/assets/video', to: 'assets/video'}
         ]
       })
     ]
