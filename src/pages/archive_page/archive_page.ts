@@ -1,5 +1,6 @@
 import "./archive_page.css"
 import { ArchiveManager } from '../../components/ArchiveManager';
+import { SceneRegistry } from '../../story/SceneRegistry';
 
 // 存档数据接口
 interface SaveSlot {
@@ -11,18 +12,15 @@ interface SaveSlot {
     userFlags?: any;
     gameData?: any; // 新增游戏数据字段
     previousElements?: any; // 新增场景元素状态字段
+    name?: string; // 新增存档名称字段
 }
 
 const STORAGE_KEY = "myGameSaveSlots";
 let saveData: (SaveSlot | null)[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]") || [];
 while(saveData.length < 9) saveData.push(null);
 
-// 获取打开 load 的来源页
-const urlParams = new URLSearchParams(window.location.search);
-const referrerPage = urlParams.get('referrer') || localStorage.getItem("lastGamePage") || "../main_menu/main_menu.html";
-
 // 渲染存档槽
-function renderSlots(){
+async function renderSlots(){
     const container = document.getElementById('saveSlotsContainer');
     if (!container) return;
     
@@ -38,12 +36,48 @@ function renderSlots(){
             const div = document.createElement('div');
             div.className = 'save-slot';
 
+            // 获取当前台词和场景标题
+            let currentText = '无';
+            let sceneTitle = '';
+            let backgroundStyle = '';
+            
+            if (slot && slot.chapter) {
+                try {
+                    // 动态加载场景数据
+                    const sceneModule = await SceneRegistry[slot.chapter]();
+                    const scene = sceneModule.default; // 注意这里要用.default
+                    
+                    // 获取场景标题
+                    if (scene && scene.title) {
+                        sceneTitle = scene.title;
+                    }
+                    
+                    // 查找当前节点
+                    if (scene && scene.nodes && slot.click !== undefined) {
+                        // 根据click数计算当前节点
+                        const nodeIndex = Math.min(slot.click, scene.nodes.length - 1);
+                        if (nodeIndex >= 0 && scene.nodes[nodeIndex] && scene.nodes[nodeIndex].elements) {
+                            currentText = scene.nodes[nodeIndex].elements.text || '无';
+                        }
+                    }
+                } catch (e) {
+                    console.error('加载场景数据失败:', e);
+                    currentText = '加载失败';
+                    sceneTitle = '未知场景';
+                }
+                
+                // 设置背景图片
+                if (slot.background) {
+                    backgroundStyle = `background-image: url('../../assets/images/background/${slot.background}');`;
+                }
+            }
+
             div.innerHTML = `
-                <div class="save-info">
-                    <h2>存档${index + 1}</h2>
+                <div class="save-info" style="${backgroundStyle}">
+                    <h2>${slot && slot.name ? slot.name : '存档' + (index + 1)}</h2>
                     <p>${slot ? slot.date : '空'}</p>
-                    <p>${slot ? slot.chapter : ''}</p>
-                    <p>点击数: ${slot ? slot.click : 'N/A'}</p>
+                    <p>${slot ? sceneTitle : ''}</p>
+                    <p>台词: ${slot ? currentText : 'N/A'}</p>
                 </div>
                 <div class="save-buttons">
                     <button class="save-button load" onclick="loadGame(${index})">
@@ -51,6 +85,9 @@ function renderSlots(){
                     </button>
                     <button class="save-button save" onclick="saveGame(${index})">
                         保存
+                    </button>
+                    <button class="save-button rename" onclick="renameGame(${index})">
+                        命名
                     </button>
                     <button class="save-button delete" onclick="deleteGame(${index})">
                         删除
@@ -143,7 +180,8 @@ function saveGame(index: number){
         chapter: chapter,  // 这里保存的是场景ID而不是标题
         userFlags: JSON.parse(localStorage.getItem("userArr") || "[]"),
         gameData: gameData, // 保存游戏数据
-        previousElements: previousElements ? JSON.parse(previousElements) : undefined // 保存场景元素状态
+        previousElements: previousElements ? JSON.parse(previousElements) : undefined, // 保存场景元素状态
+        name: saveData[index] && saveData[index]!.name ? saveData[index]!.name : undefined // 保留原有名称
     };
 
     console.log(`[ArchivePage] 保存存档 ${index}:`, slot);
@@ -170,35 +208,64 @@ function deleteGame(index: number){
     }
 }
 
-// “继续游戏”按钮
-document.addEventListener("DOMContentLoaded", function() {
-    const continueGameBtn = document.getElementById("continueGame");
-    if (continueGameBtn) {
-        continueGameBtn.addEventListener("click", function() {
-            // 尝试找到最新的存档
-            let latestSlotIndex = -1;
-            let latestDate: Date | null = null;
-            
-            for (let i = 0; i < saveData.length; i++) {
-                const slot = saveData[i];
-                if (slot && slot.date) {
-                    const slotDate = new Date(slot.date);
-                    if (!latestDate || slotDate > latestDate) {
-                        latestDate = slotDate;
-                        latestSlotIndex = i;
-                    }
-                }
-            }
-            
-            if (latestSlotIndex >= 0) {
-                loadGame(latestSlotIndex);
-            } else {
-                // 没有找到存档时，返回游戏界面而不是主菜单
-                const lastGamePage = localStorage.getItem("lastGamePage") || "../main_menu/main_menu.html";
-                window.location.href = lastGamePage;
-            }
-        });
+// 重命名存档
+function renameGame(index: number){
+    const slot = saveData[index];
+    if(!slot){
+        alert('该存档为空，无法命名');
+        return;
     }
+    
+    const currentName = slot.name || `存档${index + 1}`;
+    const newName = prompt('请输入存档名称：', currentName);
+    
+    if(newName !== null){ // 用户没有点击取消
+        slot.name = newName;
+        saveData[index] = slot;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
+        renderSlots();
+        
+        const clickSound = document.getElementById('clickSound') as HTMLAudioElement | null;
+        if (clickSound) clickSound.play();
+    }
+}
+
+// 根据来源设置返回按钮
+function setupBackButton() {
+    const backButton = document.getElementById('backButton') as HTMLAnchorElement;
+    const backButtonText = document.getElementById('backButtonText');
+    
+    if (backButton && backButtonText) {
+        // 检查是否从游戏场景进入（通过referrer参数）
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrer = urlParams.get('referrer');
+        
+        if (referrer) {
+            try {
+                // 解码referrer URL
+                const decodedReferrer = decodeURIComponent(referrer);
+                // 检查是否来自游戏场景
+                if (decodedReferrer.includes('game_scenes.html')) {
+                    // 从游戏场景进入，返回游戏
+                    backButtonText.textContent = '返回游戏';
+                    backButton.href = decodedReferrer;
+                    return;
+                }
+            } catch (e) {
+                console.error('解码referrer失败:', e);
+            }
+        }
+        
+        // 默认情况：从主菜单进入，返回主菜单
+        backButtonText.textContent = '主菜单';
+        backButton.href = '../main_menu/main_menu.html';
+    }
+}
+
+// 页面加载完成后执行
+document.addEventListener("DOMContentLoaded", function() {
+    // 设置返回按钮行为
+    setupBackButton();
 
     // 渲染存档槽
     renderSlots();
@@ -211,3 +278,4 @@ document.addEventListener("DOMContentLoaded", function() {
 (window as any).loadGame = loadGame;
 (window as any).saveGame = saveGame;
 (window as any).deleteGame = deleteGame;
+(window as any).renameGame = renameGame;
