@@ -1,10 +1,29 @@
 import { MiniGame } from './MiniGame';
-import { JumpingGame } from '../pages/mini_games/jumping_game/JumpingGame';
+import { JumpingGame } from './mini_games/jumping_game/JumpingGame';
+import { CardGame } from './mini_games/card_game/CardGame';
+
+// 定义游戏信息接口
+interface GameInfo {
+    clas: new (onComplete: (score: number) => void, config?: any) => MiniGame;
+    template: string;
+}
 
 /**
  * 小游戏工厂类，用于根据游戏ID创建对应的小游戏实例
  */
 export class MiniGameFactory {
+    // 游戏信息映射
+    private static readonly gameMap: Record<string, GameInfo> = {
+        'jumping_game': {
+            clas: JumpingGame,
+            template: JumpingGame.HTML_TEMPLATE
+        },
+        'card_game': {
+            clas: CardGame,
+            template: CardGame.HTML_TEMPLATE
+        }
+    };
+
     /**
      * 根据游戏ID创建小游戏实例
      * @param gameId 游戏ID
@@ -13,12 +32,27 @@ export class MiniGameFactory {
      * @returns 小游戏实例
      */
     static createGame(gameId: string, onComplete: (score: number) => void, config?: any): MiniGame | null {
-        switch (gameId) {
-            case 'jumping_game':
-                return new JumpingGame(onComplete, config);
-            default:
-                console.warn(`未知的游戏ID: ${gameId}`);
-                return null;
+        const gameInfo = this.gameMap[gameId];
+        if (gameInfo) {
+            return new gameInfo.clas(onComplete, config);
         }
+        
+        console.warn(`未知的游戏ID: ${gameId}`);
+        return null;
+    }
+
+    /**
+     * 根据游戏ID获取游戏的HTML模板
+     * @param gameId 游戏ID
+     * @returns 游戏的HTML模板字符串
+     */
+    static getGameTemplate(gameId: string): string {
+        const gameInfo = this.gameMap[gameId];
+        if (gameInfo) {
+            return gameInfo.template;
+        }
+        
+        console.warn(`未知的游戏ID: ${gameId}`);
+        return '<div>未知游戏</div>';
     }
 }

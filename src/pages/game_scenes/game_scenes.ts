@@ -7,8 +7,9 @@ import { SpriteManager } from '../../components/SpriteManager';
 import { ChoiceManager } from '../../components/ChoiceManager';
 import { SceneRegistry } from '../../story/SceneRegistry';
 import { ArchiveManager } from '../../components/ArchiveManager';
-import { JumpingGame } from '../mini_games/jumping_game/JumpingGame';
+import { JumpingGame } from '../../components/mini_games/jumping_game/JumpingGame';
 import { MiniGameFactory } from '../../components/MiniGameFactory';
+import { CardGame } from '../../components/mini_games/card_game/CardGame';
 
 // 注意：不要在这里导入所有场景数据，而是在需要时动态导入
 
@@ -507,7 +508,7 @@ class GameScene {
         const moveElement = document.getElementById("move");
         const dialogElement = document.getElementById("dialog");
         const textBoxElement = document.getElementById("text-box");
-        
+
         const originalMoveHandler = moveElement ? moveElement.onclick : null;
         const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
         const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
@@ -528,7 +529,7 @@ class GameScene {
         const bg2Element = document.getElementById('bg2');
         const backgroundManager = this.backgroundManager;
         let currentBgNum = (backgroundManager as any).backgroundNum;
-        
+
         // 创建黑色背景覆盖层
         const blackOverlay = document.createElement('div');
         blackOverlay.id = 'video-black-overlay';
@@ -542,35 +543,35 @@ class GameScene {
         blackOverlay.style.opacity = '0';
         blackOverlay.style.pointerEvents = 'none';
         document.body.appendChild(blackOverlay);
-        
+
         // 淡出背景到黑色
         let backgroundOpacity = 1;
         let overlayOpacity = 0;
         const backgroundFadeOut = setInterval(() => {
             backgroundOpacity -= 0.05;
             overlayOpacity += 0.05;
-            
+
             // 淡出当前显示的背景元素
             const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
             if (currentBgElement) {
                 currentBgElement.style.opacity = backgroundOpacity.toString();
             }
-            
+
             // 淡入黑色覆盖层
             blackOverlay.style.opacity = overlayOpacity.toString();
-            
+
             if (backgroundOpacity <= 0) {
                 clearInterval(backgroundFadeOut);
                 // 隐藏背景元素
                 if (currentBgElement) {
                     currentBgElement.style.display = 'none';
                 }
-                
+
                 // 背景淡出完成后创建视频容器
                 createVideoContainer();
             }
         }, 50);
-        
+
         const createVideoContainer = () => {
             // 创建视频容器
             const videoContainer = document.createElement('div');
@@ -601,7 +602,7 @@ class GameScene {
             const sourceElement = document.createElement('source');
             sourceElement.src = `../../assets/video/${node.video}`;
             sourceElement.type = 'video/mp4';
-            
+
             videoElement.appendChild(sourceElement);
             videoContainer.appendChild(videoElement);
             document.body.appendChild(videoContainer);
@@ -622,34 +623,34 @@ class GameScene {
                     if (videoContainer.parentNode) {
                         videoContainer.parentNode.removeChild(videoContainer);
                     }
-                    
+
                     // 恢复背景显示并淡入
                     const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
                     if (currentBgElement) {
                         currentBgElement.style.display = '';
                     }
-                    
+
                     // 淡出黑色覆盖层，同时淡入背景
                     let overlayOpacity = 1;
                     let backgroundOpacity = 0;
                     const fadeOutOverlay = setInterval(() => {
                         overlayOpacity -= 0.05;
                         backgroundOpacity += 0.05;
-                        
+
                         blackOverlay.style.opacity = overlayOpacity.toString();
-                        
+
                         if (currentBgElement) {
                             currentBgElement.style.opacity = backgroundOpacity.toString();
                         }
-                        
+
                         if (overlayOpacity <= 0) {
                             clearInterval(fadeOutOverlay);
                             blackOverlay.style.opacity = '0';
-                            
+
                             if (currentBgElement) {
                                 currentBgElement.style.opacity = '1';
                             }
-                            
+
                             // 移除黑色覆盖层
                             if (blackOverlay.parentNode) {
                                 blackOverlay.parentNode.removeChild(blackOverlay);
@@ -712,7 +713,7 @@ class GameScene {
                 videoElement.addEventListener('canplay', () => {
                     playVideo();
                 }, { once: true });
-                
+
                 setTimeout(() => {
                     if (videoElement.readyState < 2) {
                         playVideo();
@@ -723,41 +724,41 @@ class GameScene {
             // 错误处理
             videoElement.addEventListener('error', (e) => {
                 console.error('视频播放出错:', e);
-                
+
                 videoElement.style.opacity = '0';
 
                 setTimeout(() => {
                     if (videoContainer.parentNode) {
                         videoContainer.parentNode.removeChild(videoContainer);
                     }
-                    
+
                     // 恢复背景显示并淡入
                     const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
                     if (currentBgElement) {
                         currentBgElement.style.display = '';
                     }
-                    
+
                     // 淡出黑色覆盖层，同时淡入背景
                     let overlayOpacity = 1;
                     let backgroundOpacity = 0;
                     const fadeOutOverlay = setInterval(() => {
                         overlayOpacity -= 0.05;
                         backgroundOpacity += 0.05;
-                        
+
                         blackOverlay.style.opacity = overlayOpacity.toString();
-                        
+
                         if (currentBgElement) {
                             currentBgElement.style.opacity = backgroundOpacity.toString();
                         }
-                        
+
                         if (overlayOpacity <= 0) {
                             clearInterval(fadeOutOverlay);
                             blackOverlay.style.opacity = '0';
-                            
+
                             if (currentBgElement) {
                                 currentBgElement.style.opacity = '1';
                             }
-                            
+
                             // 移除黑色覆盖层
                             if (blackOverlay.parentNode) {
                                 blackOverlay.parentNode.removeChild(blackOverlay);
@@ -793,7 +794,7 @@ class GameScene {
         const moveElement = document.getElementById("move");
         const dialogElement = document.getElementById("dialog");
         const textBoxElement = document.getElementById("text-box");
-        
+
         const originalMoveHandler = moveElement ? moveElement.onclick : null;
         const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
         const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
@@ -814,7 +815,7 @@ class GameScene {
         const bg2Element = document.getElementById('bg2');
         const backgroundManager = this.backgroundManager;
         let currentBgNum = (backgroundManager as any).backgroundNum;
-        
+
         // 创建黑色背景覆盖层
         const blackOverlay = document.createElement('div');
         blackOverlay.id = 'minigame-black-overlay';
@@ -828,35 +829,35 @@ class GameScene {
         blackOverlay.style.opacity = '0';
         blackOverlay.style.pointerEvents = 'none';
         document.body.appendChild(blackOverlay);
-        
+
         // 淡出背景到黑色
         let backgroundOpacity = 1;
         let overlayOpacity = 0;
         const backgroundFadeOut = setInterval(() => {
             backgroundOpacity -= 0.05;
             overlayOpacity += 0.05;
-            
+
             // 淡出当前显示的背景元素
             const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
             if (currentBgElement) {
                 currentBgElement.style.opacity = backgroundOpacity.toString();
             }
-            
+
             // 淡入黑色覆盖层
             blackOverlay.style.opacity = overlayOpacity.toString();
-            
+
             if (backgroundOpacity <= 0) {
                 clearInterval(backgroundFadeOut);
                 // 隐藏背景元素
                 if (currentBgElement) {
                     currentBgElement.style.display = 'none';
                 }
-                
+
                 // 背景淡出完成后创建小游戏容器
                 createMiniGameContainer();
             }
         }, 50);
-        
+
         const createMiniGameContainer = () => {
             // 显示小游戏容器并隐藏其他元素
             this.miniGameContainer.style.display = 'block';
@@ -870,19 +871,7 @@ class GameScene {
             this.miniGameContainer.style.transition = 'opacity 1s ease-in-out';
 
             // 创建游戏容器，使用正确的CSS路径
-            this.miniGameContainer.innerHTML = `
-                <div id="jumping-game-container" style="width:100%;height:100%;position:relative;">
-                    <canvas id="game-canvas" style="width:100%;height:100%;display:block;"></canvas>
-                    <div id="game-ui" style="position:absolute;top:10px;left:10px;color:white;font-family:Arial,sans-serif;z-index:10;">
-                        <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.5);padding:5px 10px;border-radius:5px;">分数: 0</div>
-                        <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);padding:20px;border-radius:10px;text-align:center;display:none;z-index:20;">
-                            <h2>游戏结束</h2>
-                            <div id="final-score" style="margin-bottom:10px;">最终得分: 0</div>
-                            <button id="restart-button" style="padding:10px 20px;font-size:16px;border:none;border-radius:5px;background:#4CAF50;color:white;cursor:pointer;margin-top:10px;">重新开始</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            this.miniGameContainer.innerHTML = MiniGameFactory.getGameTemplate(node.game!.id);
 
             // 淡入小游戏
             setTimeout(() => {
@@ -893,43 +882,43 @@ class GameScene {
             setTimeout(() => {
                 // 使用工厂模式创建游戏实例
                 const gameInstance = MiniGameFactory.createGame(
-                    node.game!.id, 
+                    node.game!.id,
                     (score: number) => {
                         // 淡出小游戏
                         this.miniGameContainer.style.opacity = '0';
-                        
+
                         // 等待淡出完成后处理跳转
                         setTimeout(() => {
                             // 游戏结束后处理跳转
                             this.miniGameContainer.style.display = 'none';
-                            
+
                             // 恢复背景显示并淡入
                             const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
                             if (currentBgElement) {
                                 currentBgElement.style.display = '';
                             }
-                            
+
                             // 淡出黑色覆盖层，同时淡入背景
                             let overlayOpacity = 1;
                             let backgroundOpacity = 0;
                             const fadeOutOverlay = setInterval(() => {
                                 overlayOpacity -= 0.05;
                                 backgroundOpacity += 0.05;
-                                
+
                                 blackOverlay.style.opacity = overlayOpacity.toString();
-                                
+
                                 if (currentBgElement) {
                                     currentBgElement.style.opacity = backgroundOpacity.toString();
                                 }
-                                
+
                                 if (overlayOpacity <= 0) {
                                     clearInterval(fadeOutOverlay);
                                     blackOverlay.style.opacity = '0';
-                                    
+
                                     if (currentBgElement) {
                                         currentBgElement.style.opacity = '1';
                                     }
-                                    
+
                                     // 移除黑色覆盖层
                                     if (blackOverlay.parentNode) {
                                         blackOverlay.parentNode.removeChild(blackOverlay);

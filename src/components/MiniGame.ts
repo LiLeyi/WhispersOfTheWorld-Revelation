@@ -2,6 +2,7 @@
  * MiniGame基类，所有小游戏都应该继承此类
  */
 abstract class MiniGame {
+    public static readonly HTML_TEMPLATE: string; // 小游戏页面的HTML模板
     protected canvas: HTMLCanvasElement | null = null;
     protected ctx: CanvasRenderingContext2D | null = null;
     protected scoreElement: HTMLElement | null = null;
