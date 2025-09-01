@@ -1,6 +1,10 @@
 import "./settings.css";
+import { AudioManager } from '../../components/AudioManager';
 
 let currentLang: "zh" | "en" = "zh";
+
+// 获取音频管理器实例
+const audioManager = AudioManager.getInstance();
 
 // 切换语言
 function toggleLang(): void {
@@ -20,11 +24,25 @@ function toggleLang(): void {
   });
 }
 
-// 更新音量显示
+// 更新音量显示并设置实际音量
 function updateVolumeDisplay(elementId: string, value: string): void {
   const element = document.getElementById(elementId);
   if (element) {
     element.textContent = value + "%";
+  }
+
+  // 根据不同的音量控制条调节对应的音量
+  const volumeValue = parseFloat(value) / 100;
+  switch(elementId) {
+    case "gameVolumeValue":
+      audioManager.setGameVolume(volumeValue);
+      break;
+    case "bgmVolumeValue":
+      audioManager.setBGMVolume(volumeValue);
+      break;
+    case "menuVolumeValue":
+      audioManager.setMenuVolume(volumeValue);
+      break;
   }
 }
 

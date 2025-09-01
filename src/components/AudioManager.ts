@@ -6,6 +6,9 @@ export class AudioManager {
     private musicElement: HTMLAudioElement | null;
     private userInteracted: boolean = false;
     private currentBgm: string = "";
+    private gameVolume: number = 1.0;
+    private bgmVolume: number = 1.0;
+    private menuVolume: number = 1.0;
 
     constructor() {
         this.musicElement = document.getElementById("music") as HTMLAudioElement | null;
@@ -34,6 +37,22 @@ export class AudioManager {
             document.addEventListener('touchstart', unlockAudio, { once: true });
             document.addEventListener('keydown', unlockAudio, { once: true });
         }
+        
+        // 从localStorage加载音量设置
+        this.loadVolumeSettings();
+    }
+
+    /**
+     * 从localStorage加载音量设置
+     */
+    private loadVolumeSettings(): void {
+        const gameVolume = localStorage.getItem("gameVolume");
+        const bgmVolume = localStorage.getItem("bgmVolume");
+        const menuVolume = localStorage.getItem("menuVolume");
+        
+        if (gameVolume) this.gameVolume = parseFloat(gameVolume) / 100;
+        if (bgmVolume) this.bgmVolume = parseFloat(bgmVolume) / 100;
+        if (menuVolume) this.menuVolume = parseFloat(menuVolume) / 100;
     }
 
     /**
@@ -62,6 +81,39 @@ export class AudioManager {
     }
 
     /**
+     * 设置游戏音量
+     * @param volume 音量值 (0.0 - 1.0)
+     */
+    public setGameVolume(volume: number): void {
+        this.gameVolume = volume;
+        if (this.musicElement) {
+            this.musicElement.volume = volume;
+        }
+    }
+
+    /**
+     * 设置背景音乐音量
+     * @param volume 音量值 (0.0 - 1.0)
+     */
+    public setBGMVolume(volume: number): void {
+        this.bgmVolume = volume;
+        if (this.musicElement) {
+            this.musicElement.volume = volume;
+        }
+    }
+
+    /**
+     * 设置菜单音量
+     * @param volume 音量值 (0.0 - 1.0)
+     */
+    public setMenuVolume(volume: number): void {
+        this.menuVolume = volume;
+        if (this.musicElement) {
+            this.musicElement.volume = volume;
+        }
+    }
+
+    /**
      * 播放音效
      * @param music 音效文件名
      */
@@ -81,6 +133,7 @@ export class AudioManager {
             
             console.log("AudioManager: 设置音效源:", audioUrl);
             this.musicElement.src = audioUrl;
+            this.musicElement.volume = this.gameVolume; // 应用游戏音量
             this.musicElement.play()
                 .then(() => {
                     console.log("AudioManager: 音效播放成功:", music);
@@ -154,6 +207,7 @@ export class AudioManager {
             console.log("AudioManager: 设置背景音乐源:", audioUrl);
             this.musicElement.src = audioUrl;
             this.musicElement.loop = true; // 确保背景音乐循环播放
+            this.musicElement.volume = this.bgmVolume; // 应用背景音乐音量
             
             this.musicElement.play()
                 .then(() => {
@@ -176,6 +230,7 @@ export class AudioManager {
         if (this.musicElement && this.userInteracted) {
             // 检查是否有有效的音频源
             if (this.musicElement.src && this.musicElement.src !== window.location.href) {
+                this.musicElement.volume = this.menuVolume; // 应用菜单音量
                 this.musicElement.play()
                     .then(() => {
                         console.log("AudioManager: 点击音效播放成功");
@@ -201,5 +256,15 @@ export class AudioManager {
      */
     public getCurrentBgm(): string {
         return this.currentBgm;
+    }
+    
+    /**
+     * 获取单例实例
+     */
+    public static getInstance(): AudioManager {
+        if (!(window as any).audioManagerInstance) {
+            (window as any).audioManagerInstance = new AudioManager();
+        }
+        return (window as any).audioManagerInstance;
     }
 }
