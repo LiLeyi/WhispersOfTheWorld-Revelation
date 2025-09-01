@@ -234,3 +234,136 @@ button, .btn {
         height: 40px;
     }
 }
+/* 背包界面样式 */
+.bag-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bag-container {
+    background-color: #16213e;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80%;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.bag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #0f3460;
+    color: #eeeeee;
+}
+
+.bag-header h2 {
+    margin: 0;
+    font-family: 'Cinzel', 'Playfair Display', serif;
+}
+
+.close-button {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.bag-content {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.bag-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+}
+
+.bag-item {
+    background-color: #0f3460;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.bag-item:hover {
+    background-color: #1a3b6e;
+    transform: translateY(-5px);
+}
+
+.item-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.item-name {
+    margin: 0;
+    font-size: 0.9em;
+    color: #eeeeee;
+}
+
+/* 道具详情弹窗 */
+.item-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-modal .modal-content {
+    background-color: #16213e;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    color: #eeeeee;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+#modal-item-name {
+    color: #e94560;
+    margin-top: 0;
+}
+
+#modal-item-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+}

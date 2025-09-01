@@ -15,6 +15,7 @@ module.exports = (env, argv) => {
       register: './src/pages/login_page/register.ts',
       log_page: './src/pages/log_page/log_page.ts',
       settings: './src/pages/settings/settings.ts',
+      bag_page: './src/pages/bag_page/bag_page.ts',
 
 
       detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
@@ -118,6 +119,11 @@ module.exports = (env, argv) => {
         template: './src/pages/settings/settings.html',
         filename: 'pages/settings/settings.html',
         chunks: ['settings'],
+      }),
+      new HtmlWebpackPlugin({
+        template: './src/pages/bag_page/bag_page.html',
+        filename: 'pages/bag_page/bag_page.html',
+        chunks: ['bag_page'],
       }),
 
 

@@ -201,6 +201,26 @@ const scene: Scene = {
                 text: "剧烈的震荡传播开来，就像将死的恒星在坍缩中毁灭。"
             }
         },
+        //背包系统测试节点
+        //{
+        //id: "get_item_node",
+        //elements: {
+       // name: "旁白",
+        //text: "你找到了一枚古币！"
+       // },
+       // action: () => {
+        // 获取 ArchiveManager 实例
+       // const archiveManager = ArchiveManager.getInstance();
+        // 添加道具到背包
+        //archiveManager.addItem("ancient_coin");
+       // },
+       // choices: [
+        //{
+        //    text: "继续",
+        //    next: "node14"
+      //  }
+      //  ]
+       // },
         {
             id: "node14",
             elements: {
