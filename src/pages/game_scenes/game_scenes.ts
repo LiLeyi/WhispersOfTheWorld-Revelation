@@ -1099,10 +1099,27 @@ class GameScene {
         const returnYes = document.getElementById("return_yes");
         const returnNo = document.getElementById("return_no");
 
-        if (skipYes) {
+                if (skipYes) {
             skipYes.onclick = () => {
                 if (this.currentScene) {
-                    this.currentNodeIndex = this.currentScene.nodes.length - 1;
+                    // 查找下一个有选项的节点
+                    let nextChoiceNodeIndex = -1;
+                    for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
+                        const node = this.currentScene.nodes[i];
+                        if (node.choices && node.choices.length > 0) {
+                            nextChoiceNodeIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
+                    if (nextChoiceNodeIndex !== -1) {
+                        this.currentNodeIndex = nextChoiceNodeIndex;
+                    } else {
+                        this.currentNodeIndex = this.currentScene.nodes.length - 1;
+                    }
+                    this.clickCount = this.currentNodeIndex;
+                    localStorage.setItem("nowclick", this.clickCount.toString());
                     this.renderCurrentNode();
                 }
                 const skipElement = document.getElementById("skip");
@@ -1111,7 +1128,6 @@ class GameScene {
                 }
             };
         }
-
         if (skipNo) {
             skipNo.onclick = () => {
                 const skipElement = document.getElementById("skip");
