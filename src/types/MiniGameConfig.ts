@@ -27,7 +27,7 @@ export interface CardGameConfig {
         actionPoints?: number;          // 玩家初始行动力
         hp?: number;                    // 玩家初始血量
         maxHp?: number;                 // 玩家最大血量
-        deck?: Record<string, number>;  // 玩家牌组配置，格式为 { 牌的id: 数量 }
+        deck?: Record<string, number> | (() => Record<string, number>);  // 玩家牌组配置，格式为 { 牌的id: 数量 }
         drawCount?: number;             // 玩家每回合抽牌数，默认为1
         initialDrawCount?: number;      // 玩家游戏开始时初始抽牌数，默认为3
     };
@@ -36,7 +36,7 @@ export interface CardGameConfig {
         actionPoints?: number;          // 对手初始行动力
         hp?: number;                    // 对手初始血量
         maxHp?: number;                 // 对手最大血量
-        deck?: Record<string, number>;  // 对手牌组配置，格式为 { 牌的id: 数量 }
+        deck?: Record<string, number> | (() => Record<string, number>);  // 对手牌组配置，格式为 { 牌的id: 数量 }
         drawCount?: number;             // 对手每回合抽牌数，默认为1
         initialDrawCount?: number;      // 对手游戏开始时初始抽牌数，默认为3
     };

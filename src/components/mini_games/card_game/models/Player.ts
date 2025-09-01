@@ -11,6 +11,7 @@ export interface Player {
     maxActionPoints: number; // 最大行动值
     deck: Card[];        // 卡组
     hand: Card[];        // 手牌
+    discardPile: Card[]; // 弃牌堆
     defense: number;     // 防御点数（buff）
     buffs: Buff[];       // 玩家身上的buff效果
 }

@@ -1,5 +1,6 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
+import { CardManager } from '../../../components/mini_games/card_game';
 
 // 定义第0章场景
 const scene: Scene = {
@@ -32,6 +33,27 @@ const scene: Scene = {
         //     next: "node3" // 可选，视频播放完成后跳转到的节点
         // },
         {
+            id: 'card_get_test',
+            elements: {
+                name: "旁白",
+                text: "跟我学两招吗"
+            },
+            choices: [
+                {
+                    text: "是",
+                    next: "test_game",
+                    action: () => {
+                        let cm = CardManager.getInstance();
+                        cm.addCardToDeck("feint", 5);
+                    }
+                },
+                {
+                    text: "否",
+                    next: "test_game"
+                }
+            ]
+        },
+        {
             id: "test_game",
             elements: {
                 name: "旁白",
@@ -44,27 +66,7 @@ const scene: Scene = {
                         actionPoints: 3,
                         hp: 30,
                         maxHp: 30,
-                        deck: {
-                            // 攻击卡牌
-                            'punch': 3,      // 拳击 x3
-                            'kick': 2,       // 踢击 x2
-                            'combo': 2,      // 连击 x2
-                            'uppercut': 1,   // 上勾拳 x1
-                            'jab_1': 1,      // 刺拳II x1
-
-                            // 防御卡牌
-                            'block': 2,      // 格挡 x2
-                            'dodge': 1,      // 闪避 x1
-                            'guard_1': 1,    // 严密防守II x1
-                            'counter': 1,    // 反击 x1
-
-                            // 特殊卡牌
-                            'rest': 2,       // 休息 x2
-                            'focus': 1,      // 专注 x1
-                            'adrenaline': 1, // 肾上腺素 x1
-                            'medkit': 1,     // 医疗包 x1
-                            'feint': 1       // 虚招 x1
-                        },
+                        deck: () => CardManager.getInstance().getPlayerDeck(),
                         drawCount: 2,           // 玩家每回合抽2张牌
                         initialDrawCount: 4     // 玩家开始时抽4张牌
                     },
@@ -119,7 +121,7 @@ const scene: Scene = {
             id: "test2",
             elements: {
                 name: "旁白",
-                text: "未拿到五分"
+                text: "未拿到分"
             }
         },
         {
