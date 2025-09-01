@@ -52,7 +52,7 @@ function register(): void {
 
   const strength = checkStrength(pwd);
   if (strength <= 2) {
-    msgEl.textContent = currentLang === "zh" ? "密码强度太弱！" : "Password too weak!";
+    msgEl.textContent = currentLang === "zh" ? "至少包含大小写字母、数字和特殊字符中的三种" : "Must contain at least three of: uppercase, lowercase, number, special character";
     msgEl.className = "strength-msg weak";
     return;
   }
