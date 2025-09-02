@@ -1,0 +1,44 @@
+<!-- src/pages/achievement_page/achievement_page.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成就系统</title>
+    <link rel="stylesheet" href="../../../assets/css/common.css">
+    <link rel="stylesheet" href="./achievement.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 成就系统</h1>
+            <p>查看您在游戏中解锁的所有成就</p>
+        </header>
+        
+        <main>
+            <div class="achievements-stats">
+                <div class="stat-card">
+                    <h3>总成就数</h3>
+                    <p id="total-achievements">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>已解锁</h3>
+                    <p id="unlocked-achievements">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>完成率</h3>
+                    <p id="completion-rate">0%</p>
+                </div>
+            </div>
+            
+            <div id="achievement-list" class="achievements-container">
+                <p>加载中...</p>
+            </div>
+        </main>
+        
+        <footer>
+            <button onclick="history.back()" class="back-button">返回</button>
+        </footer>
+    </div>
+</body>
+</html>
