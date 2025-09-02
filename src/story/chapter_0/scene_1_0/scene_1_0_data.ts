@@ -151,7 +151,7 @@ const scene: Scene = {
             id: "lightling_concern_1",
             elements: {
                 name: "光泠",
-                text: "您还好吗？（微笑） 是做了什么可怕的噩梦吗？（微笑）"
+                text: "您还好吗？是做了什么可怕的噩梦吗？"
             }
         },
         {
@@ -165,7 +165,7 @@ const scene: Scene = {
             id: "lightling_1_1",
             elements: {
                 name: "光泠",
-                text: "希望您不要被吓到哭鼻子。我怕哄不好您。（笑）"
+                text: "希望您不要被吓到哭鼻子。我怕哄不好您。"
             }
         },
         {
@@ -179,7 +179,7 @@ const scene: Scene = {
             id: "lightling_location_1",
             elements: {
                 name: "光泠",
-                text: "斑牛镇。（微笑） 看来您还需要一点时间。（微笑）"
+                text: "斑牛镇。看来您还需要一点时间。"
             }
         },
         {
@@ -214,7 +214,7 @@ const scene: Scene = {
             id: "lightling_clue_2",
             elements: {
                 name: "旁白",
-                text: "于是，听从内心的声音，跟随光泠的指引，我们来到了这个名为‘斑牛镇’的地方。"
+                text: "于是，听从内心的声音，跟随光泠的指引，我们来到了这个名为“斑牛镇”的地方。"
             }
         },
         {
@@ -242,7 +242,7 @@ const scene: Scene = {
             id: "lightling_response_1",
             elements: {
                 name: "光泠",
-                text: "我已经休息得足够，谢谢您。（笑）"
+                text: "我已经休息得足够，谢谢您。"
             }
         },
         {
@@ -256,7 +256,7 @@ const scene: Scene = {
             id: "lightling_no_1",
             elements: {
                 name: "光泠",
-                text: "不，我一直在您身边，等您醒来。（微笑）"
+                text: "不，我一直在您身边，等您醒来。"
             }
         },
         {
@@ -277,7 +277,7 @@ const scene: Scene = {
             id: "lightling_info_2",
             elements: {
                 name: "光泠",
-                text: "居民自给自足，安居乐业，对自己的生活感到很满足。（微笑）"
+                text: "居民自给自足，安居乐业，对自己的生活感到很满足。"
             }
         },
         {
@@ -291,7 +291,7 @@ const scene: Scene = {
             id: "lightling_wonder_1",
             elements: {
                 name: "光泠",
-                text: "是的。似乎是这样。（微笑）"
+                text: "是的。似乎是这样。"
             }
         },
         {
@@ -305,21 +305,21 @@ const scene: Scene = {
             id: "you_acknowledge_1",
             elements: {
                 name: "光泠",
-                text: "您好些了吗？我们可以出去逛逛，探索一下这里。（笑）"
+                text: "您好些了吗？我们可以出去逛逛，探索一下这里。"
             }
         },
         {
             id: "lightling_response_2_1",
             elements: {
                 name: "你",
-                text: "嗯，谢谢你陪着我。（微笑）"
+                text: "嗯，谢谢你陪着我。"
             }
         },
         {
             id: "lightling_4_1",
             elements: {
                 name: "光泠",
-                text: "您已经谢过了。（微笑）"
+                text: "您已经谢过了。"
             }
         },
         {
@@ -340,14 +340,14 @@ const scene: Scene = {
             id: "lightling_laugh_1",
             elements: {
                 name: "光泠",
-                text: "幸好您胆量足够。（微笑）"
+                text: "幸好您胆量足够。"
             }
         },
         {
             id: "lightling_suggestion_1",
             elements: {
                 name: "光泠",
-                text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。（笑）"
+                text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。"
             }
         },
         {
@@ -361,7 +361,7 @@ const scene: Scene = {
             id: "lightling_magic_1",
             elements: {
                 name: "光泠",
-                text: "那我就用神奇的魔法，把噩梦赶走。（微笑）"
+                text: "那我就用神奇的魔法，把噩梦赶走。"
             }
         },
         {
@@ -375,7 +375,7 @@ const scene: Scene = {
             id: "lightling_playful_1",
             elements: {
                 name: "光泠",
-                text: "是吗？那也可以用大人的方法。（微笑）"
+                text: "是吗？那也可以用大人的方法。"
             }
         },
         {
@@ -389,7 +389,7 @@ const scene: Scene = {
             id: "lightling_secret_1",
             elements: {
                 name: "光泠",
-                text: "既然您没有被吓哭，那么请原谅我暂时保密。（微笑）"
+                text: "既然您没有被吓哭，那么请原谅我暂时保密。"
             }
         },
         {
@@ -403,7 +403,7 @@ const scene: Scene = {
             id: "lightling_refuse_1",
             elements: {
                 name: "光泠",
-                text: "拒绝假哭。（笑）"
+                text: "拒绝假哭。"
             }
         },
         {
@@ -417,7 +417,7 @@ const scene: Scene = {
             id: "lightling_repeated_thanks_1",
             elements: {
                 name: "光泠",
-                text: "已经是第三次说谢谢了。（微笑）"
+                text: "已经是第三次说谢谢了。"
             }
         },
         {
@@ -431,7 +431,7 @@ const scene: Scene = {
             id: "lightling_welcome_1",
             elements: {
                 name: "光泠",
-                text: "那么请您尽管说吧！我并不讨厌。（微笑）"
+                text: "那么请您尽管说吧！我并不讨厌。"
             }
         },
         {
@@ -641,7 +641,7 @@ const scene: Scene = {
             id: "lightling_2_1",
             elements: {
                 name: "光泠",
-                text: "看来这就是斑牛镇的真面目。（悲伤）"
+                text: "看来这就是斑牛镇的真面目。"
             }
         },
         {
@@ -788,7 +788,7 @@ const scene: Scene = {
             id: "lightling_3_1",
             elements: {
                 name: "光泠",
-                text: "我们该去往何方？（无表情）"
+                text: "我们该去往何方？"
             }
         },
         {
@@ -837,14 +837,14 @@ const scene: Scene = {
             id: "lightling_4_1",
             elements: {
                 name: "光泠",
-                text: "嗯。（微笑）"
+                text: "嗯。"
             }
         },
         {
             id: "lightling_5_1",
             elements: {
                 name: "光泠",
-                text: "我会为您指引方向。（微笑）"
+                text: "我会为您指引方向。"
             }
         },
         {
@@ -886,7 +886,7 @@ const scene: Scene = {
             id: "lightling_6_1",
             elements: {
                 name: "光泠",
-                text: "到了。（无表情）"
+                text: "到了。"
             }
         },
         {
@@ -921,7 +921,7 @@ const scene: Scene = {
             id: "lightling_7_1",
             elements: {
                 name: "光泠",
-                text: "想必是了。（无表情）"
+                text: "想必是了。"
             }
         },
         {
@@ -942,14 +942,14 @@ const scene: Scene = {
             id: "lightling_8_1",
             elements: {
                 name: "光泠",
-                text: "那么，是要我们通过这石头的考验了。（无表情）"
+                text: "那么，是要我们通过这石头的考验了。"
             }
         },
         {
             id: "lightling_9_1",
             elements: {
                 name: "光泠",
-                text: "您准备好了吗？（微笑）"
+                text: "您准备好了吗？"
             }
         },
         {
@@ -970,7 +970,7 @@ const scene: Scene = {
             id: "lightling_10_1",
             elements: {
                 name: "光泠",
-                text: "看来，这样就什么都发现不了了。（微笑）"
+                text: "看来，这样就什么都发现不了了。"
             }
         },
         {
@@ -984,17 +984,10 @@ const scene: Scene = {
             id: "lightling_12_1",
             elements: {
                 name: "你",
-                text: "是啊。（微笑）"
+                text: "是啊。"
             }
         },
-        {
-            id: "lightling_13_1",
-            elements: {
-                name: "光泠",
-                text: "那么，您准备好接受巨石的考验了吗？（笑）"
-            }
-        },
-        {
+       /* {
             id: "choice_1",
             elements: {
                 name: "旁白",
@@ -1227,7 +1220,264 @@ const scene: Scene = {
             action: () => {
                 alert('测试完成')
             }
+        }*/
+    {
+            id: "lightling_13_1",
+            elements: {
+                name: "光泠",
+                text: "那么，您准备好接受巨石的考验了吗？"
+            },
+    choices: [
+        {
+            text: "尽管来吧。",
+            next: "branch_1_1"
+        },
+        {
+            text: " 不，也许这是一个陷阱呢。",
+            next: "branch_2_1"
         }
+    ]
+},
+
+    // ========== 分支① ==========
+    {
+        id: "branch_1_1",
+        elements: {
+            name: "光泠",
+            text: "您不会退缩的，我就知道。"
+        },
+        next: "branch_1_2"
+    },
+    {
+        id: "branch_1_2",
+        elements: {
+            name: "光泠",
+            text: "您不会让我失望，我一直相信您。"
+        },
+        next: "branch_1_3"
+    },
+    {
+        id: "branch_1_3",
+        elements: {
+            name: "你",
+            text: "看来我也不能辜负你的信任了。"
+        },
+        next: "branch_1_4"
+    },
+    {
+        id: "branch_1_4",
+        elements: {
+            name: "光泠",
+            text: "嗯，我很荣幸。"
+        },
+        next: "branch_1_5"
+    },
+    {
+        id: "branch_1_5",
+        elements: {
+            name: "光泠",
+            text: "跟您在一起的时候，我总是会很安心。"
+        },
+        next: "branch_1_6"
+    },
+    {
+        id: "branch_1_6",
+        elements: {
+            name: "你",
+            text: "是吗？"
+        },
+        next: "branch_1_7"
+    },
+    {
+        id: "branch_1_7",
+        elements: {
+            name: "光泠",
+            text: "我们会一起走下去，对吧？"
+        },
+        next: "branch_1_8"
+    },
+    {
+        id: "branch_1_8",
+        elements: {
+            name: "你",
+            text: "毫无疑问。"
+        },
+        next: "branch_1_9"
+    },
+    {
+        id: "branch_1_9",
+        elements: {
+            name: "光泠",
+            text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。"
+        },
+        next: "branch_1_10"
+    },
+    {
+        id: "branch_1_10",
+        elements: {
+            name: "你",
+            text: "第一眼看到你的时候，就觉得我们曾经在哪里相遇过。"
+        },
+        next: "branch_1_11"
+    },
+    {
+        id: "branch_1_11",
+        elements: {
+            name: "你",
+            text: "现在这股感觉更强烈了。"
+        },
+        next: "branch_1_12"
+    },
+    {
+        id: "branch_1_12",
+        elements: {
+            name: "光泠",
+            text: "也许是真的发生过呢？只可惜您已没有过往的记忆。"
+        },
+        next: "branch_1_13"
+    },
+    {
+        id: "branch_1_13",
+        elements: {
+            name: "你",
+            text: "但至少现在我们在一起。"
+        },
+        next: "branch_1_14"
+    },
+    {
+        id: "branch_1_14",
+        elements: {
+            name: "你",
+            text: "既然往昔不可追忆，那不妨好好把握当下。"
+        },
+        next: "branch_1_15"
+    },
+    {
+        id: "branch_1_15",
+        elements: {
+            name: "光泠",
+            text: "您还是很乐观呢。"
+        },
+        next: "branch_1_16"
+    },
+    {
+        id: "branch_1_16",
+        elements: {
+            name: "光泠",
+            text: "世界本来就已糟糕至极，还整日郁郁寡欢。"
+        },
+        next: "branch_1_16_1"
+    },
+    {id: "branch_1_16_1",
+        elements: {
+            name: "光泠",
+            text: "就算幸福在身边驻足，也会遗憾地失之交臂。"
+        },
+        next: "branch_1_17"
+    },
+    {
+        id: "branch_1_17",
+        elements: {
+            name: "光泠",
+            text: "您说的对。"
+        },
+        next: "branch_1_18"
+    },
+    {
+        id: "branch_1_18",
+        elements: {
+            name: "旁白",
+            text: "光泠拉起我的手，将我们两人的手轻按在巨石上。"
+        },
+        next: "branch_1_19"
+    },
+    {
+        id: "branch_1_19",
+        elements: {
+            name: "光泠",
+            text: "让我们开始吧。"
+        }
+    },
+    // ========== 分支② ==========
+    {
+        id: "branch_2_1",
+        elements: {
+            name: "光泠",
+            text: "也许是吧。但我们似乎也别无他法。"
+        },
+        next: "branch_2_2"
+    },
+    {
+        id: "branch_2_2",
+        elements: {
+            name: "光泠",
+            text: "您打算放弃吗？"
+        },
+        next: "branch_2_3"
+    },
+    {
+        id: "branch_2_3",
+        elements: {
+            name: "你",
+            text: "我想我们应该试试别的方法，或者到其他地方去。"
+        },
+        next: "branch_2_4"
+    },
+    {
+        id: "branch_2_4",
+        elements: {
+            name: "你",
+            text: "我可不敢冒这个风险。"
+        },
+        next: "branch_2_5"
+    },
+    {
+        id: "branch_2_5",
+        elements: {
+            name: "光泠",
+            text: "实在是遗憾。不过我尊重您的选择。"
+        },
+        next: "branch_2_6"
+    },
+    {
+        id: "branch_2_6",
+        elements: {
+            name: "光泠",
+            text: "将您带到这里，我的任务就完成了。"
+        },
+        next: "branch_2_7"
+    },
+    {
+        id: "branch_2_7",
+        elements: {
+            name: "你",
+            text: "我知道。只是我实在不放心。"
+        },
+        next: "branch_2_8"
+    },
+    {
+        id: "branch_2_8",
+        elements: {
+            name: "光泠",
+            text: "没关系。"
+        },
+        next: "branch_2_9"
+    },
+    {
+        id: "branch_2_9",
+        elements: {
+            name: "光泠",
+            text: "走吧。"
+        },
+        next: "branch_2_10"
+    },
+    {
+        id: "branch_2_10",
+        elements: {
+            name: "光泠",
+            text: "嗯。"
+        }
+    }
     ]
 };
 export default scene;
