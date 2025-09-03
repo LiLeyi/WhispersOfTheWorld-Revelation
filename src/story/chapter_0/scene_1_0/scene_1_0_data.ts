@@ -9,14 +9,16 @@ const scene: Scene = {
         {
             id: "intro_black_screen_1",
             elements: {
-                background: "sc0.1/待定.png",
+                background:null,
                 name: "旁白",
-                text: "Listen, my heart, to the whispers of the world with which it makes love to you."
+                text: "Listen, my heart, to the whispers of the world with which it makes love to you.",
+                bgm: null
             }
         },
         {
             id: "intro_quote_1",
             elements: {
+                bgm: "bgm2",
                 name: "旁白",
                 text: "“如果因为思念太阳而终日哭泣，那么星星也将离你而去。”"
             }

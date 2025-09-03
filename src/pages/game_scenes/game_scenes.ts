@@ -516,24 +516,38 @@ class GameScene {
         // 保存更新后的历史记录
         localStorage.setItem("backgroundHistory", JSON.stringify(backgroundHistory));
     }
-    private updateMusic(element: SceneElement): void {
+        private updateMusic(element: SceneElement): void {
         // 更新音效
         if (element.soundEffect) {
             this.audioManager.playSoundEffect(element.soundEffect);
         }
 
         // 更新背景音乐
-        if (element.bgm) {
-            this.audioManager.updateBackgroundMusic(element.bgm);
+        if (element.bgm !== undefined) {
+            // 如果bgm为null，停止当前音乐
+            if (element.bgm === null || element.bgm === "null") {
+                // 立即停止当前背景音乐
+                this.audioManager.stopBackgroundMusic();
+            } else {
+                // 更新背景音乐
+                this.audioManager.updateBackgroundMusic(element.bgm);
+            }
         }
     }
 
-    private navigateToScene(sceneId: string): void {
+           private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
         // 重置点击计数
         this.clickCount = 0;
         localStorage.setItem("nowclick", "0");
+
+        // 清除背景状态，确保新场景从干净状态开始
+        localStorage.removeItem("MSYbackgroundIMG");
+        localStorage.removeItem("backgroundHistory");
+        localStorage.removeItem("previousElements");
+        // 清除音频状态
+        localStorage.removeItem("nowbgm");
 
         // 获取当前存档ID
         const currentArchiveId = ArchiveManager.getCurrentArchiveId();

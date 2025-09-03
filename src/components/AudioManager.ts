@@ -9,23 +9,20 @@ export class AudioManager {
     private gameVolume: number = 1.0;
     private bgmVolume: number = 1.0;
     private menuVolume: number = 1.0;
+    private fadeDuration: number = 1000; // 淡入淡出持续时间(毫秒)
 
-    constructor() {
+  constructor() {
         this.musicElement = document.getElementById("music") as HTMLAudioElement | null;
         
         // 添加用户交互监听器来解锁音频播放
         if (this.musicElement) {
-            const unlockAudio = () => {
+                         const unlockAudio = () => {
                 this.userInteracted = true;
                 // 尝试播放当前存储的背景音乐
                 const currentBgm = localStorage.getItem("nowbgm");
                 console.log("AudioManager: 用户已交互，尝试播放背景音乐:", currentBgm);
-                if (currentBgm && currentBgm !== "none" && currentBgm !== "#") {
+                if (currentBgm && currentBgm !== "none" && currentBgm !== "#" && currentBgm !== "null") {
                     this.playBackgroundMusic(currentBgm);
-                } else {
-                    // 如果没有有效的背景音乐，尝试播放默认的bgm1.mp3
-                    console.log("AudioManager: 没有有效的背景音乐，尝试播放默认音乐");
-                    this.playBackgroundMusic("bgm1");
                 }
                 // 移除事件监听器
                 document.removeEventListener('click', unlockAudio);
@@ -41,7 +38,6 @@ export class AudioManager {
         // 从localStorage加载音量设置
         this.loadVolumeSettings();
     }
-
     /**
      * 从localStorage加载音量设置
      */
@@ -151,14 +147,16 @@ export class AudioManager {
         }
     }
 
-    /**
+        /**
      * 更新背景音乐
      * @param bgm 背景音乐文件名
      */
     public updateBackgroundMusic(bgm: string): void {
         console.log("AudioManager: 更新背景音乐:", bgm);
-        if (!bgm || bgm === "none" || bgm === "#") {
-            console.log("AudioManager: 无效的背景音乐名称，跳过更新");
+        // 如果bgm为null或无效值，立即停止音乐播放
+        if (!bgm || bgm === "none" || bgm === "#" || bgm === "null") {
+            console.log("AudioManager: 无效的背景音乐名称，立即停止播放");
+            this.stopBackgroundMusic();
             return;
         }
         
@@ -178,12 +176,100 @@ export class AudioManager {
             });
         }
     }
+       /**
+     * 淡出当前音频
+     * @param duration 淡出持续时间(毫秒)
+     * @returns Promise，在淡出完成后resolve
+     */
+    private fadeOutAudio(duration: number = this.fadeDuration): Promise<void> {
+        return new Promise((resolve) => {
+            if (!this.musicElement) {
+                resolve();
+                return;
+            }
+            
+            const initialVolume = this.musicElement.volume;
+            const startTime = performance.now();
+            
+            const fadeOutStep = (timestamp: number) => {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                if (this.musicElement) {
+                    // 确保音量在有效范围内 [0, 1]
+                    const newVolume = Math.max(0, Math.min(initialVolume * (1 - progress), 1));
+                    this.musicElement.volume = newVolume;
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(fadeOutStep);
+                } else {
+                    if (this.musicElement) {
+                        this.musicElement.volume = 0;
+                        this.musicElement.pause();
+                    }
+                    resolve();
+                }
+            };
+            
+            requestAnimationFrame(fadeOutStep);
+        });
+    }
     
     /**
-     * 播放背景音乐
+     * 淡入音频
+     * @param targetVolume 目标音量
+     * @param duration 淡入持续时间(毫秒)
+     * @returns Promise，在淡入完成后resolve
+     */
+    private fadeInAudio(targetVolume: number, duration: number = this.fadeDuration): Promise<void> {
+        return new Promise((resolve) => {
+            if (!this.musicElement) {
+                resolve();
+                return;
+            }
+            
+            // 确保目标音量在有效范围内 [0, 1]
+            const clampedTargetVolume = Math.max(0, Math.min(targetVolume, 1));
+            
+            // 确保音频是播放状态
+            if (this.musicElement.paused) {
+                this.musicElement.play().catch(e => {
+                    console.error("AudioManager: 播放音频失败:", e);
+                });
+            }
+            
+            const startTime = performance.now();
+            this.musicElement.volume = 0;
+            
+            const fadeInStep = (timestamp: number) => {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                if (this.musicElement) {
+                    // 确保音量在有效范围内 [0, 1]
+                    const newVolume = Math.max(0, Math.min(clampedTargetVolume * progress, 1));
+                    this.musicElement.volume = newVolume;
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(fadeInStep);
+                } else {
+                    if (this.musicElement) {
+                        this.musicElement.volume = clampedTargetVolume;
+                    }
+                    resolve();
+                }
+            };
+            
+            requestAnimationFrame(fadeInStep);
+        });
+    }
+    /**
+     * 播放背景音乐（带淡入淡出效果）
      * @param bgm 背景音乐文件名
      */
-    private playBackgroundMusic(bgm: string): void {
+    private async playBackgroundMusic(bgm: string): Promise<void> {
         console.log("AudioManager: 尝试播放背景音乐:", bgm);
         if (!bgm || bgm === "none" || bgm === "#") {
             console.log("AudioManager: 无效的背景音乐名称，跳过播放");
@@ -197,6 +283,13 @@ export class AudioManager {
                 return;
             }
             
+            // 如果有当前正在播放的音乐，先淡出
+            if (this.currentBgm && this.musicElement.src && !this.musicElement.paused) {
+                console.log("AudioManager: 淡出当前背景音乐");
+                await this.fadeOutAudio();
+            }
+            
+            // 更新当前背景音乐
             this.currentBgm = bgm;
             const audioUrl = this.getAudioPath(bgm);
             if (!audioUrl) {
@@ -207,22 +300,35 @@ export class AudioManager {
             console.log("AudioManager: 设置背景音乐源:", audioUrl);
             this.musicElement.src = audioUrl;
             this.musicElement.loop = true; // 确保背景音乐循环播放
-            this.musicElement.volume = this.bgmVolume; // 应用背景音乐音量
+            this.musicElement.volume = 0; // 初始音量设为0，准备淡入
             
-            this.musicElement.play()
-                .then(() => {
-                    console.log("AudioManager: 背景音乐播放成功:", bgm);
-                })
-                .catch(e => {
-                    console.error("AudioManager: 播放背景音乐失败:", e);
-                    console.error("AudioManager: 尝试播放的背景音乐路径:", audioUrl);
-                });
+            // 加载音频并开始播放
+            this.musicElement.load();
+            
+            // 等待音频可以播放
+            const canPlayPromise = new Promise<void>((resolve) => {
+                const onCanPlay = () => {
+                    this.musicElement?.removeEventListener('canplay', onCanPlay);
+                    resolve();
+                };
+                this.musicElement?.addEventListener('canplay', onCanPlay);
+            });
+            
+            try {
+                await canPlayPromise;
+                console.log("AudioManager: 开始淡入背景音乐:", bgm);
+                await this.fadeInAudio(this.bgmVolume);
+                console.log("AudioManager: 背景音乐淡入完成:", bgm);
+            } catch (e) {
+                console.error("AudioManager: 播放背景音乐失败:", e);
+                console.error("AudioManager: 尝试播放的背景音乐路径:", audioUrl);
+            }
         } else {
             console.log("AudioManager: 背景音乐未播放，缺少musicElement");
         }
     }
 
-    /**
+      /**
      * 播放点击音效
      */
     public playClickSound(): void {
@@ -252,6 +358,18 @@ export class AudioManager {
     }
     
     /**
+     * 停止背景音乐（立即停止，不淡出）
+     */
+    public stopBackgroundMusic(): void {
+        console.log("AudioManager: 立即停止背景音乐");
+        if (this.musicElement) {
+            this.musicElement.pause();
+            this.musicElement.src = "";
+            this.currentBgm = "";
+            // 在localStorage中设置特殊值，表示音乐应该停止
+            localStorage.setItem("nowbgm", "null");
+        }
+    } /**
      * 获取当前背景音乐
      */
     public getCurrentBgm(): string {
