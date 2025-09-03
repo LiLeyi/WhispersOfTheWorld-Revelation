@@ -8,7 +8,7 @@ body {
     background-attachment: fixed;
     background-size: 100% 100%;
     animation: gradientShift 15s ease infinite;
-    font-family: 'Crimson Text', 'Libre Baskerville', 'KaiTi', serif;
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -16,7 +16,6 @@ body {
     overflow-x: hidden;
    background-image:url('duihuajiemian.JPG');
     
-    font-family: 'KaiTi', sans-serif;
 }
 
 /* 背景渐变动画 */
