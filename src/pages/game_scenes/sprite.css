@@ -1,31 +1,31 @@
 .sprite {
     position: absolute;
-    bottom: 0;
-    height: 80%;
+    bottom: -350px; /* 更靠下，让立绘一半在屏幕外面 */
+    height: 110%; /* 更大，使立绘一半在屏幕外面 */
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease-in-out;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
     font-family: 'Libre Baskerville', 'Crimson Text', serif;
 }
 
 .sprite.left {
     left: 5%;
-    transform: translateX(-100%) translateY(20px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50px) translateY(0);
+    transition: all 0.3s ease-in-out;
 }
 
 .sprite.center {
     left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%) translateY(0);
+    transition: all 0.3s ease-in-out;
 }
 
 .sprite.right {
     right: 5%;
-    transform: translateX(100%) translateY(20px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(50px) translateY(0);
+    transition: all 0.3s ease-in-out;
 }
 
 .sprite.show {
@@ -39,36 +39,20 @@
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
 }
 
-/* 添加精灵进入动画 */
-@keyframes spriteSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    50% {
-        opacity: 0.7;
-        transform: translateY(-10px) scale(1.05);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.sprite.show {
-    animation: spriteSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+/* 删除原来的弹跳动画，使用简单的淡入淡出 */
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
     .sprite {
-        height: 75%;
+        height: 135%; /* 在较小屏幕上稍微调小 */
+        bottom: -180px;
     }
 }
 
 @media (max-width: 1000px) {
     .sprite {
-        height: 70%;
+        height: 130%;
+        bottom: -160px;
     }
     
     .sprite.left {
@@ -82,7 +66,8 @@
 
 @media (max-width: 768px) {
     .sprite {
-        height: 65%;
+        height: 125%;
+        bottom: -140px;
     }
     
     .sprite.left {
@@ -96,7 +81,8 @@
 
 @media (max-width: 480px) {
     .sprite {
-        height: 60%;
+        height: 120%;
+        bottom: -120px;
     }
     
     .sprite.left {

@@ -49,7 +49,7 @@ const scene: Scene = {
                 },
                 {
                     text: "否",
-                    next: "test_game"
+                    next: "test1"
                 }
             ]
         },
@@ -394,7 +394,7 @@ const scene: Scene = {
         {
             id: "node37",
             elements: {
-                name: "旁白",
+                name: "我",
                 text: "你在这里......做什么？"
             }
         },
@@ -406,17 +406,23 @@ const scene: Scene = {
             }
         },
         {
-            id: "node39",
-            elements: {
-                name: "？",
-                text: "没什么......只是在“告别”。"
-            }
+        id: "node39",
+        elements: {
+        name: "？",
+        text: "没什么......只是在“告别”。",
+        sprite: {
+            left: "guangling/wubiaoqing.png"
+        }
+        }   
         },
         {
             id: "meet_girl",
             elements: {
                 name: "？",
-                text: "啊...您终于来了。虽然比预计的时间要稍迟一些，我在等着您醒来。"
+                text: "啊...您终于来了。虽然比预计的时间要稍迟一些，我在等着您醒来。",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             },
             choices: [
                 {
@@ -447,7 +453,7 @@ const scene: Scene = {
         {
             id: "node43",
             elements: {
-                name: "旁白",
+                name: "我",
                 text: "我不知道。"
             }
         },
@@ -462,7 +468,10 @@ const scene: Scene = {
             id: "node45",
             elements: {
                 name: "光泠",
-                text: "曾经一场可怕的灾难降临在这个世界。大地被烈火焚烧，天空被灰烬笼罩。"
+                text: "曾经一场可怕的灾难降临在这个世界。大地被烈火焚烧，天空被灰烬笼罩。",
+                sprite: {
+            left: "guangling/down.png"
+        }
             }
         },
         {
@@ -483,7 +492,10 @@ const scene: Scene = {
             id: "node48",
             elements: {
                 name: "光泠",
-                text: "而您将会成为这个世界的拯救者，您的使命就是终结这一切灾厄。而我的职责，就是指引您创造一个没有这一切灾难的美好世界。"
+                text: "而您将会成为这个世界的拯救者，您的使命就是终结这一切灾厄。而我的职责，就是指引您创造一个没有这一切灾难的美好世界。",
+                sprite: {
+            left: "guangling/wubiaoqing.png"
+        }
             }
         },
         {
@@ -497,14 +509,20 @@ const scene: Scene = {
             id: "node50",
             elements: {
                 name: "光泠",
-                text: "也许当您结束了这一切，您曾被消去的空白才会被重新填满。"
+                text: "也许当您结束了这一切，您曾被消去的空白才会被重新填满。",
+                sprite: {
+            left: "guangling/down.png"
+        }
             }
         },
         {
             id: "node51",
             elements: {
                 name: "旁白",
-                text: "名为光泠的少女，向忘却了一切的自己解释道。"
+                text: "名为光泠的少女，向忘却了一切的自己解释道。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
@@ -531,14 +549,20 @@ const scene: Scene = {
             id: "node54",
             elements: {
                 name: "光泠",
-                text: "很抱歉，关于这背后更深层次的真相，我也无法向您解释。只知道这是一场涤荡世界的灾厄。"
+                text: "很抱歉，关于这背后更深层次的真相，我也无法向您解释。只知道这是一场涤荡世界的灾厄。",
+                sprite: {
+            left: "guangling/down.png"
+        }
             }
         },
         {
             id: "node55",
             elements: {
                 name: "光泠",
-                text: "您需要集齐三样关键之物，才可能解决这一切。"
+                text: "您需要集齐三样关键之物，才可能解决这一切。",
+                sprite: {
+            left: "guangling/wubiaoqing.png"
+        }
             }
         },
         {
@@ -552,7 +576,9 @@ const scene: Scene = {
             id: "node57",
             elements: {
                 name: "光泠",
-                text: "我会给予您指引。"
+                text: "我会给予您指引。",sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
