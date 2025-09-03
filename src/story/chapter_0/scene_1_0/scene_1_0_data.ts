@@ -3,7 +3,7 @@ import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 // 定义第1幕场景
 const scene: Scene = {
-    id: "chapter_0_scene_1",
+    id: "chapter_0_scene_1_0",
     title: "第1幕：斑牛镇",
     nodes: [
         {
@@ -13,6 +13,7 @@ const scene: Scene = {
                 name: "旁白",
                 text: "Listen, my heart, to the whispers of the world with which it makes love to you.",
                 bgm: null
+                
             }
         },
         {
@@ -20,7 +21,8 @@ const scene: Scene = {
             elements: {
                 bgm: "bgm2",
                 name: "旁白",
-                text: "“如果因为思念太阳而终日哭泣，那么星星也将离你而去。”"
+                text: "“如果因为思念太阳而终日哭泣，那么星星也将离你而去。”",
+                background: "sc1.1/1-1-3.png",
             }
         },
         {
@@ -55,7 +57,8 @@ const scene: Scene = {
             id: "wake_up_1_1",
             elements: {
                 name: "旁白",
-                text: "是了，我的身躯被无情地撕碎，惟有仅剩的半截残躯还吊着最后一口气。"
+                text: "是了，我的身躯被无情地撕碎，惟有仅剩的半截残躯还吊着最后一口气。",
+                background: "sc1.1/1-1-1.jpg",
             }
         },
         {
@@ -90,7 +93,8 @@ const scene: Scene = {
             id: "voice_1_1",
             elements: {
                 name: "？？？",
-                text: "......帝王......奴隶......"
+                text: "......帝王......奴隶......",
+                background: "sc1.1/1-1-2.jpg",
             }
         },
         {
@@ -118,7 +122,8 @@ const scene: Scene = {
             id: "explosion_1",
             elements: {
                 name: "旁白",
-                text: "一切都结束了，我想。"
+                text: "一切都结束了，我想。",
+                background: "sc1.1/1-1-3.png",
             }
         },
         {
@@ -139,21 +144,30 @@ const scene: Scene = {
             id: "nightmare_wake_up_1",
             elements: {
                 name: "旁白",
-                text: "再次从噩梦中惊醒，发现冷汗从额间流下。"
+                text: "再次从噩梦中惊醒，发现冷汗从额间流下。",
+                background: "sc1.1/1-1-6.png",
+                bgm:"bgm1",
+                
             }
         },
         {
             id: "nightmare_wake_up_2",
             elements: {
                 name: "旁白",
-                text: "抬头看去，光泠正静静地注视着我。"
+                text: "抬头看去，光泠正静静地注视着我。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
             id: "lightling_concern_1",
             elements: {
                 name: "光泠",
-                text: "您还好吗？是做了什么可怕的噩梦吗？"
+                text: "您还好吗？是做了什么可怕的噩梦吗？",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
@@ -167,21 +181,30 @@ const scene: Scene = {
             id: "lightling_1_1",
             elements: {
                 name: "光泠",
-                text: "希望您不要被吓到哭鼻子。我怕哄不好您。"
+                text: "希望您不要被吓到哭鼻子。我怕哄不好您。",
+                sprite: {
+            left: "guangling/smile1.png"
+        }
             }
         },
         {
             id: "you_will_be_fine_1",
             elements: {
                 name: "你",
-                text: "当然不会，好吧。我们现在在哪里？"
+                text: "当然不会，好吧。我们现在在哪里？",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
             id: "lightling_location_1",
             elements: {
                 name: "光泠",
-                text: "斑牛镇。看来您还需要一点时间。"
+                text: "斑牛镇。看来您还需要一点时间。",
+                sprite: {
+            left: "guangling/smile1.png"
+        }
             }
         },
         {
@@ -244,7 +267,10 @@ const scene: Scene = {
             id: "lightling_response_1",
             elements: {
                 name: "光泠",
-                text: "我已经休息得足够，谢谢您。"
+                text: "我已经休息得足够，谢谢您。",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
@@ -307,7 +333,10 @@ const scene: Scene = {
             id: "you_acknowledge_1",
             elements: {
                 name: "光泠",
-                text: "您好些了吗？我们可以出去逛逛，探索一下这里。"
+                text: "您好些了吗？我们可以出去逛逛，探索一下这里。",
+                sprite: {
+            left: "guangling/smile1.png"
+        }
             }
         },
         {
@@ -349,7 +378,10 @@ const scene: Scene = {
             id: "lightling_suggestion_1",
             elements: {
                 name: "光泠",
-                text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。"
+                text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。",
+                sprite: {
+            left: "guangling/smile1.png"
+        }
             }
         },
         {
@@ -363,7 +395,10 @@ const scene: Scene = {
             id: "lightling_magic_1",
             elements: {
                 name: "光泠",
-                text: "那我就用神奇的魔法，把噩梦赶走。"
+                text: "那我就用神奇的魔法，把噩梦赶走。",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
@@ -440,14 +475,18 @@ const scene: Scene = {
             id: "you_agree_1",
             elements: {
                 name: "你",
-                text: "好好好，我会的。"
+                text: "好好好，我会的。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
             id: "town_outside_1",
             elements: {
                 name: "旁白",
-                text: "走出门，来到镇上，人们正聚集在集市广场上。"
+                text: "走出门，来到镇上，人们正聚集在集市广场上。",
+                background: "sc1.1/1-1-4.png",
             }
         },
         {

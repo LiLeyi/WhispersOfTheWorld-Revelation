@@ -414,7 +414,7 @@ const scene: Scene = {
             id: "node37",
             elements: {
                 background: "sc0.1/0-1-2.jpg",
-                name: "我",
+                name: "你",
                 text: "你在这里......做什么？"
             }
         },
@@ -482,7 +482,7 @@ const scene: Scene = {
             id: "node43",
             elements: {
                 background: "sc0.1/0-1-2.jpg",
-                name: "我",
+                name: "你",
                 text: "我不知道。"
             }
         },
@@ -708,7 +708,7 @@ const scene: Scene = {
             id: "node68",
             elements: {
                 background: "sc0.1/0-1-2.jpg",
-                name: "我",
+                name: "你",
                 text: "还有一个问题，你知道这是什么吗？"
             }
         },

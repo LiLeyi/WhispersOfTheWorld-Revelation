@@ -16,13 +16,21 @@ export class AudioManager {
         
         // 添加用户交互监听器来解锁音频播放
         if (this.musicElement) {
-                         const unlockAudio = () => {
+                              const unlockAudio = () => {
                 this.userInteracted = true;
                 // 尝试播放当前存储的背景音乐
                 const currentBgm = localStorage.getItem("nowbgm");
                 console.log("AudioManager: 用户已交互，尝试播放背景音乐:", currentBgm);
                 if (currentBgm && currentBgm !== "none" && currentBgm !== "#" && currentBgm !== "null") {
                     this.playBackgroundMusic(currentBgm);
+                } else if (!currentBgm) {
+                    // 如果没有保存的背景音乐，确保音乐元素处于静音状态
+                    console.log("AudioManager: 没有保存的背景音乐，保持静音状态");
+                    if (this.musicElement) {
+                        this.musicElement.pause();
+                        this.musicElement.src = "";
+                        this.currentBgm = "";
+                    }
                 }
                 // 移除事件监听器
                 document.removeEventListener('click', unlockAudio);

@@ -18,7 +18,6 @@ interface SaveSlot {
 const STORAGE_KEY = "myGameSaveSlots";
 let saveData: (SaveSlot | null)[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]") || [];
 while(saveData.length < 9) saveData.push(null);
-
 // 渲染存档槽
 async function renderSlots(){
     const container = document.getElementById('saveSlotsContainer');
@@ -57,7 +56,27 @@ async function renderSlots(){
                         // 根据click数计算当前节点
                         const nodeIndex = Math.min(slot.click, scene.nodes.length - 1);
                         if (nodeIndex >= 0 && scene.nodes[nodeIndex] && scene.nodes[nodeIndex].elements) {
-                            currentText = scene.nodes[nodeIndex].elements.text || '无';
+                            const elements = scene.nodes[nodeIndex].elements;
+                            currentText = elements.text || '无';
+                        }
+                    }
+                    
+                    // 如果存档中有文本历史记录，优先显示最新的文本
+                    if (slot.gameData && slot.gameData.objects) {
+                        // 尝试从TextManager的文本历史中获取
+                        const textHistoryKey = `gameTextHistory_${index}`;
+                        const textHistoryStr = localStorage.getItem(textHistoryKey);
+                        if (textHistoryStr) {
+                            try {
+                                const textHistory = JSON.parse(textHistoryStr);
+                                if (textHistory.length > 0) {
+                                    // 显示最新的文本
+                                    const latestEntry = textHistory[textHistory.length - 1];
+                                    currentText = latestEntry.text;
+                                }
+                            } catch (e) {
+                                console.error('解析文本历史记录失败:', e);
+                            }
                         }
                     }
                 } catch (e) {
@@ -110,6 +129,7 @@ async function renderSlots(){
         });
     }
 }
+
 
 // 加载存档
 function loadGame(index: number){

@@ -1,7 +1,7 @@
 .sprite {
     position: absolute;
-    bottom: -350px; /* 更靠下，让立绘一半在屏幕外面 */
-    height: 110%; /* 更大，使立绘一半在屏幕外面 */
+    bottom: -500px; /* 更靠下，让立绘一半在屏幕外面 */
+    height: 130%; /* 更大，使立绘一半在屏幕外面 */
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
