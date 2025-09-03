@@ -246,7 +246,8 @@ const scene: Scene = {
             id: "node17",
             elements: {
                 name: "旁白",
-                text: "......"
+                text: "......",
+                background: null,
             }
         },
         {
@@ -260,6 +261,7 @@ const scene: Scene = {
         {
             id: "node18",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "仿佛被烈火与铁蹄碾碎的大地，支离破碎的骨骸，断裂横陈的高耸石柱，残垣间散落着扭曲的金属与焦黑的木梁。空气中弥漫着浓重的焦土气息，混杂着铁锈与血的味道。"
             }
@@ -267,6 +269,7 @@ const scene: Scene = {
         {
             id: "node19",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "不仅是对这糟糕的环境，更是对自己感到陌生。"
             }
@@ -274,6 +277,7 @@ const scene: Scene = {
         {
             id: "node20",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "为何会身处此处，为何会在这里醒来。"
             }
@@ -281,6 +285,7 @@ const scene: Scene = {
         {
             id: "node21",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "脑海里一片空白，思考的火星也无从燃起。"
             }
@@ -288,6 +293,7 @@ const scene: Scene = {
         {
             id: "node22",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "某个声音在心中响起，遵循那莫名的呼唤，支撑起身体，从地上站起来。"
             }
@@ -295,6 +301,7 @@ const scene: Scene = {
         {
             id: "node23",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "天空没有色彩，灰白如旧纸，偶尔有大片灰烬随风飘落，像失却温度的雪。风声低沉而空洞，吹过裂缝与残骸时，仿佛在诉说一段无声的哀歌。"
             }
@@ -302,6 +309,7 @@ const scene: Scene = {
         {
             id: "node24",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "似乎有某个坚硬的物体在脚边。定睛一看，是一柄漆黑的手杖。"
             }
@@ -309,6 +317,7 @@ const scene: Scene = {
         {
             id: "node25",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "捡起脚边的手杖，拍去灰尘，漆黑的手杖上隐约浮现出金色的复杂纹路。"
             }
@@ -316,6 +325,7 @@ const scene: Scene = {
         {
             id: "node26",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "还没来得及仔细观察，手中的漆黑之物似乎启动了某种开关，倏忽之间化为液态游走在手臂上。眨眼之间，便覆盖了整条右臂，如铠甲般附着其上。一股柔和的力量从包裹着右臂向全身蔓延，顿时感到先前的虚弱一扫而空。"
             }
@@ -323,6 +333,7 @@ const scene: Scene = {
         {
             id: "node27",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "虽然不知道这到底是何种奇物，但莫名地有种亲切感。不过似乎暂时对自己无害，也不妨碍行动，那就暂时先不去思考怎样处理它。"
             }
@@ -330,6 +341,7 @@ const scene: Scene = {
         {
             id: "node28",
             elements: {
+                 background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "环顾四周，迈开双腿，先试试看能不能找到离开这里的路。"
             }
@@ -337,6 +349,7 @@ const scene: Scene = {
         {
             id: "node29",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "似乎是收到了某种神秘的指引，便不自觉地朝某个方向摸索过去。"
             }
@@ -344,6 +357,7 @@ const scene: Scene = {
         {
             id: "node30",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "脚下的碎石发出浑浊而孤独的回响，像是荒芜与死亡的低吼。在这片废墟之上，时间似乎停滞了。没有未来，没有希望，只有过去的影子与世界濒死的低语。"
             }
@@ -351,6 +365,7 @@ const scene: Scene = {
         {
             id: "node31",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "不知踏过了多少残骸，不知流逝了多长时间，终于快要走出这片废土。"
             }
@@ -358,8 +373,9 @@ const scene: Scene = {
         {
             id: "node32",
             elements: {
+                background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
-                text: "张口想要释放内心的呐喊，眼睛却在视野的边角捕捉到了什么。"
+                text: "张口想要释放内心的呐喊，眼睛却在视野的边角捕捉到了什么。",
             }
         },
         {
@@ -373,6 +389,7 @@ const scene: Scene = {
         {
             id: "node34",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "身披长袍的少女跪坐在一块墓碑之前。"
             }
@@ -380,6 +397,7 @@ const scene: Scene = {
         {
             id: "node35",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "她低着头，双掌合拢，像是在为埋葬在此处的死者哀悼。"
             }
@@ -387,29 +405,35 @@ const scene: Scene = {
         {
             id: "node36",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "即使在自己靠近之后，她也仍保持着这个姿势数分钟的时间。",
-                background: "sc0.1/0-1-3.jpg",
             }
         },
         {
             id: "node37",
             elements: {
-                name: "我",
+                background: "sc0.1/0-1-2.jpg",
+                name: "你",
                 text: "你在这里......做什么？"
             }
         },
         {
             id: "node38",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
-                text: "疑惑不自觉地溜过自己的声带，少女听到了自己的发问，也缓缓地站起来。"
+                text: "疑惑不自觉地溜过自己的声带，少女听到了自己的发问，也缓缓地站起来。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
         id: "node39",
         elements: {
-        name: "？",
+        background: "sc0.1/0-1-2.jpg",
+            name: "？",
         text: "没什么......只是在“告别”。",
         sprite: {
             left: "guangling/wubiaoqing.png"
@@ -419,6 +443,7 @@ const scene: Scene = {
         {
             id: "meet_girl",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "？",
                 text: "啊...您终于来了。虽然比预计的时间要稍迟一些，我在等着您醒来。",
                 sprite: {
@@ -439,6 +464,7 @@ const scene: Scene = {
         {
             id: "ask_who_is_she",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "？",
                 text: "嗯，您可以叫我光泠。出于某种原因，在这里与您相遇。"
             },
@@ -447,6 +473,7 @@ const scene: Scene = {
         {
             id: "node42",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您真的对您的处境一无所知吗？还是说，还记得些什么？"
             }
@@ -454,13 +481,15 @@ const scene: Scene = {
         {
             id: "node43",
             elements: {
-                name: "我",
+                background: "sc0.1/0-1-2.jpg",
+                name: "你",
                 text: "我不知道。"
             }
         },
         {
             id: "node44",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您注意到了吗？这片荒芜的土地，还有那些断壁残垣，以及尘土中无名的骸骨。"
             }
@@ -468,6 +497,7 @@ const scene: Scene = {
         {
             id: "node45",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "曾经一场可怕的灾难降临在这个世界。大地被烈火焚烧，天空被灰烬笼罩。",
                 sprite: {
@@ -478,6 +508,7 @@ const scene: Scene = {
         {
             id: "node46",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "森林枯败而失去生机，海洋干涸而沉寂腐朽。"
             }
@@ -485,6 +516,7 @@ const scene: Scene = {
         {
             id: "node47",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "是的，这个世界病了，病得快要无可救药。"
             }
@@ -492,6 +524,7 @@ const scene: Scene = {
         {
             id: "node48",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "而您将会成为这个世界的拯救者，您的使命就是终结这一切灾厄。而我的职责，就是指引您创造一个没有这一切灾难的美好世界。",
                 sprite: {
@@ -502,6 +535,7 @@ const scene: Scene = {
         {
             id: "node49",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您正是为了为世界带来新生，才从这里醒来。"
             }
@@ -509,6 +543,7 @@ const scene: Scene = {
         {
             id: "node50",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "也许当您结束了这一切，您曾被消去的空白才会被重新填满。",
                 sprite: {
@@ -519,6 +554,7 @@ const scene: Scene = {
         {
             id: "node51",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "名为光泠的少女，向忘却了一切的自己解释道。",
                 sprite: {
@@ -529,6 +565,7 @@ const scene: Scene = {
         {
             id: "node52",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "遗憾的是，突如其来的庞大信息量让自己难以完全理解她的每一句话。"
             }
@@ -536,6 +573,7 @@ const scene: Scene = {
         {
             id: "node53",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "好在自己很快冷静下来，反复咀嚼思索她的语句。"
             },
@@ -549,6 +587,7 @@ const scene: Scene = {
         {
             id: "node54",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "很抱歉，关于这背后更深层次的真相，我也无法向您解释。只知道这是一场涤荡世界的灾厄。",
                 sprite: {
@@ -559,6 +598,7 @@ const scene: Scene = {
         {
             id: "node55",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您需要集齐三样关键之物，才可能解决这一切。",
                 sprite: {
@@ -569,6 +609,7 @@ const scene: Scene = {
         {
             id: "node56",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "去那里得到这三样关键之物？"
             }
@@ -576,6 +617,7 @@ const scene: Scene = {
         {
             id: "node57",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "我会给予您指引。",sprite: {
             left: "guangling/smile.png"
@@ -585,6 +627,7 @@ const scene: Scene = {
         {
             id: "node58",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "它们是什么？"
             }
@@ -592,6 +635,7 @@ const scene: Scene = {
         {
             id: "node59",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "恕我无法为您解答。不过我会和您一起去寻找。"
             }
@@ -599,6 +643,7 @@ const scene: Scene = {
         {
             id: "node60",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "我凭什么相信你？"
             }
@@ -606,6 +651,7 @@ const scene: Scene = {
         {
             id: "node61",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您不相信我也没有关系。"
             }
@@ -613,6 +659,7 @@ const scene: Scene = {
         {
             id: "node62",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您才是故事的主角，我的使命只是引导和陪伴您。至于您做出怎样的选择，我无从干涉。"
             }
@@ -620,6 +667,7 @@ const scene: Scene = {
         {
             id: "node63",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "即使您现在想离开我，一个人到其他地方逛逛也可以。"
             }
@@ -627,6 +675,7 @@ const scene: Scene = {
         {
             id: "node64",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "您一定又会回到这里。所以在您回心转意之前，我会一直等着您。"
             }
@@ -634,6 +683,7 @@ const scene: Scene = {
         {
             id: "node65",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "暗暗思索着，自己似乎也别无选择。"
             }
@@ -641,6 +691,7 @@ const scene: Scene = {
         {
             id: "node66",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "世界的真相是什么，自己又为何莫名其妙地背负起这样沉重的使命。"
             }
@@ -648,6 +699,7 @@ const scene: Scene = {
         {
             id: "node67",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "但无论如何，自己无法逃避，必须行动起来。"
             }
@@ -655,13 +707,15 @@ const scene: Scene = {
         {
             id: "node68",
             elements: {
-                name: "旁白",
+                background: "sc0.1/0-1-2.jpg",
+                name: "你",
                 text: "还有一个问题，你知道这是什么吗？"
             }
         },
         {
             id: "node69",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "一边打量着覆盖右臂的黑色坚甲，一边向光泠示意。"
             }
@@ -669,6 +723,7 @@ const scene: Scene = {
         {
             id: "node70",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "它是能为您斩断一切阻碍的利器，您可以叫它“暗寂(Eclipsera)”。"
             }
@@ -676,6 +731,7 @@ const scene: Scene = {
         {
             id: "node71",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "......"
             }
@@ -683,6 +739,7 @@ const scene: Scene = {
         {
             id: "node72",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "那么，如果您没有什么特殊的打算，就请让我与您同行。"
             }
@@ -690,6 +747,7 @@ const scene: Scene = {
         {
             id: "node73",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "或者等您下定决心，再开始行动也不迟。"
             }
@@ -697,6 +755,7 @@ const scene: Scene = {
         {
             id: "node74",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
                 text: "似乎也别无选择了。"
             }
@@ -704,6 +763,7 @@ const scene: Scene = {
         {
             id: "node75",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "比起苍白的语言，直观的体验更能告诉您答案。您会知道的。"
             }
@@ -711,6 +771,7 @@ const scene: Scene = {
         {
             id: "node76",
             elements: {
+                background: "sc0.1/0-1-2.jpg",
                 name: "光泠",
                 text: "这个世界什么也无法保证，但我能向您确定一点。"
             }
@@ -719,7 +780,11 @@ const scene: Scene = {
             id: "node77",
             elements: {
                 name: "光泠",
-                text: "我会跟随您见证旅途的所有景色，陪您到最后一刻。"
+                background:null,
+                text: "我会跟随您见证旅途的所有景色，陪您到最后一刻。",
+                sprite: {
+            left: null
+        }
             },
             next: "chapter_0_scene_1_0"
         },
