@@ -1,6 +1,6 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
-
+import { CardManager } from '../../../components/mini_games/card_game';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1",
@@ -1398,6 +1398,179 @@ const scene: Scene = {
             text: "让我们开始吧。"
         }
     },
+    {
+                id: "test_game",
+                elements: {
+                    name: "旁白",
+                    text: "小游戏测试"
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 3,
+                            hp: 30,
+                            maxHp: 30,
+                            deck: () => CardManager.getInstance().getPlayerDeck(),
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 4     // 玩家开始时抽4张牌
+                        },
+                        opponent: {
+                            actionPoints: 3,
+                            hp: 30,
+                            maxHp: 30,
+                            deck: {
+                                // 攻击卡牌
+                                'punch': 2,      // 拳击 x2
+                                'kick': 3,       // 踜击 x3
+                                'combo': 2,      // 连击 x2
+                                'hook_1': 1,     // 勾拳II x1
+                                'haymaker': 1,   // 重拳 x1
+    
+                                // 防御卡牌
+                                'block': 2,      // 格挡 x2
+                                'dodge': 1,      // 闪避 x1
+                                'taunt': 1,      // 嘲讽 x1
+    
+                                // 特殊卡牌
+                                'rest': 1,       // 休息 x1
+                                'berserk': 1,    // 狂暴 x1
+                                'stun': 1,       // 眩晕 x1
+                                'sacrifice': 1,  // 牺牲 x1
+                                'second_wind': 1 // 回光返照 x1
+                            },
+                            drawCount: 1,           // 对手每回合抽1张牌
+                            initialDrawCount: 3     // 对手开始时抽3张牌
+                        }
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "test1"
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "test2"
+                        }
+                    ]
+                }
+            },
+            {
+                id: "test1",
+                elements: {
+                    name: "旁白",
+                    text: "拿到了一分！"
+                },
+                next:"test1_1",
+            },
+            {
+                id: "test1_1",
+                elements: {
+                    name: "旁白",
+                    text: "在毫无意义的世界上，人被迫选择并承担自己的存在，从而成为真正的自己。"
+                },
+                next:"chapter_0_scene_2_0",
+            },
+            {
+                id: "test2",
+                elements: {
+                    name: "旁白",
+                    text: "未拿到分"
+                },
+                next: "branch_1_20",
+            },
+            {
+                id: "branch_1_20",
+            elements: {
+            name: "旁边",
+            text: "刹那间，一股强大的力量将我击倒在地，手心里传来剧烈的刺痛。"
+        },
+},
+{
+                id: "branch_1_21",
+            elements: {
+            name: "你",
+            text: "我失败了。"
+        },
+},
+{
+                id: "branch_1_22",
+            elements: {
+            name: "你",
+            text: "…………"
+        },
+},
+{
+                id: "branch_1_23",
+            elements: {
+            name: "旁白",
+            text: "一股绝望感涌上心头。"
+        },
+},
+{
+                id: "branch_1_24",
+            elements: {
+            name: "旁白",
+            text: "就算光泠通过了巨石的试炼，也会因为我而同样无法进入村庄。"
+        },
+},
+{
+                id: "branch_1_25",
+            elements: {
+            name: "光泠",
+            text: "愣神之际，光泠跪坐在我身边，轻轻地拉起我的手。"
+        },
+},
+{
+                id: "branch_1_26",
+            elements: {
+            name: "光泠",
+            text: "没关系，您已经足够努力了。"
+        },
+},
+{
+                id: "branch_1_27",
+            elements: {
+            name: "光泠",
+            text: "我感到无比的耻辱与愤怒。"
+        },
+},
+{
+                id: "branch_1_28",
+            elements: {
+            name: "光泠",
+            text: "我紧握着她的手。"
+        },
+},
+{
+                id: "branch_1_29",
+            elements: {
+            name: "光泠",
+            text: "也许还有机会呢。我们还不能在这里停下。"
+        },
+},
+{
+                id: "branch_1_30",
+            elements: {
+            name: "旁白",
+            text: "深呼吸，平复自己难以言喻的烦杂心绪。"
+        },
+},
+{
+                id: "branch_1_31",
+            elements: {
+            name: "你",
+            text: "你说得对。谢谢你，我好些了。"
+        },
+},
+{
+                id: "branch_1_32",
+            elements: {
+            name: "光泠",
+            text: "不论怎样，我会陪您继续走下去。（笑）"
+        },
+        next:"chapter_0_scene_2_0",
+},
     // ========== 分支② ==========
     {
         id: "branch_2_1",
