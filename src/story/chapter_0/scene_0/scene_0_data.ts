@@ -388,7 +388,8 @@ const scene: Scene = {
             id: "node36",
             elements: {
                 name: "旁白",
-                text: "即使在自己靠近之后，她也仍保持着这个姿势数分钟的时间。"
+                text: "即使在自己靠近之后，她也仍保持着这个姿势数分钟的时间。",
+                background: "sc0.1/0-1-3.jpg",
             }
         },
         {
