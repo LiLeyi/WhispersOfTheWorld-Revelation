@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const noLogsMessage = document.getElementById('noLogsMessage');
     const backButton = document.getElementById('backButton');
 
+    // 初始化粒子系统
+    initParticleSystem();
+
     if (backButton) {
         backButton.addEventListener('click', () => {
             // 检查是否有referrer参数，如果有则返回到游戏页面
@@ -123,4 +126,56 @@ function getCurrentArchiveId(): string {
     }
     
     return archiveId;
+}
+
+/**
+ * 初始化粒子系统
+ */
+function initParticleSystem(): void {
+    const particleContainer = document.getElementById('particle-background');
+    if (!particleContainer) return;
+
+    // 创建粒子
+    createParticles(particleContainer);
+    
+    // 定期添加新粒子
+    setInterval(() => {
+        createParticles(particleContainer);
+    }, 3000);
+}
+
+/**
+ * 创建粒子
+ */
+function createParticles(container: HTMLElement): void {
+    const particleCount = Math.floor(Math.random() * 3) + 2; // 每次创建2-4个粒子
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // 随机设置粒子大小
+        const size = Math.random() * 4 + 2; // 2-6px
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // 随机设置粒子位置
+        particle.style.left = Math.random() * 100 + '%';
+        
+        // 随机设置动画延迟
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        
+        // 随机设置动画持续时间
+        const duration = Math.random() * 10 + 20; // 20-30秒
+        particle.style.animationDuration = duration + 's';
+        
+        container.appendChild(particle);
+        
+        // 动画结束后移除粒子
+        setTimeout(() => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        }, (duration + 5) * 1000);
+    }
 }
