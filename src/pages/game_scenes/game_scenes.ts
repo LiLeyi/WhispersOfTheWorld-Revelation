@@ -1044,6 +1044,35 @@ class GameScene {
         if (dialogElement) dialogElement.onclick = nextMoveHandler;
         if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
 
+        // 绑定键盘事件 - 空格键跳过剧情
+        document.addEventListener('keydown', (event) => {
+            // 检查是否按下了空格键
+            if (event.code === 'Space') {
+                // 阻止默认的空格键行为（页面滚动）
+                event.preventDefault();
+                
+                // 检查是否有弹窗或菜单打开，如果有则不执行跳过
+                const skipElement = document.getElementById("skip");
+                const returnElement = document.getElementById("return");
+                const bagOverlay = document.getElementById("bag-overlay");
+                const itemModal = document.getElementById("item-modal");
+                
+                const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
+                                   (returnElement && returnElement.classList.contains("active")) ||
+                                   (bagOverlay && bagOverlay.style.display === "flex") ||
+                                   (itemModal && itemModal.style.display === "flex");
+                
+                if (!hasOpenModal) {
+                    // 检查是否显示了选项，如果显示了选项则不执行下一步
+                    const selectionBox = document.getElementById("selection_box");
+                    if (selectionBox && selectionBox.style.display !== "none") {
+                        return; // 如果选项可见，则不执行下一步
+                    }
+                    this.nextMove();
+                }
+            }
+        });
+
         // 绑定菜单事件
         const returnButton = document.getElementById("op_return");
         const logButton = document.getElementById("op_log");
