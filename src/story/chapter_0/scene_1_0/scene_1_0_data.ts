@@ -5,7 +5,7 @@ import { BackgroundManager } from '../../../components/BackgroundManager';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1_0",
-    title: "第1幕：斑牛镇",
+    title: "第一章第1幕：斑牛镇",
     nodes: [
         {
             id: "intro_black_screen_1",

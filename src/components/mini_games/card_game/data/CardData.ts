@@ -23,15 +23,31 @@ export interface CardData {
 
 // 所有卡牌数据
 export const CARD_TEMPLATES: Record<string, CardData> = {
-    // 基础攻击卡牌
-    'punch': { 
-        id: 'punch', 
-        name: '拳击', 
+    // 直拳系列
+    'straight_punch_1': { 
+        id: 'straight_punch_1', 
+        name: '直拳I', 
+        description: '造成1点伤害', 
+        type: 'attack', 
+        cost: 0, 
+        power: 1, 
+        priority: 1,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 1
+            }
+        ]
+    },
+    'straight_punch_2': { 
+        id: 'straight_punch_2', 
+        name: '直拳II', 
         description: '造成2点伤害', 
         type: 'attack', 
-        cost: 1, 
+        cost: 0, 
         power: 2, 
-        priority: 1,
+        priority: 2,
         effects: [
             {
                 type: 'damage',
@@ -40,14 +56,14 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             }
         ]
     },
-    'kick': { 
-        id: 'kick', 
-        name: '踢击', 
+    'straight_punch_3': { 
+        id: 'straight_punch_3', 
+        name: '直拳III', 
         description: '造成3点伤害', 
         type: 'attack', 
-        cost: 1, 
+        cost: 0, 
         power: 3, 
-        priority: 2,
+        priority: 3,
         effects: [
             {
                 type: 'damage',
@@ -56,14 +72,90 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             }
         ]
     },
-    'combo': { 
-        id: 'combo', 
-        name: '连击', 
-        description: '造成4点伤害', 
+
+    // 上勾拳系列
+    'uppercut_1': { 
+        id: 'uppercut_1', 
+        name: '上勾拳I', 
+        description: '消耗1行动力，造成3伤害，敌方行动力减1', 
         type: 'attack', 
-        cost: 2, 
+        cost: 1, 
+        power: 3, 
+        priority: 4,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 3
+            },
+            {
+                type: 'debuff',
+                target: 'opponent',
+                value: 1,
+                buffType: 'action_point_reduce',
+                duration: 0,
+                description: '敌方行动力减1'
+            }
+        ]
+    },
+    'uppercut_2': { 
+        id: 'uppercut_2', 
+        name: '上勾拳II', 
+        description: '消耗1行动力，造成4伤害，敌方行动力减1', 
+        type: 'attack', 
+        cost: 1, 
         power: 4, 
-        priority: 3,
+        priority: 5,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 4
+            },
+            {
+                type: 'debuff',
+                target: 'opponent',
+                value: 1,
+                buffType: 'action_point_reduce',
+                duration: 0,
+                description: '敌方行动力减1'
+            }
+        ]
+    },
+    'uppercut_3': { 
+        id: 'uppercut_3', 
+        name: '上勾拳III', 
+        description: '消耗1行动力，造成5伤害，敌方行动力减1', 
+        type: 'attack', 
+        cost: 1, 
+        power: 5, 
+        priority: 6,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 5
+            },
+            {
+                type: 'debuff',
+                target: 'opponent',
+                value: 1,
+                buffType: 'action_point_reduce',
+                duration: 0,
+                description: '敌方行动力减1'
+            }
+        ]
+    },
+
+    // 踢击系列
+    'kick_1': { 
+        id: 'kick_1', 
+        name: '踢击I', 
+        description: '消耗1行动力，造成4伤害', 
+        type: 'attack', 
+        cost: 1, 
+        power: 4, 
+        priority: 4,
         effects: [
             {
                 type: 'damage',
@@ -72,14 +164,14 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             }
         ]
     },
-    'uppercut': { 
-        id: 'uppercut', 
-        name: '上勾拳', 
-        description: '造成5点伤害', 
+    'kick_2': { 
+        id: 'kick_2', 
+        name: '踢击II', 
+        description: '消耗1行动力，造成5伤害', 
         type: 'attack', 
-        cost: 2, 
+        cost: 1, 
         power: 5, 
-        priority: 4,
+        priority: 5,
         effects: [
             {
                 type: 'damage',
@@ -88,14 +180,14 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             }
         ]
     },
-    'jab_1': { 
-        id: 'jab_1', 
-        name: '刺拳II', 
-        description: '造成6点伤害', 
+    'kick_3': { 
+        id: 'kick_3', 
+        name: '踢击III', 
+        description: '消耗1行动力，造成6伤害', 
         type: 'attack', 
-        cost: 3, 
+        cost: 1, 
         power: 6, 
-        priority: 5,
+        priority: 6,
         effects: [
             {
                 type: 'damage',
@@ -104,220 +196,50 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             }
         ]
     },
-    'hook_1': { 
-        id: 'hook_1', 
-        name: '勾拳II', 
-        description: '造成7点伤害', 
+
+    // 高消耗攻击卡
+    'push_kick': { 
+        id: 'push_kick', 
+        name: '直蹬', 
+        description: '消耗3行动力，造成9伤害', 
         type: 'attack', 
         cost: 3, 
-        power: 7, 
-        priority: 6,
+        power: 9, 
+        priority: 8,
         effects: [
             {
                 type: 'damage',
                 target: 'opponent',
-                value: 7
+                value: 9
             }
         ]
     },
-    'haymaker': { 
-        id: 'haymaker', 
-        name: '重拳', 
-        description: '造成8点伤害', 
+    'skull_crusher': { 
+        id: 'skull_crusher', 
+        name: '碎颅', 
+        description: '消耗4行动力，造成15伤害', 
         type: 'attack', 
         cost: 4, 
-        power: 8, 
-        priority: 7,
+        power: 15, 
+        priority: 10,
         effects: [
             {
                 type: 'damage',
                 target: 'opponent',
-                value: 8
+                value: 15
             }
         ]
     },
-    
-    // 防御卡牌
-    'block': { 
-        id: 'block', 
-        name: '格挡', 
-        description: '减少2点伤害', 
-        type: 'defense', 
-        cost: 1, 
-        power: 2, 
-        priority: 1,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 2,
-                buffType: 'defense_boost',
-                duration: 0,
-                description: '获得2点防御'
-            }
-        ]
-    },
-    'dodge': { 
-        id: 'dodge', 
-        name: '闪避', 
-        description: '减少3点伤害', 
-        type: 'defense', 
-        cost: 1, 
-        power: 3, 
-        priority: 2,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 3,
-                buffType: 'defense_boost',
-                duration: 0,
-                description: '获得3点防御'
-            }
-        ]
-    },
-    'counter': { 
-        id: 'counter', 
-        name: '反击', 
-        description: '减少2点伤害，行动点+1', 
-        type: 'defense', 
-        cost: 2, 
-        power: 2, 
-        priority: 3,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 2,
-                buffType: 'defense_boost',
-                duration: 0,
-                description: '获得2点防御'
-            },
-            {
-                type: 'buff',
-                target: 'self',
-                value: 1,
-                buffType: 'action_point_boost',
-                duration: 0,
-                description: '行动点+1'
-            }
-        ]
-    },
-    'guard_1': { 
-        id: 'guard_1', 
-        name: '严密防守II', 
-        description: '减少5点伤害', 
-        type: 'defense', 
-        cost: 2, 
-        power: 5, 
-        priority: 4,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 5,
-                buffType: 'defense_boost',
-                duration: 0,
-                description: '获得5点防御'
-            }
-        ]
-    },
-    'taunt': { 
-        id: 'taunt', 
-        name: '嘲讽', 
-        description: '减少1点伤害，敌人行动点-1', 
-        type: 'defense', 
-        cost: 1, 
-        power: 1, 
-        priority: 2,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 1,
-                buffType: 'defense_boost',
-                duration: 0,
-                description: '获得1点防御'
-            },
-            {
-                type: 'debuff',
-                target: 'opponent',
-                value: 1,
-                buffType: 'action_point_reduce',
-                duration: 0,
-                description: '敌人行动点-1'
-            }
-        ]
-    },
-    
-    // 特殊卡牌
-    'rest': { 
-        id: 'rest', 
-        name: '休息', 
-        description: '恢复3点生命', 
-        type: 'special', 
-        cost: 1, 
-        power: 3, 
-        priority: 1,
-        effects: [
-            {
-                type: 'heal',
-                target: 'self',
-                value: 3
-            }
-        ]
-    },
-    'focus': { 
-        id: 'focus', 
-        name: '专注', 
-        description: '恢复2点行动点', 
-        type: 'special', 
-        cost: 1, 
-        power: 2, 
-        priority: 3,
-        effects: [
-            {
-                type: 'buff',
-                target: 'self',
-                value: 2,
-                buffType: 'action_point_boost',
-                duration: 0,
-                description: '恢复2点行动点'
-            }
-        ]
-    },
-    'adrenaline': { 
-        id: 'adrenaline', 
-        name: '肾上腺素', 
-        description: '恢复2点生命，行动点+1', 
-        type: 'special', 
-        cost: 2, 
-        power: 2, 
-        priority: 4,
-        effects: [
-            {
-                type: 'heal',
-                target: 'self',
-                value: 2
-            },
-            {
-                type: 'buff',
-                target: 'self',
-                value: 1,
-                buffType: 'action_point_boost',
-                duration: 0,
-                description: '行动点+1'
-            }
-        ]
-    },
-    'berserk': { 
-        id: 'berserk', 
-        name: '狂暴', 
-        description: '消耗3点生命，造成10点伤害', 
-        type: 'special', 
-        cost: 2, 
+
+    // 牺牲系列
+    'sacrifice_1': { 
+        id: 'sacrifice_1', 
+        name: '牺牲I', 
+        description: '消耗5血量，造成10伤害', 
+        type: 'attack', 
+        cost: 0, 
         power: 10, 
-        priority: 6,
+        priority: 7,
         effects: [
             {
                 type: 'damage',
@@ -327,66 +249,18 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             {
                 type: 'damage',
                 target: 'self',
-                value: 3
+                value: 5
             }
         ]
     },
-    'feint': { 
-        id: 'feint', 
-        name: '虚招', 
-        description: '造成4点伤害，行动点+1', 
-        type: 'special', 
-        cost: 2, 
-        power: 4, 
-        priority: 5,
-        effects: [
-            {
-                type: 'damage',
-                target: 'opponent',
-                value: 4
-            },
-            {
-                type: 'buff',
-                target: 'self',
-                value: 1,
-                buffType: 'action_point_boost',
-                duration: 0,
-                description: '行动点+1'
-            }
-        ]
-    },
-    'stun': { 
-        id: 'stun', 
-        name: '眩晕', 
-        description: '造成3点伤害，敌人行动点-1', 
-        type: 'special', 
-        cost: 3, 
-        power: 3, 
-        priority: 5,
-        effects: [
-            {
-                type: 'damage',
-                target: 'opponent',
-                value: 3
-            },
-            {
-                type: 'debuff',
-                target: 'opponent',
-                value: 1,
-                buffType: 'action_point_reduce',
-                duration: 0,
-                description: '敌人行动点-1'
-            }
-        ]
-    },
-    'sacrifice': { 
-        id: 'sacrifice', 
-        name: '牺牲', 
-        description: '消耗5点生命，造成15点伤害', 
-        type: 'special', 
-        cost: 3, 
+    'sacrifice_2': { 
+        id: 'sacrifice_2', 
+        name: '牺牲II', 
+        description: '消耗6血量，造成15伤害', 
+        type: 'attack', 
+        cost: 0, 
         power: 15, 
-        priority: 7,
+        priority: 9,
         effects: [
             {
                 type: 'damage',
@@ -396,100 +270,125 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
             {
                 type: 'damage',
                 target: 'self',
-                value: 5
-            }
-        ]
-    },
-    'medkit': { 
-        id: 'medkit', 
-        name: '医疗包', 
-        description: '恢复6点生命', 
-        type: 'special', 
-        cost: 2, 
-        power: 6, 
-        priority: 2,
-        effects: [
-            {
-                type: 'heal',
-                target: 'self',
                 value: 6
             }
         ]
     },
-    'second_wind': { 
-        id: 'second_wind', 
-        name: '回光返照', 
-        description: '恢复4点生命，行动点+2', 
-        type: 'special', 
-        cost: 3, 
-        power: 4, 
-        priority: 5,
-        effects: [
-            {
-                type: 'heal',
-                target: 'self',
-                value: 4
-            },
-            {
-                type: 'buff',
-                target: 'self',
-                value: 2,
-                buffType: 'action_point_boost',
-                duration: 0,
-                description: '行动点+2'
-            }
-        ]
-    },
-    
-    // 高级卡牌
-    'devastate': { 
-        id: 'devastate', 
-        name: '毁灭打击', 
-        description: '造成12点伤害', 
+    'sacrifice_3': { 
+        id: 'sacrifice_3', 
+        name: '牺牲III', 
+        description: '消耗7血量，造成20伤害', 
         type: 'attack', 
-        cost: 4, 
-        power: 12, 
-        priority: 8,
+        cost: 0, 
+        power: 20, 
+        priority: 11,
         effects: [
             {
                 type: 'damage',
                 target: 'opponent',
-                value: 12
+                value: 20
+            },
+            {
+                type: 'damage',
+                target: 'self',
+                value: 7
             }
         ]
     },
-    'invigorate': { 
-        id: 'invigorate', 
-        name: '振奋', 
-        description: '恢复3点生命，行动点+1', 
-        type: 'special', 
+
+    // 眩晕
+    'dizzy': { 
+        id: 'dizzy', 
+        name: '眩晕', 
+        description: '消耗2行动力，造成5伤害，敌方下回合行动力减2', 
+        type: 'attack', 
         cost: 2, 
-        power: 3, 
-        priority: 4,
+        power: 5, 
+        priority: 6,
         effects: [
             {
-                type: 'heal',
-                target: 'self',
-                value: 3
+                type: 'damage',
+                target: 'opponent',
+                value: 5
             },
+            {
+                type: 'debuff',
+                target: 'opponent',
+                value: 2,
+                buffType: 'action_point_reduce',
+                duration: 1,
+                description: '敌方下回合行动力减2'
+            }
+        ]
+    },
+
+    // 计谋系列
+    'strategy_1': { 
+        id: 'strategy_1', 
+        name: '计谋I', 
+        description: '下回合行动力加1', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 1,
+        effects: [
             {
                 type: 'buff',
                 target: 'self',
                 value: 1,
                 buffType: 'action_point_boost',
-                duration: 0,
-                description: '行动点+1'
+                duration: 1,
+                description: '下回合行动力加1'
             }
         ]
     },
-    'overclock': { 
-        id: 'overclock', 
-        name: '超频', 
-        description: '行动点+2，但行动点-1', 
+    'strategy_2': { 
+        id: 'strategy_2', 
+        name: '计谋II', 
+        description: '下回合行动力加2', 
         type: 'special', 
-        cost: 1, 
-        power: 2, 
+        cost: 0, 
+        power: 0, 
+        priority: 2,
+        effects: [
+            {
+                type: 'buff',
+                target: 'self',
+                value: 2,
+                buffType: 'action_point_boost',
+                duration: 1,
+                description: '下回合行动力加2'
+            }
+        ]
+    },
+
+    // 肾上腺素
+    'adrenaline': { 
+        id: 'adrenaline', 
+        name: '肾上腺素', 
+        description: '消耗2行动力，抽2张牌', 
+        type: 'special', 
+        cost: 2, 
+        power: 0, 
         priority: 3,
+        effects: [
+            {
+                type: 'draw',
+                target: 'self',
+                value: 2
+            }
+        ]
+    },
+
+    // 疾行
+    'swift': { 
+        id: 'swift', 
+        name: '疾行', 
+        description: '行动力加2', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 1,
         effects: [
             {
                 type: 'buff',
@@ -497,7 +396,25 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
                 value: 2,
                 buffType: 'action_point_boost',
                 duration: 0,
-                description: '行动点+2'
+                description: '行动力加2'
+            }
+        ]
+    },
+
+    // 包扎系列
+    'bandage_1': { 
+        id: 'bandage_1', 
+        name: '包扎I', 
+        description: '行动力减1，血量加5', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 1,
+        effects: [
+            {
+                type: 'heal',
+                target: 'self',
+                value: 5
             },
             {
                 type: 'debuff',
@@ -505,7 +422,279 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
                 value: 1,
                 buffType: 'action_point_reduce',
                 duration: 0,
-                description: '行动点-1'
+                description: '行动力减1'
+            }
+        ]
+    },
+    'bandage_2': { 
+        id: 'bandage_2', 
+        name: '包扎II', 
+        description: '行动力减2，血量加8', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 2,
+        effects: [
+            {
+                type: 'heal',
+                target: 'self',
+                value: 8
+            },
+            {
+                type: 'debuff',
+                target: 'self',
+                value: 2,
+                buffType: 'action_point_reduce',
+                duration: 0,
+                description: '行动力减2'
+            }
+        ]
+    },
+    'bandage_3': { 
+        id: 'bandage_3', 
+        name: '包扎III', 
+        description: '行动力减2，血量加12', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 3,
+        effects: [
+            {
+                type: 'heal',
+                target: 'self',
+                value: 12
+            },
+            {
+                type: 'debuff',
+                target: 'self',
+                value: 2,
+                buffType: 'action_point_reduce',
+                duration: 0,
+                description: '行动力减2'
+            }
+        ]
+    },
+
+    // 兴奋系列
+    'excite_1': { 
+        id: 'excite_1', 
+        name: '兴奋I', 
+        description: '消耗1行动力，造成1伤害，抽1张牌', 
+        type: 'attack', 
+        cost: 1, 
+        power: 1, 
+        priority: 2,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 1
+            },
+            {
+                type: 'draw',
+                target: 'self',
+                value: 1
+            }
+        ]
+    },
+    'excite_2': { 
+        id: 'excite_2', 
+        name: '兴奋II', 
+        description: '消耗1行动力，造成3伤害，抽1张牌', 
+        type: 'attack', 
+        cost: 1, 
+        power: 3, 
+        priority: 4,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 3
+            },
+            {
+                type: 'draw',
+                target: 'self',
+                value: 1
+            }
+        ]
+    },
+    'excite_3': { 
+        id: 'excite_3', 
+        name: '兴奋III', 
+        description: '消耗1行动力，造成5伤害，抽1张牌', 
+        type: 'attack', 
+        cost: 1, 
+        power: 5, 
+        priority: 6,
+        effects: [
+            {
+                type: 'damage',
+                target: 'opponent',
+                value: 5
+            },
+            {
+                type: 'draw',
+                target: 'self',
+                value: 1
+            }
+        ]
+    },
+
+    // 格挡系列
+    'block_1': { 
+        id: 'block_1', 
+        name: '格挡I', 
+        description: '消耗1行动力，防御力加3', 
+        type: 'defense', 
+        cost: 1, 
+        power: 0, 
+        priority: 3,
+        effects: [
+            {
+                type: 'buff',
+                target: 'self',
+                value: 3,
+                buffType: 'defense_boost',
+                duration: 0,
+                description: '防御力加3'
+            }
+        ]
+    },
+    'block_2': { 
+        id: 'block_2', 
+        name: '格挡II', 
+        description: '消耗1行动力，防御力加4', 
+        type: 'defense', 
+        cost: 1, 
+        power: 0, 
+        priority: 4,
+        effects: [
+            {
+                type: 'buff',
+                target: 'self',
+                value: 4,
+                buffType: 'defense_boost',
+                duration: 0,
+                description: '防御力加4'
+            }
+        ]
+    },
+    'block_3': { 
+        id: 'block_3', 
+        name: '格挡III', 
+        description: '消耗1行动力，防御力加5', 
+        type: 'defense', 
+        cost: 1, 
+        power: 0, 
+        priority: 5,
+        effects: [
+            {
+                type: 'buff',
+                target: 'self',
+                value: 5,
+                buffType: 'defense_boost',
+                duration: 0,
+                description: '防御力加5'
+            }
+        ]
+    },
+
+    // 闪避
+    'dodge': { 
+        id: 'dodge', 
+        name: '闪避', 
+        description: '消耗3行动力，防御力加7', 
+        type: 'defense', 
+        cost: 3, 
+        power: 0, 
+        priority: 6,
+        effects: [
+            {
+                type: 'buff',
+                target: 'self',
+                value: 7,
+                buffType: 'defense_boost',
+                duration: 0,
+                description: '防御力加7'
+            }
+        ]
+    },
+
+    // 架势
+    'stance': { 
+        id: 'stance', 
+        name: '架势', 
+        description: '消耗1行动力，获得本回合造成伤害的点数的防御力', 
+        type: 'defense', 
+        cost: 1, 
+        power: 0, 
+        priority: 4,
+        effects: []
+        // 这个效果需要在游戏主逻辑中特殊处理
+    },
+
+    // 蓄力
+    'power_up': { 
+        id: 'power_up', 
+        name: '蓄力', 
+        description: '消耗3行动力，本回合伤害翻倍', 
+        type: 'attack', 
+        cost: 3, 
+        power: 0, 
+        priority: 5,
+        effects: []
+        // 这个效果需要在游戏主逻辑中特殊处理
+    },
+
+    // 减速
+    'slow': { 
+        id: 'slow', 
+        name: '减速', 
+        description: '消耗1行动力，抽一张牌', 
+        type: 'special', 
+        cost: 1, 
+        power: 0, 
+        priority: 2,
+        effects: [
+            {
+                type: 'draw',
+                target: 'self',
+                value: 1
+            }
+        ]
+    },
+
+    // 拖延
+    'delay': { 
+        id: 'delay', 
+        name: '拖延', 
+        description: '消耗1行动力', 
+        type: 'special', 
+        cost: 1, 
+        power: 0, 
+        priority: 1,
+        effects: []
+    },
+
+    // 荆棘
+    'thorns': { 
+        id: 'thorns', 
+        name: '荆棘', 
+        description: '消耗3血量，抽一张牌', 
+        type: 'special', 
+        cost: 0, 
+        power: 0, 
+        priority: 2,
+        effects: [
+            {
+                type: 'damage',
+                target: 'self',
+                value: 3
+            },
+            {
+                type: 'draw',
+                target: 'self',
+                value: 1
             }
         ]
     }

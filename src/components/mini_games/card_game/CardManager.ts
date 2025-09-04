@@ -8,25 +8,12 @@ export interface PlayerDeck {
 
 // 默认卡组配置
 export const DEFAULT_PLAYER_DECK: Record<string, number> = {
-    // 攻击卡牌
-    'punch': 3,      // 拳击 x3
-    // 'kick': 2,       // 踢击 x2
-    // 'combo': 2,      // 连击 x2
-    // 'uppercut': 1,   // 上勾拳 x1
-    // 'jab_1': 1,      // 刺拳II x1
-
-    // 防御卡牌
-    // 'block': 2,      // 格挡 x2
-    // 'dodge': 1,      // 闪避 x1
-    // 'guard_1': 1,    // 严密防守II x1
-    // 'counter': 1,    // 反击 x1
-
-    // 特殊卡牌
-    'rest': 2,       // 休息 x2
-    // 'focus': 1,      // 专注 x1
-    // 'adrenaline': 1, // 肾上腺素 x1
-    // 'medkit': 1,     // 医疗包 x1
-    // 'feint': 1       // 虚招 x1
+    // 根据用户提供的默认牌组配置
+    'straight_punch_1': 2,  // 直拳I x2
+    'straight_punch_2': 1,  // 直拳II x1
+    'kick_1': 2,            // 踢击I x2
+    'block_1': 2,           // 格挡I x2
+    'excite_1': 2           // 兴奋I x2
 };
 
 export class CardManager {
