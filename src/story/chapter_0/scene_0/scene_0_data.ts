@@ -395,7 +395,7 @@ const scene: Scene = {
             elements: {
                 background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
-                text: "身披长袍的少女跪坐在一块墓碑之前。"
+                text: "一位少女跪坐在一块墓碑之前。"
             }
         },
         {
