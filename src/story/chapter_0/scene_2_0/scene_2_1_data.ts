@@ -2131,7 +2131,7 @@ sprite: {
             }
         },
         {
-  id: "battle_2_1",
+  id: "battle_1_1_1",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2142,7 +2142,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_2",
+  id: "battle_1_2",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2150,7 +2150,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_3",
+  id: "battle_1_3",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2158,7 +2158,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_3_1",
+  id: "battle_1_3_1",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2166,7 +2166,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_4",
+  id: "battle_1_4",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2174,7 +2174,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_5",
+  id: "battle_1_5",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2182,7 +2182,7 @@ sprite: {
   }
 },
 {
-  id: "battle_2_6",
+  id: "battle_1_6",
   elements: {
     bgm: null,
     name: "旁白",
@@ -2192,7 +2192,7 @@ next:"进入第三章",
 },
         //分支3-2//
         {
-            id: "battle_1_2",
+            id: "battle_2_1",
             elements: {
                 bgm: null,
                 name: "旁白",
