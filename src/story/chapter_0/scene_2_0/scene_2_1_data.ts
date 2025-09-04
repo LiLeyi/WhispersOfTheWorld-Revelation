@@ -82,7 +82,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "你对力量的掌控，也越来越精准了。（微笑）",
+        text: "你对力量的掌控，也越来越精准了。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -93,7 +93,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "看来一路上的战斗，让你越来越适应这一切了。（微笑）",
+        text: "看来一路上的战斗，让你越来越适应这一切了。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -148,7 +148,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "嗯，我已经看到了。（惊讶）",
+        text: "嗯，我已经看到了。",
         sprite: {
             left: "guangling/jingya.png",
         }
@@ -170,7 +170,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "我们要去的地方。一座巨无霸城市。（微笑）",
+        text: "我们要去的地方。一座巨无霸城市。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -181,7 +181,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "虽然名义上称作城市，不过它实际的规模已经堪比一个王国了。（惊讶）",
+        text: "虽然名义上称作城市，不过它实际的规模已经堪比一个王国了。",
         sprite: {
             left: "guangling/jingya.png",
         }
@@ -203,7 +203,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "更多的信息，只有到达后才能知晓了。（微笑）",
+        text: "更多的信息，只有到达后才能知晓了。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -214,7 +214,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "请靠过来一些，好让我使用传送的能力更快到达。（笑）",
+        text: "请靠过来一些，好让我使用传送的能力更快到达。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -252,7 +252,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "但还是有很多限制呢，比如只能在一定范围内传送，而且也没办法突破一些障碍。（叹气）",
+        text: "但还是有很多限制呢，比如只能在一定范围内传送，而且也没办法突破一些障碍。",
         sprite: {
             left: "guangling/tanqi.png",
         }
@@ -282,7 +282,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "是的。先打探情况，再深入探索也不迟。（微笑）",
+        text: "是的。先打探情况，再深入探索也不迟。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -311,7 +311,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "似乎发生了冲突。（无表情）",
+        text: "似乎发生了冲突。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -435,7 +435,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "你",
-        text: "而他所使用的机械武器却是他自身身体的一部分。（惊讶）"
+        text: "而他所使用的机械武器却是他自身身体的一部分。"
     },
 },
 {
@@ -443,7 +443,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "在我看来，他已经并不算完全的人类，但也不完全是机械体。（无表情）",
+        text: "在我看来，他已经并不算完全的人类，但也不完全是机械体。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -454,7 +454,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "也许他是半人类半机械的存在。（无表情）",
+        text: "也许他是半人类半机械的存在。",
     },
 },
 {
@@ -497,7 +497,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "人类一方看来暂时选择了撤退。(无表情)",
+        text: "人类一方看来暂时选择了撤退。",
 sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -508,7 +508,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "机械体的领头者似乎已被击败，它们也快丧失战斗力了。（无表情）"
+        text: "机械体的领头者似乎已被击败，它们也快丧失战斗力了。"
     },
 },
 {
@@ -567,7 +567,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "如有危险，随时准备撤离。（无表情）",
+        text: "如有危险，随时准备撤离。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -578,7 +578,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "但我想此时他还对我们构不成威胁。（微笑）",
+        text: "但我想此时他还对我们构不成威胁。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -640,7 +640,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "是的，这应该是这座城市的名字。（微笑）",
+        text: "是的，这应该是这座城市的名字。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -694,7 +694,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "没错。（微笑）",
+        text: "没错。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -705,7 +705,7 @@ sprite: {
     elements: {
         bgm: null,
         name: "光泠",
-        text: "比起那些机械怪物们，我们更愿意相信你们。（笑）",
+        text: "比起那些机械怪物们，我们更愿意相信你们。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -1369,7 +1369,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "我知道你在担心什么。（微笑）" ,
+    text: "我知道你在担心什么。" ,
     sprite: {
             left: "guangling/smile1.png",
         }
@@ -1391,7 +1391,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "看得出来，他的确对我们仍有戒备。（微笑）" 
+    text: "看得出来，他的确对我们仍有戒备。" 
   },
 },
 {
@@ -1399,7 +1399,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "话说回来，“永昼之瞳”，大概就是我们要找的东西。（微笑）" 
+    text: "话说回来，“永昼之瞳”，大概就是我们要找的东西。" 
   },
 },
 {
@@ -1407,7 +1407,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？（微笑）" 
+    text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？" 
   },
   choices: [
     {
@@ -1426,7 +1426,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "愿闻其详。（微笑）" ,
+    text: "愿闻其详。" ,
     sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1504,7 +1504,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "......（无表情）" ,
+    text: "......" ,
     sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1515,7 +1515,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "真的要就此放弃么？（无表情）" ,
+    text: "真的要就此放弃么？" ,
   },
 },//这里加个不放弃返回战斗的分支？
 {
@@ -1534,7 +1534,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "好吧，我尊重你的选择。（叹气）" ,
+    text: "好吧，我尊重你的选择。" ,
     sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1556,7 +1556,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "没关系。我会陪你走到最后的。（叹气）" ,
+    text: "没关系。我会陪你走到最后的。" ,
     sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1578,7 +1578,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "谁让我是你的同伴呢......（叹气）" ,
+    text: "谁让我是你的同伴呢......" ,
     sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1602,7 +1602,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "这也许不是什么轻松的事哦。（微笑）" ,
+    text: "这也许不是什么轻松的事哦。" ,
     sprite: {
             left: "guangling/smile.png",
         }
@@ -1624,7 +1624,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "很有信心哦！那么，就开始行动吧。（微笑）" ,
+    text: "很有信心哦！那么，就开始行动吧。" ,
     sprite: {
             left: "guangling/smile.png",
         }
@@ -1732,7 +1732,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "......（无表情）" ,
+    text: "......" ,
     sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1762,7 +1762,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "也许背后还有不了解的隐情。（无表情）" ,
+    text: "也许背后还有不了解的隐情。" ,
     sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1816,7 +1816,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "你太激动了。（叹气）" ,
+    text: "你太激动了。" ,
     sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1878,7 +1878,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "因为这种事情而选择放弃，可不是明智的做法。（悲伤）" ,
+    text: "因为这种事情而选择放弃，可不是明智的做法。" ,
     sprite: {
             left: "guangling/down.png",
         }
@@ -1940,7 +1940,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "…………（无表情）" ,
+    text: "…………" ,
     sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1951,7 +1951,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "那真是遗憾至极。（叹气）" ,
+    text: "那真是遗憾至极。" ,
     sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1962,7 +1962,7 @@ sprite: {
   elements: { 
     bgm: null,
     name: "光泠", 
-    text: "不过我尊重你的选择。（叹气）" ,//获得成就：冷眼旁观
+    text: "不过我尊重你的选择。" ,//获得成就：冷眼旁观
   },
   next:"进入第三章",
 },
@@ -2352,7 +2352,6 @@ next:"进入第三章",
     }
   ]
 },
-
 ]
 }
 export default scene;
