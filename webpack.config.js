@@ -15,8 +15,8 @@ module.exports = (env, argv) => {
       register: './src/pages/login_page/register.ts',
       log_page: './src/pages/log_page/log_page.ts',
       settings: './src/pages/settings/settings.ts',
-
-
+      bag_page: './src/pages/bag_page/bag_page.ts',
+       achievement_page: './src/pages/achievement_page/achievement.ts',
       detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
       detail_huangwenxi: './src/pages/about_us/detail_page/huangwenxi/index.ts',
       detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts'
@@ -119,7 +119,16 @@ module.exports = (env, argv) => {
         filename: 'pages/settings/settings.html',
         chunks: ['settings'],
       }),
-
+      new HtmlWebpackPlugin({
+        template: './src/pages/bag_page/bag_page.html',
+        filename: 'pages/bag_page/bag_page.html',
+        chunks: ['bag_page'],
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'pages/achievement_page/achievement_page.html',
+        template: './src/pages/achievement_page/achievement_page.html',
+        chunks: ['achievement_page'],
+      }),
 
 
       new HtmlWebpackPlugin({

@@ -41,11 +41,13 @@
         <button class="op" id="op_load"><strong>load</strong></button>
         <button class="op" id="op_auto"><strong>auto</strong></button>
         <button class="op" id="op_skip"><strong>skip</strong></button>
+        <button class="op" id="op_bag"><strong>bag</strong></button>
+        <button class="op" id="op_back"><strong>back</strong></button>
     </div>
 
     <!--跳过弹窗-->
     <div class="menuwindow" id="skip">
-        <h1 class="menutitle">是否跳过这一章节</h1>
+        <h1 class="menutitle">是否跳过至下一选项/章节？</h1>
         <div class="menuitemleft">
             <button type="submit" class="btn" id="skip_yes">YES</button>
         </div>
@@ -62,6 +64,30 @@
         </div>
         <div class="menuitemright">
             <button type="submit" class="btn" id="return_no">NO</button>
+        </div>
+    </div>
+
+    <!--背包界面-->
+    <div id="bag-overlay" class="bag-overlay" style="display: none;">
+        <div class="bag-container">
+            <div class="bag-header">
+                <h2>背包</h2>
+                <button id="close-bag" class="close-button">X</button>
+            </div>
+            <div class="bag-content">
+                <div class="bag-grid" id="bag-grid">
+                    <!-- 道具将会通过JavaScript动态添加 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--道具详情弹窗-->
+    <div id="item-modal" class="item-modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modal-item-name"></h3>
+            <p id="modal-item-description"></p>
         </div>
     </div>
 

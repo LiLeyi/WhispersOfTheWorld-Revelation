@@ -144,17 +144,41 @@ body::before {
 }
 
 /* 存档信息 */
+.save-info {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    min-height: 200px;
+}
+
 .save-info h2 {
     font-size: 1.5rem;
     margin-bottom: 15px;
     color: #64b5f6;
     text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
 }
 
 .save-info p {
     margin: 8px 0;
     font-size: 1rem;
     color: #e0e0e0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 3px 8px;
+    border-radius: 3px;
+    z-index: 1;
 }
 
 .save-info p:first-of-type {
@@ -174,6 +198,7 @@ body::before {
     margin-top: 20px;
     gap: 12px;
     flex-wrap: wrap;
+    z-index: 1;
 }
 
 .save-button {
@@ -190,6 +215,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 5px;
+    z-index: 1;
 }
 
 .save-button:hover {
@@ -199,88 +225,10 @@ body::before {
     border-color: rgba(100, 181, 246, 0.3);
 }
 
-.save-button:active {
-    transform: translateY(0);
+.save-button.rename {
+    background: rgba(67, 42, 70, 0.8);
 }
 
-.save-button.load {
-    background: rgba(46, 125, 50, 0.8);
-}
-
-.save-button.load:hover {
-    background: rgba(56, 142, 60, 0.9);
-    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
-}
-
-.save-button.save {
-    background: rgba(42, 42, 70, 0.8);
-}
-
-.save-button.save:hover {
-    background: rgba(66, 66, 110, 0.9);
-    box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
-}
-
-.save-button.delete {
-    background: rgba(211, 47, 47, 0.8);
-}
-
-.save-button.delete:hover {
-    background: rgba(239, 83, 80, 0.9);
-    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
-}
-
-/* 响应式设计 */
-@media (max-width: 992px) {
-    .row {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    
-    .nav-title {
-        font-size: 1.7rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .row {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .nav-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .nav-title {
-        font-size: 1.5rem;
-    }
-    
-    .save-slot {
-        padding: 20px 15px;
-    }
-    
-    .save-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .save-button {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .save-slot {
-        padding: 15px 10px;
-    }
-    
-    .save-info h2 {
-        font-size: 1.3rem;
-    }
+.save-button.rename:hover {
+    background: rgba(110, 66, 66, 0.9);
 }

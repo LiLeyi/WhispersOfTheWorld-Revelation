@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingButton = document.getElementById('settingButton');
     const aboutUsButton = document.getElementById('aboutUsButton');
     const exitButton = document.getElementById('exitButton');
-
+    const achievementButton = document.getElementById('achievementButton');
+if (achievementButton) {
+    achievementButton.addEventListener('click', function() {
+        window.location.href = "../achievement_page/achievement_page.html";
+    });
+}
     if (startButton) {
         startButton.addEventListener('click', function() {
             // 检查是否登录

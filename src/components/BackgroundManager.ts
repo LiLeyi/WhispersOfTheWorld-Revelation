@@ -101,7 +101,7 @@ export class BackgroundManager {
             const bg2Element = this.bg2;
             
             $(this.bg1).animate({ opacity: 0 }, {
-                duration: 2000,
+                duration: 65,
                 step: function (now: number) {
                     if (bg1Element && bg2Element) {
                         bg1Element.style.opacity = String(now);
@@ -124,7 +124,7 @@ export class BackgroundManager {
             const bg2Element = this.bg2;
             
             $(this.bg2).animate({ opacity: 0 }, {
-                duration: 2000,
+                duration: 650,
                 step: function (now: number) {
                     if (bg1Element && bg2Element) {
                         bg1Element.style.opacity = String(1 - now);

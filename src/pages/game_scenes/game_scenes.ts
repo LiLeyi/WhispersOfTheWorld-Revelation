@@ -13,6 +13,54 @@ import { CardGame } from '../../components/mini_games/card_game/CardGame';
 
 // 注意：不要在这里导入所有场景数据，而是在需要时动态导入
 
+// 定义道具接口
+interface Item {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+}
+
+// 道具数据库
+const ITEMS_DATABASE: Record<string, Item> = {
+    "ancient_coin": {
+        id: "ancient_coin",
+        name: "古币",
+        description: "一枚古老的硬币，上面刻着未知的符文。似乎有某种神秘的力量。",
+        icon: "🪙"
+    },
+    "mystic_gem": {
+        id: "mystic_gem",
+        name: "神秘宝石",
+        description: "散发着微弱蓝光的宝石，让人感到平静和安宁。",
+        icon: "💎"
+    },
+    "old_key": {
+        id: "old_key",
+        name: "古老的钥匙",
+        description: "一把生锈的钥匙，不知道能打开什么。",
+        icon: "🗝️"
+    },
+    "healing_potion": {
+        id: "healing_potion",
+        name: "治疗药水",
+        description: "可以恢复生命值的红色药水。",
+        icon: "🧪"
+    },
+    "magic_scroll": {
+        id: "magic_scroll",
+        name: "魔法卷轴",
+        description: "记载着古老咒语的卷轴，似乎蕴含着强大的力量。",
+        icon: "📜"
+    },
+    "silver_ring": {
+        id: "silver_ring",
+        name: "银戒指",
+        description: "一枚精美的银戒指，镶嵌着小小的红宝石。",
+        icon: "💍"
+    }
+};
+
 class GameScene {
     private currentScene: Scene | null = null;
     private currentNodeIndex: number = 0;
@@ -165,8 +213,6 @@ class GameScene {
             this.loadSceneByName('chapter_0_scene_0');
         }
     }
-
-
 
     private async loadSceneByName(sceneName: string): Promise<void> {
         console.log(`[GameScene] 开始加载场景: ${sceneName}`);
@@ -453,27 +499,55 @@ class GameScene {
 
         // 保存背景到localStorage
         localStorage.setItem("MSYbackgroundIMG", backgroundToUse);
-        console.log("已保存背景到localStorage:", backgroundToUse);
+        
+        // 记录背景历史（用于back功能）
+        const backgroundHistory = JSON.parse(localStorage.getItem("backgroundHistory") || "[]");
+        
+        // 如果当前背景与历史记录中的最后一个不同，则添加到历史记录中
+        if (backgroundHistory[backgroundHistory.length - 1] !== backgroundToUse) {
+            backgroundHistory.push(backgroundToUse);
+            
+            // 限制历史记录长度为10个，避免占用过多存储空间
+            if (backgroundHistory.length > 10) {
+                backgroundHistory.shift();
+            }
+        }
+        
+        // 保存更新后的历史记录
+        localStorage.setItem("backgroundHistory", JSON.stringify(backgroundHistory));
     }
-
-    private updateMusic(element: SceneElement): void {
+        private updateMusic(element: SceneElement): void {
         // 更新音效
         if (element.soundEffect) {
             this.audioManager.playSoundEffect(element.soundEffect);
         }
 
         // 更新背景音乐
-        if (element.bgm) {
-            this.audioManager.updateBackgroundMusic(element.bgm);
+        if (element.bgm !== undefined) {
+            // 如果bgm为null，停止当前音乐
+            if (element.bgm === null || element.bgm === "null") {
+                // 立即停止当前背景音乐
+                this.audioManager.stopBackgroundMusic();
+            } else {
+                // 更新背景音乐
+                this.audioManager.updateBackgroundMusic(element.bgm);
+            }
         }
     }
 
-    private navigateToScene(sceneId: string): void {
+           private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
         // 重置点击计数
         this.clickCount = 0;
         localStorage.setItem("nowclick", "0");
+
+        // 清除背景状态，确保新场景从干净状态开始
+        localStorage.removeItem("MSYbackgroundIMG");
+        localStorage.removeItem("backgroundHistory");
+        localStorage.removeItem("previousElements");
+        // 清除音频状态
+        localStorage.removeItem("nowbgm");
 
         // 获取当前存档ID
         const currentArchiveId = ArchiveManager.getCurrentArchiveId();
@@ -980,109 +1054,209 @@ class GameScene {
     }
 
     private bindEvents(): void {
-        // 绑定点击事件
-        const moveElement = document.getElementById("move");
-        const dialogElement = document.getElementById("dialog");
-        const textBoxElement = document.getElementById("text-box");
+    // 绑定点击事件
+    const moveElement = document.getElementById("move");
+    const dialogElement = document.getElementById("dialog");
+    const textBoxElement = document.getElementById("text-box");
 
-        const nextMoveHandler = () => {
-            // 检查是否显示了选项，如果显示了选项则不执行下一步
-            const selectionBox = document.getElementById("selection_box");
-            if (selectionBox && selectionBox.style.display !== "none") {
-                return; // 如果选项可见，则不执行下一步
+    const nextMoveHandler = () => {
+        // 检查是否显示了选项，如果显示了选项则不执行下一步
+        const selectionBox = document.getElementById("selection_box");
+        if (selectionBox && selectionBox.style.display !== "none") {
+            return; // 如果选项可见，则不执行下一步
+        }
+        this.nextMove();
+    };
+
+    if (moveElement) moveElement.onclick = nextMoveHandler;
+    if (dialogElement) dialogElement.onclick = nextMoveHandler;
+    if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
+
+    // 绑定键盘事件 - 空格键跳过剧情
+    document.addEventListener('keydown', (event) => {
+        // 检查是否按下了空格键
+        if (event.code === 'Space') {
+            // 阻止默认的空格键行为（页面滚动）
+            event.preventDefault();
+            
+            // 检查是否有弹窗或菜单打开，如果有则不执行跳过
+            const skipElement = document.getElementById("skip");
+            const returnElement = document.getElementById("return");
+            const bagOverlay = document.getElementById("bag-overlay");
+            const itemModal = document.getElementById("item-modal");
+            
+            const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
+                               (returnElement && returnElement.classList.contains("active")) ||
+                               (bagOverlay && bagOverlay.style.display === "flex") ||
+                               (itemModal && itemModal.style.display === "flex");
+            
+            if (!hasOpenModal) {
+                // 检查是否显示了选项，如果显示了选项则不执行下一步
+                const selectionBox = document.getElementById("selection_box");
+                if (selectionBox && selectionBox.style.display !== "none") {
+                    return; // 如果选项可见，则不执行下一步
+                }
+                this.nextMove();
             }
-            this.nextMove();
+        }
+    });
+
+    // 绑定菜单事件
+    const returnButton = document.getElementById("op_return");
+    const logButton = document.getElementById("op_log");
+    const loadButton = document.getElementById("op_load");
+    const autoButton = document.getElementById("op_auto");
+    const skipButton = document.getElementById("op_skip");
+    const bagButton = document.getElementById("op_bag");
+    const backButton = document.getElementById("op_back"); // 添加back按钮引用
+
+    if (returnButton) {
+        returnButton.onclick = () => {
+            const returnElement = document.getElementById("return");
+            if (returnElement) {
+                returnElement.classList.toggle("active");
+            }
         };
-
-        if (moveElement) moveElement.onclick = nextMoveHandler;
-        if (dialogElement) dialogElement.onclick = nextMoveHandler;
-        if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
-
-        // 绑定菜单事件
-        const returnButton = document.getElementById("op_return");
-        const logButton = document.getElementById("op_log");
-        const loadButton = document.getElementById("op_load");
-        const autoButton = document.getElementById("op_auto");
-        const skipButton = document.getElementById("op_skip");
-
-        if (returnButton) {
-            returnButton.onclick = () => {
-                const returnElement = document.getElementById("return");
-                if (returnElement) {
-                    returnElement.classList.toggle("active");
-                }
-            };
-        }
-
-        if (logButton) {
-            logButton.onclick = () => {
-                this.redirectToNewPage("../log_page/log_page.html");
-            };
-        }
-
-        if (loadButton) {
-            loadButton.onclick = () => {
-                this.redirectToNewPage("../archive_page/archive_page.html");
-            };
-        }
-
-        if (autoButton) {
-            autoButton.onclick = () => this.startAutoClick();
-        }
-
-        if (skipButton) {
-            skipButton.onclick = () => {
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    skipElement.classList.toggle("active");
-                }
-            };
-        }
-
-        // 绑定弹窗事件
-        const skipYes = document.getElementById("skip_yes");
-        const skipNo = document.getElementById("skip_no");
-        const returnYes = document.getElementById("return_yes");
-        const returnNo = document.getElementById("return_no");
-
-        if (skipYes) {
-            skipYes.onclick = () => {
-                if (this.currentScene) {
-                    this.currentNodeIndex = this.currentScene.nodes.length - 1;
-                    this.renderCurrentNode();
-                }
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    skipElement.classList.remove("active");
-                }
-            };
-        }
-
-        if (skipNo) {
-            skipNo.onclick = () => {
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    skipElement.classList.remove("active");
-                }
-            };
-        }
-
-        if (returnYes) {
-            returnYes.onclick = () => {
-                window.location.href = "../main_menu/main_menu.html";
-            };
-        }
-
-        if (returnNo) {
-            returnNo.onclick = () => {
-                const returnElement = document.getElementById("return");
-                if (returnElement) {
-                    returnElement.classList.remove("active");
-                }
-            };
-        }
     }
 
+    if (logButton) {
+        logButton.onclick = () => {
+            this.redirectToNewPage("../log_page/log_page.html");
+        };
+    }
+
+    if (loadButton) {
+        loadButton.onclick = () => {
+            this.redirectToNewPage("../archive_page/archive_page.html");
+        };
+    }
+
+    if (autoButton) {
+        autoButton.onclick = () => this.startAutoClick();
+    }
+
+    if (skipButton) {
+        skipButton.onclick = () => {
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.toggle("active");
+            }
+        };
+    }
+
+    // 绑定背包按钮事件
+    if (bagButton) {
+        bagButton.onclick = () => {
+            this.toggleBag();
+        };
+    }
+
+    // 绑定back按钮事件 - 返回上一个节点
+    if (backButton) {
+        backButton.onclick = () => {
+            this.goBackToPreviousNode();
+        };
+    } else {
+        console.warn("未找到back按钮元素(op_back)");
+    }
+
+    // 绑定弹窗事件
+    const skipYes = document.getElementById("skip_yes");
+    const skipNo = document.getElementById("skip_no");
+    const returnYes = document.getElementById("return_yes");
+    const returnNo = document.getElementById("return_no");
+
+            if (skipYes) {
+        skipYes.onclick = () => {
+            if (this.currentScene) {
+                // 查找下一个有选项的节点
+                let nextChoiceNodeIndex = -1;
+                for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
+                    const node = this.currentScene.nodes[i];
+                    if (node.choices && node.choices.length > 0) {
+                        nextChoiceNodeIndex = i;
+                        break;
+                    }
+                }
+                
+                // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
+                if (nextChoiceNodeIndex !== -1) {
+                    this.currentNodeIndex = nextChoiceNodeIndex;
+                } else {
+                    this.currentNodeIndex = this.currentScene.nodes.length - 1;
+                }
+                this.clickCount = this.currentNodeIndex;
+                localStorage.setItem("nowclick", this.clickCount.toString());
+                this.renderCurrentNode();
+            }
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.remove("active");
+            }
+        };
+    }
+    if (skipNo) {
+        skipNo.onclick = () => {
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.remove("active");
+            }
+        };
+    }
+
+    if (returnYes) {
+        returnYes.onclick = () => {
+            window.location.href = "../main_menu/main_menu.html";
+        };
+    }
+
+    if (returnNo) {
+        returnNo.onclick = () => {
+            const returnElement = document.getElementById("return");
+            if (returnElement) {
+                returnElement.classList.remove("active");
+            }
+        };
+    }
+
+    // 绑定背包界面事件
+    const closeBagButton = document.getElementById("close-bag");
+    const bagOverlay = document.getElementById("bag-overlay");
+    const itemModal = document.getElementById("item-modal");
+    const closeModal = document.querySelector(".close-modal");
+
+    if (closeBagButton) {
+        closeBagButton.onclick = () => {
+            if (bagOverlay) {
+                bagOverlay.style.display = "none";
+            }
+        };
+    }
+
+    if (bagOverlay) {
+        bagOverlay.onclick = (event) => {
+            if (event.target === bagOverlay) {
+                bagOverlay.style.display = "none";
+            }
+        };
+    }
+
+    if (closeModal) {
+        (closeModal as HTMLElement).onclick = () => {
+            if (itemModal) {
+                itemModal.style.display = "none";
+            }
+        };
+    }
+
+    if (itemModal) {
+        itemModal.onclick = (event) => {
+            if (event.target === itemModal) {
+                itemModal.style.display = "none";
+            }
+        };
+    }
+}
     private nextMove(): void {
         if (!this.currentScene) return;
 
@@ -1154,9 +1328,142 @@ class GameScene {
         }
     }
 
-    private redirectToNewPage(nextpage: string): void {
+        private redirectToNewPage(nextpage: string): void {
         const nextPageURL = nextpage + "?referrer=" + encodeURIComponent(window.location.href);
         window.location.href = nextPageURL;
+    }
+
+        /**
+     * 返回上一个节点的功能
+     */
+    private goBackToPreviousNode(): void {
+        // 检查是否有上一个节点可以返回
+        if (this.currentNodeIndex > 0 && this.currentScene) {
+            // 返回到上一个节点
+            this.currentNodeIndex--;
+            this.clickCount = this.currentNodeIndex;
+            localStorage.setItem("nowclick", this.clickCount.toString());
+            this.renderCurrentNode();
+        } else {
+            console.log("已经到达第一个节点，无法再返回");
+        }
+    }
+    /**
+     * 切换背包界面显示/隐藏
+     */
+    private toggleBag(): void {
+        const bagOverlay = document.getElementById("bag-overlay");
+        if (bagOverlay) {
+            const isVisible = bagOverlay.style.display === "flex";
+            if (isVisible) {
+                bagOverlay.style.display = "none";
+            } else {
+                this.renderBag();
+                bagOverlay.style.display = "flex";
+            }
+        }
+    }
+
+    /**
+     * 渲染背包内容
+     */
+    private renderBag(): void {
+        const bagGrid = document.getElementById("bag-grid");
+        if (!bagGrid) return;
+
+        // 清空现有内容
+        bagGrid.innerHTML = "";
+
+        // 获取ArchiveManager实例
+        const archiveManager = ArchiveManager.getInstance();
+
+        // 获取玩家拥有的物品
+        const playerItems: string[] = [];
+        for (const itemId in ITEMS_DATABASE) {
+            if (archiveManager.hasItem(itemId)) {
+                playerItems.push(itemId);
+            }
+        }
+
+        // 如果没有物品，显示提示
+        if (playerItems.length === 0) {
+            bagGrid.innerHTML = '<p class="empty-bag" style="grid-column: 1/-1; text-align: center; color: #eeeeee;">背包是空的</p>';
+            return;
+        }
+
+        // 渲染每个物品
+        playerItems.forEach(itemId => {
+            const item = ITEMS_DATABASE[itemId];
+            if (item) {
+                const itemElement = this.createItemElement(item);
+                bagGrid.appendChild(itemElement);
+            }
+        });
+    }
+
+    /**
+     * 创建物品元素
+     * @param item 物品数据
+     * @returns HTML元素
+     */
+    private createItemElement(item: Item): HTMLElement {
+        const itemElement = document.createElement("div");
+        itemElement.className = "bag-item";
+        itemElement.innerHTML = `
+            <div class="item-icon">${item.icon}</div>
+            <p class="item-name">${item.name}</p>
+        `;
+
+        itemElement.addEventListener("click", () => {
+            this.showItemModal(item);
+        });
+
+        return itemElement;
+    }
+
+    /**
+     * 显示物品详情弹窗
+     * @param item 物品数据
+     */
+    private showItemModal(item: Item): void {
+        const modal = document.getElementById("item-modal");
+        const itemName = document.getElementById("modal-item-name");
+        const itemDescription = document.getElementById("modal-item-description");
+
+        if (itemName) itemName.textContent = item.name;
+        if (itemDescription) itemDescription.textContent = item.description;
+
+        if (modal) {
+            modal.style.display = "flex";
+        }
+    }
+
+    /**
+     * 添加物品到背包
+     * @param itemId 物品ID
+     */
+    public addItemToBag(itemId: string): void {
+        const archiveManager = ArchiveManager.getInstance();
+        archiveManager.addItem(itemId);
+    }
+
+    /**
+     * 从背包移除物品
+     * @param itemId 物品ID
+     */
+    public removeItemFromBag(itemId: string): void {
+        const archiveManager = ArchiveManager.getInstance();
+        archiveManager.removeItem(itemId);
+    }
+
+    /**
+     * 检查背包中是否有指定物品
+     * @param itemId 物品ID
+     * @returns 是否拥有该物品
+     */
+    public hasItemInBag(itemId: string): boolean {
+        const archiveManager = ArchiveManager.getInstance();
+        return archiveManager.hasItem(itemId);
     }
 }
 
