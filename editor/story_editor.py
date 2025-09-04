@@ -83,3 +83,5 @@ class StoryEditor:
         scene = self.scenes[scene_id]
         scene.nodes = [node for node in scene.nodes if node.id != node_id]
         return True
+
+# ... existing code ...

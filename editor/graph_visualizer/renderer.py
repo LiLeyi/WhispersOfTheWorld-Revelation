@@ -3,10 +3,47 @@ import math
 from typing import Dict, List, Optional, Set, Tuple
 from graph_visualizer.layout import LayoutConfig
 from story_parser import Scene, SceneNode, Choice
+import os
 
 class GraphRenderer:
     def __init__(self, parent):
         self.parent = parent
+        # 尝试加载背景图片缓存
+        self.background_cache = {}
+        
+    def get_background_bitmap(self, background_path):
+        """获取背景图片位图"""
+        if not background_path:
+            return None
+            
+        # 如果已经在缓存中，直接返回
+        if background_path in self.background_cache:
+            return self.background_cache[background_path]
+            
+        # 构建完整路径（根据项目结构）
+        full_path = os.path.join("..", "src", "assets", "images", "background", background_path)
+        
+        # 检查文件是否存在
+        if not os.path.exists(full_path):
+            # 尝试不带路径的文件名
+            full_path = os.path.join("..", "src", "assets", "images", "background", os.path.basename(background_path))
+            if not os.path.exists(full_path):
+                self.background_cache[background_path] = None
+                return None
+                
+        try:
+            # 加载图片
+            image = wx.Image(full_path, wx.BITMAP_TYPE_ANY)
+            if image.IsOk():
+                # 缩放到合适大小
+                bitmap = wx.Bitmap(image.Scale(120, 60))
+                self.background_cache[background_path] = bitmap
+                return bitmap
+        except Exception as e:
+            print(f"无法加载背景图片 {background_path}: {e}")
+            
+        self.background_cache[background_path] = None
+        return None
         
     def render(self, gc, nodes: Dict[str, SceneNode], connections: List[Dict], positions: Dict[str, Tuple[float, float]], selected_node: Optional[str]):
         """渲染图形"""
@@ -178,7 +215,7 @@ class GraphRenderer:
         gc.StrokeLine(x2, y2, arrow_x1, arrow_y1)
         gc.StrokeLine(x2, y2, arrow_x2, arrow_y2)
         
-    def draw_nodes(self, gc, nodes: Dict[str, SceneNode], positions: Dict[str, Tuple[float, float]], selected_node: Optional[str], connections: List[Dict], virtual_positions: Dict[str, Tuple[float, float]] = None):
+    def draw_nodes(self, gc, nodes: Dict[str, SceneNode], positions: Dict[str, Tuple[float, float]], selected_node: Optional[str], connections: List[Dict], get_node_display_text=None, virtual_positions: Dict[str, Tuple[float, float]] = None):
         """绘制节点"""
         # 使用更大更清晰的字体
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
@@ -215,11 +252,41 @@ class GraphRenderer:
                 text_width, text_height = gc.GetTextExtent(node_id)
                 gc.DrawText(node_id, x - text_width/2, y - text_height/2)
             else:
-                # 绘制常规矩形节点
-                gc.SetBrush(wx.Brush(color))
-                gc.SetPen(wx.Pen(wx.BLACK, 1))
-                gc.DrawRectangle(x - rect_width/2, y - rect_height/2, rect_width, rect_height)
+                # 检查是否需要绘制背景图片
+                node = nodes.get(node_id)
+                background_bitmap = None
+                if node and "background" in self.parent.node_display_options:
+                    elements = getattr(node, 'elements', None)
+                    if elements and getattr(elements, 'background', None):
+                        background_bitmap = self.get_background_bitmap(elements.background)
                 
-                # 绘制节点ID
-                text_width, text_height = gc.GetTextExtent(node_id)
-                gc.DrawText(node_id, x - text_width/2, y - text_height/2)
+                # 绘制常规矩形节点
+                if background_bitmap and background_bitmap.IsOk():
+                    # 如果有背景图片，先绘制图片
+                    gc.DrawBitmap(background_bitmap, x - rect_width/2, y - rect_height/2, rect_width, rect_height)
+                    # 添加半透明覆盖层以便文本可见
+                    gc.SetBrush(wx.Brush(wx.Colour(255, 255, 255, 128)))  # 半透明白色
+                    gc.SetPen(wx.Pen(wx.BLACK, 1))
+                    gc.DrawRectangle(x - rect_width/2, y - rect_height/2, rect_width, rect_height)
+                else:
+                    # 没有背景图片，正常绘制
+                    gc.SetBrush(wx.Brush(color))
+                    gc.SetPen(wx.Pen(wx.BLACK, 1))
+                    gc.DrawRectangle(x - rect_width/2, y - rect_height/2, rect_width, rect_height)
+                
+                # 获取节点显示文本
+                if get_node_display_text and node_id in nodes:
+                    display_text = get_node_display_text(nodes[node_id])
+                else:
+                    display_text = node_id
+                    
+                # 绘制节点显示文本（支持多行）
+                lines = display_text.split('\n')
+                # 获取字体高度的正确方法
+                text_height = font.GetPixelSize().GetHeight()
+                total_height = len(lines) * text_height
+                start_y = y - total_height/2 + text_height/2  # 垂直居中对齐
+                
+                for i, line in enumerate(lines):
+                    text_width, _ = gc.GetTextExtent(line)
+                    gc.DrawText(line, x - text_width/2, start_y + i * text_height)

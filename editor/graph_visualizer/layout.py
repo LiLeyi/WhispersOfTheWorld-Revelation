@@ -8,7 +8,7 @@ class LayoutConfig:
     # 层级间距（垂直方向）
     LEVEL_SPACING = 6
     
-    # 节点水平间距
+    # 芺点水平间距
     HORIZONTAL_SPACING = 0.2
     
     # 节点垂直最小间距
@@ -39,21 +39,40 @@ class LayoutManager:
         if not nodes:
             return
             
+        print("=== DEBUG: Starting layout calculation ===")
+        # print(f"Nodes: {list(nodes.keys())}")
+        # print(f"Connections: {connections}")
+            
         # 找到起始节点
         start_node_id = self._find_start_node(nodes, connections)
+        # print(f"Start node: {start_node_id}")
         
         # 构建节点的前驱和后继关系
         predecessors = self._build_predecessors(connections)
         successors = self._build_successors(connections)
+        # print(f"Predecessors: {predecessors}")
+        # print(f"Successors: {successors}")
         
         # 分配节点到层级
         node_levels = self._assign_node_levels(nodes, connections, start_node_id)
+        # print(f"Node levels: {node_levels}")
         
         # 在层级内分配节点位置
         self._arrange_nodes_in_levels(nodes, connections, node_levels, predecessors, successors, positions)
+        # print(f"Positions after arrange_nodes_in_levels: {positions}")
         
         # 优化垂直分布
         self._optimize_vertical_distribution(positions)
+        # print(f"Positions after optimize_vertical_distribution: {positions}")
+        
+        # 处理连接线重叠问题
+        self._handle_connection_overlaps(connections, positions, predecessors, successors)
+        # print(f"Positions after handle_connection_overlaps: {positions}")
+        
+        # 再次优化垂直分布，确保节点不重叠
+        self._optimize_vertical_distribution(positions)
+        # print(f"Final positions: {positions}")
+        # print("=== DEBUG: Layout calculation completed ===")
         
     def _find_start_node(self, nodes: Dict[str, SceneNode], connections: List[Dict]) -> str:
         """找到起始节点"""
@@ -152,12 +171,14 @@ class LayoutManager:
         # 为每层中的节点分配位置
         for level in sorted_levels:
             nodes_in_level = levels[level]
+            # print(f"Arranging level {level} nodes: {nodes_in_level}")
             
             # 根据前驱节点的位置来确定当前节点的位置
             if level == 0:
                 # 第一层，居中排列
                 for i, node_id in enumerate(nodes_in_level):
                     positions[node_id] = (i * LayoutConfig.HORIZONTAL_SPACING, level * LayoutConfig.LEVEL_SPACING)
+                    # print(f"  Level 0 node {node_id} positioned at {positions[node_id]}")
             else:
                 # 其他层，根据前驱节点位置确定
                 for node_id in nodes_in_level:
@@ -182,15 +203,21 @@ class LayoutManager:
                                     break
                                     
                             positions[node_id] = (avg_pred_pos + offset, base_y)
+                            # print(f"  Node {node_id} positioned at {positions[node_id]} (based on predecessors {predecessors[node_id]})")
                         else:
                             # 没有有效的前驱节点位置信息，使用默认位置
                             positions[node_id] = (len(positions) * LayoutConfig.HORIZONTAL_SPACING / 2, level * LayoutConfig.LEVEL_SPACING)
+                            # print(f"  Node {node_id} positioned at default location {positions[node_id]}")
                     else:
                         # 没有前驱节点，使用默认位置
                         positions[node_id] = (len(positions) * LayoutConfig.HORIZONTAL_SPACING / 2, level * LayoutConfig.LEVEL_SPACING)
+                        # print(f"  Node {node_id} positioned at default location {positions[node_id]}")
                         
     def _optimize_vertical_distribution(self, positions: Dict[str, Tuple[float, float]]):
         """优化垂直分布，避免节点过于接近"""
+        print("Optimizing vertical distribution")
+        initial_positions = positions.copy()
+        
         # 按y坐标分组节点
         rows = {}
         for node_id, (x, y) in positions.items():
@@ -215,6 +242,7 @@ class LayoutManager:
                     # 检查垂直方向上是否有足够空间
                     y_pos = y_key
                     positions[node_id] = (new_x, y_pos)
+                    # print(f"  Adjusted {node_id} x-position from {x} to {new_x}")
                 
         # 检查垂直方向上的重叠
         node_list = list(positions.items())
@@ -228,6 +256,69 @@ class LayoutManager:
                     if abs(y1 - y2) < LayoutConfig.MIN_VERTICAL_SPACING:
                         # 调整其中一个节点的垂直位置
                         if y1 <= y2:
+                            old_pos = positions[node_id2]
                             positions[node_id2] = (x2, y1 + LayoutConfig.MIN_VERTICAL_SPACING)
+                            # print(f"  Adjusted {node_id2} y-position from {old_pos} to {positions[node_id2]} to avoid overlap with {node_id1}")
                         else:
+                            old_pos = positions[node_id1]
                             positions[node_id1] = (x1, y2 + LayoutConfig.MIN_VERTICAL_SPACING)
+                            # print(f"  Adjusted {node_id1} y-position from {old_pos} to {positions[node_id1]} to avoid overlap with {node_id2}")
+                            
+        if positions != initial_positions:
+            # print(f"Positions changed during optimization: {positions}")
+            pass
+                            
+    def _handle_connection_overlaps(self, connections: List[Dict], positions: Dict[str, Tuple[float, float]], 
+                                  predecessors: Dict[str, List[str]], successors: Dict[str, List[str]]):
+        """处理连接线重叠问题，通过调整节点垂直位置来避免连接线重叠"""
+        print("Handling connection overlaps")
+        initial_positions = positions.copy()
+        
+        # 查找所有直接连接和间接连接的情况
+        # 构建直接连接映射
+        direct_connections = {}
+        for conn in connections:
+            from_node = conn['from']
+            to_node = conn['to']
+            if from_node not in direct_connections:
+                direct_connections[from_node] = set()
+            direct_connections[from_node].add(to_node)
+            
+        # print(f"Direct connections map: {direct_connections}")
+        
+        # 检查三节点重叠情况: A -> B 和 A -> C 且 B -> C
+        for node_a in direct_connections:
+            # 查找所有node_a的直接后继
+            if node_a not in positions:
+                continue
+                
+            successors_a = direct_connections[node_a]
+            for node_b in successors_a:
+                if node_b not in positions:
+                    continue
+                    
+                # 检查node_b是否也有后继
+                if node_b in direct_connections:
+                    successors_b = direct_connections[node_b]
+                    # 检查node_a是否也直接连接到node_b的某个后继
+                    common_successors = successors_a & successors_b
+                    for node_c in common_successors:
+                        if node_c not in positions:
+                            continue
+                            
+                        # 检查这三个节点是否在同一条直线上（x坐标相同）
+                        x_a, y_a = positions[node_a]
+                        x_b, y_b = positions[node_b]
+                        x_c, y_c = positions[node_c]
+                        
+                        # 检查是否在同一垂直线上且顺序正确
+                        if abs(x_a - x_b) < 0.01 and abs(x_b - x_c) < 0.01 and y_a < y_b < y_c:
+                            # 需要将中间节点(node_b)在水平方向上偏移，以避免连接线重叠
+                            offset_x = 1.0  # 水平偏移量
+                            old_pos = positions[node_b]
+                            positions[node_b] = (x_b + offset_x, y_b)
+                            # print(f"  Adjusted {node_b} from {old_pos} to {positions[node_b]} to avoid connection overlap")
+                            
+        if positions != initial_positions:
+            # print(f"Positions changed during overlap handling: {positions}")
+            pass
