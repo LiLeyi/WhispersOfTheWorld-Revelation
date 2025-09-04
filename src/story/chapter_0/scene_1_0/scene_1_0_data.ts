@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { BackgroundManager } from '../../../components/BackgroundManager';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1_0",
@@ -476,6 +477,7 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "好好好，我会的。",
+                bgm: null,
                 sprite: {
             left: null
         }
@@ -487,6 +489,7 @@ const scene: Scene = {
                 name: "旁白",
                 text: "走出门，来到镇上，人们正聚集在集市广场上。",
                 background: "sc1.1/1-1-4.png",
+                bgm: "bgm3"
             }
         },
         {
@@ -542,7 +545,8 @@ const scene: Scene = {
             id: "town_square_1",
             elements: {
                 name: "旁白",
-                text: "镇中心的广场人声鼎沸。灰暗的天空之下，居民们挤在一起，喊叫，嘲笑，狂欢。"
+                text: "镇中心的广场人声鼎沸。灰暗的天空之下，居民们挤在一起，喊叫，嘲笑，狂欢。",
+                background: "sc1.1/1-1-7.png",
             }
         },
         {
@@ -647,7 +651,8 @@ const scene: Scene = {
             id: "town_square_16",
             elements: {
                 name: "旁白",
-                text: "走钢索者左倒右晃，如断线木偶般失足从钢索上坠落，跌入广场。"
+                text: "走钢索者左倒右晃，如断线木偶般失足从钢索上坠落，跌入广场。",
+                background: "sc1.1/1-1-8.png",
             }
         },
         {
@@ -661,14 +666,20 @@ const scene: Scene = {
             id: "town_square_18",
             elements: {
                 name: "旁白",
-                text: "人群爆发出更大的喧嚣与笑声。"
+                text: "人群爆发出更大的喧嚣与笑声。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
             id: "town_square_19",
             elements: {
                 name: "光泠",
-                text: "真是糟糕，令人作呕。"
+                text: "真是糟糕，令人作呕。",
+                sprite: {
+            left: "guangling/down.png"
+        }
             }
         },
         {
@@ -689,7 +700,10 @@ const scene: Scene = {
             id: "town_square_21",
             elements: {
                 name: "旁白",
-                text: "你所行的道，充满危险。"
+                text: "你所行的道，充满危险。",
+                sprite: {
+            left: null
+        }
             }
         },
         {
