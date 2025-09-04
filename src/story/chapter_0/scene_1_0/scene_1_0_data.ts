@@ -521,21 +521,21 @@ const scene: Scene = {
             }
         },
         {
-            id: "lightling_1_1",
+            id: "town_outside_6",
             elements: {
                 name: "光泠",
                 text: "还不算太坏。"
             }
         },
         {
-            id: "town_outside_6",
+            id: "town_outside_7",
             elements: {
                 name: "你",
                 text: "走在道路上打量着四周，突然传来一阵骚动。"
             }
         },
         {
-            id: "town_outside_7",
+            id: "town_outside_8",
             elements: {
                 name: "你",
                 text: "去看看。"
@@ -690,14 +690,14 @@ const scene: Scene = {
             }
         },
         {
-            id: "lightling_2_1",
+            id: "town_square_21",
             elements: {
                 name: "光泠",
                 text: "看来这就是斑牛镇的真面目。"
             }
         },
         {
-            id: "town_square_21",
+            id: "town_square_22",
             elements: {
                 name: "旁白",
                 text: "你所行的道，充满危险。",
@@ -707,49 +707,49 @@ const scene: Scene = {
             }
         },
         {
-            id: "town_square_22",
+            id: "town_square_23",
             elements: {
                 name: "旁白",
                 text: "你没有达到目的，却已被人嘲笑。"
             }
         },
         {
-            id: "town_square_23",
+            id: "town_square_24",
             elements: {
                 name: "光泠",
                 text: "但你并未因此白活，因为你的失败，仍然比人群的庸俗要高贵。"
             }
         },
         {
-            id: "town_square_24",
+            id: "town_square_25",
             elements: {
                 name: "你",
                 text: "我想这里没有我们要找的东西。也许该走了。"
             }
         },
         {
-            id: "town_square_25",
+            id: "town_square_26",
             elements: {
                 name: "旁白",
                 text: "转身离开时，又听见旁边的交谈声。"
             }
         },
         {
-            id: "town_square_26",
+            id: "town_square_27",
             elements: {
                 name: "隐者",
                 text: "你为何要下山？在林中你是纯净的，可以与上帝同在。"
             }
         },
         {
-            id: "town_square_27",
+            id: "town_square_28",
             elements: {
                 name: "隐者",
                 text: "人类太喧闹、太污浊，何必到他们那里去？"
             }
         },
         {
-            id: "town_square_28",
+            id: "town_square_29",
             elements: {
                 name: "隐者",
                 text: "留下来吧，和我一起在荒林里歌颂上帝。"
@@ -858,7 +858,7 @@ const scene: Scene = {
             }
         },
         {
-            id: "lightling_3_1",
+            id: "mysterious_person_7_3",
             elements: {
                 name: "光泠",
                 text: "我们该去往何方？"
@@ -910,7 +910,7 @@ const scene: Scene = {
             }
         },
         {
-            id: "lightling_4_1",
+            id: "you_know_2",
             elements: {
                 name: "光泠",
                 text: "嗯。",
