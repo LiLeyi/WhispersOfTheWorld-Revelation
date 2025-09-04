@@ -965,23 +965,32 @@ nodes: [
   id: "reborn_5",
   elements: {
     name: "旁白",
-    text: "光泠微笑着向我点头。"
+    text: "光泠微笑着向我点头。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "reborn_6",
   elements: {
     name: "光泠",
-    text: "您果然没有让人失望。"
+    text: "您果然没有让人失望。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
   id: "reborn_7",
   elements: {
     name: "光泠",
-    text: "我从不怀疑您。看来我做出了正确的选择。"
+    text: "我从不怀疑您。看来我做出了正确的选择。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
-},
+  },
 {
   id: "reborn_8",
   elements: {
@@ -1007,14 +1016,23 @@ nodes: [
   id: "reborn_11",
   elements: {
     name: "光泠",
-    text: "走吧。我会陪您一同面对。（笑）"
+    text: "走吧。我会陪您一同面对。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
+    
   }
 },
 {
   id: "village_1",
   elements: {
+    bgm:"bgm2",
+    background: "sc1.2/1-2-13.jpg",   
     name: "旁白",
-    text: "踏入村庄，阴风阵阵在耳边哭号，一片死寂静静地等待着我们的到来。"
+    text: "踏入村庄，阴风阵阵在耳边哭号，一片死寂静静地等待着我们的到来。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1077,21 +1095,31 @@ nodes: [
   id: "village_8_1",
   elements: {
     name: "旁白",
-    text: "路旁的雕像与墓碑似乎在告诉来者，这里曾是生命与文明的根据地。"
+    text: "路旁的雕像与墓碑似乎在告诉来者，这里曾是生命与文明的根据地。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "village_9",
   elements: {
     name: "光泠",
-    text: "请沿着这条路走下去，我们所需之物也许就在那里。"
+    text: "请沿着这条路走下去，我们所需之物也许就在那里。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
   id: "village_10",
   elements: {
+    background: "sc1.2/1-2-1.jpg", 
     name: "旁白",
-    text: "推开又一道沉重的石门，走过一座摇荡的吊桥。"
+    text: "推开又一道沉重的石门，走过一座摇荡的吊桥。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1118,22 +1146,32 @@ nodes: [
 {
   id: "altar_1",
   elements: {
+     background: "sc1.2/1-2-12.jpg", 
     name: "旁白",
-    text: "朝着幽光走去，一座神秘的祭坛毫无征兆地出现在视野中。"
+    text: "朝着幽光走去，一座神秘的祭坛毫无征兆地出现在视野中。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_2",
   elements: {
     name: "光泠",
-    text: "越来越近了。(无表情)"
+    text: "越来越近了。",
+    sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
   }
 },
 {
   id: "altar_3",
   elements: {
     name: "旁白",
-    text: "祭坛四周插着燃烧着微弱焰火的蜡烛，为这黑暗的世界增添了一份难得的光明。"
+    text: "祭坛四周插着燃烧着微弱焰火的蜡烛，为这黑暗的世界增添了一份难得的光明。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1161,21 +1199,30 @@ nodes: [
   id: "altar_7",
   elements: {
     name: "旁白",
-    text: "如同受到神秘的指引，鬼使神差地捡起了祭坛上的一块刻有诡异符号的黑石。"
+    text: "如同受到神秘的指引，鬼使神差地捡起了祭坛上的一块刻有诡异符号的黑石。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_8",
   elements: {
     name: "光泠",
-    text: "请小心。（谨慎）"
+    text: "请小心。",
+    sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
   }
 },
 {
   id: "altar_9",
   elements: {
     name: "旁白",
-    text: "话音未落，一丝黑烟从手中飘出——确切的说，是手中的黑石。"
+    text: "话音未落，一丝黑烟从手中飘出——确切的说，是手中的黑石。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1300,7 +1347,7 @@ nodes: [
 {
   id: "altar_24",
   elements: {
-    name: "光泠",
+    name: "你",
     text: "告诉我，我们所寻的关键之物在哪里？"
   }
 },
@@ -1468,10 +1515,6 @@ nodes: [
     {
       text: "收下",
       next: "altar_43_1"
-    },
-    {
-        text: "质疑",
-        next: "altar_43_2"
     }
   ]
 },
@@ -1494,42 +1537,60 @@ nodes: [
   id: "altar_45",
   elements: {
     name: "旁白",
-    text: "我们真的得到了第一个关键之物吗？"
+    text: "我们真的得到了第一个关键之物吗？",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_46",
   elements: {
     name: "光泠",
-    text: "这就是真正的“始源之心”吗？是我们要找的第一个关键之物。"
+    text: "这就是真正的“始源之心”，是我们要找的第一个关键之物。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
   id: "altar_47",
   elements: {
     name: "旁白",
-    text: "听闻此言，我不由得长舒一口气。"
+    text: "听闻此言，我不由得长舒一口气。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_48",
   elements: {
     name: "旁白",
-    text: "我们终于迈出了真正意义上第一步。"
+    text: "我们终于迈出了真正意义上第一步。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_49",
   elements: {
     name: "光泠",
-    text: "我为您感到由衷的喜悦。（笑）"
+    text: "我为您感到由衷的喜悦。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
   id: "altar_50",
   elements: {
     name: "光泠",
-    text: "我知道您有多不容易。（微笑）"
+    text: "我知道您有多不容易。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
@@ -1543,7 +1604,10 @@ nodes: [
   id: "altar_52",
   elements: {
     name: "光泠",
-    text: "嗯哼⁓（笑）"
+    text: "嗯哼⁓",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
@@ -1557,18 +1621,13 @@ nodes: [
   id: "altar_54",
   elements: {
     name: "光泠",
-    text: "让我们继续，走向胜利吧。"
+    text: "让我们继续，走向胜利吧。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   },
   next:"待定",
-},//分支2//
-{
-  id: "altar_43_2",
-  elements: {
-    name: "你",
-    text: "你会这么容易把始源之心交给我们吗？"
-  }
 },
-
 ]
 }
 export default scene;
