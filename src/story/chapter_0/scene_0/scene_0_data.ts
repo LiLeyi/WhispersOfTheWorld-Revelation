@@ -12,7 +12,10 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "？？？：准备好踏上旅程了吗？与那个女孩一起。",
-                bgm: "bgm1"
+                bgm: "bgm2"
+            },
+            action: () => {
+                alert('Start!')
             }
         },
         {
@@ -44,12 +47,12 @@ const scene: Scene = {
                     next: "test_game",
                     action: () => {
                         let cm = CardManager.getInstance();
-                        cm.addCardToDeck("feint", 5);
+                        cm.addCardToDeck("straight_punch_3", 3);
                     }
                 },
                 {
                     text: "否",
-                    next: "test1"
+                    next: "test_game"
                 }
             ]
         },
@@ -64,37 +67,24 @@ const scene: Scene = {
                 config: {
                     player: {
                         actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
+                        hp: 20,
+                        maxHp: 20,
                         deck: () => CardManager.getInstance().getPlayerDeck(),
                         drawCount: 2,           // 玩家每回合抽2张牌
                         initialDrawCount: 4     // 玩家开始时抽4张牌
                     },
                     opponent: {
                         actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
+                        hp: 20,
+                        maxHp: 20,
                         deck: {
-                            // 攻击卡牌
-                            'punch': 2,      // 拳击 x2
-                            'kick': 3,       // 踜击 x3
-                            'combo': 2,      // 连击 x2
-                            'hook_1': 1,     // 勾拳II x1
-                            'haymaker': 1,   // 重拳 x1
-
-                            // 防御卡牌
-                            'block': 2,      // 格挡 x2
-                            'dodge': 1,      // 闪避 x1
-                            'taunt': 1,      // 嘲讽 x1
-
-                            // 特殊卡牌
-                            'rest': 1,       // 休息 x1
-                            'berserk': 1,    // 狂暴 x1
-                            'stun': 1,       // 眩晕 x1
-                            'sacrifice': 1,  // 牺牲 x1
-                            'second_wind': 1 // 回光返照 x1
+                            'straight_punch_1': 2,  // 直拳I x2
+                            'straight_punch_2': 1,  // 直拳II x1
+                            'kick_1': 2,            // 踢击I x2
+                            'block_1': 2,           // 格挡I x2
+                            'excite_1': 2           // 兴奋I x2
                         },
-                        drawCount: 1,           // 对手每回合抽1张牌
+                        drawCount: 2,           // 对手每回合抽1张牌
                         initialDrawCount: 3     // 对手开始时抽3张牌
                     }
                 },
@@ -383,6 +373,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "废墟的边界，似乎建有一块小小的墓地。",
+                bgm:"bgm3",
                 background: "sc0.1/0-1-2.jpg",
             }
         },

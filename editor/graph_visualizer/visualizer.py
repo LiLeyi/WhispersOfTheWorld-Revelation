@@ -8,6 +8,10 @@ from story_parser import Scene, SceneNode, Choice, SceneElement
 from .layout import LayoutManager, LayoutConfig
 from .renderer import GraphRenderer
 from .utils import convert_positions_to_coordinates
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
+from node_editor import NodeEditorDialog
 
 class NodeGraphVisualizer(wx.Panel):
     def __init__(self, parent):
@@ -26,6 +30,10 @@ class NodeGraphVisualizer(wx.Panel):
         self.node_size = (120, 60)
         self.dragged_node_id = None   # 正在被拖动的节点ID
         self.original_node_pos = None # 节点原始位置
+        self.story_editor = None      # 故事编辑器实例
+        
+        # 节点显示选项（支持多选）
+        self.node_display_options = ["id"]  # 默认只显示节点ID
         
         # 添加双缓冲样式以减少闪烁
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
@@ -53,6 +61,10 @@ class NodeGraphVisualizer(wx.Panel):
         # 绑定空闲事件用于优化重绘
         self.Bind(wx.EVT_IDLE, self.on_idle)
         
+    def set_story_editor(self, editor):
+        """设置故事编辑器实例"""
+        self.story_editor = editor
+        
     def update_layout_config(self, **kwargs):
         """更新布局配置参数"""
         LayoutConfig.update_config(**kwargs)
@@ -68,7 +80,7 @@ class NodeGraphVisualizer(wx.Panel):
         self.node_positions = {}
         self.selected_node = None
         
-        print("=== DEBUG: Starting scene processing ===")
+        # print("=== DEBUG: Starting scene processing ===")
         
         # 添加所有节点
         for node in scene.nodes:
@@ -80,14 +92,14 @@ class NodeGraphVisualizer(wx.Panel):
         # 创建一个节点ID到索引的映射，用于处理隐式连接
         node_index_map = {node.id: i for i, node in enumerate(scene.nodes)}
         
-        print("=== DEBUG: Node Index Map ===")
-        for node_id, index in node_index_map.items():
-            print(f"Node ID: {node_id}, Index: {index}")
+        # print("=== DEBUG: Node Index Map ===")
+        # for node_id, index in node_index_map.items():
+        #     print(f"Node ID: {node_id}, Index: {index}")
         
         # 第一遍：添加基本连接关系
-        print("=== DEBUG: First pass - Basic connections ===")
+        # print("=== DEBUG: First pass - Basic connections ===")
         for i, node in enumerate(scene.nodes):
-            print(f"Processing node {node.id} at index {i}")
+            # print(f"Processing node {node.id} at index {i}")
             # 处理选项连接
             if node.choices:
                 print(f"  Node {node.id} has choices:")
@@ -98,7 +110,7 @@ class NodeGraphVisualizer(wx.Panel):
                         'label': choice.text,
                         'condition': getattr(choice, 'condition', None)
                     })
-                    print(f"    Added choice connection: {node.id} -> {choice.next} ('{choice.text}')")
+                    # print(f"    Added choice connection: {node.id} -> {choice.next} ('{choice.text}')")
                     # 收集章节跳转目标
                     if choice.next.startswith("chapter_"):
                         chapter_targets.add(choice.next)
@@ -110,7 +122,7 @@ class NodeGraphVisualizer(wx.Panel):
                     'label': '',  # 去掉"[自动跳转]"标签
                     'condition': getattr(node, 'condition', None)
                 })
-                print(f"  Added next connection: {node.id} -> {node.next}")
+                # print(f"  Added next connection: {node.id} -> {node.next}")
                 # 收集章节跳转目标
                 if node.next.startswith("chapter_"):
                     chapter_targets.add(node.next)
@@ -125,28 +137,29 @@ class NodeGraphVisualizer(wx.Panel):
                         'label': '',
                         'condition': getattr(node, 'condition', None)
                     })
-                    print(f"  Added implicit connection: {node.id} -> {next_node.id}")
+                    # print(f"  Added implicit connection: {node.id} -> {next_node.id}")
             else:
-                print(f"  Node {node.id} has no next attribute and is at the end, no implicit connection added")
+                # print(f"  Node {node.id} has no next attribute and is at the end, no implicit connection added")
+                pass
                     
         # 第二遍：处理选项节点的后续连接
-        print("=== DEBUG: Second pass - Post-choice connections ===")
+        # print("=== DEBUG: Second pass - Post-choice connections ===")
         for node in scene.nodes:
             # 如果节点有选项，检查每个选项指向的节点是否需要后续连接
             if node.choices:
-                print(f"Processing choices for node {node.id}")
+                # print(f"Processing choices for node {node.id}")
                 for choice in node.choices:
                     choice_node_id = choice.next
-                    print(f"  Checking choice to {choice_node_id}")
+                    # print(f"  Checking choice to {choice_node_id}")
                     # 确保选项指向的节点在当前场景中
                     if choice_node_id in node_index_map:
                         choice_node_index = node_index_map[choice_node_id]
-                        print(f"    Choice node index: {choice_node_index}")
+                        # print(f"    Choice node index: {choice_node_index}")
                         # 确保选项节点不是最后一个节点
                         if choice_node_index < len(scene.nodes) - 1:
                             # 选项节点的下一个节点
                             next_node_after_choice = scene.nodes[choice_node_index + 1]
-                            print(f"    Next node after choice: {next_node_after_choice.id}")
+                            # print(f"    Next node after choice: {next_node_after_choice.id}")
                             # 查找选项节点对象
                             choice_node = self.nodes.get(choice_node_id)
                             
@@ -157,7 +170,7 @@ class NodeGraphVisualizer(wx.Panel):
                                 for conn in self.connections:
                                     if conn['from'] == choice_node_id and conn['to'] == next_node_after_choice.id:
                                         connection_exists = True
-                                        print(f"    Connection {choice_node_id} -> {next_node_after_choice.id} already exists")
+                                        # print(f"    Connection {choice_node_id} -> {next_node_after_choice.id} already exists")
                                         break
                                         
                                 if not connection_exists:
@@ -167,21 +180,26 @@ class NodeGraphVisualizer(wx.Panel):
                                         'label': '',
                                         'condition': getattr(choice_node, 'condition', None)
                                     })
-                                    print(f"    Added post-choice connection: {choice_node_id} -> {next_node_after_choice.id}")
+                                    # print(f"    Added post-choice connection: {choice_node_id} -> {next_node_after_choice.id}")
                                 else:
-                                    print(f"    Skipped duplicate connection: {choice_node_id} -> {next_node_after_choice.id}")
+                                    # print(f"    Skipped duplicate connection: {choice_node_id} -> {next_node_after_choice.id}")
+                                    pass
                             else:
                                 if choice_node:
                                     next_attr = getattr(choice_node, 'next', None)
-                                    print(f"    Choice node {choice_node_id} has next attribute: {next_attr}, skipping implicit connection")
+                                    # print(f"    Choice node {choice_node_id} has next attribute: {next_attr}, skipping implicit connection")
                                 else:
-                                    print(f"    Choice node {choice_node_id} not found")
+                                    # print(f"    Choice node {choice_node_id} not found")
+                                    pass
                         else:
-                            print(f"    Choice node {choice_node_id} is the last node, no next node to connect to")
+                            # print(f"    Choice node {choice_node_id} is the last node, no next node to connect to")
+                            pass
                     else:
-                        print(f"    Choice node {choice_node_id} not found in node_index_map")
+                        # print(f"    Choice node {choice_node_id} not found in node_index_map")
+                        pass
             else:
-                print(f"Node {node.id} has no choices")
+                # print(f"Node {node.id} has no choices")
+                pass
                     
         # 为章节跳转目标创建虚拟节点（如果它们不存在于当前场景中）
         for target in chapter_targets:
@@ -193,12 +211,75 @@ class NodeGraphVisualizer(wx.Panel):
                 )
                 self.nodes[target] = virtual_node
             
-        print("=== DEBUG: All connections ===")
-        for i, conn in enumerate(self.connections):
-            print(f"{i+1}. From: {conn['from']} -> To: {conn['to']}, Label: '{conn['label']}'")
+        # print("=== DEBUG: All connections ===")
+        # for i, conn in enumerate(self.connections):
+        #     print(f"{i+1}. From: {conn['from']} -> To: {conn['to']}, Label: '{conn['label']}'")
             
         self.calculate_layout()
         self.Refresh()
+        
+    def set_node_display_options(self, options):
+        """设置节点显示选项（支持多选）"""
+        self.node_display_options = options
+        self.Refresh()
+        
+    def get_node_display_text(self, node: SceneNode) -> str:
+        """根据显示选项获取节点显示文本"""
+        display_parts = []
+        
+        # 节点ID
+        if "id" in self.node_display_options:
+            display_parts.append(node.id)
+            
+        # 对话文本
+        if "text" in self.node_display_options:
+            elements = getattr(node, 'elements', None)
+            if elements and getattr(elements, 'text', None):
+                text = elements.text
+                # 如果文本太长，截取前一部分并添加省略号
+                if len(text) > 15:
+                    display_parts.append(text[:15] + "...")
+                else:
+                    display_parts.append(text)
+            else:
+                display_parts.append("[无文本]")
+                
+        # 背景
+        if "background" in self.node_display_options:
+            elements = getattr(node, 'elements', None)
+            if elements and getattr(elements, 'background', None):
+                display_parts.append(f"[BG] {elements.background}")
+            else:
+                display_parts.append("[无背景]")
+                
+        # BGM
+        if "bgm" in self.node_display_options:
+            elements = getattr(node, 'elements', None)
+            if elements and getattr(elements, 'bgm', None):
+                display_parts.append(f"[BGM] {elements.bgm}")
+            else:
+                display_parts.append("[无BGM]")
+                
+        # 立绘
+        if "sprites" in self.node_display_options:
+            elements = getattr(node, 'elements', None)
+            if elements and getattr(elements, 'sprite', None):
+                sprites = elements.sprite
+                sprite_info = []
+                if sprites.get("left"):
+                    sprite_info.append("L")
+                if sprites.get("center"):
+                    sprite_info.append("C")
+                if sprites.get("right"):
+                    sprite_info.append("R")
+                if sprite_info:
+                    display_parts.append(f"[SP] {', '.join(sprite_info)}")
+                else:
+                    display_parts.append("[无立绘]")
+            else:
+                display_parts.append("[无立绘]")
+        
+        return "\n".join(display_parts)
         
     def calculate_layout(self):
         """计算节点布局，严格按照从左到右的剧情顺序"""
@@ -241,8 +322,8 @@ class NodeGraphVisualizer(wx.Panel):
         # 绘制连接线
         self.renderer.draw_connections(gc, self.connections, self.node_positions, self.nodes)
         
-        # 绘制节点
-        self.renderer.draw_nodes(gc, self.nodes, self.node_positions, self.selected_node, self.connections)
+        # 绘制节点，使用新的显示选项
+        self.renderer.draw_nodes(gc, self.nodes, self.node_positions, self.selected_node, self.connections, self.get_node_display_text)
         
         gc.PopState()
 
@@ -293,7 +374,7 @@ class NodeGraphVisualizer(wx.Panel):
                 dy = (y - self.last_y) / self.scale
                 if self.dragged_node_id in self.node_positions:
                     old_x, old_y = self.node_positions[self.dragged_node_id]
-                    self.node_positions[self.dragged_node_id] = (old_x + dx, old_y + dy)
+                    self.node_positions[self.dragged_node_id] = (old_x + dx, y + dy)
                 self.last_x, self.last_y = x, y
                 self.Refresh(False)  # 直接刷新，不擦除背景
             elif self.dragging_canvas:
@@ -358,11 +439,50 @@ class NodeGraphVisualizer(wx.Panel):
             # 如果是章节跳转节点，则不处理双击事件（因为没有详情页面）
             if clicked_node.startswith("chapter_"):
                 return
-            # 发送节点双击事件
-            evt = wx.CommandEvent(wx.EVT_BUTTON.typeId, self.GetId())
-            evt.node_id = clicked_node
-            evt.double_click = True
-            self.GetEventHandler().ProcessEvent(evt)
+            # 打开节点编辑对话框
+            self.edit_node(clicked_node)
+            
+    def edit_node(self, node_id):
+        """编辑节点"""
+        print(f"[DEBUG] edit_node called with node_id: {node_id}")
+        if node_id in self.nodes:
+            node = self.nodes[node_id]
+            print(f"[DEBUG] Found node in self.nodes: {node.id}")
+            dialog = NodeEditorDialog(self, node)
+            if dialog.ShowModal() == wx.ID_OK:
+                print("[DEBUG] Dialog closed with OK")
+                updated_node = dialog.get_node()
+                # 更新节点
+                self.nodes[node_id] = updated_node
+                print(f"[DEBUG] Updated node in self.nodes: {updated_node.id}")
+                
+                # 更新主窗口中的场景数据
+                # 使用通过set_story_editor设置的故事编辑器实例
+                if self.story_editor:
+                    main_window = self.story_editor
+                    print(f"[DEBUG] Main window (from story_editor): {main_window}")
+                    if hasattr(main_window, 'current_scene') and main_window.current_scene:
+                        scene = main_window.current_scene
+                        print(f"[DEBUG] Found current_scene in main window, scene id: {scene.id}")
+                        # 在场景中找到并更新对应的节点
+                        for i, scene_node in enumerate(scene.nodes):
+                            if scene_node.id == node_id:
+                                scene.nodes[i] = updated_node
+                                print(f"[DEBUG] Updated node in scene.nodes at index {i}")
+                                break
+                        
+                        # 立即刷新图形视图
+                        print("[DEBUG] Calling set_scene to refresh view")
+                        self.set_scene(scene)
+                        
+                        # 同时更新图形可视化器中的节点（如果存在）
+                        if node_id in self.nodes:
+                            self.nodes[node_id] = updated_node
+            else:
+                print("[DEBUG] Dialog closed with Cancel")
+            dialog.Destroy()
+        else:
+            print(f"[DEBUG] Node {node_id} not found in self.nodes")
             
     def get_node_at_position(self, x: float, y: float) -> Optional[str]:
         """根据坐标获取节点ID"""

@@ -7,6 +7,7 @@ from typing import Dict, Any, List, Optional
 from story_parser import StoryParser, Scene, SceneNode
 from story_editor import StoryEditor
 from graph_visualizer import NodeGraphVisualizer
+from node_editor import NodeEditorDialog
 
 class StoryEditorFrame(wx.Frame):
     def __init__(self):
@@ -87,24 +88,41 @@ class StoryEditorFrame(wx.Frame):
         # 创建选项卡
         self.notebook = wx.Notebook(right_panel)
         
-        # 详细信息面板
-        self.detail_panel = wx.TextCtrl(self.notebook, style=wx.TE_MULTILINE | wx.TE_READONLY)
-        self.notebook.AddPage(self.detail_panel, "详细信息")
-        
         # 图形化视图面板
         graph_panel = wx.Panel(self.notebook)  # 使用notebook作为父窗口
         graph_sizer = wx.BoxSizer(wx.VERTICAL)
         
-        # 创建图形化可视化组件
-        self.graph_visualizer = NodeGraphVisualizer(graph_panel)  # 使用graph_panel作为父窗口
-        self.Bind(wx.EVT_BUTTON, self.on_node_selected, self.graph_visualizer)
+        # 创建节点显示选项
+        display_options_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        display_options_sizer.Add(wx.StaticText(graph_panel, label="节点显示选项:"), 0, wx.ALL | wx.CENTER, 5)
+        
+        self.display_options = wx.CheckListBox(graph_panel, choices=[
+            "节点ID", 
+            "对话文本", 
+            "背景", 
+            "BGM", 
+            "立绘"
+        ])
+        # 默认选择节点ID
+        self.display_options.Check(0) 
+        self.display_options.Bind(wx.EVT_CHECKLISTBOX, self.on_display_option_changed)
+        display_options_sizer.Add(self.display_options, 0, wx.ALL, 5)
         
         # 工具栏
         graph_toolbar = wx.ToolBar(graph_panel, style=wx.TB_HORIZONTAL | wx.TB_TEXT)  # 使用graph_panel作为父窗口
         self.reset_view_btn = graph_toolbar.AddTool(wx.ID_ANY, '重置视图', wx.ArtProvider.GetBitmap(wx.ART_GO_HOME))
         self.Bind(wx.EVT_TOOL, self.on_reset_view, self.reset_view_btn)
+        # 添加检查按钮
+        self.check_btn = graph_toolbar.AddTool(wx.ID_ANY, '检查', wx.ArtProvider.GetBitmap(wx.ART_FIND))
+        self.Bind(wx.EVT_TOOL, self.on_check, self.check_btn)
         graph_toolbar.Realize()
         
+        # 创建图形化可视化组件（修复：移到使用之前创建）
+        self.graph_visualizer = NodeGraphVisualizer(graph_panel)  # 使用graph_panel作为父窗口
+        # 设置故事编辑器实例，以便图形可视化器可以访问主窗口数据
+        self.graph_visualizer.set_story_editor(self)
+        
+        graph_sizer.Add(display_options_sizer, 0, wx.EXPAND)
         graph_sizer.Add(graph_toolbar, 0, wx.EXPAND)
         graph_sizer.Add(self.graph_visualizer, 1, wx.EXPAND)
         graph_panel.SetSizer(graph_sizer)
@@ -178,7 +196,70 @@ class StoryEditorFrame(wx.Frame):
         # 状态栏
         self.CreateStatusBar()
         self.SetStatusText('就绪')
+
+    def on_check(self, event):
+        """检查所有节点的跳转是否正常存在"""
+        if not self.current_scene:
+            wx.MessageBox("请先选择一个场景", "提示", wx.OK | wx.ICON_INFORMATION)
+            return
+            
+        issues = []
         
+        # 收集所有场景中的节点ID
+        all_node_ids = set()
+        for scene_id, scene in self.scenes.items():
+            for node in scene.nodes:
+                all_node_ids.add(node.id)
+                
+        # 检查当前场景中的节点跳转
+        for node in self.current_scene.nodes:
+            # 检查next属性
+            if hasattr(node, 'next') and node.next:
+                next_target = node.next
+                # 检查是否是章节跳转
+                if next_target.startswith("chapter_"):
+                    # 检查章节是否存在
+                    chapter_exists = False
+                    for scene_id in self.scenes.keys():
+                        # 检查目标是否与场景ID匹配（完全匹配或作为前缀）
+                        if scene_id == next_target or scene_id.startswith(next_target + "_"):
+                            chapter_exists = True
+                            break
+                    if not chapter_exists:
+                        issues.append(f"节点 '{node.id}' 的章节跳转 '{next_target}' 不存在")
+                else:
+                    # 检查节点是否存在
+                    if next_target not in all_node_ids:
+                        issues.append(f"节点 '{node.id}' 的next跳转目标 '{next_target}' 不存在")
+            
+            # 检查选项跳转
+            if hasattr(node, 'choices') and node.choices:
+                for i, choice in enumerate(node.choices):
+                    if choice.next:
+                        next_target = choice.next
+                        # 检查是否是章节跳转
+                        if next_target.startswith("chapter_"):
+                            # 检查章节是否存在
+                            chapter_exists = False
+                            for scene_id in self.scenes.keys():
+                                # 检查目标是否与场景ID匹配（完全匹配或作为前缀）
+                                if scene_id == next_target or scene_id.startswith(next_target + "_"):
+                                    chapter_exists = True
+                                    break
+                            if not chapter_exists:
+                                issues.append(f"节点 '{node.id}' 的第{i+1}个选项跳转到章节 '{next_target}' 不存在")
+                        else:
+                            # 检查节点是否存在
+                            if next_target not in all_node_ids:
+                                issues.append(f"节点 '{node.id}' 的第{i+1}个选项跳转目标 '{next_target}' 不存在")
+                                
+        # 显示检查结果
+        if issues:
+            message = "发现以下问题:\n\n" + "\n".join(issues)
+            wx.MessageBox(message, "检查结果", wx.OK | wx.ICON_WARNING)
+        else:
+            wx.MessageBox("检查完成，未发现问题", "检查结果", wx.OK | wx.ICON_INFORMATION)
+            
     def load_scenes(self):
         """加载所有场景"""
         self.scenes = self.story_editor.load_scenes()
@@ -288,51 +369,46 @@ class StoryEditorFrame(wx.Frame):
             scene_id, node_id = item_data
             if scene_id in self.scenes:
                 scene = self.scenes[scene_id]
-                for node in scene.nodes:
+                for i, node in enumerate(scene.nodes):
                     if node.id == node_id:
-                        self.display_node_details(node)
+                        # 打开节点编辑对话框
+                        dialog = NodeEditorDialog(self, node)
+                        if dialog.ShowModal() == wx.ID_OK:
+                            # 获取更新后的节点
+                            updated_node = dialog.get_node()
+                            # 更新场景中的节点
+                            scene.nodes[i] = updated_node
+                            # 更新图形可视化器中的节点
+                            if hasattr(self, 'graph_visualizer'):
+                                if node_id in self.graph_visualizer.nodes:
+                                    self.graph_visualizer.nodes[node_id] = updated_node
+                            # 刷新图形视图
+                            if self.current_scene:
+                                # 保存当前视图位置和缩放
+                                old_scale = self.graph_visualizer.scale
+                                old_offset_x = self.graph_visualizer.offset_x
+                                old_offset_y = self.graph_visualizer.offset_y
+                                selected_node = self.graph_visualizer.selected_node
+                                
+                                # 刷新场景
+                                self.graph_visualizer.set_scene(self.current_scene)
+                                
+                                # 恢复视图位置和缩放
+                                self.graph_visualizer.scale = old_scale
+                                self.graph_visualizer.offset_x = old_offset_x
+                                self.graph_visualizer.offset_y = old_offset_y
+                                self.graph_visualizer.selected_node = selected_node
+                                self.graph_visualizer.Refresh()
+                        dialog.Destroy()
                         break
-                        
+
     def display_scene_details(self, scene: Scene):
         """显示场景详细信息"""
-        details = f"场景ID: {scene.id}\n"
-        details += f"标题: {scene.title}\n"
-        details += f"节点数: {len(scene.nodes)}\n"
-        
-        # 添加节点列表
-        details += "\n节点列表:\n"
-        for i, node in enumerate(scene.nodes):
-            details += f"{i+1}. {node.id}\n"
-            
-        self.detail_panel.SetValue(details)
+        # 此函数现在不再使用，因为我们删除了详细信息选项卡
         
     def display_node_details(self, node: SceneNode):
         """显示节点详细信息"""
-        details = f"节点ID: {node.id}\n"
-        details += f"角色名称: {node.elements.name or '无'}\n"
-        details += f"对话文本: {node.elements.text}\n"
-        details += f"背景图片: {node.elements.background or '无'}\n"
-        
-        if node.elements.sprite:
-            details += "精灵图片:\n"
-            for position, sprite in node.elements.sprite.items():
-                if sprite:
-                    details += f"  {position}: {sprite}\n"
-                    
-        if node.choices:
-            details += "选项:\n"
-            for i, choice in enumerate(node.choices):
-                details += f"  {i+1}. {choice.text} -> {choice.next}\n"
-                if choice.condition:
-                    details += f"     条件: {choice.condition}\n"
-                    
-        if node.next:
-            details += f"下一节点: {node.next}\n"
-            
-        if node.condition:
-            details += f"条件: {node.condition}\n"
-            
-        self.detail_panel.SetValue(details)
+        # 此函数现在不再使用，因为我们删除了详细信息选项卡
         
         # 填充编辑字段
         self.node_id_text.SetValue(node.id)
@@ -361,8 +437,6 @@ class StoryEditorFrame(wx.Frame):
                 if node.id == node_id:
                     self.current_node = node
                     self.display_node_details(node)
-                    # 切换到编辑选项卡
-                    self.notebook.SetSelection(0)  # 详细信息选项卡
                     break
     
     def select_node_in_tree(self, node_id):
@@ -395,34 +469,27 @@ class StoryEditorFrame(wx.Frame):
                 break
             child, cookie = self.story_tree.GetNextChild(root, cookie)
             
-        """在树状图中选中指定的节点"""
-        if not self.current_scene:
-            return
+    def on_display_option_changed(self, event):
+        """节点显示选项改变时的处理函数"""
+        # 获取所有选中的选项
+        checked_items = [self.display_options.GetString(i) for i in range(self.display_options.GetCount()) 
+                         if self.display_options.IsChecked(i)]
+        
+        # 将选项映射为内部标识符
+        options_map = {
+            "节点ID": "id",
+            "对话文本": "text", 
+            "背景": "background",
+            "BGM": "bgm",
+            "立绘": "sprites"
+        }
+        
+        # 转换为内部标识符列表
+        internal_options = [options_map[item] for item in checked_items if item in options_map]
+        
+        # 设置图形化可视化组件的显示选项
+        self.graph_visualizer.set_node_display_options(internal_options)
             
-        # 遍历树状图找到对应的节点并选中
-        root = self.story_tree.GetRootItem()
-        if not root.IsOk():
-            return
-            
-        # 遍历场景节点
-        child, cookie = self.story_tree.GetFirstChild(root)
-        while child and child.IsOk():
-            scene_id = self.story_tree.GetItemData(child)
-            if scene_id == self.current_scene.id:
-                # 找到当前场景，遍历其子节点
-                node_child, node_cookie = self.story_tree.GetFirstChild(child)
-                while node_child and node_child.IsOk():
-                    item_data = self.story_tree.GetItemData(node_child)
-                    if isinstance(item_data, tuple) and len(item_data) == 2:
-                        _, item_node_id = item_data
-                        if item_node_id == node_id:
-                            # 选中该节点
-                            self.story_tree.SelectItem(node_child)
-                            self.story_tree.EnsureVisible(node_child)
-                            return
-                    node_child, node_cookie = self.story_tree.GetNextChild(child, node_cookie)
-                break
-            child, cookie = self.story_tree.GetNextChild(root, cookie)
     def on_reset_view(self, event):
         """重置图形化视图"""
         self.graph_visualizer.scale = 1.0
