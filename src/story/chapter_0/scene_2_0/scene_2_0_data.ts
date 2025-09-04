@@ -9,15 +9,15 @@ nodes: [
         {
             id: "mother_1",
             elements: {
-                background: "sc0.1/待定.png",
+                background: "sc1.2/1-2-1.png",
                 name: "旁白",
-                text: "妈妈今天死了，但也有可能是在昨天。直到现在，我都无法确定。"
+                text: "妈妈今天死了，但也有可能是在昨天。直到现在，我都无法确定。",
+                bgm:"bgm8"
             },
         },
         {
             id: "mother_2",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "养老院只是发来了一封无比简洁的电报：“令堂身故，明日下葬，节哀。"
             },
@@ -25,7 +25,6 @@ nodes: [
         {
             id: "mother_3",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "这反而让妈妈去世的日期变得更加扑朔迷离。"
             },
@@ -33,7 +32,6 @@ nodes: [
 {
             id: "mother_4",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "我想，昨天的可能性也许更大。要请假两天了。"
             },
@@ -41,6 +39,7 @@ nodes: [
         {
         id: "office_1",
         elements: {
+            background: "sc1.2/1-2-2.png",
             name: "老板",
             text: "是吗？你的母亲去世了......"
         }
@@ -76,6 +75,7 @@ nodes: [
     {
         id: "road_1",
         elements: {
+            background: "sc1.2/1-2-1.png",
             name: "旁白",
             text: "汽车驶往养老院，路途中的炎热让我昏昏欲睡。"
         }
@@ -90,6 +90,7 @@ nodes: [
     {
         id: "nursing_home_1",
         elements: {
+            background: "sc1.2/1-2-3.png",
             name: "旁白",
             text: "院长每天都有很多事务需要处理，我不得不在一旁耐心等待。直到院长从办公室里探出身子示意。"
         }
@@ -165,6 +166,7 @@ nodes: [
 {
     id: "wake_1",
     elements: {
+        background: "sc1.2/1-2-4.png",
         name: "旁白",
         text: "守灵的夜晚，老人们哭泣。"
     }
@@ -201,7 +203,7 @@ nodes: [
     id: "wake_6",
     elements: {
         name: "旁白",
-        text: "可母亲死了，这是一个事实。。"
+        text: "可母亲死了，这是一个事实。"
     }
 },
 {
@@ -211,74 +213,12 @@ nodes: [
         text: "不管我哭不哭都不会改变。"
     }
 },
-{
-    id: "wake_8",
-    elements: {
-        name: "旁白",
-        text: "守灵的夜晚，老人们哭泣。"
-    }
-},
-{
-    id: "wake_9",
-    elements: {
-        name: "旁白",
-        text: "有人偷偷看我，似乎在等待我落泪。"
-    }
-},
-{
-    id: "wake_10",
-    elements: {
-        name: "我",
-        text: "我低下头，点烟。"
-    }
-},
-{
-    id: "wake_11",
-    elements: {
-        name: "旁白",
-        text: "眼睛被烟呛得发酸，像要流泪，但那只是生理反应。"
-    }
-},
-{
-    id: "wake_12",
-    elements: {
-        name: "你",
-        text: "如果我哭，他们就会安心吧？（我心想）可母亲死了，这是一个事实，不管我哭不哭都不会改变。"
-    }
-},
-{
-    id: "wake_12",
-    elements: {
-        name: "你",
-        text: "可母亲死了，这是一个事实，不管我哭不哭都不会改变。"
-    }
-},
-{
-    id: "wake_13",
-    elements: {
-        name: "旁白",
-        text: "守灵的夜晚，老人们哭泣。"
-    }
-},
-{
-    id: "wake_14",
-    elements: {
-        name: "旁白",
-        text: "有人偷偷看我，似乎在等待我落泪。"
-    }
-},
+
 {
     id: "wake_15",
     elements: {
         name: "我",
         text: "葬礼当天，太阳火辣辣地烤着大地。"
-    }
-},
-{
-    id: "wake_16",
-    elements: {
-        name: "旁白",
-        text: "眼睛被烟呛得发酸，像要流泪，但那只是生理反应。"
     }
 },
 {
@@ -312,7 +252,8 @@ nodes: [
 {
     id: "beach_1",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",  
+      name: "旁白",
         text: "星期六，玛丽来到了我家。"
     }
 },
@@ -340,7 +281,8 @@ nodes: [
 {
     id: "beach_6",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-6.png",    
+      name: "旁白",
         text: "我们搭乘公交车去一个海滩游泳。"
     }
 },
@@ -410,7 +352,8 @@ nodes: [
  {
     id: "scene_1",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",    
+      name: "旁白",
         text: "一回到家，我们就立刻翻云覆雨了一番。"
     }
 },
@@ -466,7 +409,8 @@ nodes: [
 {
     id: "scene_10",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-7.png",   
+      name: "旁白",
         text: "不过不是什么不得了的事。雷蒙德和他的情妇起了纠纷。"
     }
 },
@@ -515,7 +459,8 @@ nodes: [
 {
     id: "scene_15",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",   
+      name: "旁白",
         text: "第二天，雷蒙德邀请我和玛丽周末去海滩度假。我没有理由不接受。"
     }
 },
@@ -648,7 +593,8 @@ nodes: [
 {
     id: "scene_34",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-6.png",   
+      name: "旁白",
         text: "星期天到了。我们和雷蒙德一行人到海滩度假。"
     }
 },
@@ -786,16 +732,10 @@ nodes: [
     }
 },
 {
-    id: "scene_51",
-    elements: {
-        name: "旁白",
-        text: "<以上背景为海滩>"
-    }
-},
-{
     id: "scene_52",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-8.png",   
+      name: "旁白",
         text: "法庭上，法官要求我把整个案发过程复述一遍。"
     }
 },
@@ -865,7 +805,8 @@ nodes: [
 {
     id: "scene_62",
     elements: {
-        name: "旁白",
+       background: "sc1.2/1-2-9.png",     
+      name: "旁白",
         text: "起初，我期待奇迹：上诉成功，绞刑延迟，甚至刽子手突然怜悯。"
     }
 },
@@ -914,6 +855,7 @@ nodes: [
 {
   id: "star_1",
   elements: {
+    background: "sc1.2/1-2-10.png",  
     name: "旁白",
     text: "夜晚，微风吹拂。"
   }
@@ -970,6 +912,7 @@ nodes: [
 {
   id: "star_8",
   elements: {
+    background: "sc1.2/1-2-1.png",    
     name: "旁白",
     text: "那样，我就能融入这喧嚣，与世界合为一体。"
   }
@@ -998,6 +941,8 @@ nodes: [
 {
   id: "reborn_2",
   elements: {
+    background: "sc1.2/1-2-11.jpg",    
+    bgm: "bgm5",
     name: "旁白",
     text: "像是度过了漫长的一生，也像是身上的重担被卸下，扶着巨石轻轻地喘息。"
   }
@@ -1020,23 +965,32 @@ nodes: [
   id: "reborn_5",
   elements: {
     name: "旁白",
-    text: "光泠微笑着向我点头。"
+    text: "光泠微笑着向我点头。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "reborn_6",
   elements: {
     name: "光泠",
-    text: "您果然没有让人失望。"
+    text: "您果然没有让人失望。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
   id: "reborn_7",
   elements: {
     name: "光泠",
-    text: "我从不怀疑您。看来我做出了正确的选择。"
+    text: "我从不怀疑您。看来我做出了正确的选择。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
-},
+  },
 {
   id: "reborn_8",
   elements: {
@@ -1062,14 +1016,23 @@ nodes: [
   id: "reborn_11",
   elements: {
     name: "光泠",
-    text: "走吧。我会陪您一同面对。（笑）"
+    text: "走吧。我会陪您一同面对。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
+    
   }
 },
 {
   id: "village_1",
   elements: {
+    bgm:"bgm2",
+    background: "sc1.2/1-2-13.jpg",   
     name: "旁白",
-    text: "踏入村庄，阴风阵阵在耳边哭号，一片死寂静静地等待着我们的到来。"
+    text: "踏入村庄，阴风阵阵在耳边哭号，一片死寂静静地等待着我们的到来。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1132,21 +1095,31 @@ nodes: [
   id: "village_8_1",
   elements: {
     name: "旁白",
-    text: "路旁的雕像与墓碑似乎在告诉来者，这里曾是生命与文明的根据地。"
+    text: "路旁的雕像与墓碑似乎在告诉来者，这里曾是生命与文明的根据地。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "village_9",
   elements: {
     name: "光泠",
-    text: "请沿着这条路走下去，我们所需之物也许就在那里。"
+    text: "请沿着这条路走下去，我们所需之物也许就在那里。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
   id: "village_10",
   elements: {
+    background: "sc1.2/1-2-1.jpg", 
     name: "旁白",
-    text: "推开又一道沉重的石门，走过一座摇荡的吊桥。"
+    text: "推开又一道沉重的石门，走过一座摇荡的吊桥。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1173,22 +1146,32 @@ nodes: [
 {
   id: "altar_1",
   elements: {
+     background: "sc1.2/1-2-12.jpg", 
     name: "旁白",
-    text: "朝着幽光走去，一座神秘的祭坛毫无征兆地出现在视野中。"
+    text: "朝着幽光走去，一座神秘的祭坛毫无征兆地出现在视野中。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_2",
   elements: {
     name: "光泠",
-    text: "越来越近了。(无表情)"
+    text: "越来越近了。",
+    sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
   }
 },
 {
   id: "altar_3",
   elements: {
     name: "旁白",
-    text: "祭坛四周插着燃烧着微弱焰火的蜡烛，为这黑暗的世界增添了一份难得的光明。"
+    text: "祭坛四周插着燃烧着微弱焰火的蜡烛，为这黑暗的世界增添了一份难得的光明。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1216,21 +1199,30 @@ nodes: [
   id: "altar_7",
   elements: {
     name: "旁白",
-    text: "如同受到神秘的指引，鬼使神差地捡起了祭坛上的一块刻有诡异符号的黑石。"
+    text: "如同受到神秘的指引，鬼使神差地捡起了祭坛上的一块刻有诡异符号的黑石。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_8",
   elements: {
     name: "光泠",
-    text: "请小心。（谨慎）"
+    text: "请小心。",
+    sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
   }
 },
 {
   id: "altar_9",
   elements: {
     name: "旁白",
-    text: "话音未落，一丝黑烟从手中飘出——确切的说，是手中的黑石。"
+    text: "话音未落，一丝黑烟从手中飘出——确切的说，是手中的黑石。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1355,7 +1347,7 @@ nodes: [
 {
   id: "altar_24",
   elements: {
-    name: "光泠",
+    name: "你",
     text: "告诉我，我们所寻的关键之物在哪里？"
   }
 },
@@ -1523,10 +1515,6 @@ nodes: [
     {
       text: "收下",
       next: "altar_43_1"
-    },
-    {
-        text: "质疑",
-        next: "altar_43_2"
     }
   ]
 },
@@ -1549,42 +1537,60 @@ nodes: [
   id: "altar_45",
   elements: {
     name: "旁白",
-    text: "我们真的得到了第一个关键之物吗？"
+    text: "我们真的得到了第一个关键之物吗？",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_46",
   elements: {
     name: "光泠",
-    text: "这就是真正的“始源之心”吗？是我们要找的第一个关键之物。"
+    text: "这就是真正的“始源之心”，是我们要找的第一个关键之物。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
   id: "altar_47",
   elements: {
     name: "旁白",
-    text: "听闻此言，我不由得长舒一口气。"
+    text: "听闻此言，我不由得长舒一口气。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_48",
   elements: {
     name: "旁白",
-    text: "我们终于迈出了真正意义上第一步。"
+    text: "我们终于迈出了真正意义上第一步。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_49",
   elements: {
     name: "光泠",
-    text: "我为您感到由衷的喜悦。（笑）"
+    text: "我为您感到由衷的喜悦。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
   id: "altar_50",
   elements: {
     name: "光泠",
-    text: "我知道您有多不容易。（微笑）"
+    text: "我知道您有多不容易。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   }
 },
 {
@@ -1598,7 +1604,10 @@ nodes: [
   id: "altar_52",
   elements: {
     name: "光泠",
-    text: "嗯哼⁓（笑）"
+    text: "嗯哼⁓",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
@@ -1612,18 +1621,13 @@ nodes: [
   id: "altar_54",
   elements: {
     name: "光泠",
-    text: "让我们继续，走向胜利吧。"
+    text: "让我们继续，走向胜利吧。",
+    sprite: {
+            left:"guangling/smile.png"
+        }
   },
   next:"待定",
-},//分支2//
-{
-  id: "altar_43_2",
-  elements: {
-    name: "你",
-    text: "你会这么容易把始源之心交给我们吗？"
-  }
 },
-
 ]
 }
 export default scene;
