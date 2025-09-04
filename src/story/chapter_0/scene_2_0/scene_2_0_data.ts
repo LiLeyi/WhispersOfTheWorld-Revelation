@@ -1515,6 +1515,10 @@ nodes: [
     {
       text: "收下",
       next: "altar_43_1"
+    },
+    {
+      text: "质疑",
+      next: "altar_43_2"
     }
   ]
 },
