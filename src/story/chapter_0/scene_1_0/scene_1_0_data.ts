@@ -1704,8 +1704,9 @@ const scene: Scene = {
         elements: {
             name: "光泠",
             text: "嗯。"
-        }
-    }
+        },
+        next:"chapter_0_scene_2_0",
+    },
     ]
 };
 export default scene;
