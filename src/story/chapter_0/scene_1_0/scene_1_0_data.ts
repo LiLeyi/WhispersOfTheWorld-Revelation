@@ -776,11 +776,29 @@ const scene: Scene = {
                 text: "你太年轻，还不懂。人类需要上帝来安慰他们的痛苦。"
             }
         },
+         {
+            id: "mysterious_person_2.5",
+            elements: {
+                name: "旁白",
+                text: "另一人转身离开"
+            }
+        },
+         {
+            id: "mysterious_person_2.6",
+            elements: {
+                name: "旁白",
+                text: "我们跟了上去",
+                bgm: null,
+                background: "sc1.1/1-1-8.png",
+            }
+        },
         {
             id: "mysterious_person_3",
             elements: {
                 name: "？",
-                text: "难道他还没有听说吗？——上帝已经死了！"
+                text: "难道他还没有听说吗？——上帝已经死了！",
+                bgm: "bgm6",
+                background: "sc1.1/1-1-4.png",
             }
         },
         {
@@ -807,7 +825,7 @@ const scene: Scene = {
         {
             id: "mysterious_person_5_1",
             elements: {
-                name: "旁白",
+                name: "？",
                 text: "你不知自己是谁，却被迫回答为何。"
             },
         },
@@ -885,28 +903,40 @@ const scene: Scene = {
             id: "you_know_1",
             elements: {
                 name: "你",
-                text: "我想我已知道该去哪里了。"
+                text: "我想我已知道该去哪里了。",
+                 sprite: {
+            left:null
+        }
             }
         },
         {
             id: "lightling_4_1",
             elements: {
                 name: "光泠",
-                text: "嗯。"
+                text: "嗯。",
+                sprite: {
+            left: "guangling/smile.png"
+        }
             }
         },
         {
             id: "lightling_5_1",
             elements: {
                 name: "光泠",
-                text: "我会为您指引方向。"
+                text: "我会为您指引方向。",
+                bgm: null,
             }
         },
         {
             id: "town_exit_1",
             elements: {
                 name: "旁白",
-                text: "离开斑牛镇，朝着那人所指方向走去。"
+                text: "离开斑牛镇，朝着那人所指方向走去。",
+                bgm: "bgm1",
+                background: "sc1.1/1-1-9.jpg",
+                sprite: {
+            left:null
+        }
             }
         },
         {
@@ -934,21 +964,33 @@ const scene: Scene = {
             id: "town_exit_5",
             elements: {
                 name: "旁白",
-                text: "就算迷路，也还有光泠在。"
+                text: "就算迷路，也还有光泠在。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "lightling_6_1",
             elements: {
                 name: "光泠",
-                text: "到了。"
+                text: "到了。",
+                bgm: null,
+                sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
             }
         },
         {
             id: "town_entrance_1",
             elements: {
                 name: "旁白",
-                text: "往前看去，大概能看出是一座村庄的入口。"
+                text: "往前看去，大概能看出是一座村庄的入口。",
+                bgm: "bgm5",
+                background: "sc1.1/1-1-10.jpg",
+                sprite: {
+            left:null
+        }
             }
         },
         {
@@ -969,63 +1011,90 @@ const scene: Scene = {
             id: "town_entrance_4",
             elements: {
                 name: "旁白",
-                text: "一块巨石横在道路中央，让人难以忽略它的存在。"
+                text: "一块巨石横在道路中央，让人难以忽略它的存在。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "lightling_7_1",
             elements: {
                 name: "光泠",
-                text: "想必是了。"
+                text: "想必是了。",
+                sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
             }
         },
         {
             id: "stone_1",
             elements: {
                 name: "旁白",
-                text: "靠近巨石，一行字便映入眼帘。"
+                text: "靠近巨石，一行字便映入眼帘。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "stone_2",
             elements: {
                 name: "旁白",
-                text: "“欲寻所需，必经此关”"
+                text: "“欲寻所需，必经此关”",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "lightling_8_1",
             elements: {
                 name: "光泠",
-                text: "那么，是要我们通过这石头的考验了。"
+                text: "那么，是要我们通过这石头的考验了。",
+                sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
             }
         },
         {
             id: "lightling_9_1",
             elements: {
                 name: "光泠",
-                text: "您准备好了吗？"
+                text: "您准备好了吗？",
+                sprite: {
+            left:"guangling/smile.png"
+        }
             }
         },
         {
             id: "stone_3",
             elements: {
                 name: "你",
-                text: "等等，如果不理会这块石头，直接进入村庄呢？"
+                text: "等等，如果不理会这块石头，直接进入村庄呢？",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "stone_4",
             elements: {
                 name: "旁白",
-                text: "试着绕过巨石进入村庄，却发现眼前变得空无一物。"
+                text: "试着绕过巨石进入村庄，却发现眼前变得空无一物。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "lightling_10_1",
             elements: {
                 name: "光泠",
-                text: "看来，这样就什么都发现不了了。"
+                text: "看来，这样就什么都发现不了了。",
+                sprite: {
+            left:"guangling/smile.png"
+        }
             }
         },
         {
@@ -1299,7 +1368,10 @@ const scene: Scene = {
         id: "branch_1_1",
         elements: {
             name: "光泠",
-            text: "您不会退缩的，我就知道。"
+            text: "您不会退缩的，我就知道。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         },
         next: "branch_1_2"
     },
@@ -1323,7 +1395,10 @@ const scene: Scene = {
         id: "branch_1_4",
         elements: {
             name: "光泠",
-            text: "嗯，我很荣幸。"
+            text: "嗯，我很荣幸。",
+            sprite: {
+            left:"guangling/smile.png"
+        }
         },
         next: "branch_1_5"
     },
@@ -1331,7 +1406,10 @@ const scene: Scene = {
         id: "branch_1_5",
         elements: {
             name: "光泠",
-            text: "跟您在一起的时候，我总是会很安心。"
+            text: "跟您在一起的时候，我总是会很安心。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         },
         next: "branch_1_6"
     },
@@ -1363,7 +1441,10 @@ const scene: Scene = {
         id: "branch_1_9",
         elements: {
             name: "光泠",
-            text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。"
+            text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         },
         next: "branch_1_10"
     },
@@ -1387,7 +1468,10 @@ const scene: Scene = {
         id: "branch_1_12",
         elements: {
             name: "光泠",
-            text: "也许是真的发生过呢？只可惜您已没有过往的记忆。"
+            text: "也许是真的发生过呢？只可惜您已没有过往的记忆。",
+            sprite: {
+            left:"guangling/down.png"
+        }
         },
         next: "branch_1_13"
     },
@@ -1411,7 +1495,10 @@ const scene: Scene = {
         id: "branch_1_15",
         elements: {
             name: "光泠",
-            text: "您还是很乐观呢。"
+            text: "您还是很乐观呢。",
+            sprite: {
+            left:"guangling/smile.png"
+        }
         },
         next: "branch_1_16"
     },
@@ -1450,14 +1537,20 @@ const scene: Scene = {
         id: "branch_1_19",
         elements: {
             name: "光泠",
-            text: "让我们开始吧。"
+            text: "让我们开始吧。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         }
     },
     {
                 id: "test_game",
                 elements: {
                     name: "旁白",
-                    text: "小游戏测试"
+                    text: "小游戏测试",
+                    sprite: {
+            left:null
+        }
                 },
                 game: {
                     id: "card_game",
@@ -1631,7 +1724,10 @@ const scene: Scene = {
         id: "branch_2_1",
         elements: {
             name: "光泠",
-            text: "也许是吧。但我们似乎也别无他法。"
+            text: "也许是吧。但我们似乎也别无他法。",
+            sprite: {
+            left:"guangling/down.png"
+        }
         },
         next: "branch_2_2"
     },
@@ -1639,7 +1735,10 @@ const scene: Scene = {
         id: "branch_2_2",
         elements: {
             name: "光泠",
-            text: "您打算放弃吗？"
+            text: "您打算放弃吗？",
+            sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
         },
         next: "branch_2_3"
     },
@@ -1663,7 +1762,10 @@ const scene: Scene = {
         id: "branch_2_5",
         elements: {
             name: "光泠",
-            text: "实在是遗憾。不过我尊重您的选择。"
+            text: "实在是遗憾。不过我尊重您的选择。",
+            sprite: {
+            left:"guangling/down.png"
+        }
         },
         next: "branch_2_6"
     },
@@ -1671,7 +1773,10 @@ const scene: Scene = {
         id: "branch_2_6",
         elements: {
             name: "光泠",
-            text: "将您带到这里，我的任务就完成了。"
+            text: "将您带到这里，我的任务就完成了。",
+            sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
         },
         next: "branch_2_7"
     },
