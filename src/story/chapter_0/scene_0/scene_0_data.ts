@@ -52,7 +52,7 @@ const scene: Scene = {
                 },
                 {
                     text: "否",
-                    next: "test_game"
+                    next: "node3"
                 }
             ]
         },
