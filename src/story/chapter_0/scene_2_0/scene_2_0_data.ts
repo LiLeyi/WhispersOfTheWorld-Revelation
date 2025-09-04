@@ -4,7 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 // 定义第2幕场景
 const scene: Scene = {
 id: "chapter_0_scene_2_0",
-    title: "第2幕:斑牛镇",
+    title: "第1章第2幕:村庄",
 nodes: [
         {
             id: "mother_1",
@@ -1614,7 +1614,7 @@ nodes: [
     name: "光泠",
     text: "让我们继续，走向胜利吧。"
   },
-  next:"待定",
+  next:"chapter_0_scene_2_1",//获得成就：不劳而获
 },//分支2//
 {
   id: "altar_43_2",
@@ -1624,6 +1624,10 @@ nodes: [
   }
 },
 
+
+
+
+//内容暂定，挑战成功，获得成就：真正的心脏
 ]
 }
 export default scene;
