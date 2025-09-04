@@ -45,11 +45,11 @@ class CardGame extends MiniGame {
             
             <!-- 对手区域 -->
             <div id="opponent-area" style="height:30%;border-bottom:2px solid rgba(212, 175, 55, 0.5);display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
-                <div id="opponent-hand" style="display:flex;gap:20px;z-index:2;"></div>
+                <div id="opponent-hand" style="display:flex;gap:20px;transition:all 0.3s ease;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
             </div>
             
             <!-- 对手已出牌区域 -->
-            <div id="opponent-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-bottom:1px dashed rgba(212, 175, 55, 0.3);"></div>
+            <div id="opponent-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-bottom:1px dashed rgba(212, 175, 55, 0.3);transition: all 0.5s ease;"></div>
             
             <!-- 战场区域 -->
             <div id="battlefield" style="height:16%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.4);position:relative;z-index:1;border-top:1px dashed rgba(212, 175, 55, 0.3);border-bottom:1px dashed rgba(212, 175, 55, 0.3);">
@@ -59,11 +59,11 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 玩家已出牌区域 -->
-            <div id="player-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-top:1px dashed rgba(212, 175, 55, 0.3);"></div>
+            <div id="player-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-top:1px dashed rgba(212, 175, 55, 0.3);transition: all 0.5s ease;"></div>
             
             <!-- 玩家区域 -->
             <div id="player-area" style="height:30%;border-top:2px solid rgba(212, 175, 55, 0.5);display:flex;flex-direction:column-reverse;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
-                <div id="player-hand" style="display:flex;gap:20px;margin-bottom:15px;z-index:2;"></div>
+                <div id="player-hand" style="display:flex;gap:20px;transition:all 0.3s ease;margin-bottom:15px;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
             </div>
             
             <!-- 末日风格装饰元素 -->
@@ -254,20 +254,34 @@ class CardGame extends MiniGame {
     private updatePlayedCards(): void {
         // 更新玩家已出牌区域
         if (this.playerPlayedCardsElement) {
+            // 清空当前显示的所有卡牌
             this.playerPlayedCardsElement.innerHTML = '';
-            this.playerPlayedCards.forEach((playedCard, index) => {
-                const cardElement = UIManager.createPlayedCardElement(playedCard, 'player', this.state.turn);
-                this.playerPlayedCardsElement!.appendChild(cardElement);
-            });
+            
+            // 只添加当前回合和上一回合的卡牌
+            for (let i = 0; i < this.playerPlayedCards.length; i++) {
+                const playedCard = this.playerPlayedCards[i];
+                // 只显示当前回合和上一回合的卡牌
+                if (playedCard.turn >= this.state.turn - 1) {
+                    const cardElement = UIManager.createPlayedCardElement(playedCard, 'player', this.state.turn);
+                    this.playerPlayedCardsElement.appendChild(cardElement);
+                }
+            }
         }
         
         // 更新对手已出牌区域
         if (this.opponentPlayedCardsElement) {
+            // 清空当前显示的所有卡牌
             this.opponentPlayedCardsElement.innerHTML = '';
-            this.opponentPlayedCards.forEach((playedCard, index) => {
-                const cardElement = UIManager.createPlayedCardElement(playedCard, 'opponent', this.state.turn);
-                this.opponentPlayedCardsElement!.appendChild(cardElement);
-            });
+            
+            // 只添加当前回合和上一回合的卡牌
+            for (let i = 0; i < this.opponentPlayedCards.length; i++) {
+                const playedCard = this.opponentPlayedCards[i];
+                // 只显示当前回合和上一回合的卡牌
+                if (playedCard.turn >= this.state.turn - 1) {
+                    const cardElement = UIManager.createPlayedCardElement(playedCard, 'opponent', this.state.turn);
+                    this.opponentPlayedCardsElement.appendChild(cardElement);
+                }
+            }
         }
     }
 
@@ -401,6 +415,51 @@ class CardGame extends MiniGame {
                 }
             }
             
+            // 如果电脑血量较低，过滤掉会消耗自己血量的卡牌，除非能一次性击败玩家
+            if (opponentHpRatio < 0.5) {
+                playableCards = playableCards.filter(card => {
+                    // 检查卡牌是否会对自身造成伤害
+                    const selfDamageEffects = card.effects.filter(effect => 
+                        effect.type === 'damage' && effect.target === 'self');
+                    
+                    // 如果没有对自身伤害的效果，保留这张卡牌
+                    if (selfDamageEffects.length === 0) {
+                        return true;
+                    }
+                    
+                    // 如果有对自身伤害的效果，计算总伤害
+                    const selfDamage = selfDamageEffects.reduce((sum, effect) => sum + (effect.value || 0), 0);
+                    
+                    // 检查是否能一次性击败玩家
+                    const totalPlayerDamage = this.state.player.hp;
+                    
+                    // 如果电脑当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
+                    if (this.state.opponent.hp - selfDamage > 0 && 
+                        card.effects.some(effect => 
+                            effect.type === 'damage' && 
+                            effect.target === 'opponent' && 
+                            (effect.value || 0) >= totalPlayerDamage)) {
+                        return true;
+                    }
+                    
+                    // 如果会造成自伤且不能一次性击败玩家，则过滤掉这张卡牌
+                    return false;
+                });
+                
+                // 如果过滤后没有卡牌了，则恢复所有卡牌
+                if (playableCards.length === 0) {
+                    playableCards = this.state.opponent.hand.filter(card => card.cost <= this.state.opponent.actionPoints);
+                }
+                
+                console.log('过滤自伤卡牌后:', playableCards);
+                if (this.debugContentElement) {
+                    const filteredCardsInfo = playableCards.map(card => 
+                        `${card.name}(类型:${card.type},优先级:${card.priority},消耗:${card.cost})`
+                    ).join(', ') || '无';
+                    this.debugContentElement.innerHTML += `<div>过滤自伤卡牌后: ${filteredCardsInfo}</div>`;
+                }
+            }
+            
             // 按优先级排序，但根据血量情况调整策略
             playableCards.sort((a, b) => {
                 // 如果电脑血量较高(>70%)且玩家血量较低(<50%)，更倾向于使用攻击牌
@@ -461,7 +520,7 @@ class CardGame extends MiniGame {
     }
 
     // 使用卡牌
-    private playCard(player: Player, card: Card): void {
+    private async playCard(player: Player, card: Card): Promise<void> {
         console.log(`${player.name} 使用卡牌:`, card);
         
         // 在调试信息中显示使用卡牌的信息
@@ -482,6 +541,12 @@ class CardGame extends MiniGame {
             this.opponentPlayedCards.push({card: {...card}, turn: this.state.turn});
         }
 
+        // 保存卡牌索引用于后续处理
+        const cardIndex = player.hand.findIndex(c => c.id === card.id);
+        
+        // 执行出牌动画
+        await UIManager.playCardAnimation(player.id as 'player' | 'opponent', card, card.id);
+
         // 消耗行动值
         player.actionPoints -= card.cost;
 
@@ -491,12 +556,12 @@ class CardGame extends MiniGame {
         });
 
         // 从手牌中移除卡牌并放入弃牌堆
-        const cardIndex = player.hand.findIndex(c => c.id === card.id);
         if (cardIndex !== -1) {
             const [removedCard] = player.hand.splice(cardIndex, 1);
             player.discardPile.push(removedCard);
         }
 
+        // 更新UI
         this.updateUI();
 
         // 检查游戏是否结束
@@ -513,23 +578,23 @@ class CardGame extends MiniGame {
             // 检查是否还有可用的卡牌并且还有行动点数
             const remainingPlayableCards = this.state.opponent.hand.filter(c => c.cost <= this.state.opponent.actionPoints);
             if (remainingPlayableCards.length > 0 && this.state.opponent.actionPoints > 0) {
-                console.log('电脑还有可用卡牌，1秒后继续出牌');
+                console.log('电脑还有可用卡牌，0.5秒后继续出牌'); // 缩短延迟时间
                 if (this.debugContentElement) {
                     this.debugContentElement.innerHTML += `<div>电脑还有${remainingPlayableCards.length}张可用卡牌，继续出牌</div>`;
                 }
-                // 延迟一段时间后继续出牌
+                // 缩短延迟时间
                 setTimeout(() => {
                     this.opponentPlayCard();
-                }, 1000);
+                }, 500);
             } else {
-                console.log('电脑没有更多可用卡牌或行动点数，1.5秒后结束回合');
+                console.log('电脑没有更多可用卡牌或行动点数，0.75秒后结束回合'); // 缩短延迟时间
                 if (this.debugContentElement) {
                     this.debugContentElement.innerHTML += `<div>电脑结束回合</div>`;
                 }
-                // 延迟结束回合，让玩家看到所有操作
+                // 缩短延迟时间
                 setTimeout(() => {
                     this.endTurn();
-                }, 1500);
+                }, 750);
             }
         }
     }
@@ -568,7 +633,7 @@ class CardGame extends MiniGame {
             this.state.turn++;
             this.state.message = '你的回合，抽牌阶段';
             console.log('切换到玩家回合');
-            
+
             // 重启游戏循环以处理玩家回合
             this.gameLoop();
         }
@@ -702,6 +767,85 @@ class CardGame extends MiniGame {
         
         // 更新调试信息
         this.updateDebugInfo();
+    }
+
+        // 更新已出牌区域卡牌的视觉状态
+    private updatePlayedCardsVisualState(): void {
+        // 处理玩家已出牌区域
+        if (this.playerPlayedCardsElement) {
+            const cards = this.playerPlayedCardsElement.querySelectorAll('.played-card');
+            cards.forEach((card, index) => {
+                const cardElement = card as HTMLElement;
+                
+                // 确保索引在范围内
+                if (index < this.playerPlayedCards.length) {
+                    const playedCard = this.playerPlayedCards[index];
+                    
+                    // 检查是否是当前回合或上一回合出的牌
+                    const isCurrentTurnCard = (playedCard.turn === this.state.turn);
+                    const isPreviousTurnCard = (playedCard.turn === this.state.turn - 1);
+                    
+                    // 设置视觉状态
+                    if (isCurrentTurnCard) {
+                        cardElement.style.opacity = '1';
+                        cardElement.style.border = '2px solid #ff6347';
+                    } else if (isPreviousTurnCard) {
+                        cardElement.style.opacity = '0.7';
+                        cardElement.style.border = '2px solid #d4af37';
+                    } else {
+                        // 更早的牌应该淡出
+                        cardElement.style.opacity = '0';
+                        cardElement.style.border = '2px solid #888';
+                        cardElement.style.transform = 'scale(0.5)';
+                        
+                        // 在动画结束后移除元素
+                        setTimeout(() => {
+                            if (cardElement.parentNode) {
+                                cardElement.parentNode.removeChild(cardElement);
+                            }
+                        }, 500);
+                    }
+                }
+            });
+        }
+        
+        // 处理对手已出牌区域
+        if (this.opponentPlayedCardsElement) {
+            const cards = this.opponentPlayedCardsElement.querySelectorAll('.played-card');
+            cards.forEach((card, index) => {
+                const cardElement = card as HTMLElement;
+                
+                // 确保索引在范围内
+                if (index < this.opponentPlayedCards.length) {
+                    const playedCard = this.opponentPlayedCards[index];
+                    
+                    // 检查是否是当前回合或上一回合出的牌
+                    const isCurrentTurnCard = (playedCard.turn === this.state.turn);
+                    const isPreviousTurnCard = (playedCard.turn === this.state.turn - 1);
+                    
+                    // 设置视觉状态
+                    if (isCurrentTurnCard) {
+                        cardElement.style.opacity = '1';
+                        cardElement.style.border = '2px solid #ff6347';
+                    } else if (isPreviousTurnCard) {
+                        cardElement.style.opacity = '0.7';
+                        cardElement.style.border = '2px solid #d4af37';
+                    } else {
+                        // 更早的牌应该淡出
+                        cardElement.style.opacity = '0';
+                        cardElement.style.border = '2px solid #888';
+                        cardElement.style.transform = 'scale(0.5)';
+                        
+                        // 在动画结束后移除元素
+                        setTimeout(() => {
+                            if (cardElement.parentNode) {
+                                cardElement.parentNode.removeChild(cardElement);
+                            }
+                        }, 500);
+                    }
+                }
+            });
+        }
     }
 
     public restart(): void {

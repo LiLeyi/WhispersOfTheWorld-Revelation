@@ -1,6 +1,7 @@
 import { Card, CardEffect } from "../models/Card";
 import { Player } from "../models/Player";
 import { Buff } from "../models/Buff";
+import { PlayerService } from "./PlayerService";
 
 export class CardService {
     // 执行卡牌效果
@@ -107,6 +108,13 @@ export class CardService {
                             }
                         }
                     }
+                    effectExecuted = true;
+                    break;
+                    
+                case 'draw':
+                    // 抽牌效果
+                    PlayerService.drawCards(player, effect.value || 0);
+                    message += ` 抽${effect.value || 0}张牌`;
                     effectExecuted = true;
                     break;
             }
