@@ -9,15 +9,15 @@ nodes: [
         {
             id: "mother_1",
             elements: {
-                background: "sc0.1/待定.png",
+                background: "sc1.2/1-2-1.png",
                 name: "旁白",
-                text: "妈妈今天死了，但也有可能是在昨天。直到现在，我都无法确定。"
+                text: "妈妈今天死了，但也有可能是在昨天。直到现在，我都无法确定。",
+                bgm:"bgm8"
             },
         },
         {
             id: "mother_2",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "养老院只是发来了一封无比简洁的电报：“令堂身故，明日下葬，节哀。"
             },
@@ -25,7 +25,6 @@ nodes: [
         {
             id: "mother_3",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "这反而让妈妈去世的日期变得更加扑朔迷离。"
             },
@@ -33,7 +32,6 @@ nodes: [
 {
             id: "mother_4",
             elements: {
-                background: "sc0.1/待定.png",
                 name: "旁白",
                 text: "我想，昨天的可能性也许更大。要请假两天了。"
             },
@@ -41,6 +39,7 @@ nodes: [
         {
         id: "office_1",
         elements: {
+            background: "sc1.2/1-2-2.png",
             name: "老板",
             text: "是吗？你的母亲去世了......"
         }
@@ -76,6 +75,7 @@ nodes: [
     {
         id: "road_1",
         elements: {
+            background: "sc1.2/1-2-1.png",
             name: "旁白",
             text: "汽车驶往养老院，路途中的炎热让我昏昏欲睡。"
         }
@@ -90,6 +90,7 @@ nodes: [
     {
         id: "nursing_home_1",
         elements: {
+            background: "sc1.2/1-2-3.png",
             name: "旁白",
             text: "院长每天都有很多事务需要处理，我不得不在一旁耐心等待。直到院长从办公室里探出身子示意。"
         }
@@ -165,6 +166,7 @@ nodes: [
 {
     id: "wake_1",
     elements: {
+        background: "sc1.2/1-2-4.png",
         name: "旁白",
         text: "守灵的夜晚，老人们哭泣。"
     }
@@ -201,7 +203,7 @@ nodes: [
     id: "wake_6",
     elements: {
         name: "旁白",
-        text: "可母亲死了，这是一个事实。。"
+        text: "可母亲死了，这是一个事实。"
     }
 },
 {
@@ -211,74 +213,12 @@ nodes: [
         text: "不管我哭不哭都不会改变。"
     }
 },
-{
-    id: "wake_8",
-    elements: {
-        name: "旁白",
-        text: "守灵的夜晚，老人们哭泣。"
-    }
-},
-{
-    id: "wake_9",
-    elements: {
-        name: "旁白",
-        text: "有人偷偷看我，似乎在等待我落泪。"
-    }
-},
-{
-    id: "wake_10",
-    elements: {
-        name: "我",
-        text: "我低下头，点烟。"
-    }
-},
-{
-    id: "wake_11",
-    elements: {
-        name: "旁白",
-        text: "眼睛被烟呛得发酸，像要流泪，但那只是生理反应。"
-    }
-},
-{
-    id: "wake_12",
-    elements: {
-        name: "你",
-        text: "如果我哭，他们就会安心吧？（我心想）可母亲死了，这是一个事实，不管我哭不哭都不会改变。"
-    }
-},
-{
-    id: "wake_12",
-    elements: {
-        name: "你",
-        text: "可母亲死了，这是一个事实，不管我哭不哭都不会改变。"
-    }
-},
-{
-    id: "wake_13",
-    elements: {
-        name: "旁白",
-        text: "守灵的夜晚，老人们哭泣。"
-    }
-},
-{
-    id: "wake_14",
-    elements: {
-        name: "旁白",
-        text: "有人偷偷看我，似乎在等待我落泪。"
-    }
-},
+
 {
     id: "wake_15",
     elements: {
         name: "我",
         text: "葬礼当天，太阳火辣辣地烤着大地。"
-    }
-},
-{
-    id: "wake_16",
-    elements: {
-        name: "旁白",
-        text: "眼睛被烟呛得发酸，像要流泪，但那只是生理反应。"
     }
 },
 {
@@ -312,7 +252,8 @@ nodes: [
 {
     id: "beach_1",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",  
+      name: "旁白",
         text: "星期六，玛丽来到了我家。"
     }
 },
@@ -340,7 +281,8 @@ nodes: [
 {
     id: "beach_6",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-6.png",    
+      name: "旁白",
         text: "我们搭乘公交车去一个海滩游泳。"
     }
 },
@@ -410,7 +352,8 @@ nodes: [
  {
     id: "scene_1",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",    
+      name: "旁白",
         text: "一回到家，我们就立刻翻云覆雨了一番。"
     }
 },
@@ -466,7 +409,8 @@ nodes: [
 {
     id: "scene_10",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-7.png",   
+      name: "旁白",
         text: "不过不是什么不得了的事。雷蒙德和他的情妇起了纠纷。"
     }
 },
@@ -515,7 +459,8 @@ nodes: [
 {
     id: "scene_15",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-5.png",   
+      name: "旁白",
         text: "第二天，雷蒙德邀请我和玛丽周末去海滩度假。我没有理由不接受。"
     }
 },
@@ -648,7 +593,8 @@ nodes: [
 {
     id: "scene_34",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-6.png",   
+      name: "旁白",
         text: "星期天到了。我们和雷蒙德一行人到海滩度假。"
     }
 },
@@ -786,16 +732,10 @@ nodes: [
     }
 },
 {
-    id: "scene_51",
-    elements: {
-        name: "旁白",
-        text: "<以上背景为海滩>"
-    }
-},
-{
     id: "scene_52",
     elements: {
-        name: "旁白",
+      background: "sc1.2/1-2-8.png",   
+      name: "旁白",
         text: "法庭上，法官要求我把整个案发过程复述一遍。"
     }
 },
@@ -865,7 +805,8 @@ nodes: [
 {
     id: "scene_62",
     elements: {
-        name: "旁白",
+       background: "sc1.2/1-2-9.png",     
+      name: "旁白",
         text: "起初，我期待奇迹：上诉成功，绞刑延迟，甚至刽子手突然怜悯。"
     }
 },
@@ -914,6 +855,7 @@ nodes: [
 {
   id: "star_1",
   elements: {
+    background: "sc1.2/1-2-10.png",  
     name: "旁白",
     text: "夜晚，微风吹拂。"
   }
@@ -970,6 +912,7 @@ nodes: [
 {
   id: "star_8",
   elements: {
+    background: "sc1.2/1-2-1.png",    
     name: "旁白",
     text: "那样，我就能融入这喧嚣，与世界合为一体。"
   }
@@ -998,6 +941,8 @@ nodes: [
 {
   id: "reborn_2",
   elements: {
+    background: "sc1.2/1-2-11.jpg",    
+    bgm: "bgm5",
     name: "旁白",
     text: "像是度过了漫长的一生，也像是身上的重担被卸下，扶着巨石轻轻地喘息。"
   }

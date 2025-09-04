@@ -1638,7 +1638,11 @@ const scene: Scene = {
                 id: "branch_1_21",
             elements: {
             name: "你",
-            text: "我失败了。"
+            text: "我失败了。",
+            sprite: {
+            left:null
+        }
+            
         },
 },
 {
@@ -1659,34 +1663,43 @@ const scene: Scene = {
                 id: "branch_1_24",
             elements: {
             name: "旁白",
-            text: "就算光泠通过了巨石的试炼，也会因为我而同样无法进入村庄。"
+            text: "就算光泠通过了巨石的试炼，也会因为我而同样无法进入村庄。",
+            sprite: {
+            left:null
+        }
         },
 },
 {
                 id: "branch_1_25",
             elements: {
             name: "光泠",
-            text: "愣神之际，光泠跪坐在我身边，轻轻地拉起我的手。"
+            text: "愣神之际，光泠跪坐在我身边，轻轻地拉起我的手。",
+            sprite: {
+            left:"guangling/smile.png"
+        }
         },
 },
 {
                 id: "branch_1_26",
             elements: {
             name: "光泠",
-            text: "没关系，您已经足够努力了。"
+            text: "没关系，您已经足够努力了。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         },
 },
 {
                 id: "branch_1_27",
             elements: {
-            name: "光泠",
+            name: "旁白",
             text: "我感到无比的耻辱与愤怒。"
         },
 },
 {
                 id: "branch_1_28",
             elements: {
-            name: "光泠",
+            name: "旁白",
             text: "我紧握着她的手。"
         },
 },
@@ -1694,7 +1707,10 @@ const scene: Scene = {
                 id: "branch_1_29",
             elements: {
             name: "光泠",
-            text: "也许还有机会呢。我们还不能在这里停下。"
+            text: "也许还有机会呢。我们还不能在这里停下。",
+            sprite: {
+            left:"guangling/smile.png"
+        }
         },
 },
 {
@@ -1715,7 +1731,10 @@ const scene: Scene = {
                 id: "branch_1_32",
             elements: {
             name: "光泠",
-            text: "不论怎样，我会陪您继续走下去。（笑）"
+            text: "不论怎样，我会陪您继续走下去。",
+            sprite: {
+            left:"guangling/smile1.png"
+        }
         },
         next:"chapter_0_scene_2_0",
 },
