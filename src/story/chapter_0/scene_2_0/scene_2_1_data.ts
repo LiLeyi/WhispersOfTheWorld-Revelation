@@ -10,6 +10,7 @@ nodes: [
     id: "darkblade_1",
     elements: {
       background:"sc2.1/2-1-11.jpg", 
+      bgm:"bgm10.MP3",
       name: "旁白",
         text: "黑色利刃如闪电般划过，火光与巨响一齐在大地上炸开。",
 sprite: {
@@ -134,6 +135,7 @@ sprite: {
     id: "darkblade_14",
     elements: {
       background:"sc2.1/2-1-8.jpg",  
+      bgm:"bgm5.mp3",
       name: "光泠",
         text: "嗯，我已经看到了。",
         sprite: {

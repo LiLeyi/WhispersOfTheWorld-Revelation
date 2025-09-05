@@ -78,13 +78,19 @@ export class AudioManager {
             return audioPath;
         }
         
-        // 构造相对于当前页面的路径
-        // 在game_scenes目录中，需要向上两级目录然后进入assets/bgm
-        const fullPath = `../../assets/bgm/${audioPath}`;
+        // 检查是否已经是完整路径（包含.mp3扩展名）
+        if (audioPath.endsWith('.mp3') || audioPath.endsWith('.MP3')) {
+            // 构造相对于当前页面的路径
+            const fullPath = `../../assets/bgm/${audioPath}`;
+            console.log("AudioManager: 构造音频路径:", fullPath);
+            return fullPath;
+        }
+        
+        // 构造相对于当前页面的路径（添加.mp3扩展名）
+        const fullPath = `../../assets/bgm/${audioPath}.mp3`;
         console.log("AudioManager: 构造音频路径:", fullPath);
         return fullPath;
     }
-
     /**
      * 设置游戏音量
      * @param volume 音量值 (0.0 - 1.0)
