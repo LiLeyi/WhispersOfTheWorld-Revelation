@@ -93,6 +93,13 @@ export class ChoiceManager {
                 button.onclick = () => {
                     console.log("选项被点击:", choice);
                     
+                    // 清除GameScene中的等待状态
+                    const gameSceneElement = document.getElementById("move");
+                    if (gameSceneElement) {
+                        // 通过DOM元素访问GameScene实例并清除waitingForChoice状态
+                        (gameSceneElement as any).waitingForChoice = false;
+                    }
+                    
                     // 清除最后记录的文本，避免重复
                     if (this.textManager) {
                         this.textManager.clearLastRecordedEntries();
@@ -169,7 +176,6 @@ export class ChoiceManager {
                         }
                     }
                 };
-                
                 const p = document.createElement("p");
                 p.appendChild(button);
                 selectionBox.appendChild(p);
