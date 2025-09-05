@@ -1413,7 +1413,7 @@ sprite: {
             left: "guangling/tanqi.png",
         }
   },
-  next:"进入第三章",
+  next:"chapter_0_scene_3_0",
 },
 //分支2//
 {
@@ -1756,7 +1756,7 @@ sprite: {
     name: "光泠", 
     text: "不过我尊重你的选择。" ,//获得成就：冷眼旁观
   },
-  next:"进入第三章",
+  next:"chapter_0_scene_3_0",
 },
 //分支2-2//
 {
@@ -1963,7 +1963,7 @@ sprite: {
     name: "旁白",
     text: "得到“永昼之瞳”的我们，也在这之后平安离开。"//获得成就：齿轮之城的曙光
   },
-next:"进入第三章",
+next:"chapter_0_scene_3_0",
 },
         //分支3-2//
         {
