@@ -1215,7 +1215,7 @@ class GameScene {
     const skipNo = document.getElementById("skip_no");
     const returnYes = document.getElementById("return_yes");
     const returnNo = document.getElementById("return_no");
-
+    
     if (skipYes) {
         skipYes.onclick = () => {
             // 检查是否显示了选项，如果显示了选项则不执行跳过
@@ -1238,13 +1238,17 @@ class GameScene {
             }
             
             if (this.currentScene) {
-                // 查找下一个有选项的节点
+                // 查找下一个有选项的节点，同时考虑分支条件
                 let nextChoiceNodeIndex = -1;
                 for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
                     const node = this.currentScene.nodes[i];
+                    // 检查节点是否有选项且满足条件
                     if (node.choices && node.choices.length > 0) {
-                        nextChoiceNodeIndex = i;
-                        break;
+                        // 检查节点条件（如果有的话）
+                        if (!node.condition || node.condition()) {
+                            nextChoiceNodeIndex = i;
+                            break;
+                        }
                     }
                 }
                 
@@ -1449,17 +1453,29 @@ class GameScene {
         window.location.href = nextPageURL;
     }
 
-        /**
+     /**
      * 返回上一个节点的功能
      */
     private goBackToPreviousNode(): void {
         // 检查是否有上一个节点可以返回
         if (this.currentNodeIndex > 0 && this.currentScene) {
-            // 返回到上一个节点
-            this.currentNodeIndex--;
-            this.clickCount = this.currentNodeIndex;
-            localStorage.setItem("nowclick", this.clickCount.toString());
-            this.renderCurrentNode();
+            // 寻找上一个满足条件的节点
+            let previousNodeIndex = this.currentNodeIndex - 1;
+            while (previousNodeIndex >= 0) {
+                const node = this.currentScene.nodes[previousNodeIndex];
+                // 检查节点条件（如果有的话）
+                if (!node.condition || node.condition()) {
+                    // 找到满足条件的节点，进行回退
+                    this.currentNodeIndex = previousNodeIndex;
+                    this.clickCount = this.currentNodeIndex;
+                    localStorage.setItem("nowclick", this.clickCount.toString());
+                    this.renderCurrentNode();
+                    return;
+                }
+                // 如果当前节点不满足条件，继续向前查找
+                previousNodeIndex--;
+            }
+            console.log("没有找到满足条件的前一个节点，无法回退");
         } else {
             console.log("已经到达第一个节点，无法再返回");
         }
