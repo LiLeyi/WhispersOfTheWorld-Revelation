@@ -9,7 +9,8 @@ nodes: [
 {
     id: "darkblade_1",
     elements: {
-        name: "旁白",
+      background:"sc2.1/2-1-11.jpg", 
+      name: "旁白",
         text: "黑色利刃如闪电般划过，火光与巨响一齐在大地上炸开。",
 sprite: {
             left: null,
@@ -132,7 +133,8 @@ sprite: {
 {
     id: "darkblade_14",
     elements: {
-        name: "光泠",
+      background:"sc2.1/2-1-8.jpg",  
+      name: "光泠",
         text: "嗯，我已经看到了。",
         sprite: {
             left: "guangling/jingya.png",
@@ -212,7 +214,8 @@ sprite: {
 {
     id: "darkblade_22",
     elements: {
-        name: "旁白",
+      background:"sc2.1/2-1-6.png",  
+      name: "旁白",
         text: "光芒闪过，在回过神时，已经来到了城市内，不过是在城市的边界处。"
     },
 },
@@ -299,7 +302,8 @@ sprite: {
 {
     id: "darkblade_32",
     elements: {
-        name: "旁白",
+       background:"sc2.1/2-1-2.png",
+      name: "旁白",
         text: "我们悄悄潜伏到了动静的来源之处，眼前却出现了一幅血腥的画面。"
     },
 },
@@ -471,7 +475,8 @@ sprite: {
 {
     id: "darkblade_49",
     elements: {
-        name: "旁白",
+       background:"sc2.1/2-1-9.png",  
+      name: "旁白",
         text: "暗中追随着那个白发身影，穿过城市的钢铁丛林，来到了一片不易被发现的空地。"
     },
 },
@@ -718,6 +723,7 @@ sprite: {
   {
     id: "darkblade_83",
     elements: { 
+      background:"sc2.1/2-1-7.png",
       name: "旁白", 
       text: "跟随虚樹，来到了一栋废弃大楼之中。" 
     },
@@ -1206,8 +1212,8 @@ sprite: {
 {
   id: "darkblade_139",
   elements: { 
-    name: "你", 
-    text: "(还是有些担心他的状况)" 
+    name: "旁白", 
+    text: "还是有些担心他的状况" 
   },
 },
 {
@@ -1463,6 +1469,7 @@ sprite: {
 {
   id: "darkblade_150_2",
   elements: { 
+    background:"sc2.1/2-1-11.png",
     name: "旁白", 
     text: "继续摸索，来到了一名“干部”的地盘。" ,
   },
@@ -1484,6 +1491,7 @@ sprite: {
 {
   id: "darkblade_153_2",
   elements: { 
+     background:"sc2.1/2-1-10.png",
     name: "旁白", 
     text: "继续潜入，却意外发现了一名准备自杀的人类。" ,
   },
@@ -1799,6 +1807,7 @@ sprite: {
 {
   id: "darkblade_160_2_2",
   elements: { 
+     background:"sc2.1/2-1-4.png",
     name: "旁白", 
     text: "我们潜入到了“齿轮”城中心，看到了齿轮之塔。" ,
   },
@@ -1806,6 +1815,7 @@ sprite: {
 {
   id: "darkblade_161_2_2",
   elements: { 
+    background:"sc2.1/2-1-5.png",
     name: "旁白", 
     text: "突破层层防线，我们终于进入到齿轮之塔内部。" ,
   },
