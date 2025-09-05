@@ -12,7 +12,7 @@ nodes: [
                 background: "sc1.2/1-2-1.png",
                 name: "旁白",
                 text: "妈妈今天死了，但也有可能是在昨天。直到现在，我都无法确定。",
-                bgm:"bgm8"
+                bgm:"bgm8.mp3"
             },
         },
         {
@@ -942,7 +942,7 @@ nodes: [
   id: "reborn_2",
   elements: {
     background: "sc1.2/1-2-11.jpg",    
-    bgm: "bgm5",
+    bgm: "bgm5.mp3",
     name: "旁白",
     text: "像是度过了漫长的一生，也像是身上的重担被卸下，扶着巨石轻轻地喘息。"
   }
@@ -1026,7 +1026,7 @@ nodes: [
 {
   id: "village_1",
   elements: {
-    bgm:"bgm2",
+    bgm:"bgm2.mp3",
     background: "sc1.2/1-2-13.jpg",   
     name: "旁白",
     text: "踏入村庄，阴风阵阵在耳边哭号，一片死寂静静地等待着我们的到来。",

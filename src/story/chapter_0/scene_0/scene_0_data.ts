@@ -13,7 +13,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "？？？：准备好踏上旅程了吗？与那个女孩一起。",
-                bgm: "bgm2"
+                bgm: "bgm2.mp3"
             },
             // action: () => {
             //     alert('Start!')
@@ -142,7 +142,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "拿到了一分！",
-                bgm: "bgm2"
+                bgm: "bgm2.mp3"
             }
         },
         {
@@ -150,7 +150,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "未拿到分",
-                bgm: "bgm2"
+                bgm: "bgm2.mp3"
             }
         },
         {
@@ -412,7 +412,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "废墟的边界，似乎建有一块小小的墓地。",
-                bgm:"bgm3",
+                bgm:"bgm3.mp3",
                 background: "sc0.1/0-1-2.jpg",
             }
         },

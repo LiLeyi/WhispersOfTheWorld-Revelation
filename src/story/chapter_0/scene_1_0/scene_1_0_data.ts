@@ -20,7 +20,7 @@ const scene: Scene = {
         {
             id: "intro_quote_1",
             elements: {
-                bgm: "bgm2",
+                bgm: "bgm2.mp3",
                 name: "旁白",
                 text: "“如果因为思念太阳而终日哭泣，那么星星也将离你而去。”",
                 background: "sc1.1/1-1-3.png",
@@ -147,7 +147,7 @@ const scene: Scene = {
                 name: "旁白",
                 text: "再次从噩梦中惊醒，发现冷汗从额间流下。",
                 background: "sc1.1/1-1-6.png",
-                bgm:"bgm1",
+                bgm:"bgm1.mp3",
                 
             }
         },
@@ -489,7 +489,7 @@ const scene: Scene = {
                 name: "旁白",
                 text: "走出门，来到镇上，人们正聚集在集市广场上。",
                 background: "sc1.1/1-1-4.png",
-                bgm: "bgm3"
+                bgm: "bgm3.mp3"
             }
         },
         {
@@ -797,7 +797,7 @@ const scene: Scene = {
             elements: {
                 name: "？",
                 text: "难道他还没有听说吗？——上帝已经死了！",
-                bgm: "bgm6",
+                bgm: "bgm6.mp3",
                 background: "sc1.1/1-1-4.png",
             }
         },
@@ -932,7 +932,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "离开斑牛镇，朝着那人所指方向走去。",
-                bgm: "bgm1",
+                bgm: "bgm1.mp3",
                 background: "sc1.1/1-1-9.jpg",
                 sprite: {
             left:null
@@ -986,7 +986,7 @@ const scene: Scene = {
             elements: {
                 name: "旁白",
                 text: "往前看去，大概能看出是一座村庄的入口。",
-                bgm: "bgm5",
+                bgm: "bgm5.mp3",
                 background: "sc1.1/1-1-10.jpg",
                 sprite: {
             left:null

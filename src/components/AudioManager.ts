@@ -80,7 +80,7 @@ export class AudioManager {
         
         // 构造相对于当前页面的路径
         // 在game_scenes目录中，需要向上两级目录然后进入assets/bgm
-        const fullPath = `../../assets/bgm/${audioPath}.mp3`;
+        const fullPath = `../../assets/bgm/${audioPath}`;
         console.log("AudioManager: 构造音频路径:", fullPath);
         return fullPath;
     }
