@@ -1,5 +1,6 @@
 import { Player } from "../models/Player";
 import { Card } from "../models/Card";
+import { AudioManager } from "../../../AudioManager";
 
 export class UIManager {
     // 更新玩家信息显示
@@ -117,20 +118,39 @@ export class UIManager {
                 `;
 
                 // 添加悬停效果
+                               // 添加悬停效果
                 if (isCurrentPlayer && gamePhase === 'main' && currentPlayer === 'player') {
+                    // 使用dataset存储音效播放状态，确保每张卡牌独立控制
+                    cardElement.dataset.hasPlayedHoverSound = "false";
+                    
                     cardElement.addEventListener('mouseenter', () => {
                         cardElement.style.transform = 'scale(1.25) translateY(-15px)';
                         cardElement.style.boxShadow = '0 12px 25px rgba(212, 175, 55, 0.8)';
                         cardElement.style.zIndex = '10';
+                        
+                        // 只有当未播放过音效时才播放
+                        if (cardElement.dataset.hasPlayedHoverSound === "false") {
+                            // 播放悬停音效
+                            try {
+                                const audioManager = AudioManager.getInstance();
+                                audioManager.playSoundEffect("card_hover");
+                                cardElement.dataset.hasPlayedHoverSound = "true";
+                            } catch (e) {
+                                console.log("无法播放悬停音效:", e);
+                            }
+                        }
                     });
                     
                     cardElement.addEventListener('mouseleave', () => {
                         cardElement.style.transform = 'scale(1) translateY(0)';
                         cardElement.style.boxShadow = '0 0 10px rgba(212, 175, 55, 0.3)';
                         cardElement.style.zIndex = '1';
+                        // 重置标志位，允许下次悬停时再次播放音效
+                        cardElement.dataset.hasPlayedHoverSound = "false";
                     });
                     
                     cardElement.addEventListener('click', () => {
+                        // 不再在这里播放点击音效，只调用点击回调函数
                         onCardClick(card);
                     });
                 }
@@ -190,16 +210,33 @@ export class UIManager {
         `;
         
         // 添加悬停效果
+        // 使用dataset存储音效播放状态，确保每张卡牌独立控制
+        cardElement.dataset.hasPlayedHoverSound = "false";
+
         cardElement.addEventListener('mouseenter', () => {
             cardElement.style.transform = 'scale(1.25) translateY(-12px)';
             cardElement.style.boxShadow = '0 12px 25px rgba(212, 175, 55, 0.6)';
             cardElement.style.zIndex = '5';
+            
+            // 只有当未播放过音效时才播放
+            if (cardElement.dataset.hasPlayedHoverSound === "false") {
+                // 播放悬停音效
+                try {
+                    const audioManager = AudioManager.getInstance();
+                    audioManager.playSoundEffect("card_hover");
+                    cardElement.dataset.hasPlayedHoverSound = "true";
+                } catch (e) {
+                    console.log("无法播放悬停音效:", e);
+                }
+            }
         });
-        
+
         cardElement.addEventListener('mouseleave', () => {
             cardElement.style.transform = 'scale(1) translateY(0)';
             cardElement.style.boxShadow = '0 0 8px rgba(212, 175, 55, 0.3)';
             cardElement.style.zIndex = '1';
+            // 重置标志位，允许下次悬停时再次播放音效
+            cardElement.dataset.hasPlayedHoverSound = "false";
         });
         
         return cardElement;

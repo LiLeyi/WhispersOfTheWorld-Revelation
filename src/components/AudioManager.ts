@@ -11,12 +11,12 @@ export class AudioManager {
     private menuVolume: number = 1.0;
     private fadeDuration: number = 1000; // 淡入淡出持续时间(毫秒)
 
-  constructor() {
+    constructor() {
         this.musicElement = document.getElementById("music") as HTMLAudioElement | null;
         
         // 添加用户交互监听器来解锁音频播放
         if (this.musicElement) {
-                              const unlockAudio = () => {
+            const unlockAudio = () => {
                 this.userInteracted = true;
                 // 尝试播放当前存储的背景音乐
                 const currentBgm = localStorage.getItem("nowbgm");
@@ -46,6 +46,7 @@ export class AudioManager {
         // 从localStorage加载音量设置
         this.loadVolumeSettings();
     }
+    
     /**
      * 从localStorage加载音量设置
      */
@@ -90,9 +91,9 @@ export class AudioManager {
      */
     public setGameVolume(volume: number): void {
         this.gameVolume = volume;
-        if (this.musicElement) {
-            this.musicElement.volume = volume;
-        }
+        // 注意：游戏音效是通过独立的Audio元素播放的，所以不需要设置主音乐元素的音量
+        // 只需要更新gameVolume属性，后续的音效播放会使用这个值
+        console.log("AudioManager: 游戏音效音量已设置为", volume);
     }
 
     /**
@@ -105,16 +106,14 @@ export class AudioManager {
             this.musicElement.volume = volume;
         }
     }
-
+    
     /**
      * 设置菜单音量
      * @param volume 音量值 (0.0 - 1.0)
      */
     public setMenuVolume(volume: number): void {
         this.menuVolume = volume;
-        if (this.musicElement) {
-            this.musicElement.volume = volume;
-        }
+        console.log("AudioManager: 菜单音量已设置为", volume);
     }
 
     /**
@@ -128,34 +127,36 @@ export class AudioManager {
             return;
         }
         
-        if (this.musicElement && this.userInteracted) {
-            const audioUrl = this.getAudioPath(music);
-            if (!audioUrl) {
-                console.log("AudioManager: 无法生成有效的音效路径");
-                return;
-            }
-            
-            console.log("AudioManager: 设置音效源:", audioUrl);
-            this.musicElement.src = audioUrl;
-            this.musicElement.volume = this.gameVolume; // 应用游戏音量
-            this.musicElement.play()
-                .then(() => {
-                    console.log("AudioManager: 音效播放成功:", music);
-                })
-                .catch(e => {
-                    console.error("AudioManager: 播放音效失败:", e);
-                    console.error("AudioManager: 尝试播放的音效路径:", audioUrl);
-                });
-        } else {
-            console.log("AudioManager: 音效未播放，条件不满足:", {
-                music: music,
-                hasMusicElement: !!this.musicElement,
-                userInteracted: this.userInteracted
-            });
+        // 为音效创建独立的audio元素，避免与背景音乐冲突
+        const soundEffectElement = new Audio();
+        const audioUrl = this.getAudioPath(music);
+        if (!audioUrl) {
+            console.log("AudioManager: 无法生成有效的音效路径");
+            return;
         }
+        
+        console.log("AudioManager: 设置音效源:", audioUrl);
+        soundEffectElement.src = audioUrl;
+        soundEffectElement.volume = this.gameVolume; // 应用游戏音量
+        
+        // 播放音效
+        soundEffectElement.play()
+            .then(() => {
+                console.log("AudioManager: 音效播放成功:", music);
+                // 播放完成后清理资源
+                setTimeout(() => {
+                    soundEffectElement.remove();
+                }, 5000); // 5秒后移除元素，确保播放完成
+            })
+            .catch(e => {
+                console.error("AudioManager: 播放音效失败:", e);
+                console.error("AudioManager: 尝试播放的音效路径:", audioUrl);
+                // 清理资源
+                soundEffectElement.remove();
+            });
     }
-
-        /**
+    
+    /**
      * 更新背景音乐
      * @param bgm 背景音乐文件名
      */
@@ -184,7 +185,8 @@ export class AudioManager {
             });
         }
     }
-       /**
+    
+    /**
      * 淡出当前音频
      * @param duration 淡出持续时间(毫秒)
      * @returns Promise，在淡出完成后resolve
@@ -273,6 +275,7 @@ export class AudioManager {
             requestAnimationFrame(fadeInStep);
         });
     }
+    
     /**
      * 播放背景音乐（带淡入淡出效果）
      * @param bgm 背景音乐文件名
@@ -336,7 +339,7 @@ export class AudioManager {
         }
     }
 
-      /**
+    /**
      * 播放点击音效
      */
     public playClickSound(): void {
@@ -377,7 +380,9 @@ export class AudioManager {
             // 在localStorage中设置特殊值，表示音乐应该停止
             localStorage.setItem("nowbgm", "null");
         }
-    } /**
+    }
+    
+    /**
      * 获取当前背景音乐
      */
     public getCurrentBgm(): string {

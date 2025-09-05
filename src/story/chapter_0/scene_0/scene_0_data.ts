@@ -97,7 +97,7 @@ const scene: Scene = {
             id: "test_game",
             elements: {
                 name: "旁白",
-                text: "小游戏测试"
+                text: "小游戏测试",
             },
             game: {
                 id: "card_game",
@@ -141,14 +141,16 @@ const scene: Scene = {
             id: "test1",
             elements: {
                 name: "旁白",
-                text: "拿到了一分！"
+                text: "拿到了一分！",
+                bgm: "bgm2"
             }
         },
         {
             id: "test2",
             elements: {
                 name: "旁白",
-                text: "未拿到分"
+                text: "未拿到分",
+                bgm: "bgm2"
             }
         },
         {

@@ -9,6 +9,7 @@ import { PlayerService } from "./services/PlayerService";
 import { GameService } from "./services/GameService";
 import { UIManager } from "./components/UIManager";
 import { DEFAULT_PLAYER_DECK } from "./CardManager";
+import { AudioManager } from "../../../components/AudioManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
@@ -38,7 +39,7 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 调试信息区域 -->
-            <div id="debug-info" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.8);padding:15px;border-radius:5px;z-index:1000;width:300px;border:1px solid #d4af37;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);">
+            <div id="debug-info" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.8);padding:15px;border-radius:5px;z-index:1000;width:300px;border:1px solid #d4af37;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);display:none;">
                 <h3 style="margin-top:0;color:#d4af37;border-bottom:1px solid #d4af37;padding-bottom:5px;">调试信息</h3>
                 <div id="debug-content" style="font-size:12px;"></div>
             </div>
@@ -91,7 +92,10 @@ class CardGame extends MiniGame {
     
     // 游戏配置
     private config: CardGameConfig;
-
+    // 音频管理器
+    private audioManager: any;
+    // 原始背景音乐
+    private originalBgm: string = "";
     constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig) {
         super(onComplete);
         
@@ -139,7 +143,7 @@ class CardGame extends MiniGame {
             },
             opponent: {
                 id: 'opponent',
-                name: '电脑',
+                name: '巨石',
                 hp: this.config.opponent!.hp!,
                 maxHp: this.config.opponent!.maxHp!,
                 actionPoints: this.config.opponent!.actionPoints!,
@@ -195,10 +199,10 @@ class CardGame extends MiniGame {
                 <div>游戏阶段: ${this.state.gamePhase}</div>
                 <div>玩家HP: ${this.state.player.hp}/${this.state.player.maxHp}</div>
                 <div>玩家行动值: ${this.state.player.actionPoints}/${this.state.player.maxActionPoints}</div>
-                <div>电脑HP: ${this.state.opponent.hp}/${this.state.opponent.maxHp}</div>
-                <div>电脑行动值: ${this.state.opponent.actionPoints}/${this.state.opponent.maxActionPoints}</div>
+                <div>巨石HP: ${this.state.opponent.hp}/${this.state.opponent.maxHp}</div>
+                <div>巨石行动值: ${this.state.opponent.actionPoints}/${this.state.opponent.maxActionPoints}</div>
                 <div>玩家手牌数: ${this.state.player.hand.length}</div>
-                <div>电脑手牌数: ${this.state.opponent.hand.length}</div>
+                <div>巨石手牌数: ${this.state.opponent.hand.length}</div>
             `;
         }
     }
@@ -285,14 +289,93 @@ class CardGame extends MiniGame {
         }
     }
 
-    // 开始游戏
+ // 开始游戏
     private startGame(): void {
+        // 播放背景音乐
+        this.playBackgroundMusic();
+        
         // 初始抽牌
         PlayerService.drawCards(this.state.player, this.config.player!.initialDrawCount!);
         PlayerService.drawCards(this.state.opponent, this.config.opponent!.initialDrawCount!);
         this.updateUI();
     }
 
+    // 播放背景音乐
+    private playBackgroundMusic(): void {
+        try {
+            // 获取音频管理器实例
+            this.audioManager = (window as any).audioManagerInstance;
+            
+            // 如果无法获取音频管理器实例，则尝试通过getInstance方法获取
+            if (!this.audioManager) {
+                try {
+                    this.audioManager = AudioManager.getInstance();
+                } catch (e) {
+                    console.warn("无法获取真实的音频管理器实例，使用模拟实例", e);
+                }
+            }
+            
+            // 如果仍然无法获取音频管理器实例，则创建一个模拟的
+            if (!this.audioManager) {
+                console.warn("无法获取真实的音频管理器实例，使用模拟实例");
+                this.audioManager = {
+                    updateBackgroundMusic: (bgm: string) => {
+                        console.log("模拟播放背景音乐:", bgm);
+                        // 尝试直接操作DOM中的audio元素
+                        const musicElement = document.getElementById("music") as HTMLAudioElement | null;
+                        if (musicElement) {
+                            const audioPath = `../../assets/bgm/${bgm}.mp3`;
+                            musicElement.src = audioPath;
+                            musicElement.loop = true;
+                            musicElement.volume = 1.0;
+                            musicElement.play().catch(e => console.error("播放失败:", e));
+                            // 更新localStorage
+                            localStorage.setItem("nowbgm", bgm);
+                            console.log("已直接播放音乐:", audioPath);
+                        }
+                    },
+                    stopBackgroundMusic: () => {
+                        console.log("模拟停止背景音乐");
+                        const musicElement = document.getElementById("music") as HTMLAudioElement | null;
+                        if (musicElement) {
+                            musicElement.pause();
+                            musicElement.src = "";
+                        }
+                        localStorage.setItem("nowbgm", "null");
+                    },
+                    getCurrentBgm: () => {
+                        const musicElement = document.getElementById("music") as HTMLAudioElement | null;
+                        return musicElement && musicElement.src ? musicElement.src.split('/').pop()?.replace('.mp3', '') || "" : "";
+                    }
+                };
+            }
+            
+            // 保存当前播放的背景音乐
+            this.originalBgm = this.audioManager.getCurrentBgm();
+            console.log("保存当前背景音乐:", this.originalBgm);
+            
+            // 播放卡牌游戏专用背景音乐 bgm9
+            console.log("播放卡牌游戏背景音乐: bgm9");
+            this.audioManager.updateBackgroundMusic("bgm9");
+        } catch (error) {
+            console.error("播放背景音乐时出错:", error);
+        }
+    }    private stopBackgroundMusic(): void {
+        try {
+            if (this.audioManager) {
+                // 恢复原始背景音乐
+                if (this.originalBgm && this.originalBgm !== "") {
+                    console.log("恢复原始背景音乐:", this.originalBgm);
+                    this.audioManager.updateBackgroundMusic(this.originalBgm);
+                } else {
+                    console.log("没有原始背景音乐或原始背景音乐为空，播放默认背景音乐 bgm1");
+                    this.audioManager.updateBackgroundMusic("bgm1");
+                }
+            }
+        } catch (error) {
+            console.error("恢复背景音乐时出错:", error);
+        }
+    }
     // 玩家回合
     private playerTurn(): void {
         console.log('玩家回合，当前玩家:', this.state.currentPlayer);
@@ -322,45 +405,45 @@ class CardGame extends MiniGame {
         }
     }
 
-    // 电脑回合
+    // 巨石回合
     private opponentTurn(): void {
-        console.log('电脑回合开始:', this.state.currentPlayer);
+        console.log('巨石回合开始:', this.state.currentPlayer);
         if (this.state.currentPlayer !== 'opponent') {
-            console.log('当前不是电脑回合，返回');
+            console.log('当前不是巨石回合，返回');
             return;
         }
 
-        console.log('电脑游戏阶段:', this.state.gamePhase);
+        console.log('巨石游戏阶段:', this.state.gamePhase);
         switch (this.state.gamePhase) {
             case 'draw':
-                console.log('电脑抽牌阶段');
-                // 在电脑新回合开始时清除上一回合的防御点数
+                console.log('巨石抽牌阶段');
+                // 在巨石新回合开始时清除上一回合的防御点数
                 this.state.opponent.defense = 0;
                 PlayerService.drawCards(this.state.opponent, this.config.opponent!.drawCount!);
                 this.state.gamePhase = 'main';
-                this.state.message = '电脑回合';
+                this.state.message = '巨石回合';
                 this.updateUI();
                 // 继续处理main阶段
                 this.opponentTurn();
                 break;
             case 'main':
-                console.log('电脑主要阶段，准备出牌');
+                console.log('巨石主要阶段，准备出牌');
                 this.updateUI();
                 // 添加一个小延迟，让玩家看到消息变化
                 setTimeout(() => {
-                    console.log('调用电脑出牌逻辑');
+                    console.log('调用巨石出牌逻辑');
                     this.opponentPlayCard();
                 }, 1000);
                 break;
         }
     }
 
-    // 电脑出牌逻辑
+    // 巨石出牌逻辑
     private opponentPlayCard(): void {
-        console.log('电脑尝试出牌');
-        console.log('电脑手牌:', this.state.opponent.hand);
-        console.log('电脑行动值:', this.state.opponent.actionPoints);
-        console.log('电脑血量:', this.state.opponent.hp, '/', this.state.opponent.maxHp);
+        console.log('巨石尝试出牌');
+        console.log('巨石手牌:', this.state.opponent.hand);
+        console.log('巨石行动值:', this.state.opponent.actionPoints);
+        console.log('巨石血量:', this.state.opponent.hp, '/', this.state.opponent.maxHp);
         console.log('玩家血量:', this.state.player.hp, '/', this.state.player.maxHp);
         
         // 更新调试信息
@@ -375,7 +458,7 @@ class CardGame extends MiniGame {
             const playableCardsInfo = playableCards.map(card => 
                 `${card.name}(优先级:${card.priority},消耗:${card.cost})`
             ).join(', ') || '无';
-            this.debugContentElement.innerHTML += `<div>电脑可用卡牌: ${playableCardsInfo}</div>`;
+            this.debugContentElement.innerHTML += `<div>巨石可用卡牌: ${playableCardsInfo}</div>`;
         }
         
         if (playableCards.length > 0) {
@@ -385,10 +468,10 @@ class CardGame extends MiniGame {
             
             // 在调试信息中显示血量比例
             if (this.debugContentElement) {
-                this.debugContentElement.innerHTML += `<div>电脑血量比例: ${opponentHpRatio.toFixed(2)}, 玩家血量比例: ${playerHpRatio.toFixed(2)}</div>`;
+                this.debugContentElement.innerHTML += `<div>巨石血量比例: ${opponentHpRatio.toFixed(2)}, 玩家血量比例: ${playerHpRatio.toFixed(2)}</div>`;
             }
             
-            // 过滤掉不必要的治疗卡牌（当电脑血量已经很高时）
+            // 过滤掉不必要的治疗卡牌（当巨石血量已经很高时）
             if (opponentHpRatio > 0.9) {
                 // 当血量超过90%时，过滤掉治疗类卡牌
                 playableCards = playableCards.filter(card => {
@@ -415,7 +498,7 @@ class CardGame extends MiniGame {
                 }
             }
             
-            // 如果电脑血量较低，过滤掉会消耗自己血量的卡牌，除非能一次性击败玩家
+            // 如果巨石血量较低，过滤掉会消耗自己血量的卡牌，除非能一次性击败玩家
             if (opponentHpRatio < 0.5) {
                 playableCards = playableCards.filter(card => {
                     // 检查卡牌是否会对自身造成伤害
@@ -433,7 +516,7 @@ class CardGame extends MiniGame {
                     // 检查是否能一次性击败玩家
                     const totalPlayerDamage = this.state.player.hp;
                     
-                    // 如果电脑当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
+                    // 如果巨石当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
                     if (this.state.opponent.hp - selfDamage > 0 && 
                         card.effects.some(effect => 
                             effect.type === 'damage' && 
@@ -462,7 +545,7 @@ class CardGame extends MiniGame {
             
             // 按优先级排序，但根据血量情况调整策略
             playableCards.sort((a, b) => {
-                // 如果电脑血量较高(>70%)且玩家血量较低(<50%)，更倾向于使用攻击牌
+                // 如果巨石血量较高(>70%)且玩家血量较低(<50%)，更倾向于使用攻击牌
                 if (opponentHpRatio > 0.7 && playerHpRatio < 0.5) {
                     // 优先考虑攻击类型卡牌
                     if (a.type === CardType.ATTACK && b.type !== CardType.ATTACK) {
@@ -473,7 +556,7 @@ class CardGame extends MiniGame {
                     }
                 }
                 
-                // 如果电脑血量较低(<30%)，更倾向于使用防御和治疗牌
+                // 如果巨石血量较低(<30%)，更倾向于使用防御和治疗牌
                 if (opponentHpRatio < 0.3) {
                     // 优先考虑防御和特殊类型卡牌（治疗）
                     const aIsDefensive = (a.type === CardType.DEFENSE || a.type === CardType.SPECIAL);
@@ -497,29 +580,29 @@ class CardGame extends MiniGame {
             
             // 选择第一张卡牌
             const card = playableCards[0];
-            console.log('电脑选择卡牌:', card);
+            console.log('巨石选择卡牌:', card);
             
             // 在调试信息中显示选择的卡牌
             if (this.debugContentElement) {
-                this.debugContentElement.innerHTML += `<div>电脑选择: ${card.name}(类型:${card.type},优先级:${card.priority},消耗:${card.cost})</div>`;
+                this.debugContentElement.innerHTML += `<div>巨石选择: ${card.name}(类型:${card.type},优先级:${card.priority},消耗:${card.cost})</div>`;
             }
             
             this.playCard(this.state.opponent, card);
         } else {
-            console.log('电脑没有可用卡牌');
+            console.log('巨石没有可用卡牌');
             // 在调试信息中显示没有可用卡牌
             if (this.debugContentElement) {
-                this.debugContentElement.innerHTML += `<div>电脑没有可用卡牌，将结束回合</div>`;
+                this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
             }
             // 没有可用卡牌，直接结束回合
             setTimeout(() => {
-                console.log('电脑没有可用卡牌，结束回合');
+                console.log('巨石没有可用卡牌，结束回合');
                 this.endTurn();
             }, 1500);
         }
     }
 
-    // 使用卡牌
+ // 使用卡牌
     private async playCard(player: Player, card: Card): Promise<void> {
         console.log(`${player.name} 使用卡牌:`, card);
         
@@ -547,6 +630,15 @@ class CardGame extends MiniGame {
         // 执行出牌动画
         await UIManager.playCardAnimation(player.id as 'player' | 'opponent', card, card.id);
 
+        // 在出牌动画结束后播放音效
+        try {
+            if (this.audioManager) {
+                this.audioManager.playSoundEffect("card_play");
+            }
+        } catch (e) {
+            console.log("无法播放出牌音效:", e);
+        }
+
         // 消耗行动值
         player.actionPoints -= card.cost;
 
@@ -571,25 +663,25 @@ class CardGame extends MiniGame {
         if (player.id === 'player') {
             console.log('玩家使用卡牌完毕，等待玩家结束回合');
         }
-        // 如果是电脑出牌
+        // 如果是巨石出牌
         else if (player.id === 'opponent') {
-            console.log('电脑使用卡牌完毕，检查是否继续出牌');
+            console.log('巨石使用卡牌完毕，检查是否继续出牌');
             
             // 检查是否还有可用的卡牌并且还有行动点数
             const remainingPlayableCards = this.state.opponent.hand.filter(c => c.cost <= this.state.opponent.actionPoints);
             if (remainingPlayableCards.length > 0 && this.state.opponent.actionPoints > 0) {
-                console.log('电脑还有可用卡牌，0.5秒后继续出牌'); // 缩短延迟时间
+                console.log('巨石还有可用卡牌，0.5秒后继续出牌'); // 缩短延迟时间
                 if (this.debugContentElement) {
-                    this.debugContentElement.innerHTML += `<div>电脑还有${remainingPlayableCards.length}张可用卡牌，继续出牌</div>`;
+                    this.debugContentElement.innerHTML += `<div>巨石还有${remainingPlayableCards.length}张可用卡牌，继续出牌</div>`;
                 }
                 // 缩短延迟时间
                 setTimeout(() => {
                     this.opponentPlayCard();
                 }, 500);
             } else {
-                console.log('电脑没有更多可用卡牌或行动点数，0.75秒后结束回合'); // 缩短延迟时间
+                console.log('巨石没有更多可用卡牌或行动点数，0.75秒后结束回合'); // 缩短延迟时间
                 if (this.debugContentElement) {
-                    this.debugContentElement.innerHTML += `<div>电脑结束回合</div>`;
+                    this.debugContentElement.innerHTML += `<div>巨石结束回合</div>`;
                 }
                 // 缩短延迟时间
                 setTimeout(() => {
@@ -598,7 +690,6 @@ class CardGame extends MiniGame {
             }
         }
     }
-
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
@@ -612,21 +703,21 @@ class CardGame extends MiniGame {
         });
         
         if (this.state.currentPlayer === 'player') {
-            // 玩家回合结束，轮到电脑
+            // 玩家回合结束，轮到巨石
             // 不再清除玩家的防御点数，而是在玩家下一回合开始时清除
             // 玩家回合结束时增加玩家行动值
             this.state.player.actionPoints += 2;
             this.state.currentPlayer = 'opponent';
             this.state.gamePhase = 'draw';
-            this.state.message = '电脑回合';
-            console.log('切换到电脑回合');
+            this.state.message = '巨石回合';
+            console.log('切换到巨石回合');
             
-            // 重启游戏循环以处理电脑回合
+            // 重启游戏循环以处理巨石回合
             this.gameLoop();
         } else {
-            // 电脑回合结束，轮到玩家
-            // 不再清除电脑的防御点数，而是在电脑下一回合开始时清除
-            // 电脑回合结束时增加电脑行动值
+            // 巨石回合结束，轮到玩家
+            // 不再清除巨石的防御点数，而是在巨石下一回合开始时清除
+            // 巨石回合结束时增加巨石行动值
             this.state.opponent.actionPoints += 2;
             this.state.currentPlayer = 'player';
             this.state.gamePhase = 'draw';
@@ -673,6 +764,9 @@ class CardGame extends MiniGame {
                 finalScoreElement.textContent = this.state.playerWon ? '恭喜你赢了!' : '很遗憾，你输了!';
             }
         }
+
+        // 停止背景音乐
+        this.stopBackgroundMusic();
 
         // 调用完成回调，玩家获胜得分为1，失败为0
         this.onComplete(this.state.playerWon ? 1 : 0);
@@ -871,7 +965,7 @@ class CardGame extends MiniGame {
             },
             opponent: {
                 id: 'opponent',
-                name: '电脑',
+                name: '巨石',
                 hp: this.config.opponent!.hp!,
                 maxHp: this.config.opponent!.maxHp!,
                 actionPoints: this.config.opponent!.actionPoints!,
