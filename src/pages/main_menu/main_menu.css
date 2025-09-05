@@ -9,8 +9,39 @@ body {
     font-family: 'KaiTi', '楷体', Arial, sans-serif;
     min-height: 100vh;
     overflow: hidden;
-    /* 使用整页背景图，右侧不再显示为纯黑 */
-    background: url('插图.png') left center/cover no-repeat fixed, #0b0e12;
+    background-color: #0b0e12;
+}
+
+/* 背景图片容器 */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: -1; /* 确保背景在最底层 */
+}
+
+.background-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center;
+    display: block;
+}
+
+@keyframes backgroundFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: backgroundFadeIn 2s ease-in-out forwards;
 }
 
 /* 主容器 */
@@ -19,6 +50,8 @@ body {
     grid-template-columns: 1.05fr 0.95fr; /* 左插图略大，贴近设计 */
     width: 100vw;
     height: 100vh;
+    position: relative;
+    z-index: 1; /* 确保内容在背景之上 */
 }
 
 /* 页面标题 */
@@ -86,10 +119,6 @@ body {
 
 /* 右侧内容区域 */
 
-
-/* 顶部Logo面板 */
-/* 删除左侧旧 logo 面板的样式（不再使用） */
-
 /* 菜单容器 */
 /* 菜单采用两行四列的网格布局，形成海面上的“黑色条框”排布 */
 .menu-container {
@@ -103,11 +132,16 @@ body {
     bottom: 15vh;
     margin-top: 0;
     z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
+.menu-container.show {
+    opacity: 1;
+}
 /* 菜单按钮基础样式 */
 .menu-button {
-    background: rgba(18, 22, 28, 0.82); /* 默认深色，接近示意图黑条 */
+    background: rgba(142, 137, 137, 0.82); /* 默认深色，接近示意图黑条 */
     border: 0;
     padding: 30px 30px; /* 更大一些 */
     border-radius: 12px;
@@ -123,6 +157,7 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    opacity: 0;
 }
 
 .menu-button::before {
@@ -143,7 +178,7 @@ body {
 .menu-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
-    background: rgba(28, 34, 44, 0.88);
+    background: rgba(147, 147, 147, 0.88);
 }
 
 .menu-button:active {
@@ -207,8 +242,7 @@ body {
 /* 标题排版（右上角） */
 .title-area { text-align: right; width: 100%; display: flex; justify-content: flex-end; }
 
-
-/* 动画效果 */
+/* 按钮动画效果 */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -224,14 +258,14 @@ body {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-.menu-button:nth-child(1) { animation-delay: 0.1s; }
-.menu-button:nth-child(2) { animation-delay: 0.2s; }
-.menu-button:nth-child(3) { animation-delay: 0.3s; }
-.menu-button:nth-child(4) { animation-delay: 0.4s; }
-.menu-button:nth-child(5) { animation-delay: 0.5s; }
-.menu-button:nth-child(6) { animation-delay: 0.6s; }
-.menu-button:nth-child(7) { animation-delay: 0.7s; }
-.menu-button:nth-child(8) { animation-delay: 0.8s; }
+.menu-button:nth-child(1) { animation-delay: 2.1s; }
+.menu-button:nth-child(2) { animation-delay: 2.2s; }
+.menu-button:nth-child(3) { animation-delay: 2.3s; }
+.menu-button:nth-child(4) { animation-delay: 2.4s; }
+.menu-button:nth-child(5) { animation-delay: 2.5s; }
+.menu-button:nth-child(6) { animation-delay: 2.6s; }
+.menu-button:nth-child(7) { animation-delay: 2.7s; }
+.menu-button:nth-child(8) { animation-delay: 2.8s; }
 
 /* 背景动画 */
 @keyframes gradientShift {
@@ -245,4 +279,3 @@ body {
         background-position: 0% 50%;
     }
 }
-
