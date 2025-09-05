@@ -104,20 +104,7 @@ export default scene;
 
 nodes数组里存储每一个节点的数据（每一个节点都有对话呀什么的）。对于每一个节点，接口查看[这里](src/types/SceneTypes.ts)的SceneNode，注释都写出了配置的作用。也可以把已有代码作为参考。
 
-对于获取物品的记录，角色好感度等，采用ArchiveManager进行管理。可以在action里使用。部分使用例（更多去看ArchiveManager代码）：
-
-```ts
-const archiveManager = ArchiveManager.getInstance(); // 使用前必须拿到实例
-
-archiveManager.increaseAffection("character_name", 10); // 给一个角色加10点好感度
-archiveManager.set_flag("turn_left", true); // 记录向左走
-archiveManager.addItem("key"); // 记录拿到物品
-archiveManager.removeItem("key"); // 删除物品
-
-console.log(archiveManager.hasItem("key")) // 打印是否有这个物品
-console.log(archiveManager.getAffection("character_name")) // 打印角色好感度
-console.log(archiveManager.get_flag("turn_left")) // 打印是否向左走
-```
+对于获取物品的记录，角色好感度等，采用ArchiveManager进行管理。可以在action里使用。[参考点击这里](readme/archive_and_achieve.md)
 
 
 
@@ -135,23 +122,4 @@ console.log(archiveManager.get_flag("turn_left")) // 打印是否向左走
 
 ## 剧情可视化编辑器
 
-### Python虚拟环境配置及依赖安装
-
-1. 进入editor目录：cd editor
-2. 创建虚拟环境：python -m venv story-editor-env
-3. 激活虚拟环境：story-editor-env\Scripts\activate   （mac and linux：source story-editor-env/bin/activate）
-4. 安装依赖：pip install -r requirements.txt
-
-### 运行
-
-使用创建的虚拟环境中的解释器运行main.py。
-
-也可以通过如下命令：
-
-1. 进入editor目录：cd editor
-2. 激活虚拟环境：story-editor-env\Scripts\python.exe main.py
-3. 运行：python main.py（若已激活虚拟环境，则可以直接这一步）
-
-### 功能说明
-
-目前只完成了可视化，修改、添加节点等还未完成，敬请期待。
+[点击这里查看](readme/editor.md)

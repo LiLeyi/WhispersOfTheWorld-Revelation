@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { AchievementManager } from '../../../components/AchievementManager';
 
 // 定义第0章场景
 const scene: Scene = {
@@ -14,9 +15,9 @@ const scene: Scene = {
                 text: "？？？：准备好踏上旅程了吗？与那个女孩一起。",
                 bgm: "bgm2"
             },
-            action: () => {
-                alert('Start!')
-            }
+            // action: () => {
+            //     alert('Start!')
+            // }
         },
         {
             id: "node2",
@@ -26,6 +27,42 @@ const scene: Scene = {
                 text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
             }
         },
+
+        // 成就测试
+        // {
+        //     id: 'achtest1',
+        //     elements: {
+        //         name: '旁边',
+        //         text: '成就解锁？'
+        //     },
+        //     choices: [
+        //         {
+        //             text: '是',
+        //             next: 'achtest2',
+        //             action: () => {
+        //                 let am = AchievementManager.getInstance();
+        //                 am.unlockAchievement('from_start');
+        //             }
+        //         },
+        //         {
+        //             text: '否',
+        //             next: 'achtest2'
+        //         }
+
+        //     ]
+        // },
+        // {
+        //     id: 'achtest2',
+        //     elements: {
+        //         name: '旁白',
+        //         text: '成就测试'
+        //     },
+        //     action: () => {
+        //         let am = AchievementManager.getInstance();
+        //         alert(am.isUnlocked('from_start'));
+        //     }
+        // },
+
         // {
         //     id: "video_node",
         //     elements: {
@@ -35,27 +72,27 @@ const scene: Scene = {
         //     video: "test.mp4", // 视频文件应放在 src/assets/video/ 目录下
         //     next: "node3" // 可选，视频播放完成后跳转到的节点
         // },
-        {
-            id: 'card_get_test',
-            elements: {
-                name: "旁白",
-                text: "跟我学两招吗"
-            },
-            choices: [
-                {
-                    text: "是",
-                    next: "test_game",
-                    action: () => {
-                        let cm = CardManager.getInstance();
-                        cm.addCardToDeck("straight_punch_3", 3);
-                    }
-                },
-                {
-                    text: "否",
-                    next: "test_game"
-                }
-            ]
-        },
+        // {
+        //     id: 'card_get_test',
+        //     elements: {
+        //         name: "旁白",
+        //         text: "跟我学两招吗"
+        //     },
+        //     choices: [
+        //         {
+        //             text: "是",
+        //             next: "test_game",
+        //             action: () => {
+        //                 let cm = CardManager.getInstance();
+        //                 cm.addCardToDeck("straight_punch_3", 3);
+        //             }
+        //         },
+        //         {
+        //             text: "否",
+        //             next: "test_game"
+        //         }
+        //     ]
+        // },
         {
             id: "test_game",
             elements: {
