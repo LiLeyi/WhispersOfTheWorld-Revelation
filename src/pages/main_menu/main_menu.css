@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
     overflow: hidden;
     /* 使用整页背景图，右侧不再显示为纯黑 */
-    background: url('background.jpg') left center/cover no-repeat fixed, #0b0e12;
+    background: url('插图.png') left center/cover no-repeat fixed, #0b0e12;
 }
 
 /* 主容器 */
@@ -96,11 +96,11 @@ body {
     display: grid;
     grid-template-columns: repeat(4, minmax(140px, 1fr));
     grid-template-rows: repeat(2, auto);
-    gap: 24px 32px;
+    gap: 36px 48px;
     width: min(760px, 50vw);
     position: absolute;
-    right: 0;
-    bottom: 4vh;
+    right: 13vh;
+    bottom: 15vh;
     margin-top: 0;
     z-index: 2;
 }
@@ -109,7 +109,7 @@ body {
 .menu-button {
     background: rgba(18, 22, 28, 0.82); /* 默认深色，接近示意图黑条 */
     border: 0;
-    padding: 25px 25px; /* 更大一些 */
+    padding: 30px 30px; /* 更大一些 */
     border-radius: 12px;
     font-size: 17px;
     font-weight: 700;
@@ -154,7 +154,7 @@ body {
 /* 第一行四个，第二行四个 */
 
 /* 特殊按钮样式 */
-#aboutUsButton {
+/*#aboutUsButton {
     background: linear-gradient(135deg, rgba(255, 160, 122, 0.95), rgba(255, 99, 71, 0.95));
     color: white;
     font-weight: bold;
@@ -182,7 +182,7 @@ body {
 
 #exitButton:hover {
     background: linear-gradient(135deg, #e17055, #c44569);
-}
+}*/
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
