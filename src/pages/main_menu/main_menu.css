@@ -7,18 +7,51 @@
 
 body {
     font-family: 'KaiTi', '楷体', Arial, sans-serif;
-   
-   background-image: '插图.png';
     min-height: 100vh;
     overflow: hidden;
+    background-color: #0b0e12;
+}
+
+/* 背景图片容器 */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: -1; /* 确保背景在最底层 */
+}
+
+.background-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center;
+    display: block;
+}
+
+@keyframes backgroundFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: backgroundFadeIn 2s ease-in-out forwards;
 }
 
 /* 主容器 */
 .main-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr; /* 左插图略大，贴近设计 */
     width: 100vw;
     height: 100vh;
     position: relative;
+    z-index: 1; /* 确保内容在背景之上 */
 }
 
 /* 页面标题 */
@@ -57,93 +90,74 @@ body {
 
 /* 插图面板 */
 .illustration-panel {
-    width: 100%;
-    height: 100vh;
-    
-    
-    border-right: 2px solid ;
-  
+    position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
     overflow: hidden;
 }
 
 .illustration-panel::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('插图.png') center/cover;
-    opacity: 1;
-    z-index: -1;
+    inset: 0;
+    /* 移除仅左侧的背景与暗化，避免左右亮度不一致 */
+    background: transparent;
+    pointer-events: none;
+}
+
+/* 右半区容器 */
+.content-area {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    justify-items: end;
+    padding-right: 6vw;
+    gap: 32px;
+    position: relative;
 }
 
 /* 右侧内容区域 */
 
-
-/* 顶部Logo面板 */
-.logo-panel {
-    width: 60%;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    border-radius: 15px;
-    margin-bottom: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.logo-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('logo.png') center/cover no-repeat;
-    opacity: 0.8;
-    z-index: 1;
-}
-
 /* 菜单容器 */
+/* 菜单采用两行四列的网格布局，形成海面上的“黑色条框”排布 */
 .menu-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 15px;
-    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr));
+    grid-template-rows: repeat(2, auto);
+    gap: 36px 48px;
+    width: min(760px, 50vw);
+    position: absolute;
+    right: 13vh;
+    bottom: 15vh;
+    margin-top: 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
+.menu-container.show {
+    opacity: 1;
+}
 /* 菜单按钮基础样式 */
 .menu-button {
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
+    background: rgba(142, 137, 137, 0.82); /* 默认深色，接近示意图黑条 */
+    border: 0;
+    padding: 30px 30px; /* 更大一些 */
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #e8edf3;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    min-width: 180px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    min-width: unset;
     text-align: center;
     position: relative;
     overflow: hidden;
+    opacity: 0;
 }
 
 .menu-button::before {
@@ -162,54 +176,24 @@ body {
 }
 
 .menu-button:hover {
-    transform: translateX(-10px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+    background: rgba(147, 147, 147, 0.88);
 }
 
 .menu-button:active {
-    transform: translateX(-5px) scale(0.98);
+    transform: translateY(0) scale(0.99);
 }
 
-/* 阶梯式布局 - 每个按钮向左偏移 */
-#aboutUsButton {
-    margin-right: 20px;
-}
-
-#startButton {
-    margin-right: 120px;
-}
-
-#loadButton {
-    margin-right: 220px;
-}
-
-#settingButton {
-    margin-right: 320px;
-}
-
-#achievementButton {
-    margin-right: 420px;
-}
-
-#CGButton {
-    margin-right: 520px;
-}
-
-#MusicButton {
-    margin-right: 620px;
-}
-
-#exitButton {
-    margin-right: 720px;
-}
+/* 取消原阶梯式右移，使用网格定位（顺序与现有 DOM 一致） */
+/* 第一行四个，第二行四个 */
 
 /* 特殊按钮样式 */
-#aboutUsButton {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+/*#aboutUsButton {
+    background: linear-gradient(135deg, rgba(255, 160, 122, 0.95), rgba(255, 99, 71, 0.95));
     color: white;
     font-weight: bold;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.35);
 }
 
 #aboutUsButton:hover {
@@ -233,65 +217,32 @@ body {
 
 #exitButton:hover {
     background: linear-gradient(135deg, #e17055, #c44569);
-}
+}*/
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
-    .illustration-panel {
-        width: 40%;
-    }
-    
-    .menu-button {
-        min-width: 160px;
-        padding: 12px 25px;
-        font-size: 14px;
-    }
-    
-    .page-title h1 {
-        font-size: 2.8rem;
-    }
-    
-    .logo-panel {
-        width: 70%;
-        height: 45px;
-    }
+    .main-container { grid-template-columns: 1.1fr 0.9fr; }
+    .content-area { padding-right: 4vw; }
+    .logo-panel { --logo-box-width: min(440px, 82%); --logo-box-height: 220px; }
+    .menu-container { width: min(680px, 60vw); grid-template-columns: repeat(4, 1fr); position: absolute; right: 0; bottom: 4vh; margin-top: 0; }
+    .page-logo { width: min(860px, 64vw); height: clamp(150px, 20vh, 280px); background-position: right top; margin-right: -1vw; }
 }
 
 @media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-    
-    .illustration-panel {
-        width: 100%;
-        height: 200px;
-    }
-    
-    .content-area {
-        padding: 20px;
-    }
-    
-    .menu-container {
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .menu-button {
-        margin-right: 0 !important;
-        min-width: 200px;
-    }
-    
-    .page-title h1 {
-        font-size: 2rem;
-    }
-    
-    .logo-panel {
-        width: 80%;
-        height: 40px;
-    }
+    .main-container { grid-template-columns: 1fr; }
+    .illustration-panel { height: 46vh; }
+    .content-area { justify-items: center; padding: 24px 20px 0; }
+    .menu-container { width: 92vw; grid-template-columns: repeat(2, 1fr); position: absolute; right: 4vw; left: auto; bottom: 4vh; margin-top: 0; }
+    .menu-button { min-width: unset; }
+    .logo-panel { --logo-box-width: 78vw; --logo-box-height: 26vh; }
+    .title-area { justify-content: center; }
+    .page-logo { width: 92vw; height: clamp(120px, 22vh, 240px); background-position: center top; margin-right: 0; }
 }
 
-/* 动画效果 */
+/* 标题排版（右上角） */
+.title-area { text-align: right; width: 100%; display: flex; justify-content: flex-end; }
+
+/* 按钮动画效果 */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -307,14 +258,14 @@ body {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-.menu-button:nth-child(1) { animation-delay: 0.1s; }
-.menu-button:nth-child(2) { animation-delay: 0.2s; }
-.menu-button:nth-child(3) { animation-delay: 0.3s; }
-.menu-button:nth-child(4) { animation-delay: 0.4s; }
-.menu-button:nth-child(5) { animation-delay: 0.5s; }
-.menu-button:nth-child(6) { animation-delay: 0.6s; }
-.menu-button:nth-child(7) { animation-delay: 0.7s; }
-.menu-button:nth-child(8) { animation-delay: 0.8s; }
+.menu-button:nth-child(1) { animation-delay: 2.1s; }
+.menu-button:nth-child(2) { animation-delay: 2.2s; }
+.menu-button:nth-child(3) { animation-delay: 2.3s; }
+.menu-button:nth-child(4) { animation-delay: 2.4s; }
+.menu-button:nth-child(5) { animation-delay: 2.5s; }
+.menu-button:nth-child(6) { animation-delay: 2.6s; }
+.menu-button:nth-child(7) { animation-delay: 2.7s; }
+.menu-button:nth-child(8) { animation-delay: 2.8s; }
 
 /* 背景动画 */
 @keyframes gradientShift {
@@ -328,4 +279,3 @@ body {
         background-position: 0% 50%;
     }
 }
-

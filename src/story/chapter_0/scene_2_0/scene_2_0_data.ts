@@ -4,7 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 // 定义第2幕场景
 const scene: Scene = {
 id: "chapter_0_scene_2_0",
-    title: "第2幕:斑牛镇",
+    title: "第1章第2幕:村庄",
 nodes: [
         {
             id: "mother_1",
@@ -1515,6 +1515,10 @@ nodes: [
     {
       text: "收下",
       next: "altar_43_1"
+    },
+    {
+      text: "质疑",
+      next: "altar_43_2"
     }
   ]
 },
@@ -1626,7 +1630,18 @@ nodes: [
             left:"guangling/smile.png"
         }
   },
-  next:"待定",
+  next:"chapter_0_scene_2_1",//获得成就：不劳而获
+},//分支2//
+{
+  id: "altar_43_2",
+  elements: {
+    name: "你",
+    text: "你会这么容易把始源之心交给我们吗？",
+    sprite: {
+            left:"guangling/smile.png"
+        },
+  },
+  next:"待定",//内容暂定，挑战成功，获得成就：真正的心脏
 },
 ]
 }

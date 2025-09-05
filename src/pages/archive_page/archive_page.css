@@ -6,28 +6,26 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
     color: #fff;
     min-height: 100vh;
     padding-bottom: 40px;
+    margin: 0;
+    background: url('archive_background.jpg') center/cover no-repeat fixed, #0b0e12;
 }
 
+/* 背景叠加一层微暗渐变，保证可读性 */
 body::before {
-    content: "";
+    content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 10% 20%, rgba(92, 37, 141, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(66, 165, 245, 0.1) 0%, transparent 20%);
+    inset: 0;
     z-index: -1;
+    background: linear-gradient(135deg, rgba(0,0,0,0.30), rgba(0,0,0,0.55));
 }
 
 /* 顶部导航栏 */
 .navbar-custom {
-    background: rgba(30, 30, 46, 0.9);
+    background: rgba(20, 24, 32, 0.55);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     padding: 15px 0;
@@ -47,9 +45,9 @@ body::before {
 }
 
 .nav-link, .continue-btn {
-    color: #e0e0e0;
+    color: #e8edf3;
     text-decoration: none;
-    background: rgba(42, 42, 70, 0.7);
+    background: rgba(24, 28, 36, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 10px 20px;
@@ -62,16 +60,16 @@ body::before {
 }
 
 .nav-link:hover, .continue-btn:hover {
-    background: rgba(66, 66, 110, 0.8);
+    background: rgba(36, 42, 54, 0.75);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.2);
-    border-color: rgba(100, 181, 246, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 .nav-title {
-    font-family: 'ZCOOL KuaiLe', cursive;
-    font-size: 2rem;
-    background: linear-gradient(to right, #f8f8f8, #a0a0a0);
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    background: linear-gradient(to right, #ffffff, #cfd8dc);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -86,7 +84,7 @@ body::before {
 .container {
     max-width: 1200px;
     margin: 40px auto 0;
-    padding: 0 20px;
+    padding: 0 20px 40px;
 }
 
 /* 每行使用 grid 布局 */
@@ -99,7 +97,7 @@ body::before {
 
 /* 存档槽样式 */
 .save-slot {
-    background: rgba(30, 30, 46, 0.7);
+    background: rgba(20, 24, 32, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 25px 20px;
@@ -108,7 +106,7 @@ body::before {
     align-items: center;
     text-align: center;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
@@ -163,9 +161,9 @@ body::before {
 .save-info h2 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #64b5f6;
-    text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
-    background: rgba(0, 0, 0, 0.5);
+    color: #e8edf3;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 1;
@@ -174,8 +172,8 @@ body::before {
 .save-info p {
     margin: 8px 0;
     font-size: 1rem;
-    color: #e0e0e0;
-    background: rgba(0, 0, 0, 0.5);
+    color: #cfd8dc;
+    background: rgba(0, 0, 0, 0.3);
     padding: 3px 8px;
     border-radius: 3px;
     z-index: 1;
@@ -203,7 +201,7 @@ body::before {
 
 .save-button {
     padding: 10px 20px;
-    background: rgba(42, 42, 70, 0.8);
+    background: linear-gradient(135deg, #4ecdc4, #2c3e50);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -219,10 +217,10 @@ body::before {
 }
 
 .save-button:hover {
-    background: rgba(66, 66, 110, 0.9);
+    background: linear-gradient(135deg, #26d0ce, #2c3e50);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border-color: rgba(100, 181, 246, 0.3);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 .save-button.rename {

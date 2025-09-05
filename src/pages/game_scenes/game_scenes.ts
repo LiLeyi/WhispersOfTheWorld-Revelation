@@ -1053,7 +1053,7 @@ class GameScene {
         };
     }
 
-    private bindEvents(): void {
+   private bindEvents(): void {
     // 绑定点击事件
     const moveElement = document.getElementById("move");
     const dialogElement = document.getElementById("dialog");
@@ -1065,6 +1065,12 @@ class GameScene {
         if (selectionBox && selectionBox.style.display !== "none") {
             return; // 如果选项可见，则不执行下一步
         }
+        
+        // 如果正在等待用户选择，则不允许继续跳过
+        if ((this as any).waitingForChoice) {
+            return;
+        }
+        
         this.nextMove();
     };
 
@@ -1096,6 +1102,50 @@ class GameScene {
                 if (selectionBox && selectionBox.style.display !== "none") {
                     return; // 如果选项可见，则不执行下一步
                 }
+                
+                // 如果正在等待用户选择，则不允许继续跳过
+                if ((this as any).waitingForChoice) {
+                    return;
+                }
+                
+                this.nextMove();
+            }
+        }
+    });
+    if (moveElement) moveElement.onclick = nextMoveHandler;
+    if (dialogElement) dialogElement.onclick = nextMoveHandler;
+    if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
+
+   // 绑定键盘事件 - 空格键跳过剧情
+    document.addEventListener('keydown', (event) => {
+        // 检查是否按下了空格键
+        if (event.code === 'Space') {
+            // 阻止默认的空格键行为（页面滚动）
+            event.preventDefault();
+            
+            // 检查是否有弹窗或菜单打开，如果有则不执行跳过
+            const skipElement = document.getElementById("skip");
+            const returnElement = document.getElementById("return");
+            const bagOverlay = document.getElementById("bag-overlay");
+            const itemModal = document.getElementById("item-modal");
+            
+            const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
+                               (returnElement && returnElement.classList.contains("active")) ||
+                               (bagOverlay && bagOverlay.style.display === "flex") ||
+                               (itemModal && itemModal.style.display === "flex");
+            
+            if (!hasOpenModal) {
+                // 检查是否显示了选项，如果显示了选项则不执行下一步
+                const selectionBox = document.getElementById("selection_box");
+                if (selectionBox && selectionBox.style.display !== "none") {
+                    return; // 如果选项可见，则不执行下一步
+                }
+                
+                // 如果正在等待用户选择，则不允许继续跳过
+                if ((this as any).waitingForChoice) {
+                    return;
+                }
+                
                 this.nextMove();
             }
         }
@@ -1166,8 +1216,27 @@ class GameScene {
     const returnYes = document.getElementById("return_yes");
     const returnNo = document.getElementById("return_no");
 
-            if (skipYes) {
+    if (skipYes) {
         skipYes.onclick = () => {
+            // 检查是否显示了选项，如果显示了选项则不执行跳过
+            const selectionBox = document.getElementById("selection_box");
+            if (selectionBox && selectionBox.style.display !== "none") {
+                const skipElement = document.getElementById("skip");
+                if (skipElement) {
+                    skipElement.classList.remove("active");
+                }
+                return; // 如果选项可见，则不执行跳过
+            }
+            
+            // 如果正在等待用户选择，则不允许继续跳过
+            if ((this as any).waitingForChoice) {
+                const skipElement = document.getElementById("skip");
+                if (skipElement) {
+                    skipElement.classList.remove("active");
+                }
+                return;
+            }
+            
             if (this.currentScene) {
                 // 查找下一个有选项的节点
                 let nextChoiceNodeIndex = -1;
@@ -1182,6 +1251,8 @@ class GameScene {
                 // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
                 if (nextChoiceNodeIndex !== -1) {
                     this.currentNodeIndex = nextChoiceNodeIndex;
+                    // 添加标记，表示用户已跳转到选项节点
+                    (this as any).waitingForChoice = true;
                 } else {
                     this.currentNodeIndex = this.currentScene.nodes.length - 1;
                 }
@@ -1195,6 +1266,7 @@ class GameScene {
             }
         };
     }
+    
     if (skipNo) {
         skipNo.onclick = () => {
             const skipElement = document.getElementById("skip");
@@ -1256,9 +1328,41 @@ class GameScene {
             }
         };
     }
+    
+     // 监听选项点击事件，清除等待状态
+    const selectionBox = document.getElementById("selection_box");
+    if (selectionBox) {
+        // 使用事件委托来监听选项按钮的点击
+        selectionBox.addEventListener('click', (event) => {
+            const target = event.target as HTMLElement;
+            if (target.classList.contains('selection')) {
+                // 用户选择了选项，清除等待状态
+                (this as any).waitingForChoice = false;
+            }
+        });
+    }
 }
     private nextMove(): void {
         if (!this.currentScene) return;
+
+        // 检查是否显示了选项，如果显示了选项则不执行下一步
+        const selectionBox = document.getElementById("selection_box");
+        if (selectionBox && selectionBox.style.display !== "none") {
+            return; // 如果选项可见，则不执行下一步
+        }
+
+        // 如果正在等待用户选择，则不允许继续跳过
+        if ((this as any).waitingForChoice) {
+            // 检查当前节点是否有选项，如果有，则继续保持等待状态
+            const currentNode = this.getCurrentNode();
+            if (currentNode && currentNode.choices && currentNode.choices.length > 0) {
+                // 仍然在选项节点，不执行任何操作
+                return;
+            } else {
+                // 已经离开了选项节点，可以清除等待标记
+                (this as any).waitingForChoice = false;
+            }
+        }
 
         // 播放点击音效
         this.audioManager.playClickSound();
@@ -1304,9 +1408,7 @@ class GameScene {
                 }
             }
         }
-    }
-
-    private startAutoClick(): void {
+        }   private startAutoClick(): void {
         const autoButton = document.getElementById("op_auto");
 
         // 实现自动播放功能
@@ -1320,6 +1422,21 @@ class GameScene {
         } else {
             // 开始自动播放，每1.5秒执行一次nextMove
             this.autoClickInterval = setInterval(() => {
+                // 检查是否显示了选项，如果显示了选项则不执行下一步
+                const selectionBox = document.getElementById("selection_box");
+                if (selectionBox && selectionBox.style.display !== "none") {
+                    // 如果选项可见，则停止自动播放
+                    this.startAutoClick();
+                    return;
+                }
+                
+                // 如果正在等待用户选择，则停止自动播放
+                if ((this as any).waitingForChoice) {
+                    // 停止自动播放
+                    this.startAutoClick();
+                    return;
+                }
+                
                 this.nextMove();
             }, 1500);
             if (autoButton) {
@@ -1327,7 +1444,6 @@ class GameScene {
             }
         }
     }
-
         private redirectToNewPage(nextpage: string): void {
         const nextPageURL = nextpage + "?referrer=" + encodeURIComponent(window.location.href);
         window.location.href = nextPageURL;

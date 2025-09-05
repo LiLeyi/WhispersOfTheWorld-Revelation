@@ -72,27 +72,27 @@ const scene: Scene = {
         //     video: "test.mp4", // 视频文件应放在 src/assets/video/ 目录下
         //     next: "node3" // 可选，视频播放完成后跳转到的节点
         // },
-        // {
-        //     id: 'card_get_test',
-        //     elements: {
-        //         name: "旁白",
-        //         text: "跟我学两招吗"
-        //     },
-        //     choices: [
-        //         {
-        //             text: "是",
-        //             next: "test_game",
-        //             action: () => {
-        //                 let cm = CardManager.getInstance();
-        //                 cm.addCardToDeck("straight_punch_3", 3);
-        //             }
-        //         },
-        //         {
-        //             text: "否",
-        //             next: "test_game"
-        //         }
-        //     ]
-        // },
+        {
+            id: 'card_get_test',
+            elements: {
+                name: "旁白",
+                text: "跟我学两招吗"
+            },
+            choices: [
+                {
+                    text: "是",
+                    next: "test_game",
+                    action: () => {
+                        let cm = CardManager.getInstance();
+                        cm.addCardToDeck("straight_punch_3", 3);
+                    }
+                },
+                {
+                    text: "否",
+                    next: "node3"
+                }
+            ]
+        },
         {
             id: "test_game",
             elements: {
@@ -419,7 +419,7 @@ const scene: Scene = {
             elements: {
                 background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
-                text: "身披长袍的少女跪坐在一块墓碑之前。"
+                text: "一位少女跪坐在一块墓碑之前。"
             }
         },
         {
