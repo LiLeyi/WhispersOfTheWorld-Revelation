@@ -310,6 +310,7 @@ sprite: {
     id: "darkblade_32",
     elements: {
        background:"sc2.1/2-1-2.png",
+       bgm:"bgm12.MP3",
       name: "旁白",
         text: "我们悄悄潜伏到了动静的来源之处，眼前却出现了一幅血腥的画面。"
     },
@@ -482,6 +483,7 @@ sprite: {
 {
     id: "darkblade_49",
     elements: {
+      bgm:"bgm2.mp3",
        background:"sc2.1/2-1-9.png",  
       name: "旁白",
         text: "暗中追随着那个白发身影，穿过城市的钢铁丛林，来到了一片不易被发现的空地。"
@@ -730,6 +732,7 @@ sprite: {
   {
     id: "darkblade_83",
     elements: { 
+      bgm:"bgm4.mp3",
       background:"sc2.1/2-1-7.png",
       name: "旁白", 
       text: "跟随虚樹，来到了一栋废弃大楼之中。" 
@@ -921,7 +924,8 @@ sprite: {
     id: "darkblade_103_2",
     elements: { 
       name: "虚樹", 
-      text: "战败的人类并没有被机械体们赶尽杀绝......因为还有更加可怕的事情......" 
+      text: "战败的人类并没有被机械体们赶尽杀绝......因为还有更加可怕的事情......" ,
+      background:"sc2.1/2-1-7.png",
     },
      choices: [
         {
@@ -1039,7 +1043,8 @@ sprite: {
     id: "darkblade_115_1",
     elements: { 
       name: "虚樹", 
-      text: "这都是因为塔的能量来自于一个同样神秘的东西——“永昼之瞳”！" 
+      text: "这都是因为塔的能量来自于一个同样神秘的东西——“永昼之瞳”！" ,
+      background:"sc2.1/2-1-7.png",
     },
     choices:[
         {
@@ -1261,7 +1266,8 @@ sprite: {
   id: "darkblade_144",
   elements: { 
     name: "光泠", 
-    text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？" 
+    text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？" ,
+    background:"sc2.1/2-1-7.png",
   },
   choices: [
     {
@@ -1476,6 +1482,7 @@ sprite: {
 {
   id: "darkblade_150_2",
   elements: { 
+    bgm:"bgm10.MP3",
     background:"sc2.1/2-1-11.png",
     name: "旁白", 
     text: "继续摸索，来到了一名“干部”的地盘。" ,
@@ -1498,7 +1505,7 @@ sprite: {
 {
   id: "darkblade_153_2",
   elements: { 
-     background:"sc2.1/2-1-10.png",
+    background:"sc2.1/2-1-10.png",
     name: "旁白", 
     text: "继续潜入，却意外发现了一名准备自杀的人类。" ,
   },
@@ -1523,6 +1530,10 @@ sprite: {
             left: null,
         }
   },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("abandon_human");
+            },
 },
 {
   id: "darkblade_155_2_1",
@@ -1822,6 +1833,7 @@ sprite: {
 {
   id: "darkblade_161_2_2",
   elements: { 
+    bgm:"bgm13.MP3",
     background:"sc2.1/2-1-5.png",
     name: "旁白", 
     text: "突破层层防线，我们终于进入到齿轮之塔内部。" ,
@@ -1839,6 +1851,7 @@ sprite: {
   elements: { 
     name: "旁白", 
     text: "与国王的战斗一触即发。" ,//获得成就：英勇无畏
+    background:"sc2.1/2-1-5.png",
   },
   choices: [
     {
@@ -2108,6 +2121,10 @@ next:"chapter_0_scene_3_0",
     name: "旁白",
     text: "YOU ARE DEAD."
   },
+   action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("death_ending");
+            },
   choices: [
     {
       text: "死亡结局",
