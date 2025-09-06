@@ -107,6 +107,7 @@ nodes: [
         id: "nursing_home_3",
         elements: {
             name: "院长",
+            background: "sc1.2/1-2-3.png",
             text: "您要不要再看母亲最后一眼？"
         },
         choices: [
@@ -1518,6 +1519,7 @@ nodes: [
   id: "altar_42_1",
   elements: {
     name: "旁白",
+     background: "sc1.2/1-2-12.jpg", 
     text: "一块闪着暗红微光、心脏形状的石头，一块半透明、似有血液流动其中的石头。"
   },
   choices: [
