@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { AchievementManager } from '../../../components/AchievementManager';
 //终章第1幕//
 const scene: Scene = {
 id:"chapter_0_scene_4_0",

@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { AchievementManager } from '../../../components/AchievementManager';
 // 定义第2幕场景
 const scene: Scene = {
 id: "chapter_0_scene_2_0",
@@ -1021,7 +1022,11 @@ nodes: [
             left:"guangling/smile1.png"
         }
     
-  }
+  },
+  //  action: () => {
+  //               let am = AchievementManager.getInstance();
+  //               am.clearAll()
+  //           }
 },
 {
   id: "village_1",
@@ -1033,7 +1038,11 @@ nodes: [
     sprite: {
             left:null
         }
-  }
+  },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("enter_village");
+            },
 },
 {
   id: "village_2",
@@ -1555,7 +1564,11 @@ nodes: [
     sprite: {
             left:"guangling/smile.png"
         }
-  }
+  },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("item_heart_of_prime");
+            },
 },
 {
   id: "altar_47",
