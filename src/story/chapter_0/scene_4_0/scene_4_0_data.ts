@@ -674,8 +674,297 @@ sprite:{
     left:"guangling/wubiaoqing.png",
 }  
     },
+    choices: [
+        {
+            text: "已拾取蚀心刃",
+            next: "battle_shadow_33"
+        },
+    ]
 },
-
+{  
+    id: "battle_shadow_33",  
+    elements: {  
+        name: "旁白",  
+        text: "少女的使命是为何呢？世界的真相又为何呢？" ,
+        sprite:{
+    left:"guangling/wubiaoqing.png",
+}  
+    },
+},
+{  
+    id: "battle_shadow_34",  
+    elements: {  
+        name: "旁白",  
+        text: "在跨过漫长的旅途后，依旧没能得到任何答案。"  
+    }  
+},  
+{  
+    id: "battle_shadow_34_1",  
+    elements: {  
+        name: "旁白",  
+        text: "种种猜疑在心底里爆发，或许，不该再由她摆布自己的命运了……"  
+    }  
+},  
+{  
+    id: "battle_shadow_35",  
+    elements: {  
+        name: "我",  
+        text: "我早就觉得，这一切有问题了。"  
+    }  
+},  
+{  
+    id: "battle_shadow_35_1",  
+    elements: {  
+        name: "我",  
+        text: "莫名其妙地把一无所知的我带上这样的道路，你一定也是个满嘴谎言的家伙。"  
+    }  
+},  
+{  
+    id: "battle_shadow_36",  
+    elements: {  
+        name: "我",  
+        text: "为了欺骗我，不择手段，费尽心思。"  
+    }  
+},  
+{  
+    id: "battle_shadow_36_1",  
+    elements: {  
+        name: "我",  
+        text: "为了愚弄我，把我弄得像一个骆驼。我已经受够了这一切！"  
+    }  
+},  
+{  
+    id: "battle_shadow_37",  
+    elements: {  
+        name: "我",  
+        text: "到底还要在戏弄我多久？这令人憎恶的世界，还有你！"  
+    }  
+},  
+{  
+    id: "battle_shadow_38",  
+    elements: {  
+        name: "旁白",  
+        text: "眼前一片癫狂的猩红，此刻只感觉到无穷无尽的怒火在燃烧。黑白交杂的烟气在周身弥漫。"  
+    }  
+},  
+{  
+    id: "battle_shadow_39",  
+    elements: {  
+        name: "旁白",  
+        text: "将暗寂覆在左臂化为暗黑利爪,"  
+    }  
+},  
+{  
+    id: "battle_shadow_39_1",  
+    elements: {  
+        name: "旁白",  
+        text: "以迅雷不及掩耳之势，恶狠狠地掐住光泠的脖子，拎在半空。"  
+    }  
+},  
+{  
+    id: "battle_shadow_40",  
+    elements: {  
+        name: "光泠",  
+        text: "呃......"  
+    }  
+},  
+{  
+    id: "battle_shadow_41",  
+    elements: {  
+        name: "旁白",  
+        text: "右手掏出早就准备好的蚀心刃，一把刺向光泠的心脏处，血液沿着刀柄不断滴落。"  
+    }  
+},  
+{  
+    id: "battle_shadow_42",  
+    elements: {  
+        name: "光泠",  
+        text: "为什么......在最后还要做出如此苦涩的选择？"  
+    }  
+},  
+{  
+    id: "battle_shadow_42_1",  
+    elements: {  
+        name: "光泠",  
+        text: "在囚笼之间辗转......强迫自己将饮不尽的苦水视作甜美的甘露……"  
+    }  
+},  
+{  
+    id: "battle_shadow_43",  
+    elements: {  
+        name: "我",  
+        text: "错的不是我，而是这个世界！"  
+    }  
+},  
+{  
+    id: "battle_shadow_44",  
+    elements: {  
+        name: "旁白",  
+        text: "理智早已被疯狂取代，癫狂的大笑中，拔出蚀心刃，将光泠的身体扔在脚下。"  
+    }  
+},  
+{  
+    id: "battle_shadow_44_1",  
+    elements: {  
+        name: "旁白",  
+        text: "紧接着张开腿骑在光泠身上，一刀，又一刀，在喷涌的鲜血中捅下。"  
+    }  
+},  
+{  
+    id: "battle_shadow_45",  
+    elements: {  
+        name: "旁白",  
+        text: "血染红了大地。天空被无边黑暗笼罩。"  
+    }  
+},  
+{  
+    id: "battle_shadow_45_1",  
+    elements: {  
+        name: "旁白",  
+        text: "暗寂金色的微光早已消失，转而被血液染上一片猩红。"  
+    }  
+},  
+{  
+    id: "battle_shadow_46",  
+    elements: {  
+        name: "旁白",  
+        text: "刺穿少女身躯的刀刃仍在淌血。冰冷的尸体躺在脚边，逐渐消融至无边的黑暗之中。"  
+    }  
+},  
+{  
+    id: "battle_shadow_47",  
+    elements: {  
+        name: "旁白",  
+        text: "踉跄着站起身来，迷茫地望着身前血红的一片，眼里控制不住地流下痛苦的泪水。"  
+    }  
+},  
+{  
+    id: "battle_shadow_48",  
+    elements: {  
+        name: "我",  
+        text: "这样就好了吗？这样就好。"  
+    }  
+},  
+{  
+    id: "battle_shadow_49",  
+    elements: {  
+        name: "旁白",  
+        text: "然而，世界的躁动并未停息。大地燃烧起熊熊烈火；群山与森林在死亡的嘶吼中崩裂坍塌。"  
+    }  
+},  
+{  
+    id: "battle_shadow_50",  
+    elements: {  
+        name: "旁白",  
+        text: "伸手捂住脸，却只摸到一片冰冷而陌生的空白。"  
+    }  
+},  
+{  
+    id: "battle_shadow_50",  
+    elements: {  
+        name: "旁白",  
+        text: "五官如同被无形之手抹去：眼睛溶解成漆黑的虚空，鼻梁与嘴唇化作空洞的平面。"  
+    }  
+},  
+{  
+    id: "battle_shadow_51",  
+    elements: {  
+        name: "旁白",  
+        text: "从四面八方传来的杂音不断撞击着耳膜，似怒号，似哭喊，"  
+    }  
+},  
+{  
+    id: "battle_shadow_51",  
+    elements: {  
+        name: "旁白",  
+        text: "似咒骂，似讥讽——一遍又一遍，直至再次被彻底吞没。"  
+    }  
+},  
+{  
+    id: "battle_shadow_52",  
+    elements: {  
+        name: "？？？",  
+        text: "没想到，居然会迎来这样的结局……分歧是在哪里出现的……？"  
+    }  
+},  
+{  
+    id: "battle_shadow_52",  
+    elements: {  
+        name: "？？？",  
+        text: "这样一来，一切就不得不从头开始了。"  
+    }  
+},  
+{  
+    id: "battle_shadow_53",  
+    elements: {  
+        name: "？？？",  
+        text: "不过，“旅途”还能继续。只要灾厄还停留于此，残存的低语就不会消逝。"  
+    }  
+},  
+{  
+    id: "battle_shadow_54",  
+    elements: {  
+        name: "？？？",  
+        text: "所以，拜托了，“光泠”。让那个人结束灾厄……放弃无谓的挣扎。"  
+    }  
+},  
+{  
+    id: "battle_shadow_55",  
+    elements: {  
+        name: "？？？",  
+        text: "为了能让那个人一直停留在这里。多余的“眷恋”必须被剔除。"  
+    }  
+},  
+{  
+    id: "battle_shadow_56",  
+    elements: {  
+        name: "旁白",  
+        text: "在破败的废墟里醒来。总觉得这副场景似曾相识，可却又什么也回想不起来。"  
+    }  
+},  
+{  
+    id: "battle_shadow_57",  
+    elements: {  
+        name: "？？？",  
+        text: "您醒了。"  
+    }  
+},  
+{  
+    id: "battle_shadow_58",  
+    elements: {  
+        name: "我",  
+        text: "你……是？" ,
+        sprite:{
+            left:null,
+        }  
+    }  
+},  
+{  
+    id: "battle_shadow_59",  
+    elements: {  
+        name: "光泠",  
+        text: "您好，我的名字是光泠。是为了为世界带来新生，前来引导您的人。", 
+        sprite:{
+            left:"guangling/smile.png",
+        } 
+    }  
+},  
+{  
+    id: "battle_shadow_60",  
+    elements: {  
+        name: "旁白",  
+        text: "破败的废墟里，少女再一次，朝成为白纸的你露出微笑。" ,
+        sprite:{
+            left:"guangling/smile.png",
+        }  
+    }  ,
+    choices: [
+        {
+            text: "达成结局二！！！",
+            next: "chapter_0_scene_0",
+        },
+    ],
+},  
 
 
 
