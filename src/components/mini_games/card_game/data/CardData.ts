@@ -607,7 +607,7 @@ export const CARD_TEMPLATES: Record<string, CardData> = {
         type: 'defense', 
         cost: 3, 
         power: 0, 
-        priority: 6,
+        priority: 3,
         effects: [
             {
                 type: 'buff',

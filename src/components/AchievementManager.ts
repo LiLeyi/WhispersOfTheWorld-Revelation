@@ -191,7 +191,7 @@ export class AchievementManager {
         this.showAchievementUnlockPopup(info);
     }
 
-    /**
+     /**
      * 显示成就解锁弹窗
      * @param info 成就的中英文名称和描述
      */
@@ -200,12 +200,8 @@ export class AchievementManager {
         const popup = document.createElement('div');
         popup.className = 'achievement-unlock-popup menuwindow active';
         popup.innerHTML = `
-            <h2 class="menutitle">成就解锁!</h2>
-            <h3>${info.cn}</h3>
-            <p class="achievement-en-name">${info.en}</p>
-            <p class="achievement-description">${info.description}</p>
-            <div class="menuitemright">
-                <button class="continue-button" id="close-popup">继续</button>
+            <div class="achievement-content">
+                <span class="achievement-title">成就解锁: ${info.cn}</span>
             </div>
         `;
 
@@ -214,47 +210,39 @@ export class AchievementManager {
         style.textContent = `
             .achievement-unlock-popup {
                 position: fixed;
-                top: 50%;
+                top: 50px;
                 left: 50%;
-                transform: translate(-50%, -50%);
+                transform: translateX(-50%);
                 z-index: 2000;
                 text-align: center;
+                background: #000;
+                border: 1px solid #FFF;
+                border-radius: 6px;
+                padding: 3px 3px;
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+                min-width: 120px;
+                max-width: 40%;
+                height: 40px;
+                font-family: 'Microsoft YaHei', sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
-            .achievement-unlock-popup h3 {
-                font-size: 24px;
-                color: #FFD700;
-                margin: 10px 0;
+            .achievement-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
             }
             
-            .achievement-unlock-popup .achievement-en-name {
-                font-size: 18px;
+            .achievement-title {
+                font-size: 25px;
                 color: #FFF;
-                margin: 5px 0;
-                font-style: italic;
-            }
-            
-            .achievement-unlock-popup .achievement-description {
-                font-size: 16px;
-                color: #CCC;
-                margin: 10px 0;
-                font-style: italic;
-            }
-            
-            .continue-button {
-                background: rgba(255, 215, 0, 0.2);
-                color: #FFD700;
-                border: 1px solid #FFD700;
-                padding: 8px 20px;
-                border-radius: 20px;
-                cursor: pointer;
-                font-size: 16px;
-                transition: all 0.3s ease;
-            }
-            
-            .continue-button:hover {
-                background: rgba(255, 215, 0, 0.4);
-                transform: scale(1.05);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: bold;
             }
         `;
         
@@ -262,16 +250,7 @@ export class AchievementManager {
         document.head.appendChild(style);
         document.body.appendChild(popup);
         
-        // 添加关闭事件
-        const closeBtn = popup.querySelector('#close-popup');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                document.body.removeChild(popup);
-                document.head.removeChild(style);
-            });
-        }
-        
-        // 5秒后自动关闭
+        // 6秒后自动关闭
         setTimeout(() => {
             if (document.body.contains(popup)) {
                 document.body.removeChild(popup);

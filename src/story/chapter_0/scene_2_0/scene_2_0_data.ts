@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { AchievementManager } from '../../../components/AchievementManager';
 // 定义第2幕场景
 const scene: Scene = {
 id: "chapter_0_scene_2_0",
@@ -81,7 +82,7 @@ nodes: [
         }
     },
     {
-        id: "road_1",
+        id: "road_1_1",
         elements: {
             name: "旁白",
             text: "我在距离养老院两公里的地方下了车，徒步走了过去。"
@@ -106,6 +107,7 @@ nodes: [
         id: "nursing_home_3",
         elements: {
             name: "院长",
+            background: "sc1.2/1-2-3.png",
             text: "您要不要再看母亲最后一眼？"
         },
         choices: [
@@ -1021,7 +1023,11 @@ nodes: [
             left:"guangling/smile1.png"
         }
     
-  }
+  },
+  //  action: () => {
+  //               let am = AchievementManager.getInstance();
+  //               am.clearAll()
+  //           }
 },
 {
   id: "village_1",
@@ -1033,7 +1039,11 @@ nodes: [
     sprite: {
             left:null
         }
-  }
+  },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("enter_village");
+            },
 },
 {
   id: "village_2",
@@ -1509,6 +1519,7 @@ nodes: [
   id: "altar_42_1",
   elements: {
     name: "旁白",
+     background: "sc1.2/1-2-12.jpg", 
     text: "一块闪着暗红微光、心脏形状的石头，一块半透明、似有血液流动其中的石头。"
   },
   choices: [
@@ -1555,7 +1566,11 @@ nodes: [
     sprite: {
             left:"guangling/smile.png"
         }
-  }
+  },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("item_heart_of_prime");
+            },
 },
 {
   id: "altar_47",

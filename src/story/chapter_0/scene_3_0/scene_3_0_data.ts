@@ -1,7 +1,8 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
-// 定义第2幕场景
+import { AchievementManager } from '../../../components/AchievementManager';
+// 定义第3章第1幕场景
 const scene: Scene = {
 id:"chapter_0_scene_3_0",
 title:"第三章第1幕:",
@@ -9,6 +10,8 @@ nodes: [
 {
     id: "mountain_1",
     elements: {
+        background:"sc3.1/3-1-3.jpg",
+        bgm:"bgm3.mp3",
         name: "旁白",
         text: "有两个灵魂居住在我心胸，一个想从另一个挣脱掉。",
         sprite: {
@@ -118,7 +121,7 @@ nodes: [
     id: "mountain_15",
     elements: {
         name: "光泠",
-        text: "也许不是惧怕我，而是惧怕你呢。（微笑）",
+        text: "也许不是惧怕我，而是惧怕你呢。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -152,7 +155,7 @@ nodes: [
     id: "mountain_19",
     elements: {
         name: "光泠",
-        text: "那你怕我么？（笑）",
+        text: "那你怕我么？",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -162,6 +165,7 @@ nodes: [
     id: "mountain_20",
     elements: {
         name: "旁白",
+        background:"sc3.1/3-1-3.jpg",
         text: "光泠用双手轻轻拍了拍我的脸。",
         sprite: {
             left: null,
@@ -183,9 +187,9 @@ nodes: [
     id: "mountain_21_1",
     elements: {
         name: "光泠",
-        text: "看来你也是个邪恶的家伙。（惊讶）",
+        text: "看来你也是个邪恶的家伙。",
         sprite: {
-            left: "guangling/jingya.pn",
+            left: "guangling/jingya.png",
         }
     },
 },
@@ -217,7 +221,7 @@ nodes: [
     id: "mountain_25_1",
     elements: {
         name: "光泠",
-        text: "演得不像。（微笑）",
+        text: "演得不像。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -251,7 +255,7 @@ nodes: [
     id: "mountain_29_1",
     elements: {
         name: "光泠",
-        text: "......（微笑）",
+        text: "......",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -261,7 +265,7 @@ nodes: [
     id: "mountain_30_1",
     elements: {
         name: "光泠",
-        text: "从容或许源自悸动已久后的习惯。（笑）",
+        text: "从容或许源自悸动已久后的习惯。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -283,7 +287,7 @@ nodes: [
     id: "mountain_21_2",
     elements: {
         name: "光泠",
-        text: "哦？总有些事物，是比恶鬼更可怖的。（微笑）",
+        text: "哦？总有些事物，是比恶鬼更可怖的。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -303,7 +307,7 @@ nodes: [
     id: "mountain_23_2",
     elements: {
         name: "光泠",
-        text: "当然。（笑）",
+        text: "当然。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -333,7 +337,7 @@ nodes: [
     id: "mountain_26_2",
     elements: {
         name: "光泠",
-        text: "人唯一无法舍弃的，就是被他者理解的渴望。（笑）",
+        text: "人唯一无法舍弃的，就是被他者理解的渴望。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -343,7 +347,7 @@ nodes: [
     id: "mountain_26_2_1",
     elements: {
         name: "光泠",
-        text: "所以我们才会在相遇相识后如此欣喜。（笑）",
+        text: "所以我们才会在相遇相识后如此欣喜。",
     },
 },
 {
@@ -360,7 +364,7 @@ nodes: [
     id: "mountain_28_2",
     elements: {
         name: "光泠",
-        text: "不妨将我看做一个久别重逢的故友。（微笑）",
+        text: "不妨将我看做一个久别重逢的故友。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -371,6 +375,8 @@ nodes: [
 {
     id:"mountain_32",
     elements: {
+        background:"sc3.1/3-1-4.jpg",
+        bgm:"bgm14.MP3",
         name: "你",
         text: "这个世界总是变化的很快，雅致的，急躁的，激昂的，哀沉的……",
         sprite: {
@@ -451,6 +457,7 @@ nodes: [
 {
     id: "mountain_42",
     elements: {
+        background:"sc3.1/3-1-5.jpg",
         name: "旁白",
         text: "阴影中，隐约看见他身着红黑配色华服。"
     },
@@ -493,6 +500,7 @@ nodes: [
 {
     id: "mountain_47",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "旁白",
         text: "他走出阴影。"
     },
@@ -564,7 +572,7 @@ nodes: [
     id: "mountain_57",
     elements: {
         name: "光泠",
-        text: "的确像个蹩脚的演员。（笑）",
+        text: "的确像个蹩脚的演员。",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -604,6 +612,7 @@ nodes: [
 {
     id: "mountain_62",
     elements: {
+        background:"sc3.1/3-1-6.jpg",
         name: "？",
         text: "我是梅菲斯特，我是你们的阴影。"
     },
@@ -632,6 +641,7 @@ nodes: [
 {
     id: "mountain_66",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "告诉我，攀登者。你要继续背负痛苦，如同驮兽般走向虚无？"
     },
@@ -765,6 +775,7 @@ nodes: [
 {
     id: "mountain_84",
     elements: {
+        background:"sc3.1/3-1-6.png",
         name: "梅菲斯特",
         text: "是黑暗的部分，它生出了光。"
     },
@@ -838,6 +849,7 @@ nodes: [
 {
     id: "mountain_92",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "梅菲斯特",
         text: "与我同行，你并非坠入黑暗，你只是......睁开了眼睛。"
     },
@@ -856,6 +868,7 @@ nodes: [
 {
     id: "mountain_93_1",
     elements: {
+       background:"sc3.1/3-1-7.jpg",
         name: "旁白",
         text: "脑海里回荡着梅菲斯特的话语。",
         sprite: {
@@ -887,6 +900,7 @@ nodes: [
 {
     id: "mountain_97_1",
     elements: {
+       background:"sc3.1/3-1-11.jpg",
         name: "你",
         text: "也许.....你是对的。"
     },
@@ -909,7 +923,7 @@ nodes: [
     id: "mountain_98_1",
     elements: {
         name: "光泠",
-        text: "意义不是被谁给予，而是由你去创造。（无表情）",
+        text: "意义不是被谁给予，而是由你去创造。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -949,6 +963,7 @@ nodes: [
 {
     id: "mountain_103_1",
     elements: {
+       
         name: "旁白",
         text: "梅菲斯特的话语冲撞着大脑，突然头痛欲裂，跪倒在地。"
     },
@@ -963,6 +978,7 @@ nodes: [
 {
     id: "mountain_105_1",
     elements: {
+        background:"sc3.1/3-1-5.jpg",
         name: "你",
         text: "就此安眠......无梦地安眠......"
     },
@@ -1001,6 +1017,10 @@ nodes: [
         name: "你",
         text: "无梦地安眠......"
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("death_ending");
+            },
     choices: [
         {
             text: "YOU ARE DEAD.",
@@ -1012,6 +1032,8 @@ nodes: [
 {
     id: "mountain_93_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
+        bgm: "bgm7.mp3",
         name: "旁白",
         text: "心怀决意，向梅菲斯特作出回应。",
         sprite: {
@@ -1197,6 +1219,7 @@ nodes: [
 {
     id: "mountain_113_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "就让我亲手撕碎你那可笑的意志！"
     },
@@ -1215,6 +1238,8 @@ nodes: [
 {
     id: "mountain_114_2_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
+        bgm: "bgm14.MP3",
         name: "旁白",
         text: "被巨大的冲击力震飞，重重地甩在地上，眼前只剩下一片虚无。"
     },
@@ -1239,6 +1264,10 @@ nodes: [
         name: "梅菲斯特",
         text: "就此安眠......无梦地安眠......"
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("death_ending");
+            },
     choices: [
         {
             text: "YOU ARE DEAD.",
@@ -1250,6 +1279,8 @@ nodes: [
 {
     id: "mountain_114_2_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
+        bgm: "bgm10.MP3",
         name: "旁白",
         text: "融合光泠的力量的暗寂刺穿了梅菲斯特的咽喉。",
         sprite: {
@@ -1267,6 +1298,7 @@ nodes: [
 {
     id: "mountain_116_2_2",
     elements: {
+        background:"sc3.1/3-1-6.jpg",
         name: "旁白",
         text: "瞬息之间，将梅菲斯特的身躯四分五裂，化为飘散的黑烟。"
     },
@@ -1288,6 +1320,7 @@ nodes: [
 {
     id: "mountain_119_2_2",
     elements: {
+        background:"sc3.1/3-1-7.jpg",
         name: "梅菲斯特",
         text: "我是杀不死的，我是永恒的。"
     },
@@ -1379,6 +1412,7 @@ nodes: [
 {
     id: "mountain_132_2_2",
     elements: {
+        background:"sc3.1/3-1-4.jpg",
         name: "你",
         text: "......"
     },
@@ -1400,6 +1434,7 @@ nodes: [
 {
     id: "mountain_135_2_2",
     elements: {
+        
         name: "旁白",
         text: "越过流水与悬崖，行至山林深处，眼前出现了一座高大而神秘的青铜门。"
     },
@@ -1407,6 +1442,7 @@ nodes: [
 {
     id: "mountain_136_2_2",
     elements: {
+        background:"sc3.1/3-1-8.jpg",
         name: "旁白",
         text: "锈迹斑斑的青铜门好似历经了千百年的风吹雨打，散发着岁月的厚重感。"
     },
@@ -1428,6 +1464,8 @@ nodes: [
 {
     id: "mountain_138_2_2_1",
     elements: {
+        background:"sc3.1/3-1-9.jpg",
+        bgm: "bgm14.MP3",
         name: "旁白",
         text: "细看才发觉门上雕刻着山林中各类鬼怪，张牙舞爪，仿佛要从门中挣脱而出。",
     sprite: {
@@ -1439,7 +1477,7 @@ nodes: [
     id: "mountain_139_2_2",
     elements: {
         name: "光泠",
-        text: "啊，我们所寻之物，也应当在这门后了。（笑）",
+        text: "啊，我们所寻之物，也应当在这门后了。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -1459,6 +1497,7 @@ nodes: [
 {
     id: "mountain_140_2_2_1",
     elements: {
+        background:"sc3.1/3-1-9.jpg",
         name: "你",
         text: "我觉得还是太危险了。",
          sprite: {
@@ -1484,7 +1523,7 @@ nodes: [
     id: "mountain_143_2_2_1",
     elements: {
         name: "光泠",
-        text: "“我将永远地肯定下去，直至时间的尽头。”（微笑）",
+        text: "“我将永远地肯定下去，直至时间的尽头。”",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -1494,7 +1533,7 @@ nodes: [
     id: "mountain_144_2_2_1",
     elements: {
         name: "光泠",
-        text: "这可是你说的话。（微笑）",
+        text: "这可是你说的话。",
     },
 },
 {
@@ -1532,7 +1571,7 @@ nodes: [
     id: "mountain_149_2_2_1",
     elements: {
         name: "光泠",
-        text: "......（无表情）",
+        text: "......",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1542,7 +1581,7 @@ nodes: [
     id: "mountain_150_2_2_1",
     elements: {
         name: "光泠",
-        text: "若你执意离去，我也无法阻止。（叹气）",
+        text: "若你执意离去，我也无法阻止。",
         sprite: {
             left: "guangling/tanqi.png",
         }
@@ -1552,14 +1591,15 @@ nodes: [
     id: "mountain_151_2_2_1",
     elements: {
         name: "光泠",
-        text: "就让我看看，你所做出的选择，会导向何种结局吧。（叹气）",
+        text: "就让我看看，你所做出的选择，会导向何种结局吧。",
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //分支2-2-2-2//
 {
     id: "mountain_140_2_2_2",
     elements: {
+        background:"sc3.1/3-1-2.jpg",
         name: "旁白",
         text: "将暗寂化为黑色巨炮，在光芒中轰飞了青铜门上的锁链。",
         sprite: {
@@ -1591,6 +1631,8 @@ nodes: [
 {
     id: "mountain_144_2_2_2",
     elements: {
+        background:"sc3.1/3-1-10.jpg",
+        bgm: "bgm15.MP3",
         name: "旁白",
         text: "进入门后，发现内部别有洞天。门后的世界比想象中的要宽广，也不像原本预想的那样黑暗。"
     },
@@ -1627,7 +1669,7 @@ nodes: [
     id: "mountain_149_2_2_2",
     elements: {
         name: "光泠",
-        text: "听上去不是什么好事啊。（微笑）",
+        text: "听上去不是什么好事啊。",
         sprite: {
             left: "guangling/smile.png",
         }
@@ -1664,7 +1706,7 @@ nodes: [
     id: "mountain_152_2_2_2",
     elements: {
         name: "光泠",
-        text: "仍需小心。（无表情）",
+        text: "仍需小心。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1673,6 +1715,7 @@ nodes: [
 {
     id: "mountain_153_2_2_2",
     elements: {
+        
         name: "你",
         text: "继续前进吧。深入一路，也灭杀了一路的恶鬼。",
     sprite: {
@@ -1683,6 +1726,8 @@ nodes: [
 {
     id: "mountain_153_2_2_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
+        bgm: "bgm16.MP3",
         name: "旁白",
         text: "不知走了多久，终于发现了一个隐秘的洞窟。",
     sprite: {
@@ -1701,7 +1746,7 @@ nodes: [
     id: "mountain_155_2_2_2",
     elements: {
         name: "光泠",
-        text: "嗯。不过恐怕我们不能轻松地得到它了。（无表情）",
+        text: "嗯。不过恐怕我们不能轻松地得到它了。",
         sprite: {
             left: "guangling/wubiaoqing.png",
         }
@@ -1748,6 +1793,7 @@ nodes: [
 {
     id: "mountain_159_2_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "四周的岩壁上，开始浮现出淡淡的、磷火般的幽绿光芒。"
     },
@@ -1812,7 +1858,9 @@ nodes: [
 {
     id: "mountain_165",
     elements: {
+        
         name: "你",
+        bgm: "bgm10.MP3",
         text: "恶魂(ghost)",
         sprite: {
             left: null,
@@ -1934,6 +1982,7 @@ nodes: [
 {
     id: "mountain_177_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "我感到前所未有的恐惧，却没有发现一团黑雾在周围浮现。",
         sprite: {
@@ -2042,6 +2091,8 @@ nodes: [
 {
     id: "mountain_188_1",
     elements: {
+        background:"sc3.1/3-1-8.jpg",
+        bgm: "bgm2.mp3",
         name: "旁白",
         text: "走出青铜门，回望门内，仍感到心有余悸。呼。",
         sprite: {
@@ -2109,6 +2160,7 @@ nodes: [
 {
     id: "mountain_193_1",
     elements: {
+        background:"sc3.1/3-1-2.jpg",
         name: "旁白",
         text: "‘在美好时光遭到命运欺骗的那些善良人已从我眼前凋零。’",
     },
@@ -2222,12 +2274,14 @@ nodes: [
             left: "guangling/tanqi.png"
         }
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //节点3-2//
 {
     id: "mountain_177_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
+        bgm: "bgm14.MP3",
         name: "光泠",
         text: "看来你并没有被吓退。",
         sprite: {
@@ -2424,7 +2478,8 @@ nodes: [
     id: "mountain_196_2",
     elements: {
         name: "你",
-        text: "来吧，你这家伙。"
+        text: "来吧，你这家伙。",
+        background:"sc3.1/3-1-13.jpg",
     },
     choices: [
         {
@@ -2445,8 +2500,10 @@ nodes: [
 {
     id: "mountain_197_2_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "战斗并不像想象中的那样顺利。",
+        bgm: "bgm2.mp3",
         sprite: {
             left: null,
         }
@@ -2518,9 +2575,14 @@ nodes: [
 {
     id: "mountain_206_2_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "等待着你的，是无穷无尽的黑暗。"
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("death_ending");
+            },
     choices: [
         {
             text: "YOU ARE DEAD.",
@@ -2532,6 +2594,8 @@ nodes: [
 {
     id: "mountain_197_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
+        bgm:"bgm16.MP3",
         name: "旁白",
         text: "战斗并不像想象中的那样顺利。",
         sprite: {
@@ -2654,6 +2718,7 @@ nodes: [
 {
     id: "mountain_210_2_2",
     elements: {
+       background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "结束了。头脑一沉，你便失去了意识。"
     },
@@ -2668,6 +2733,7 @@ nodes: [
 {
     id: "mountain_212_2_2",
     elements: {
+        background:"sc3.1/3-1-12.jpg",
         name: "旁白",
         text: "几个拾荒者在浅滩上发现了你，被救起之后，也就顺理成章地在这里定居下来。"
     },
@@ -2914,7 +2980,7 @@ nodes: [
     id: "mountain_246_2_2",
     elements: {
         name: "少女",
-        text: "啊，这个嘛……（笑）",
+        text: "啊，这个嘛……",
     },
 },
 {
@@ -2927,8 +2993,9 @@ nodes: [
 {
     id: "mountain_248_2_2",
     elements: {
+        background:"sc3.1/3-1-12.jpg",
         name: "少女",
-        text: "对了，在这里的日子，过得还开心吗？（微笑）",
+        text: "对了，在这里的日子，过得还开心吗？",
     },
     choices: [
         {
@@ -2945,7 +3012,7 @@ nodes: [
     id: "mountain_249_2_2_1",
     elements: {
         name: "少女",
-        text: "是吗？（微笑）",
+        text: "是吗？",
     },
     next:"mountain_250_2_2",
 },
@@ -2953,7 +3020,7 @@ nodes: [
     id: "mountain_249_2_2_2",
     elements: {
         name: "少女",
-        text: "是吗？太好了。（笑）",
+        text: "是吗？太好了。",
     },
 },
 {
@@ -2988,14 +3055,14 @@ nodes: [
     id: "mountain_253_2_2",
     elements: {
         name: "少女",
-        text: "那么，我是时候该离开了。（微笑）",
+        text: "那么，我是时候该离开了。",
     },
 },
 {
     id: "mountain_254_2_2",
     elements: {
         name: "少女",
-        text: "有缘再见。（笑）",
+        text: "有缘再见。",
     },
 },
 {
@@ -3046,6 +3113,10 @@ nodes: [
         name: "旁白",
         text: "算了，是错觉吧。",
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_1");
+            },
     choices: [
         {
             text: "在重获新生的世界，少女向你献上告别。",//恭喜达成结局一！！！！
@@ -3057,6 +3128,8 @@ nodes: [
 {
     id: "mountain_197_2_3",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
+        bgm:"bgm10.MP3",
         name: "恶魂",
         text: "啊啊啊啊啊啊——",
         sprite: {
@@ -3199,6 +3272,7 @@ nodes: [
 {
     id: "mountain_217_2_3",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "而另一个恶魂，却径直冲向了光泠所在的方向！",
     },
@@ -3217,6 +3291,7 @@ nodes: [
 {
     id: "mountain_218_2_3_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "你",
         text: "可恶啊！",
     },
@@ -3284,7 +3359,7 @@ nodes: [
     id: "mountain_226_2_3_1",
     elements: {
         name: "光泠",
-        text: "嗯！（笑）",
+        text: "嗯！",
         sprite: {
             left: "guangling/smile1.png",
         }
@@ -3439,6 +3514,10 @@ nodes: [
         name: "旁白",
         text: "将那个东西捡起来，却发现正是自己要寻求的关键之物——代表牺牲与救赎的暗紫色泪滴——",
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("item_tear_of_terminus");
+            },
     choices: [
         {
             text: "终焉之泪（Tear of Terminus）！",
@@ -3509,7 +3588,7 @@ nodes: [
     id: "mountain_251_2_3_1",
     elements: {
         name: "光泠",
-        text: "看来已经结束了。（微笑）",
+        text: "看来已经结束了。",
         sprite: {
             left:"guangling/smile.png",
         }
@@ -3529,7 +3608,7 @@ nodes: [
     id: "mountain_253_2_3_1",
     elements: {
         name: "光泠",
-        text: "你完美地守住了誓言呢。（笑）",
+        text: "你完美地守住了誓言呢。",
         sprite: {
             left:"guangling/smile1.png",
         }
@@ -3539,7 +3618,7 @@ nodes: [
     id: "mountain_254_2_3_1",
     elements: {
         name: "光泠",
-        text: "真厉害呀，就这样粉碎了那样的强敌。（微笑）",
+        text: "真厉害呀，就这样粉碎了那样的强敌。",
         sprite: {
             left:"guangling/smile.png",
         }
@@ -3569,7 +3648,7 @@ nodes: [
     id: "mountain_257_2_3_1",
     elements: {
         name: "光泠",
-        text: "与你同行，光泠在所不辞。（笑）",
+        text: "与你同行，光泠在所不辞。",
         sprite: {
             left:"guangling/smile1.png",
         }
@@ -3579,14 +3658,16 @@ nodes: [
     id: "mountain_258_2_3_1",
     elements: {
         name: "光泠",
-        text: "无论是无路可通的大海，还是梦想不及的海滨，我都愿与你一同。（笑）",
+        text: "无论是无路可通的大海，还是梦想不及的海滨，我都愿与你一同。",
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //分支3-2-3-2//
 {
     id: "mountain_218_2_3_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
+        bgm:"bgm10.MP3",
         name: "你",
         text: "不管了，先把关键之物拿到手再说！",
         sprite: {
@@ -3776,6 +3857,7 @@ nodes: [
 {
     id: "mountain_238_2_3_2_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "拿起匕首的一瞬，脑海中就出现了它的名字。",
     },
@@ -3829,6 +3911,7 @@ nodes: [
 {
     id: "mountain_238_2_3_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "将暗寂化为硕大的黑色拳头，狠狠地从半空中砸下。",
     },
@@ -3883,7 +3966,7 @@ nodes: [
     id: "mountain_244_2_3_2",
     elements: {
         name: "光泠",
-        text: "你......（无表情）",
+        text: "你......",
         sprite: {
             left:"guangling/wubiaoqing.png",
         }
@@ -3913,7 +3996,7 @@ nodes: [
     id: "mountain_247_2_3_2",
     elements: {
         name: "光泠",
-        text: "......（闭目）",
+        text: "......",
         sprite: {
             left:"guangling/tanqi.png",
         }
@@ -3923,7 +4006,7 @@ nodes: [
     id: "mountain_248_2_3_2",
     elements: {
         name: "光泠",
-        text: "不算太差。（无表情）",
+        text: "不算太差。",
         sprite: {
             left:"guangling/wubiaoqing.png",
         }
@@ -3933,14 +4016,14 @@ nodes: [
     id: "mountain_249_2_3_2",
     elements: {
         name: "光泠",
-        text: "勉强解决掉了那个恶魂分身。（无表情）",
+        text: "勉强解决掉了那个恶魂分身。",
     },
 },
 {
     id: "mountain_250_2_3_2",
     elements: {
         name: "光泠",
-        text: "不过确实是一番苦斗。（闭目）",
+        text: "不过确实是一番苦斗。",
         sprite: {
             left:"guangling/tanqi.png",
         }
@@ -3970,7 +4053,7 @@ nodes: [
     id: "mountain_253_2_3_2",
     elements: {
         name: "光泠",
-        text: "没关系。（无表情）",
+        text: "没关系。",
         sprite: {
             left:"guangling/wubiaoqing.png",
         }
@@ -3980,7 +4063,7 @@ nodes: [
     id: "mountain_254_2_3_2",
     elements: {
         name: "光泠",
-        text: "也许还会有别的出路。（闭目）",
+        text: "也许还会有别的出路。",
         sprite: {
             left:"guangling/tanqi.png",
         }
@@ -4000,7 +4083,7 @@ nodes: [
     id: "mountain_256_2_3_2",
     elements: {
         name: "光泠",
-        text: "......（闭目）",
+        text: "......",
         sprite: {
             left:"guangling/tanqi.png",
         }
@@ -4010,7 +4093,7 @@ nodes: [
     id: "mountain_257_2_3_2",
     elements: {
         name: "光泠",
-        text: "让我为你恢复身体。（叹气）",
+        text: "让我为你恢复身体。",
     },
 },
 {
@@ -4027,7 +4110,7 @@ nodes: [
     id: "mountain_259_2_3_2",
     elements: {
         name: "光泠",
-        text: "应该的。（叹气）",
+        text: "应该的。",
         sprite: {
             left:"guangling/tanqi.png",
         }
@@ -4037,19 +4120,20 @@ nodes: [
     id: "mountain_260_2_3_2",
     elements: {
         name: "光泠",
-        text: "慢一点也可以，请更多考虑自己。（叹气）",
+        text: "慢一点也可以，请更多考虑自己。",
     },
 },
 {
     id: "mountain_261_2_3_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "轻轻靠在光泠身上，心里却一阵翻江倒海，久久不能平息。",
          sprite: {
             left:null,
         }
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 }
 ]
 }
