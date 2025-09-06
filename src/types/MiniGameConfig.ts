@@ -43,4 +43,7 @@ export interface CardGameConfig {
     
     // 添加背景音乐配置
     bgm?: string;                       // 卡牌游戏背景音乐
+    
+    // 添加背景图片配置
+    backgroundImage?: string;           // 卡牌游戏背景图片路径
 }

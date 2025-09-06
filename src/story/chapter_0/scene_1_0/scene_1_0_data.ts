@@ -2,6 +2,7 @@ import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
+import { AchievementManager } from '../../../components/AchievementManager';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1_0",
@@ -1593,7 +1594,8 @@ const scene: Scene = {
                             },
                             drawCount: 1,           // 对手每回合抽1张牌
                             initialDrawCount: 3     // 对手开始时抽3张牌
-                        }
+                        },
+                        backgroundImage:"sc1.1/1-1-0.jpg"
                     },
                     end: [
                         {
@@ -1602,7 +1604,7 @@ const scene: Scene = {
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真
-                            next: "test2"
+                            next: "branch_1_20"
                         }
                     ]
                 }
@@ -1623,11 +1625,19 @@ const scene: Scene = {
                 },
                 {
                     text: "否",
-                    next: "test1"
+                    next: "test2"
                 }
             ]
         
-            },          
+            }, 
+             {
+                id: "test2",
+                elements: {
+                    name: "旁白",
+                    text: "恭喜过关"
+                },
+                next: "test1_1",
+            },         
             {
                 id: "test_game2",
                 elements: {
@@ -1636,7 +1646,9 @@ const scene: Scene = {
                     sprite: {
             left:null
         },
+        
                 },
+                
                 game: {
                     id: "card_game",
                     config: {
@@ -1723,7 +1735,8 @@ const scene: Scene = {
                             drawCount: 3,               // 对手每回合抽3张牌
                             initialDrawCount: 6         // 对手开始时抽6张牌
                         },
-                        bgm: "bgm11"
+                        bgm: "bgm11",
+                        backgroundImage:"sc1.1/1-1-0.jpg"
                     },
                     end: [
                         {
@@ -1732,7 +1745,7 @@ const scene: Scene = {
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真
-                            next: "test2"
+                            next: "branch_1_20"
                         }
                     ]
                 }
@@ -1741,8 +1754,12 @@ const scene: Scene = {
                 id: "test1",
                 elements: {
                     name: "旁白",
-                    text: "拿到了一分！"
+                    text: "恭喜全部通过巨石的考验"
                 },
+                action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("complete_stone_trials");
+            },
                 next:"test1_1",
             },
             {
@@ -1752,14 +1769,6 @@ const scene: Scene = {
                     text: "在毫无意义的世界上，人被迫选择并承担自己的存在，从而成为真正的自己。"
                 },
                 next:"chapter_0_scene_2_0",
-            },
-            {
-                id: "test2",
-                elements: {
-                    name: "旁白",
-                    text: "未拿到分"
-                },
-                next: "branch_1_20",
             },
             {
                 id: "branch_1_20",

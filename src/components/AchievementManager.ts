@@ -191,7 +191,7 @@ export class AchievementManager {
         this.showAchievementUnlockPopup(info);
     }
 
-    /**
+      /**
      * 显示成就解锁弹窗
      * @param info 成就的中英文名称和描述
      */
@@ -214,30 +214,42 @@ export class AchievementManager {
         style.textContent = `
             .achievement-unlock-popup {
                 position: fixed;
-                top: 50%;
+                top: 50px;
                 left: 50%;
-                transform: translate(-50%, -50%);
+                transform: translateX(-50%);
                 z-index: 2000;
                 text-align: center;
+                background: rgba(0, 0, 0, 0.9);
+                border: 2px solid #FFD700;
+                border-radius: 10px;
+                padding: 15px 20px;
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+                min-width: 300px;
+                max-width: 500px;
+            }
+            
+            .achievement-unlock-popup h2.menutitle {
+                font-size: 18px;
+                margin: 0 0 10px 0;
             }
             
             .achievement-unlock-popup h3 {
-                font-size: 24px;
+                font-size: 16px;
                 color: #FFD700;
-                margin: 10px 0;
+                margin: 8px 0;
             }
             
             .achievement-unlock-popup .achievement-en-name {
-                font-size: 18px;
+                font-size: 14px;
                 color: #FFF;
                 margin: 5px 0;
                 font-style: italic;
             }
             
             .achievement-unlock-popup .achievement-description {
-                font-size: 16px;
+                font-size: 12px;
                 color: #CCC;
-                margin: 10px 0;
+                margin: 8px 0;
                 font-style: italic;
             }
             
@@ -245,10 +257,10 @@ export class AchievementManager {
                 background: rgba(255, 215, 0, 0.2);
                 color: #FFD700;
                 border: 1px solid #FFD700;
-                padding: 8px 20px;
-                border-radius: 20px;
+                padding: 6px 15px;
+                border-radius: 15px;
                 cursor: pointer;
-                font-size: 16px;
+                font-size: 12px;
                 transition: all 0.3s ease;
             }
             
@@ -271,12 +283,12 @@ export class AchievementManager {
             });
         }
         
-        // 5秒后自动关闭
+        // 3秒后自动关闭
         setTimeout(() => {
             if (document.body.contains(popup)) {
                 document.body.removeChild(popup);
                 document.head.removeChild(style);
             }
-        }, 5000);
+        }, 3000);
     }
 }
