@@ -1,6 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { AchievementManager } from '../../../components/AchievementManager';
 // 定义第2章第1幕
 const scene: Scene = {
 id: "chapter_0_scene_2_1",
@@ -220,6 +221,10 @@ sprite: {
       name: "旁白",
         text: "光芒闪过，在回过神时，已经来到了城市内，不过是在城市的边界处。"
     },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("enter_gear");
+            },
 },
 {
     id: "darkblade_23",

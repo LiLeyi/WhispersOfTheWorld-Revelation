@@ -15,10 +15,6 @@ const scene: Scene = {
                 text: "？？？：准备好踏上旅程了吗？与那个女孩一起。",
                 bgm: "bgm2.mp3"
             },
-            // action: () => {
-            //     let am = AchievementManager.getInstance();
-            //     am.clearAll()
-            // }
         },
         {
             id: "node2",
