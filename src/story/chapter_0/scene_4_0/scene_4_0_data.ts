@@ -11,6 +11,7 @@ nodes:[
     id: "spirit_camel_1",  
     elements: {  
         background:"sc4.1/1-1-3.jpg",
+        bgm:"bgm16.MP3",
         name: "旁白",  
       text: "人类之所以伟大，正在于他是一座桥梁而非目的：",
         sprite: {
@@ -587,7 +588,7 @@ sprite:{
     id: "battle_shadow_24",  
     elements: {  
         name: "光泠",  
-        text: "他是......你的影子。（闭目）"  ,
+        text: "他是......你的影子。"  ,
         sprite:{
     left:"guangling/down.png",
 }
@@ -597,7 +598,7 @@ sprite:{
     id: "battle_shadow_25",  
     elements: {  
         name: "光泠",  
-        text: "你可以把他看作是另一个自己，或者说，是走上另一条道路的自己。（悲伤）"  
+        text: "你可以把他看作是另一个自己，或者说，是走上另一条道路的自己。"  
     }  
 },  
 {  
@@ -614,7 +615,7 @@ sprite:{
     id: "battle_shadow_27",  
     elements: {  
         name: "光泠",  
-        text: "惟有叩问自己的内心，才能寻找到答案。（无表情）" ,
+        text: "惟有叩问自己的内心，才能寻找到答案。" ,
          sprite:{
     left:"guangling/wubiaoqing.png",
 }  
@@ -691,6 +692,7 @@ sprite:{
     id: "battle_shadow_33",  
     elements: {  
         name: "旁白",  
+        bgm:"bgm20.MP3",
         text: "少女的使命是为何呢？世界的真相又为何呢？" ,
         sprite:{
     left:"guangling/wubiaoqing.png",
@@ -934,6 +936,7 @@ sprite:{
     id: "battle_shadow_57",  
     elements: {  
         background:"sc0.1/0-1-1.jpg",
+        bgm:"bgm2.mp3",
         name: "？？？",  
         text: "您醒了。"  
     }  
@@ -967,6 +970,10 @@ sprite:{
             left:"guangling/smile.png",
         }  
     }  ,
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_2");
+            },
     choices: [
         {
             text: "达成结局二！！！",
