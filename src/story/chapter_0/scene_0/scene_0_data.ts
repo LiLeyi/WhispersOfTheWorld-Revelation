@@ -28,7 +28,7 @@ const scene: Scene = {
             }
         },
 
-        // 成就测试
+        // // 成就测试
         // {
         //     id: 'achtest1',
         //     elements: {

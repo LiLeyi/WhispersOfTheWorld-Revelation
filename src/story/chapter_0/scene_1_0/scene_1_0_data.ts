@@ -1541,10 +1541,21 @@ const scene: Scene = {
             sprite: {
             left:"guangling/smile1.png"
         }
-        }
+        },
+        choices: [
+                {
+                    text: "简单",
+                    next: "test_game1"
+                },
+                {
+                    text: "困难",
+                    next: "test_game2"
+                }
+            ]
+        
     },
     {
-                id: "test_game",
+                id: "test_game1",
                 elements: {
                     name: "旁白",
                     text: "小游戏测试",
@@ -1569,26 +1580,148 @@ const scene: Scene = {
                             maxHp: 30,
                             deck: {
                                 // 攻击卡牌
-                                'punch': 2,      // 拳击 x2
-                                'kick': 3,       // 踜击 x3
-                                'combo': 2,      // 连击 x2
-                                'hook_1': 1,     // 勾拳II x1
-                                'haymaker': 1,   // 重拳 x1
+                                'punch': 2,          // 拳击 x2
+                                'kick_1': 2,         // 踢击I x2
+                                'straight_punch_2': 1, // 直拳II x1
     
                                 // 防御卡牌
-                                'block': 2,      // 格挡 x2
-                                'dodge': 1,      // 闪避 x1
-                                'taunt': 1,      // 嘲讽 x1
+                                'block_1': 2,        // 格挡I x2
+                                'dodge': 1,          // 闪避 x1
     
                                 // 特殊卡牌
-                                'rest': 1,       // 休息 x1
-                                'berserk': 1,    // 狂暴 x1
-                                'stun': 1,       // 眩晕 x1
-                                'sacrifice': 1,  // 牺牲 x1
-                                'second_wind': 1 // 回光返照 x1
+                                'rest': 1,           // 休息 x1
                             },
                             drawCount: 1,           // 对手每回合抽1张牌
                             initialDrawCount: 3     // 对手开始时抽3张牌
+                        }
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "ask1"
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "test2"
+                        }
+                    ]
+                }
+            },
+            {
+        id: "ask1",
+        elements: {
+            name: "旁白",
+            text: "恭喜通关，是否继续挑战困难模式？",
+            sprite: {
+            left:null
+        }
+        },
+        choices: [
+                {
+                    text: "是",
+                    next: "test_game2"
+                },
+                {
+                    text: "否",
+                    next: "test1"
+                }
+            ]
+        
+            },          
+            {
+                id: "test_game2",
+                elements: {
+                    name: "旁白",
+                    text: "小游戏测试",
+                    sprite: {
+            left:null
+        }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 6,
+                            hp: 40,
+                            maxHp: 40,
+                            deck: {
+                                // 基础攻击卡牌
+                                'straight_punch_1': 2,  // 直拳I x2
+                                'straight_punch_2': 2,  // 直拳II x2
+                                'straight_punch_3': 1,  // 直拳III x1
+                                
+                                // 高级攻击卡牌
+                                'uppercut_1': 1,        // 上勾拳I x1
+                                'uppercut_2': 1,        // 上勾拳II x1
+                                'hook_1': 1,            // 勾拳I x1
+                                'hook_2': 1,            // 勾拳II x1
+                                'kick_1': 2,            // 踢击I x2
+                                'kick_2': 1,            // 踢击II x1
+                                'kick_3': 1,            // 踢击III x1
+                                'punch': 2,             // 拳击 x2
+                                'combo': 1,             // 连击 x1
+                                'haymaker': 1,          // 重拳 x1
+                                'push_kick': 1,         // 推踢 x1
+                                
+                                // 防御卡牌
+                                'block_1': 2,           // 格挡I x2
+                                'block_2': 1,           // 格挡II x1
+                                'block_3': 1,           // 格挡III x1
+                                'dodge': 1,             // 闪避 x1
+                                'stance': 1,            // 架势 x1
+                                
+                                // 特殊卡牌
+                                'excite_1': 2,          // 兴奋I x2
+                                'rest': 1,              // 休息 x1
+                                'strategy_1': 1,        // 计谋I x1
+                                'adrenaline': 1,        // 肾上腺素 x1
+                                'swift': 1,             // 疾行 x1
+                                'power_up': 1,          // 蓄力 x1
+                                'second_wind': 1,       // 回光返照 x1
+                                'berserk': 1,           // 狂暴 x1
+                            },
+                            drawCount: 3,               // 玩家每回合抽3张牌
+                            initialDrawCount: 6         // 玩家开始时抽6张牌
+                        },
+                        opponent: {
+                            actionPoints: 4,
+                            hp: 70,
+                            maxHp: 70,
+                            deck: {
+                                // 攻击卡牌
+                                'straight_punch_1': 2,  // 直拳I x2
+                                'straight_punch_2': 2,  // 直拳II x2
+                                'straight_punch_3': 1,  // 直拳III x1
+                                'uppercut_1': 1,        // 上勾拳I x1
+                                'uppercut_2': 1,        // 上勾拳II x1
+                                'hook_1': 1,            // 勾拳I x1
+                                'hook_2': 1,            // 勾拳II x1
+                                'kick_1': 2,            // 踢击I x2
+                                'kick_2': 1,            // 踢击II x1
+                                'kick_3': 1,            // 踢击III x1
+                                'punch': 2,             // 拳击 x2
+                                'combo': 1,             // 连击 x1
+                                'haymaker': 1,          // 重拳 x1
+                                'push_kick': 1,         // 推踢 x1
+    
+                                // 防御卡牌
+                                'block_1': 2,           // 格挡I x2
+                                'block_2': 1,           // 格挡II x1
+                                'block_3': 1,           // 格挡III x1
+                                'dodge': 1,             // 闪避 x1
+                                'stance': 1,            // 架势 x1
+    
+                                // 特殊卡牌
+                                'rest': 1,              // 休息 x1
+                                'strategy_1': 1,        // 计谋I x1
+                                'adrenaline': 1,        // 肾上腺素 x1
+                                'swift': 1,             // 疾行 x1
+                                'power_up': 1,          // 蓄力 x1
+                                'second_wind': 1,       // 回光返照 x1
+                                'berserk': 1,           // 狂暴 x1
+                            },
+                            drawCount: 3,               // 对手每回合抽3张牌
+                            initialDrawCount: 6         // 对手开始时抽6张牌
                         }
                     },
                     end: [
