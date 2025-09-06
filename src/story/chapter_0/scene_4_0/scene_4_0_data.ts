@@ -620,7 +620,7 @@ sprite:{
         },
         {
             text: "我会努力去追寻这一切的真相。",
-            next: "battle_shadow_28_2"
+            next: "chapter_0_scene_0"
         },
     ]  
 }, 
