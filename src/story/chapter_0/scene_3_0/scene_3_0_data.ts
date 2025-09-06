@@ -638,6 +638,7 @@ nodes: [
 {
     id: "mountain_66",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "告诉我，攀登者。你要继续背负痛苦，如同驮兽般走向虚无？"
     },
@@ -771,6 +772,7 @@ nodes: [
 {
     id: "mountain_84",
     elements: {
+        background:"sc3.1/3-1-6.jpg",
         name: "梅菲斯特",
         text: "是黑暗的部分，它生出了光。"
     },
@@ -844,6 +846,7 @@ nodes: [
 {
     id: "mountain_92",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "梅菲斯特",
         text: "与我同行，你并非坠入黑暗，你只是......睁开了眼睛。"
     },
@@ -862,6 +865,7 @@ nodes: [
 {
     id: "mountain_93_1",
     elements: {
+       background:"sc3.1/3-1-7.jpg",
         name: "旁白",
         text: "脑海里回荡着梅菲斯特的话语。",
         sprite: {
@@ -893,6 +897,7 @@ nodes: [
 {
     id: "mountain_97_1",
     elements: {
+       background:"sc3.1/3-1-11.jpg",
         name: "你",
         text: "也许.....你是对的。"
     },
@@ -955,6 +960,7 @@ nodes: [
 {
     id: "mountain_103_1",
     elements: {
+       
         name: "旁白",
         text: "梅菲斯特的话语冲撞着大脑，突然头痛欲裂，跪倒在地。"
     },
@@ -969,6 +975,7 @@ nodes: [
 {
     id: "mountain_105_1",
     elements: {
+        background:"sc3.1/3-1-5.jpg",
         name: "你",
         text: "就此安眠......无梦地安眠......"
     },
@@ -1018,6 +1025,7 @@ nodes: [
 {
     id: "mountain_93_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "旁白",
         text: "心怀决意，向梅菲斯特作出回应。",
         sprite: {
@@ -1203,6 +1211,7 @@ nodes: [
 {
     id: "mountain_113_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "就让我亲手撕碎你那可笑的意志！"
     },
@@ -1221,6 +1230,7 @@ nodes: [
 {
     id: "mountain_114_2_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "被巨大的冲击力震飞，重重地甩在地上，眼前只剩下一片虚无。"
     },
@@ -1256,6 +1266,7 @@ nodes: [
 {
     id: "mountain_114_2_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "旁白",
         text: "融合光泠的力量的暗寂刺穿了梅菲斯特的咽喉。",
         sprite: {
@@ -1273,6 +1284,7 @@ nodes: [
 {
     id: "mountain_116_2_2",
     elements: {
+        background:"sc3.1/3-1-6.jpg",
         name: "旁白",
         text: "瞬息之间，将梅菲斯特的身躯四分五裂，化为飘散的黑烟。"
     },
@@ -1294,6 +1306,7 @@ nodes: [
 {
     id: "mountain_119_2_2",
     elements: {
+        background:"sc3.1/3-1-7.jpg",
         name: "梅菲斯特",
         text: "我是杀不死的，我是永恒的。"
     },
@@ -1385,6 +1398,7 @@ nodes: [
 {
     id: "mountain_132_2_2",
     elements: {
+        background:"sc3.1/3-1-4.jpg",
         name: "你",
         text: "......"
     },
@@ -1406,6 +1420,7 @@ nodes: [
 {
     id: "mountain_135_2_2",
     elements: {
+        
         name: "旁白",
         text: "越过流水与悬崖，行至山林深处，眼前出现了一座高大而神秘的青铜门。"
     },
@@ -1413,6 +1428,7 @@ nodes: [
 {
     id: "mountain_136_2_2",
     elements: {
+        background:"sc3.1/3-1-8.jpg",
         name: "旁白",
         text: "锈迹斑斑的青铜门好似历经了千百年的风吹雨打，散发着岁月的厚重感。"
     },
@@ -1434,6 +1450,7 @@ nodes: [
 {
     id: "mountain_138_2_2_1",
     elements: {
+        background:"sc3.1/3-1-9.jpg",
         name: "旁白",
         text: "细看才发觉门上雕刻着山林中各类鬼怪，张牙舞爪，仿佛要从门中挣脱而出。",
     sprite: {
@@ -1465,6 +1482,7 @@ nodes: [
 {
     id: "mountain_140_2_2_1",
     elements: {
+        background:"sc3.1/3-1-9.jpg",
         name: "你",
         text: "我觉得还是太危险了。",
          sprite: {
@@ -1566,6 +1584,7 @@ nodes: [
 {
     id: "mountain_140_2_2_2",
     elements: {
+        background:"sc3.1/3-1-2.jpg",
         name: "旁白",
         text: "将暗寂化为黑色巨炮，在光芒中轰飞了青铜门上的锁链。",
         sprite: {
@@ -1597,6 +1616,7 @@ nodes: [
 {
     id: "mountain_144_2_2_2",
     elements: {
+        background:"sc3.1/3-1-10.jpg",
         name: "旁白",
         text: "进入门后，发现内部别有洞天。门后的世界比想象中的要宽广，也不像原本预想的那样黑暗。"
     },
@@ -1679,6 +1699,7 @@ nodes: [
 {
     id: "mountain_153_2_2_2",
     elements: {
+        
         name: "你",
         text: "继续前进吧。深入一路，也灭杀了一路的恶鬼。",
     sprite: {
@@ -1689,6 +1710,7 @@ nodes: [
 {
     id: "mountain_153_2_2_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "旁白",
         text: "不知走了多久，终于发现了一个隐秘的洞窟。",
     sprite: {
@@ -1754,6 +1776,7 @@ nodes: [
 {
     id: "mountain_159_2_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "四周的岩壁上，开始浮现出淡淡的、磷火般的幽绿光芒。"
     },
@@ -1818,6 +1841,7 @@ nodes: [
 {
     id: "mountain_165",
     elements: {
+        
         name: "你",
         text: "恶魂(ghost)",
         sprite: {
@@ -1940,6 +1964,7 @@ nodes: [
 {
     id: "mountain_177_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "我感到前所未有的恐惧，却没有发现一团黑雾在周围浮现。",
         sprite: {
@@ -2048,6 +2073,7 @@ nodes: [
 {
     id: "mountain_188_1",
     elements: {
+        background:"sc3.1/3-1-8.jpg",
         name: "旁白",
         text: "走出青铜门，回望门内，仍感到心有余悸。呼。",
         sprite: {
@@ -2115,6 +2141,7 @@ nodes: [
 {
     id: "mountain_193_1",
     elements: {
+        background:"sc3.1/3-1-2.jpg",
         name: "旁白",
         text: "‘在美好时光遭到命运欺骗的那些善良人已从我眼前凋零。’",
     },
@@ -2234,6 +2261,7 @@ nodes: [
 {
     id: "mountain_177_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "光泠",
         text: "看来你并没有被吓退。",
         sprite: {
@@ -2451,6 +2479,7 @@ nodes: [
 {
     id: "mountain_197_2_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "战斗并不像想象中的那样顺利。",
         sprite: {
@@ -2524,6 +2553,7 @@ nodes: [
 {
     id: "mountain_206_2_1",
     elements: {
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "等待着你的，是无穷无尽的黑暗。"
     },
@@ -2538,6 +2568,7 @@ nodes: [
 {
     id: "mountain_197_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "战斗并不像想象中的那样顺利。",
         sprite: {
@@ -2660,6 +2691,7 @@ nodes: [
 {
     id: "mountain_210_2_2",
     elements: {
+       background:"sc3.1/3-1-11.jpg",
         name: "旁白",
         text: "结束了。头脑一沉，你便失去了意识。"
     },
@@ -2674,6 +2706,7 @@ nodes: [
 {
     id: "mountain_212_2_2",
     elements: {
+        background:"sc3.1/3-1-12.jpg",
         name: "旁白",
         text: "几个拾荒者在浅滩上发现了你，被救起之后，也就顺理成章地在这里定居下来。"
     },
@@ -3063,6 +3096,7 @@ nodes: [
 {
     id: "mountain_197_2_3",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "恶魂",
         text: "啊啊啊啊啊啊——",
         sprite: {
@@ -3205,6 +3239,7 @@ nodes: [
 {
     id: "mountain_217_2_3",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "而另一个恶魂，却径直冲向了光泠所在的方向！",
     },
@@ -3223,6 +3258,7 @@ nodes: [
 {
     id: "mountain_218_2_3_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "你",
         text: "可恶啊！",
     },
@@ -3593,6 +3629,7 @@ nodes: [
 {
     id: "mountain_218_2_3_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "你",
         text: "不管了，先把关键之物拿到手再说！",
         sprite: {
@@ -3782,6 +3819,7 @@ nodes: [
 {
     id: "mountain_238_2_3_2_1",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "拿起匕首的一瞬，脑海中就出现了它的名字。",
     },
@@ -3835,6 +3873,7 @@ nodes: [
 {
     id: "mountain_238_2_3_2_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "将暗寂化为硕大的黑色拳头，狠狠地从半空中砸下。",
     },
@@ -4049,6 +4088,7 @@ nodes: [
 {
     id: "mountain_261_2_3_2",
     elements: {
+        background:"sc3.1/3-1-13.jpg",
         name: "旁白",
         text: "轻轻靠在光泠身上，心里却一阵翻江倒海，久久不能平息。",
          sprite: {
