@@ -1,7 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
-// 定义第2幕场景
+// 定义第2章第1幕
 const scene: Scene = {
 id: "chapter_0_scene_2_1",
     title: "第2章第1幕:齿轮之城",

@@ -1,7 +1,7 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
-// 定义第2幕场景
+// 定义第3章第1幕场景
 const scene: Scene = {
 id:"chapter_0_scene_3_0",
 title:"第三章第1幕:",
@@ -1554,7 +1554,7 @@ nodes: [
         name: "光泠",
         text: "就让我看看，你所做出的选择，会导向何种结局吧。（叹气）",
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //分支2-2-2-2//
 {
@@ -2222,7 +2222,7 @@ nodes: [
             left: "guangling/tanqi.png"
         }
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //节点3-2//
 {
@@ -3581,7 +3581,7 @@ nodes: [
         name: "光泠",
         text: "无论是无路可通的大海，还是梦想不及的海滨，我都愿与你一同。（笑）",
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 },
 //分支3-2-3-2//
 {
@@ -4049,7 +4049,7 @@ nodes: [
             left:null,
         }
     },
-    next:"进入终章",
+    next:"chapter_0_scene_4_0",
 }
 ]
 }

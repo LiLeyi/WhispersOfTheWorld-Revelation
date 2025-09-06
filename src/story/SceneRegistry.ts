@@ -6,6 +6,7 @@ export const SceneRegistry: Record<string, () => Promise<any>> = {
   'chapter_0_scene_2_0': () => import('./chapter_0/scene_2_0/scene_2_0_data'),
   'chapter_0_scene_2_1': () => import('./chapter_0/scene_2_0/scene_2_1_data'),
     'chapter_0_scene_3_0': () => import('./chapter_0/scene_3_0/scene_3_0_data'),
+    'chapter_0_scene_4_0': () => import('./chapter_0/scene_4_0/scene_4_0_data'),
   // 在此处添加新场景，例如：
   // 'chapter_0_scene_2_0': () => import('./chapter_0/scene_2_0/scene_2_0_data'),
 };
