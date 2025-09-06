@@ -37,6 +37,13 @@ export class PlayerService {
                         updateMessage(` ${opponent.name}因${buff.name}获得${buff.value}点防御`);
                     }
                     break;
+                    
+                // 新增的特殊效果类型不需要在processBuffs中处理
+                // 它们会在造成伤害时即时生效，不需要持续处理
+                case 'defense_on_damage':
+                case 'damage_boost':
+                    // 这些效果在造成伤害时处理，不需要在这里做任何事情
+                    break;
             }
             
             // 更新buff持续时间

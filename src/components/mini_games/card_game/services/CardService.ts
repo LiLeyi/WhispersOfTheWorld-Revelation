@@ -15,12 +15,40 @@ export class CardService {
         let message = `${player.name} 使用 ${card.name}`;
         let effectExecuted = false;
         
-        // 执行所有效果
+        // 处理特殊卡牌效果
+        if (card.id === 'stance') {
+            // 架势卡牌 - 获得本回合造成伤害的点数的防御力
+            // 这个效果将在造成伤害时处理，这里只添加标记
+            player.buffs.push({
+                id: `stance_${Date.now()}`,
+                name: '架势',
+                duration: 1, // 仅在本回合有效
+                effect: 'defense_on_damage',
+                value: 1, // 1:1转换伤害为防御
+                target: 'self'
+            });
+            message += ` 获得架势效果`;
+            effectExecuted = true;
+        } else if (card.id === 'power_up') {
+            // 蓄力卡牌 - 本回合伤害翻倍
+            player.buffs.push({
+                id: `power_up_${Date.now()}`,
+                name: '蓄力',
+                duration: 1, // 仅在本回合有效
+                effect: 'damage_boost',
+                value: 2, // 伤害翻倍
+                target: 'self'
+            });
+            message += ` 获得蓄力效果`;
+            effectExecuted = true;
+        }
+        
+        // 执行所有常规效果
         for (const effect of card.effects) {
             switch (effect.type) {
                 case 'damage':
                     const target = effect.target === 'self' ? player : opponent;
-                    this.applyDamage(target, effect.value || 0);
+                    this.applyDamage(target, effect.value || 0, player, opponent);
                     const targetName = effect.target === 'self' ? player.name : opponent.name;
                     message += ` 对${targetName}造成${effect.value}点伤害`;
                     effectExecuted = true;
@@ -129,21 +157,37 @@ export class CardService {
     }
     
     // 应用伤害（先扣除防御点数，再扣除生命值）
-    static applyDamage(player: Player, damage: number): void {
+    static applyDamage(player: Player, damage: number, sourcePlayer: Player, opponent: Player): void {
+        // 检查是否有伤害加成buff
+        let finalDamage = damage;
+        const damageBoostBuffs = sourcePlayer.buffs.filter(buff => buff.effect === 'damage_boost' && buff.duration > 0);
+        for (const buff of damageBoostBuffs) {
+            finalDamage *= buff.value;
+        }
+        
         // 如果有防御点数，先扣除防御点数
         if (player.defense > 0) {
-            if (player.defense >= damage) {
+            if (player.defense >= finalDamage) {
                 // 防御点数足够抵挡全部伤害
-                player.defense -= damage;
+                player.defense -= finalDamage;
             } else {
                 // 防御点数只能抵挡部分伤害，剩余伤害扣除生命值
-                const remainingDamage = damage - player.defense;
+                const remainingDamage = finalDamage - player.defense;
                 player.defense = 0;
                 player.hp -= remainingDamage;
             }
         } else {
             // 没有防御点数，直接扣除生命值
-            player.hp -= damage;
+            player.hp -= finalDamage;
+        }
+        
+        // 检查是否有架势效果，如果有则增加防御
+        const stanceBuffs = sourcePlayer.buffs.filter(buff => buff.effect === 'defense_on_damage' && buff.duration > 0);
+        if (stanceBuffs.length > 0) {
+            // 增加与造成伤害相等的防御力
+            sourcePlayer.defense += finalDamage;
+            // 移除架势效果，因为已经触发
+            sourcePlayer.buffs = sourcePlayer.buffs.filter(buff => buff.effect !== 'defense_on_damage');
         }
     }
 }
