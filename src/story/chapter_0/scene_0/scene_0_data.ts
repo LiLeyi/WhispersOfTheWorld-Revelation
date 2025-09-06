@@ -16,7 +16,8 @@ const scene: Scene = {
                 bgm: "bgm2.mp3"
             },
             // action: () => {
-            //     alert('Start!')
+            //     let am = AchievementManager.getInstance();
+            //     am.clearAll()
             // }
         },
         {
@@ -25,7 +26,12 @@ const scene: Scene = {
                 // background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
-            }
+            },
+            // action: () => {
+            //     let am = AchievementManager.getInstance();
+            //     am.unlockAchievementWithAnimation("ending_1");
+
+            // }
         },
 
         // 成就测试
