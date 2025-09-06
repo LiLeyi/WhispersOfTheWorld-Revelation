@@ -10,6 +10,7 @@ nodes: [
 {
     id: "mountain_1",
     elements: {
+        background:"sc3.1/3-1-3.jpg",
         name: "旁白",
         text: "有两个灵魂居住在我心胸，一个想从另一个挣脱掉。",
         sprite: {
@@ -372,6 +373,7 @@ nodes: [
 {
     id:"mountain_32",
     elements: {
+        background:"sc3.1/3-1-4.jpg",
         name: "你",
         text: "这个世界总是变化的很快，雅致的，急躁的，激昂的，哀沉的……",
         sprite: {
@@ -452,6 +454,7 @@ nodes: [
 {
     id: "mountain_42",
     elements: {
+        background:"sc3.1/3-1-5.jpg",
         name: "旁白",
         text: "阴影中，隐约看见他身着红黑配色华服。"
     },
@@ -494,6 +497,7 @@ nodes: [
 {
     id: "mountain_47",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "旁白",
         text: "他走出阴影。"
     },
@@ -605,6 +609,7 @@ nodes: [
 {
     id: "mountain_62",
     elements: {
+        background:"sc3.1/3-1-6.jpg",
         name: "？",
         text: "我是梅菲斯特，我是你们的阴影。"
     },
