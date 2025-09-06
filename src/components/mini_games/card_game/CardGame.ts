@@ -354,9 +354,15 @@ class CardGame extends MiniGame {
             this.originalBgm = this.audioManager.getCurrentBgm();
             console.log("保存当前背景音乐:", this.originalBgm);
             
-            // 播放卡牌游戏专用背景音乐 bgm9
-            console.log("播放卡牌游戏背景音乐: bgm9");
-            this.audioManager.updateBackgroundMusic("bgm9");
+                       // 保存当前播放的背景音乐
+            this.originalBgm = this.audioManager.getCurrentBgm();
+            console.log("保存当前背景音乐:", this.originalBgm);
+            
+                       // 播放卡牌游戏专用背景音乐
+            // 如果游戏配置中指定了背景音乐，则使用指定的，否则使用默认的 bgm9
+            const gameBgm = this.gameConfig?.bgm || "bgm9";
+            console.log("播放卡牌游戏背景音乐:", gameBgm);
+            this.audioManager.updateBackgroundMusic(gameBgm);
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }

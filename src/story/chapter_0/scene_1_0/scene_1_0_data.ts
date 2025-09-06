@@ -1635,7 +1635,7 @@ const scene: Scene = {
                     text: "小游戏测试",
                     sprite: {
             left:null
-        }
+        },
                 },
                 game: {
                     id: "card_game",
@@ -1685,8 +1685,8 @@ const scene: Scene = {
                         },
                         opponent: {
                             actionPoints: 4,
-                            hp: 70,
-                            maxHp: 70,
+                            hp: 60,
+                            maxHp: 60,
                             deck: {
                                 // 攻击卡牌
                                 'straight_punch_1': 2,  // 直拳I x2
@@ -1722,7 +1722,8 @@ const scene: Scene = {
                             },
                             drawCount: 3,               // 对手每回合抽3张牌
                             initialDrawCount: 6         // 对手开始时抽6张牌
-                        }
+                        },
+                        bgm: "bgm11"
                     },
                     end: [
                         {
