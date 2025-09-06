@@ -10,8 +10,9 @@ nodes:[
 {  
     id: "spirit_camel_1",  
     elements: {  
+        background:"sc4.1/1-1-3.jpg",
         name: "旁白",  
-        text: "人类之所以伟大，正在于他是一座桥梁而非目的：",
+      text: "人类之所以伟大，正在于他是一座桥梁而非目的：",
         sprite: {
             left:null,
         }
@@ -161,6 +162,7 @@ nodes:[
     id: "spirit_lion_1_1",  
     elements: {  
         name: "旁白",  
+        background:"sc4.1/4-1-2.jpg",
         text: "在这里，满载重物的骆驼变成了狮子，它亟想争取自己，并主宰自己的荒漠。"  
     }  
 },  
@@ -181,7 +183,8 @@ nodes:[
 {  
     id: "spirit_lion_3",  
     elements: {  
-        name: "？",  
+        name: "？",
+        background:"sc4.1/3-1-3.jpg",  
         text: "狮子要与主人及其最后的上帝为敌，它要与巨龙争强斗胜。"  
     }  
 },  
@@ -202,6 +205,7 @@ nodes:[
 {  
     id: "spirit_lion_5",  
     elements: {  
+        background:"sc3.1/3-1-11.jpg",
         name: "旁白",  
         text: "这是反叛的阶段：精神学会拒绝，学会说“不”，学会直面虚无的空洞。"  
     }  
@@ -307,6 +311,7 @@ nodes:[
 {  
     id: "spirit_child_3",  
     elements: {  
+        background:"sc4.1/4-1-5.jpg",
         name: "？",  
         text: "孩童是天真而健忘的，一个新的开始，一个游戏，一个自转的旋轮，一个原始的动作，一个神圣的肯定。"  
     }  
@@ -370,6 +375,7 @@ nodes:[
 {  
     id: "battle_shadow_3",  
     elements: {  
+        background:"sc4.1/4-1-4.jpg",
         name: "旁白",  
         text: "一抹黑影泛着猩红的微光在眼前划过，手中的暗寂化为暗金坚盾，用力将这抹黑影击飞。"  
     }  
@@ -771,6 +777,7 @@ sprite:{
 {  
     id: "battle_shadow_41",  
     elements: {  
+        
         name: "旁白",  
         text: "右手掏出早就准备好的蚀心刃，一把刺向光泠的心脏处，血液沿着刀柄不断滴落。"  
     }  
@@ -799,6 +806,7 @@ sprite:{
 {  
     id: "battle_shadow_44",  
     elements: {  
+        background:"sc4.1/4-1-1.jpg",
         name: "旁白",  
         text: "理智早已被疯狂取代，癫狂的大笑中，拔出蚀心刃，将光泠的身体扔在脚下。"  
     }  
@@ -925,6 +933,7 @@ sprite:{
 {  
     id: "battle_shadow_57",  
     elements: {  
+        background:"sc0.1/0-1-1.jpg",
         name: "？？？",  
         text: "您醒了。"  
     }  
