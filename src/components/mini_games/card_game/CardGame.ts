@@ -13,67 +13,69 @@ import { AudioManager } from "../../../components/AudioManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
-    // 卡牌游戏的HTML模板
+        // 卡牌游戏的HTML模板
     static readonly HTML_TEMPLATE = `
-        <div id="card-game-container" style="width:100%;height:100%;position:relative;background:linear-gradient(135deg, #1a1a1a 0%, #2c1e1e 50%, #1a1a1a 100%);color:#d4af37;font-family:'Courier New', monospace;overflow:hidden;">
+        <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#d4af37;font-family:'Courier New', monospace;overflow:hidden;">
+            <!-- 背景图片层 -->
+            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
+            
             <!-- 末日风格背景纹理 -->
-            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:0;"></div>
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>
             
             <div id="game-ui" style="position:absolute;top:10px;left:10px;z-index:10;display:none;"> <!-- 隐藏得分UI -->
-                <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.7);padding:8px 15px;border-radius:5px;border:1px solid #d4af37;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);">分数: 0</div>
-                <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:30px;border-radius:10px;text-align:center;display:none;z-index:20;border:2px solid #d4af37;box-shadow:0 0 20px rgba(212, 175, 55, 0.5);">
+                <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.7);padding:8px 15px;border-radius:5px;border:1px solid #5f5f5fff;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);">分数: 0</div>
+                <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:30px;border-radius:10px;text-align:center;display:none;z-index:20;border:2px solid #a7a7a7ff;box-shadow:0 0 20px rgba(164, 164, 164, 0.5);">
                     <h2 style="color:#d4af37;margin-top:0;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;">游戏结束</h2>
                     <div id="final-score" style="margin-bottom:20px;font-size:18px;">最终结果</div>
-                    <button id="restart-button" style="padding:12px 25px;font-size:16px;background:linear-gradient(to bottom, #8B0000, #4d0000);color:#d4af37;border:1px solid #d4af37;border-radius:5px;cursor:pointer;margin-top:10px;letter-spacing:1px;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);transition:all 0.3s;">重新开始</button>
+                    <button id="restart-button" style="padding:12px 25px;font-size:16px;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #8B7D6B;border-radius:8px;cursor:pointer;margin-top:10px;letter-spacing:1px;box-shadow:0 0 10px rgba(139, 125, 107, 0.5);transition:all 0.3s;font-family:'Courier New', monospace;">重新开始</button>
                 </div>
             </div>
             
             <!-- 对手信息区域 (右上角) -->
-            <div id="opponent-info-container" style="position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #d4af37;min-width:220px;box-shadow:0 0 15px rgba(212, 175, 55, 0.4);">
+            <div id="opponent-info-container" style="position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #8B7D6B;min-width:220px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);">
                 <div id="opponent-info" style="text-align:center;"></div>
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #d4af37;min-width:220px;box-shadow:0 0 15px rgba(212, 175, 55, 0.4);">
+            <div id="player-info-container" style="position:absolute;bottom:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #8B7D6B;min-width:220px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
             <!-- 调试信息区域 -->
-            <div id="debug-info" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.8);padding:15px;border-radius:5px;z-index:1000;width:300px;border:1px solid #d4af37;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);display:none;">
-                <h3 style="margin-top:0;color:#d4af37;border-bottom:1px solid #d4af37;padding-bottom:5px;">调试信息</h3>
+            <div id="debug-info" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.8);padding:15px;border-radius:5px;z-index:1000;width:300px;border:1px solid #8B7D6B;box-shadow:0 0 10px rgba(139, 125, 107, 0.5);display:none;">
+                <h3 style="margin-top:0;color:#d4af37;border-bottom:1px solid #7d7c7aff;padding-bottom:5px;">调试信息</h3>
                 <div id="debug-content" style="font-size:12px;"></div>
             </div>
             
             <!-- 对手区域 -->
-            <div id="opponent-area" style="height:30%;border-bottom:2px solid rgba(212, 175, 55, 0.5);display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
+            <div id="opponent-area" style="height:30%;border-bottom:2px solid rgba(139, 125, 107, 0.7);display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
                 <div id="opponent-hand" style="display:flex;gap:20px;transition:all 0.3s ease;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
             </div>
             
             <!-- 对手已出牌区域 -->
-            <div id="opponent-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-bottom:1px dashed rgba(212, 175, 55, 0.3);transition: all 0.5s ease;"></div>
+            <div id="opponent-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-bottom:1px dashed rgba(139, 125, 107, 0.5);transition: all 0.5s ease;z-index:1;"></div>
             
             <!-- 战场区域 -->
-            <div id="battlefield" style="height:16%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.4);position:relative;z-index:1;border-top:1px dashed rgba(212, 175, 55, 0.3);border-bottom:1px dashed rgba(212, 175, 55, 0.3);">
-                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(212, 175, 55, 0.05) 4px, rgba(212, 175, 55, 0.05) 8px);"></div>
-                <div id="game-message" style="font-size:22px;text-align:center;margin-bottom:20px;text-shadow:0 0 5px rgba(212, 175, 55, 0.7);max-width:80%;line-height:1.4;"></div>
-                <button id="end-turn-button" style="padding:12px 30px;font-size:18px;background:linear-gradient(to bottom, #8B0000, #4d0000);color:#d4af37;border:1px solid #d4af37;border-radius:5px;cursor:pointer;letter-spacing:1px;box-shadow:0 0 15px rgba(212, 175, 55, 0.4);transition:all 0.3s;text-transform:uppercase;z-index:5;position:relative;">结束回合</button>
+            <div id="battlefield" style="height:16%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.4);position:relative;z-index:1;border-top:1px dashed rgba(168, 164, 159, 0.5);border-bottom:1px dashed rgba(139, 125, 107, 0.5);">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(139, 125, 107, 0.1) 4px, rgba(139, 125, 107, 0.1) 8px);"></div>
+                <div id="game-message" style="font-size:22px;text-align:center;margin-bottom:20px;text-shadow:0 0 5px rgba(134, 134, 134, 0.7);max-width:80%;line-height:1.4;z-index:2;"></div>
+                <button id="end-turn-button" style="padding:12px 30px;font-size:18px;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #bab9b7ff;border-radius:8px;cursor:pointer;letter-spacing:1px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);transition:all 0.3s;text-transform:uppercase;z-index:5;position:relative;font-family:'Courier New', monospace;">结束回合</button>
             </div>
             
             <!-- 玩家已出牌区域 -->
-            <div id="player-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-top:1px dashed rgba(212, 175, 55, 0.3);transition: all 0.5s ease;"></div>
+            <div id="player-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-top:1px dashed rgba(139, 125, 107, 0.5);transition: all 0.5s ease;z-index:1;"></div>
             
             <!-- 玩家区域 -->
-            <div id="player-area" style="height:30%;border-top:2px solid rgba(212, 175, 55, 0.5);display:flex;flex-direction:column-reverse;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
+            <div id="player-area" style="height:30%;border-top:2px solid rgba(182, 179, 175, 0.7);display:flex;flex-direction:column-reverse;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
                 <div id="player-hand" style="display:flex;gap:20px;transition:all 0.3s ease;margin-bottom:15px;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
             </div>
             
             <!-- 末日风格装饰元素 -->
-            <div style="position:absolute;top:20%;left:5%;width:50px;height:2px;background:#d4af37;transform:rotate(30deg);opacity:0.5;"></div>
-            <div style="position:absolute;top:70%;right:7%;width:30px;height:2px;background:#d4af37;transform:rotate(-20deg);opacity:0.5;"></div>
-            <div style="position:absolute;top:40%;right:10%;width:40px;height:40px;border:1px solid #d4af37;border-radius:50%;opacity:0.2;"></div>
+            <div style="position:absolute;top:20%;left:5%;width:50px;height:2px;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;z-index:1;"></div>
+            <div style="position:absolute;top:70%;right:7%;width:30px;height:2px;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;z-index:1;"></div>
+            <div style="position:absolute;top:40%;right:10%;width:40px;height:40px;border:1px solid #bdbcbbff;border-radius:50%;opacity:0.2;z-index:1;"></div>
         </div>
     `;
-
     private state: CardGameState;
     private restartButton: HTMLButtonElement | null = null;
     private endTurnButton: HTMLButtonElement | null = null;
@@ -176,7 +178,6 @@ class CardGame extends MiniGame {
         this.startGame();
     }
 
-    // 设置UI元素
     private setupUIElements(): void {
         this.restartButton = document.getElementById('restart-button') as HTMLButtonElement;
         this.endTurnButton = document.getElementById('end-turn-button') as HTMLButtonElement;
@@ -188,6 +189,29 @@ class CardGame extends MiniGame {
         this.debugContentElement = document.getElementById('debug-content'); // 获取调试信息元素引用
         this.playerPlayedCardsElement = document.getElementById('player-played-cards'); // 获取玩家已出牌区域
         this.opponentPlayedCardsElement = document.getElementById('opponent-played-cards'); // 获取对手已出牌区域
+        
+        // 设置背景图片
+        this.setBackgroundImage();
+    }
+
+    // 设置背景图片
+    private setBackgroundImage(): void {
+        const backgroundElement = document.getElementById('card-game-background');
+        if (backgroundElement) {
+            // 检查游戏配置中是否指定了背景图片
+            if (this.gameConfig?.backgroundImage) {
+                // 使用正确的相对路径
+                backgroundElement.style.backgroundImage = `url(../../assets/images/background/${this.gameConfig.backgroundImage})`;
+            } else {
+                // 使用默认背景图片
+                backgroundElement.style.backgroundImage = `url(../../assets/images/background/sc1.1/1-1-0.jpg)`;
+            }
+            
+            // 确保背景图片正确显示
+            backgroundElement.style.backgroundSize = 'cover';
+            backgroundElement.style.backgroundPosition = 'center';
+            backgroundElement.style.backgroundRepeat = 'no-repeat';
+        }
     }
 
     // 更新调试信息显示
@@ -354,9 +378,15 @@ class CardGame extends MiniGame {
             this.originalBgm = this.audioManager.getCurrentBgm();
             console.log("保存当前背景音乐:", this.originalBgm);
             
-            // 播放卡牌游戏专用背景音乐 bgm9
-            console.log("播放卡牌游戏背景音乐: bgm9");
-            this.audioManager.updateBackgroundMusic("bgm9");
+                       // 保存当前播放的背景音乐
+            this.originalBgm = this.audioManager.getCurrentBgm();
+            console.log("保存当前背景音乐:", this.originalBgm);
+            
+                       // 播放卡牌游戏专用背景音乐
+            // 如果游戏配置中指定了背景音乐，则使用指定的，否则使用默认的 bgm9
+            const gameBgm = this.gameConfig?.bgm || "bgm9";
+            console.log("播放卡牌游戏背景音乐:", gameBgm);
+            this.audioManager.updateBackgroundMusic(gameBgm);
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }

@@ -1,5 +1,6 @@
 import './main_menu.css';
 import { SceneRegistry } from '../../story/SceneRegistry';
+import { AudioManager } from '../../components/AudioManager';
 
 // 通过 webpack 引入图片资源
 import chatu from './chatu.png';
@@ -9,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const backgroundImage = document.getElementById('backgroundImage') as HTMLImageElement;
     const backgroundContainer = document.querySelector('.background-container');
     const menuContainer = document.querySelector('.menu-container');
+
+    // 初始化音频管理器
+    const audioManager = AudioManager.getInstance();
 
     if (backgroundImage) {
         // 预加载主背景
@@ -45,6 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         img.src = chatu; // ✅ 用 import 的变量
     }
+
+    // 播放主页背景音乐
+    audioManager.updateBackgroundMusic("bgm_main.MP3");
 
     // ===== 按钮事件绑定 =====
     const startButton = document.getElementById('startButton');

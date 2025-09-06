@@ -1,3 +1,5 @@
+import { AchievementRegistry, Achievement } from './AchievementRegistry';
+
 export class AchievementManager {
     private static instance: AchievementManager;
     private static currentUser: string = "";
@@ -149,5 +151,144 @@ export class AchievementManager {
     public getUserId(): string {
         console.log(`[AchievementManager] 获取实例用户ID: ${this.userId}`);
         return this.userId;
+    }
+
+    /**
+     * 获取成就的中英文名称
+     * @param achievementId 成就ID
+     * @returns 包含中英文名称和描述的对象
+     */
+    public getAchievementInfo(achievementId: string): { cn: string, en: string, description: string } | null {
+        const achievement = AchievementRegistry.getAchievement(achievementId);
+        return achievement ? { 
+            cn: achievement.cnName, 
+            en: achievement.enName,
+            description: achievement.description
+        } : null;
+    }
+
+    /**
+     * 解锁成就并显示动画效果
+     * @param achievementId 成就ID
+     */
+    public unlockAchievementWithAnimation(achievementId: string): void {
+        // 如果成就已经解锁，则不重复解锁
+        if (this.isUnlocked(achievementId)) {
+            return;
+        }
+
+        // 解锁成就
+        this.unlockAchievement(achievementId);
+
+        // 获取成就信息
+        const info = this.getAchievementInfo(achievementId);
+        if (!info) {
+            console.warn(`[AchievementManager] 未找到成就 ${achievementId} 的信息`);
+            return;
+        }
+
+        // 显示解锁动画和弹窗
+        this.showAchievementUnlockPopup(info);
+    }
+
+      /**
+     * 显示成就解锁弹窗
+     * @param info 成就的中英文名称和描述
+     */
+    private showAchievementUnlockPopup(info: { cn: string, en: string, description: string }): void {
+        // 创建弹窗元素
+        const popup = document.createElement('div');
+        popup.className = 'achievement-unlock-popup menuwindow active';
+        popup.innerHTML = `
+            <h2 class="menutitle">成就解锁!</h2>
+            <h3>${info.cn}</h3>
+            <p class="achievement-en-name">${info.en}</p>
+            <p class="achievement-description">${info.description}</p>
+            <div class="menuitemright">
+                <button class="continue-button" id="close-popup">继续</button>
+            </div>
+        `;
+
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .achievement-unlock-popup {
+                position: fixed;
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 2000;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.9);
+                border: 2px solid #FFD700;
+                border-radius: 10px;
+                padding: 15px 20px;
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+                min-width: 300px;
+                max-width: 500px;
+            }
+            
+            .achievement-unlock-popup h2.menutitle {
+                font-size: 18px;
+                margin: 0 0 10px 0;
+            }
+            
+            .achievement-unlock-popup h3 {
+                font-size: 16px;
+                color: #FFD700;
+                margin: 8px 0;
+            }
+            
+            .achievement-unlock-popup .achievement-en-name {
+                font-size: 14px;
+                color: #FFF;
+                margin: 5px 0;
+                font-style: italic;
+            }
+            
+            .achievement-unlock-popup .achievement-description {
+                font-size: 12px;
+                color: #CCC;
+                margin: 8px 0;
+                font-style: italic;
+            }
+            
+            .continue-button {
+                background: rgba(255, 215, 0, 0.2);
+                color: #FFD700;
+                border: 1px solid #FFD700;
+                padding: 6px 15px;
+                border-radius: 15px;
+                cursor: pointer;
+                font-size: 12px;
+                transition: all 0.3s ease;
+            }
+            
+            .continue-button:hover {
+                background: rgba(255, 215, 0, 0.4);
+                transform: scale(1.05);
+            }
+        `;
+        
+        // 添加到页面
+        document.head.appendChild(style);
+        document.body.appendChild(popup);
+        
+        // 添加关闭事件
+        const closeBtn = popup.querySelector('#close-popup');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(popup);
+                document.head.removeChild(style);
+            });
+        }
+        
+        // 3秒后自动关闭
+        setTimeout(() => {
+            if (document.body.contains(popup)) {
+                document.body.removeChild(popup);
+                document.head.removeChild(style);
+            }
+        }, 3000);
     }
 }

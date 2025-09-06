@@ -40,4 +40,10 @@ export interface CardGameConfig {
         drawCount?: number;             // 对手每回合抽牌数，默认为1
         initialDrawCount?: number;      // 对手游戏开始时初始抽牌数，默认为3
     };
+    
+    // 添加背景音乐配置
+    bgm?: string;                       // 卡牌游戏背景音乐
+    
+    // 添加背景图片配置
+    backgroundImage?: string;           // 卡牌游戏背景图片路径
 }

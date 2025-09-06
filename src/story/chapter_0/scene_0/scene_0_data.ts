@@ -16,7 +16,8 @@ const scene: Scene = {
                 bgm: "bgm2.mp3"
             },
             // action: () => {
-            //     alert('Start!')
+            //     let am = AchievementManager.getInstance();
+            //     am.clearAll()
             // }
         },
         {
@@ -25,10 +26,15 @@ const scene: Scene = {
                 // background: "sc0.1/0-1-1.jpg",
                 name: "旁白",
                 text: "铁与盐混杂的味道在嘴里蔓延开来，耳畔溢满了低沉的声响。"
-            }
+            },
+            // action: () => {
+            //     let am = AchievementManager.getInstance();
+            //     am.unlockAchievementWithAnimation("ending_1");
+
+            // }
         },
 
-        // 成就测试
+        // // 成就测试
         // {
         //     id: 'achtest1',
         //     elements: {
@@ -72,87 +78,87 @@ const scene: Scene = {
         //     video: "test.mp4", // 视频文件应放在 src/assets/video/ 目录下
         //     next: "node3" // 可选，视频播放完成后跳转到的节点
         // },
-        {
-            id: 'card_get_test',
-            elements: {
-                name: "旁白",
-                text: "跟我学两招吗"
-            },
-            choices: [
-                {
-                    text: "是",
-                    next: "test_game",
-                    action: () => {
-                        let cm = CardManager.getInstance();
-                        cm.addCardToDeck("straight_punch_3", 3);
-                    }
-                },
-                {
-                    text: "否",
-                    next: "node3"
-                }
-            ]
-        },
-        {
-            id: "test_game",
-            elements: {
-                name: "旁白",
-                text: "小游戏测试",
-            },
-            game: {
-                id: "card_game",
-                config: {
-                    player: {
-                        actionPoints: 3,
-                        hp: 20,
-                        maxHp: 20,
-                        deck: () => CardManager.getInstance().getPlayerDeck(),
-                        drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 4     // 玩家开始时抽4张牌
-                    },
-                    opponent: {
-                        actionPoints: 3,
-                        hp: 20,
-                        maxHp: 20,
-                        deck: {
-                            'straight_punch_1': 2,  // 直拳I x2
-                            'straight_punch_2': 1,  // 直拳II x1
-                            'kick_1': 2,            // 踢击I x2
-                            'block_1': 2,           // 格挡I x2
-                            'excite_1': 2           // 兴奋I x2
-                        },
-                        drawCount: 2,           // 对手每回合抽1张牌
-                        initialDrawCount: 3     // 对手开始时抽3张牌
-                    }
-                },
-                end: [
-                    {
-                        condition: (score: number) => score >= 1,
-                        next: "test1"
-                    },
-                    {
-                        condition: (score: number) => true, // 默认条件，总是为真
-                        next: "test2"
-                    }
-                ]
-            }
-        },
-        {
-            id: "test1",
-            elements: {
-                name: "旁白",
-                text: "拿到了一分！",
-                bgm: "bgm2.mp3"
-            }
-        },
-        {
-            id: "test2",
-            elements: {
-                name: "旁白",
-                text: "未拿到分",
-                bgm: "bgm2.mp3"
-            }
-        },
+        // {
+        //     id: 'card_get_test',
+        //     elements: {
+        //         name: "旁白",
+        //         text: "跟我学两招吗"
+        //     },
+        //     choices: [
+        //         {
+        //             text: "是",
+        //             next: "test_game",
+        //             action: () => {
+        //                 let cm = CardManager.getInstance();
+        //                 cm.addCardToDeck("straight_punch_3", 3);
+        //             }
+        //         },
+        //         {
+        //             text: "否",
+        //             next: "node3"
+        //         }
+        //     ]
+        // },
+        // {
+        //     id: "test_game",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "小游戏测试",
+        //     },
+        //     game: {
+        //         id: "card_game",
+        //         config: {
+        //             player: {
+        //                 actionPoints: 3,
+        //                 hp: 20,
+        //                 maxHp: 20,
+        //                 deck: () => CardManager.getInstance().getPlayerDeck(),
+        //                 drawCount: 2,           // 玩家每回合抽2张牌
+        //                 initialDrawCount: 4     // 玩家开始时抽4张牌
+        //             },
+        //             opponent: {
+        //                 actionPoints: 3,
+        //                 hp: 20,
+        //                 maxHp: 20,
+        //                 deck: {
+        //                     'straight_punch_1': 2,  // 直拳I x2
+        //                     'straight_punch_2': 1,  // 直拳II x1
+        //                     'kick_1': 2,            // 踢击I x2
+        //                     'block_1': 2,           // 格挡I x2
+        //                     'excite_1': 2           // 兴奋I x2
+        //                 },
+        //                 drawCount: 2,           // 对手每回合抽1张牌
+        //                 initialDrawCount: 3     // 对手开始时抽3张牌
+        //             }
+        //         },
+        //         end: [
+        //             {
+        //                 condition: (score: number) => score >= 1,
+        //                 next: "test1"
+        //             },
+        //             {
+        //                 condition: (score: number) => true, // 默认条件，总是为真
+        //                 next: "test2"
+        //             }
+        //         ]
+        //     }
+        // },
+        // {
+        //     id: "test1",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "拿到了一分！",
+        //         bgm: "bgm2.mp3"
+        //     }
+        // },
+        // {
+        //     id: "test2",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "未拿到分",
+        //         bgm: "bgm2.mp3"
+        //     }
+        // },
         {
             id: "node3",
             elements: {

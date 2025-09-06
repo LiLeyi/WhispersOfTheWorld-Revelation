@@ -1,44 +1,81 @@
-<!-- src/pages/achievement_page/achievement_page.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>成就系统</title>
-    <link rel="stylesheet" href="../../../assets/css/common.css">
     <link rel="stylesheet" href="./achievement.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🏆 成就系统</h1>
-            <p>查看您在游戏中解锁的所有成就</p>
-        </header>
-        
-        <main>
-            <div class="achievements-stats">
-                <div class="stat-card">
-                    <h3>总成就数</h3>
-                    <p id="total-achievements">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>已解锁</h3>
-                    <p id="unlocked-achievements">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>完成率</h3>
-                    <p id="completion-rate">0%</p>
-                </div>
-            </div>
-            
-            <div id="achievement-list" class="achievements-container">
-                <p>加载中...</p>
-            </div>
-        </main>
-        
-        <footer>
-            <button onclick="history.back()" class="back-button">返回</button>
-        </footer>
+    <!-- 背景滑块 -->
+    <div class="background-slider">
+        <div class="background-image" id="bg"></div>
     </div>
+
+    <!-- 移动层 -->
+    <div id="move"></div>
+
+    <!-- 小图标 -->
+    <div id="small">
+        <div id="backButton">↩</div>
+    </div>
+
+    <!-- 成就容器 -->
+    <div class="achievement-container">
+        <div class="achievement-header">
+            <h1 class="achievement-title">🏆 成就系统</h1>
+            <p class="achievement-subtitle">查看您在游戏中解锁的所有成就</p>
+        </div>
+
+        <div class="achievement-stats">
+            <div class="achievement-stat">
+                <div class="achievement-stat-label">总成就数</div>
+                <div class="achievement-stat-value" id="total-achievements">0</div>
+            </div>
+            <div class="achievement-stat">
+                <div class="achievement-stat-label">已解锁</div>
+                <div class="achievement-stat-value" id="unlocked-achievements">0</div>
+            </div>
+            <div class="achievement-stat">
+                <div class="achievement-stat-label">完成率</div>
+                <div class="achievement-stat-value" id="completion-rate">0%</div>
+            </div>
+        </div>
+
+        <div id="achievement-list">
+            <!-- 成就列表将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <script src="../../dist/achievement_page.js"></script>
+    <script>
+        // 加载背景图片
+        document.addEventListener('DOMContentLoaded', function() {
+            const bg = document.getElementById('bg');
+            // 设置背景图片路径
+            bg.style.backgroundImage = 'url("../assets/img/achievement_bg.jpg")';
+            
+            // 添加返回按钮功能
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    window.location.href = '../main_menu/main_menu.html';
+                });
+            }
+            
+            // 添加一些动画效果
+            const achievementContainer = document.querySelector('.achievement-container');
+            if (achievementContainer) {
+                achievementContainer.style.opacity = '0';
+                achievementContainer.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    achievementContainer.style.transition = 'all 0.8s ease-out';
+                    achievementContainer.style.opacity = '1';
+                    achievementContainer.style.transform = 'translateY(0)';
+                }, 100);
+            }
+        });
+    </script>
 </body>
 </html>

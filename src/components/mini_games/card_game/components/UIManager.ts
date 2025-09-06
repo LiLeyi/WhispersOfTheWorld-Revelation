@@ -77,19 +77,19 @@ export class UIManager {
                 cardElement.dataset.cardId = cardId;
                 cardElement.dataset.cardName = card.name;
                 
-                cardElement.style.cssText = `
+               cardElement.style.cssText = `
                     width: 110px;
                     height: 160px;
-                    background: linear-gradient(135deg, ${isCurrentPlayer ? '#2a2a2a' : '#1a1a1a'} 0%, ${isCurrentPlayer ? '#1a1a1a' : '#0a0a0a'} 100%);
-                    border: 2px solid #d4af37;
-                    border-radius: 8px;
+                    background: linear-gradient(135deg, ${isCurrentPlayer ? '#4a4a4a' : '#3a3a3a'} 0%, ${isCurrentPlayer ? '#3a3a3a' : '#2a2a2a'} 100%);
+                    border: 2px solid #8B7D6B;
+                    border-radius: 10px;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
                     padding: 10px;
                     cursor: ${isCurrentPlayer && gamePhase === 'main' ? 'pointer' : 'default'};
-                    opacity: ${isCurrentPlayer && gamePhase === 'main' ? '1' : '0.6'};
-                    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+                    opacity: ${isCurrentPlayer && gamePhase === 'main' ? '1' : '0.7'};
+                    box-shadow: 0 0 10px rgba(139, 125, 107, 0.5);
                     transition: all 0.3s ease;
                     position: relative;
                     overflow: hidden;
