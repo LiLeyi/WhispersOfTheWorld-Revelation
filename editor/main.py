@@ -253,6 +253,20 @@ class StoryEditorFrame(wx.Frame):
                             if next_target not in all_node_ids:
                                 issues.append(f"节点 '{node.id}' 的第{i+1}个选项跳转目标 '{next_target}' 不存在")
                                 
+        # 检查重复的节点ID
+        node_ids_in_current_scene = [node.id for node in self.current_scene.nodes]
+        duplicate_ids = set()
+        seen_ids = set()
+        
+        for node_id in node_ids_in_current_scene:
+            if node_id in seen_ids:
+                duplicate_ids.add(node_id)
+            else:
+                seen_ids.add(node_id)
+                
+        for duplicate_id in duplicate_ids:
+            issues.append(f"节点ID '{duplicate_id}' 在当前场景中重复出现")
+            
         # 显示检查结果
         if issues:
             message = "发现以下问题:\n\n" + "\n".join(issues)
