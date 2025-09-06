@@ -1,45 +1,23 @@
 import "./achievement.css";
 
 // src/pages/achievement_page/achievement.ts
-import { Achievements, Achievement } from './achievements';
-
-// 加载成就
-function loadAchievements(): Achievement[] {
-    const saved = localStorage.getItem("achievements");
-    if (saved) {
-        try {
-            const parsed = JSON.parse(saved);
-            return parsed as Achievement[];
-        } catch (e) {
-            console.error("解析成就数据失败:", e);
-            return Achievements;
-        }
-    }
-    return Achievements;
-}
-
-// 保存成就
-function saveAchievements(achievements: Achievement[]): void {
-    try {
-        localStorage.setItem("achievements", JSON.stringify(achievements));
-    } catch (e) {
-        console.error("保存成就数据失败:", e);
-    }
-}
+import { AchievementManager } from '../../components/AchievementManager';
+import { AchievementRegistry } from '../../components/AchievementRegistry';
 
 // 渲染成就统计信息
 function renderAchievementStats(): void {
-    const achievements = loadAchievements();
+    const achievements = AchievementRegistry.getAllAchievements();
+    const achievementManager = AchievementManager.getInstance();
+    const unlockedCount = achievements.filter(ach => achievementManager.isUnlocked(ach.id)).length;
     const total = achievements.length;
-    const unlocked = achievements.filter(ach => ach.unlocked).length;
-    const percentage = total > 0 ? Math.round((unlocked / total) * 100) : 0;
+    const percentage = total > 0 ? Math.round((unlockedCount / total) * 100) : 0;
     
     const totalElement = document.getElementById("total-achievements");
     const unlockedElement = document.getElementById("unlocked-achievements");
     const rateElement = document.getElementById("completion-rate");
     
     if (totalElement) totalElement.textContent = total.toString();
-    if (unlockedElement) unlockedElement.textContent = unlocked.toString();
+    if (unlockedElement) unlockedElement.textContent = unlockedCount.toString();
     if (rateElement) rateElement.textContent = `${percentage}%`;
 }
 
@@ -52,7 +30,8 @@ function renderAchievements(): void {
         return;
     }
     
-    const achievements = loadAchievements();
+    const achievements = AchievementRegistry.getAllAchievements();
+    const achievementManager = AchievementManager.getInstance();
     
     listContainer.innerHTML = "";
     
@@ -64,19 +43,21 @@ function renderAchievements(): void {
     const list = document.createElement("div");
     list.className = "achievements-grid";
     
-    achievements.forEach((achievement: Achievement) => {
+    achievements.forEach((achievement) => {
+        const isUnlocked = achievementManager.isUnlocked(achievement.id);
         const item = document.createElement("div");
-        item.className = `achievement-item ${achievement.unlocked ? "unlocked" : "locked"}`;
+        item.className = `achievement-item ${isUnlocked ? "unlocked" : "locked"}`;
         
         item.innerHTML = `
             <div class="achievement-icon">
-                ${achievement.unlocked ? "🏆" : "🔒"}
+                ${isUnlocked ? "🏆" : "🔒"}
             </div>
             <div class="achievement-info">
-                <h3>${achievement.name}</h3>
+                <h3>${achievement.cnName}</h3>
+                <p class="achievement-en-name">${achievement.enName}</p>
                 <p class="achievement-description">${achievement.description}</p>
                 <p class="achievement-status">
-                    ${achievement.unlocked ? "✅ 已解锁" : "❌ 未解锁"}
+                    ${isUnlocked ? "✅ 已解锁" : "❌ 未解锁"}
                 </p>
             </div>
         `;
@@ -96,4 +77,4 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // 导出函数供其他模块使用
-export { loadAchievements, saveAchievements, renderAchievements };
+export { renderAchievements };
