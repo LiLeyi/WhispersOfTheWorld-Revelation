@@ -1,17 +1,11 @@
 import { Scene, SceneNode, SceneElement } from '../../types/SceneTypes';
 import "./game_scenes.css"
-import { BackgroundManager } from '../../components/BackgroundManager';
-import { TextManager } from '../../components/TextManager';
-import { AudioManager } from '../../components/AudioManager';
-import { SpriteManager } from '../../components/SpriteManager';
 import { ChoiceManager } from '../../components/ChoiceManager';
 import { SceneRegistry } from '../../story/SceneRegistry';
 import { ArchiveManager } from '../../components/ArchiveManager';
-import { JumpingGame } from '../../components/mini_games/jumping_game/JumpingGame';
 import { MiniGameFactory } from '../../components/MiniGameFactory';
-import { CardGame } from '../../components/mini_games/card_game/CardGame';
-
-// 注意：不要在这里导入所有场景数据，而是在需要时动态导入
+import { SceneManager } from '../../components/SceneManager';
+import { BagManager } from '../../components/BagManager';
 
 // 定义道具接口
 interface Item {
@@ -67,11 +61,9 @@ class GameScene {
     private currentState: any = {};
     private clickCount: number = 0;
     private autoClickInterval: number | null = null;
-    private backgroundManager: BackgroundManager;
-    private textManager: TextManager;
-    private audioManager: AudioManager;
-    private spriteManager: SpriteManager;
+    private sceneManager: SceneManager;
     private choiceManager: ChoiceManager;
+    private bagManager: BagManager;
     private previousElements: SceneElement = {
         background: undefined,
         soundEffect: undefined,
@@ -84,20 +76,29 @@ class GameScene {
     private miniGameContainer: HTMLDivElement = document.createElement('div');
 
     constructor() {
-        this.backgroundManager = new BackgroundManager();
-        this.textManager = new TextManager();
-        this.audioManager = new AudioManager();
-        this.spriteManager = new SpriteManager();
+        this.sceneManager = new SceneManager();
         this.choiceManager = new ChoiceManager();
-        this.init();
+        this.bagManager = BagManager.getInstance();
+        
+        // 初始化场景元素
+        this.sceneManager.initializeSceneElements();
+        
+        // 等待DOM加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
     }
 
     private init(): void {
+        console.log("[GameScene] 开始初始化游戏场景");
+
         // 创建小游戏容器
         this.miniGameContainer.id = 'mini-game-container';
         this.miniGameContainer.style.display = 'none';
         document.body.appendChild(this.miniGameContainer);
-        console.log("[GameScene] 开始初始化游戏场景");
+        console.log("[GameScene] 小游戏容器已创建");
 
         // 从URL参数获取存档ID
         const urlParams = new URLSearchParams(window.location.search);
@@ -121,12 +122,140 @@ class GameScene {
         ArchiveManager.setCurrentArchiveId(archiveId);
 
         // 设置TextManager的存档ID
-        this.textManager.setCurrentArchiveId(archiveId);
+        this.sceneManager.getTextManager().setCurrentArchiveId(archiveId);
 
         console.log(`[GameScene] 使用存档ID: ${archiveId}`);
 
-        // 绑定事件
-        this.bindEvents();
+        console.log("[GameScene] 开始绑定事件");
+        this.sceneManager.bindSceneEvents(
+            () => this.nextMove(),
+            {
+                onReturn: () => {
+                    const returnElement = document.getElementById("return");
+                    if (returnElement) {
+                        returnElement.classList.toggle("active");
+                    }
+                },
+                onLog: () => this.redirectToNewPage("../log_page/log_page.html"),
+                onLoad: () => this.redirectToNewPage("../archive_page/archive_page.html"),
+                onAuto: () => this.startAutoClick(),
+                onSkip: () => {
+                    const skipElement = document.getElementById("skip");
+                    console.log("[GameScene] 点击skip按钮，当前skip元素:", skipElement);
+                    if (skipElement) {
+                        const isActive = skipElement.classList.contains("active");
+                        console.log("[GameScene] skip元素当前active状态:", isActive);
+                        skipElement.classList.toggle("active");
+                        console.log("[GameScene] 切换后skip元素active状态:", skipElement.classList.contains("active"));
+                    }
+                },
+                onBag: () => this.bagManager.toggleBag(),
+                onBack: () => this.goBackToPreviousNode()
+            },
+            {
+                onReturnYes: () => {
+                    window.location.href = "../main_menu/main_menu.html";
+                },
+                onReturnNo: () => {
+                    const returnElement = document.getElementById("return");
+                    if (returnElement) {
+                        returnElement.classList.remove("active");
+                    }
+                },
+                onSkipYes: () => {
+                    console.log("[GameScene] 收到skipYes点击事件");
+                    // 检查是否显示了选项，如果显示了选项则不执行跳过
+                    const selectionBox = document.getElementById("selection_box");
+                    if (selectionBox && selectionBox.style.display !== "none") {
+                        console.log("[GameScene] 选项框可见，不执行跳过");
+                        const skipElement = document.getElementById("skip");
+                        if (skipElement) {
+                            skipElement.classList.remove("active");
+                        }
+                        return; // 如果选项可见，则不执行跳过
+                    }
+                    
+                    // 如果正在等待用户选择，则不允许继续跳过
+                    if ((this as any).waitingForChoice) {
+                        console.log("[GameScene] 正在等待用户选择，不执行跳过");
+                        const skipElement = document.getElementById("skip");
+                        if (skipElement) {
+                            skipElement.classList.remove("active");
+                        }
+                        return;
+                    }
+                    
+                    console.log("[GameScene] 当前场景:", this.currentScene);
+                    if (this.currentScene) {
+                        // 查找下一个有选项的节点，同时考虑分支条件
+                        let nextChoiceNodeIndex = -1;
+                        console.log("[GameScene] 开始查找下一个选项节点，当前索引:", this.currentNodeIndex);
+                        console.log("[GameScene] 场景节点总数:", this.currentScene.nodes.length);
+                        for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
+                            const node = this.currentScene.nodes[i];
+                            console.log("[GameScene] 检查节点", i, ":", node);
+                            // 检查节点是否有选项且满足条件
+                            if (node.choices && node.choices.length > 0) {
+                                console.log("[GameScene] 节点", i, "有选项");
+                                // 检查节点条件（如果有的话）
+                                if (!node.condition || node.condition()) {
+                                    console.log("[GameScene] 节点", i, "条件满足");
+                                    nextChoiceNodeIndex = i;
+                                    break;
+                                } else {
+                                    console.log("[GameScene] 节点", i, "条件不满足");
+                                }
+                            } else {
+                                console.log("[GameScene] 节点", i, "没有选项");
+                            }
+                        }
+                        
+                        // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
+                        if (nextChoiceNodeIndex !== -1) {
+                            console.log("[GameScene] 找到下一个选项节点，索引:", nextChoiceNodeIndex);
+                            this.currentNodeIndex = nextChoiceNodeIndex;
+                            // 添加标记，表示用户已跳转到选项节点
+                            (this as any).waitingForChoice = true;
+                            console.log("[GameScene] 设置waitingForChoice为true");
+                        } else {
+                            console.log("[GameScene] 未找到选项节点，跳转到章节末尾");
+                            this.currentNodeIndex = this.currentScene.nodes.length - 1;
+                        }
+                        this.clickCount = this.currentNodeIndex;
+                        localStorage.setItem("nowclick", this.clickCount.toString());
+                        console.log("[GameScene] 更新clickCount:", this.clickCount);
+                        this.renderCurrentNode();
+                    }
+                    const skipElement = document.getElementById("skip");
+                    if (skipElement) {
+                        console.log("[GameScene] 关闭skip弹窗");
+                        skipElement.classList.remove("active");
+                    }
+                },
+                onSkipNo: () => {
+                    const skipElement = document.getElementById("skip");
+                    if (skipElement) {
+                        skipElement.classList.remove("active");
+                    }
+                }
+            },
+            {
+                onShowBag: () => this.bagManager.toggleBag(),
+                onCloseBag: () => {
+                    const bagOverlay = document.getElementById("bag-overlay");
+                    if (bagOverlay) {
+                        bagOverlay.style.display = "none";
+                    }
+                },
+                onShowItemModal: (item: any) => this.bagManager.showItemModal(item),
+                onCloseItemModal: () => {
+                    const modal = document.getElementById("item-modal");
+                    if (modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        );
 
         // 添加页面卸载事件监听器，清理自动播放定时器
         window.addEventListener('beforeunload', () => {
@@ -185,7 +314,7 @@ class GameScene {
             };
 
             // 清除当前存档的文本历史记录
-            this.textManager.clearTextHistory();
+            this.sceneManager.getTextManager().clearTextHistory();
 
             // 设置新游戏标记，防止后续被误判
             sessionStorage.setItem("isNewGame", "true");
@@ -201,7 +330,7 @@ class GameScene {
         console.log("isNewGame标记:", (this as any)._isNewGame);
 
         // 立即清除所有立绘（在任何加载操作之前）
-        this.spriteManager.clearAllSprites();
+        this.sceneManager.clearAllSprites();
 
         // 根据URL参数加载场景
         if (sceneParam) {
@@ -214,13 +343,19 @@ class GameScene {
         }
     }
 
+
+    private redirectToNewPage(nextpage: string): void {
+        const nextPageURL = nextpage + "?referrer=" + encodeURIComponent(window.location.href);
+        window.location.href = nextPageURL;
+    }
+
     private async loadSceneByName(sceneName: string): Promise<void> {
         console.log(`[GameScene] 开始加载场景: ${sceneName}`);
 
         let sceneModule: any;
 
         // 每次加载新场景时清除所有立绘
-        this.spriteManager.clearAllSprites();
+        this.sceneManager.clearAllSprites();
 
         // 从URL参数获取存档ID并确保ArchiveManager使用正确的存档
         const urlParams = new URLSearchParams(window.location.search);
@@ -231,7 +366,7 @@ class GameScene {
         ArchiveManager.setCurrentArchiveId(archiveId);
         // 同时更新TextManager的存档ID
 
-        this.textManager.setCurrentArchiveId(archiveId);
+        this.sceneManager.getTextManager().setCurrentArchiveId(archiveId);
         // 从场景注册表中加载场景
         if (SceneRegistry[sceneName]) {
             try {
@@ -262,7 +397,7 @@ class GameScene {
         // 如果是新游戏，确保清除所有立绘
         if ((this as any)._isNewGame) {
             console.log("新游戏，清除所有立绘");
-            this.spriteManager.clearAllSprites();
+            this.sceneManager.clearAllSprites();
         }
 
         // 设置choiceManager的回调函数
@@ -273,7 +408,7 @@ class GameScene {
         this.choiceManager.setSetCurrentNodeIndexCallback((index) => { this.currentNodeIndex = index; });
         this.choiceManager.setGetCurrentNodeCallback(() => this.getCurrentNode());
         // 添加TextManager引用
-        this.choiceManager.setTextManager(this.textManager);
+        this.choiceManager.setTextManager(this.sceneManager.getTextManager());
 
         // 从localStorage恢复previousElements状态，确保读档时能正确继承所有元素
         const savedPreviousElements = localStorage.getItem("previousElements");
@@ -348,7 +483,7 @@ class GameScene {
         if (this.previousElements.background) {
             // 修改这里，确保背景被正确设置
             console.log("设置previousElements中的背景:", this.previousElements.background);
-            this.backgroundManager.setBackground(this.previousElements.background, false);
+            this.sceneManager.getBackgroundManager().setBackground(this.previousElements.background, false);
         } else if (localStorage.getItem("MSYbackgroundIMG")) {
             // 即使previousElements中没有背景，但localStorage中有，也要设置
             const backgroundElement: SceneElement = {
@@ -359,17 +494,17 @@ class GameScene {
                 text: ""
             };
             console.log("设置localStorage中的背景:", backgroundElement.background);
-            this.backgroundManager.setBackground(backgroundElement.background, false);
+            this.sceneManager.getBackgroundManager().setBackground(backgroundElement.background, false);
         }
 
         // 立即更新立绘以确保读档后立绘正确显示（但新游戏时不显示之前的立绘）
         if (this.previousElements.sprite && !(this as any)._isNewGame) {
             console.log("更新立绘:", this.previousElements.sprite);
-            this.spriteManager.updateCharacterSprites(this.previousElements);
+            this.sceneManager.getSpriteManager().updateCharacterSprites(this.previousElements);
         } else if ((this as any)._isNewGame) {
             // 新游戏开始时，确保清除所有立绘
             console.log("新游戏，再次清除所有立绘");
-            this.spriteManager.clearAllSprites();
+            this.sceneManager.clearAllSprites();
         }
 
         this.renderCurrentNode();
@@ -409,6 +544,27 @@ class GameScene {
             node.action();
         }
 
+        // 处理选项
+        if (node.choices && node.choices.length > 0) {
+            console.log("处理选项");
+
+            // 在显示选项前，先更新对话框内容（使用不记录历史的方法）
+            if (node.elements) {
+                // 合并当前节点元素与前一个节点元素
+                const mergedElements = this.mergeElements(this.previousElements, node.elements);
+                console.log("合并后的元素:", mergedElements);
+                this.previousElements = mergedElements;
+
+                // 使用SceneManager更新场景元素（不记录到历史中）
+                this.sceneManager.updateSceneElementsWithoutRecording(mergedElements);
+            }
+
+            this.choiceManager.handleChoices(node);
+            // 添加等待标记，表示正在等待用户选择
+            (this as any).waitingForChoice = true;
+            return;
+        }
+
         // 合并当前节点元素与前一个节点元素
         const mergedElements = this.mergeElements(this.previousElements, node.elements);
         console.log("合并后的元素:", mergedElements);
@@ -421,14 +577,10 @@ class GameScene {
             console.error("无法保存previousElements到localStorage", e);
         }
 
-        // 更新文本
-        this.textManager.updateText(mergedElements);
-
-        // 更新背景
-        this.updateBackground(mergedElements);
-
-        // 更新音乐
-        this.updateMusic(mergedElements);
+        // 使用SceneManager更新场景元素（会记录到历史中）
+        this.sceneManager.updateSceneElements(mergedElements);
+        this.sceneManager.updateBackground(mergedElements);
+        this.sceneManager.updateAudio(mergedElements);
 
         // 更新立绘（如果是新游戏且是第一个节点，则不显示之前保存的立绘）
         if ((this as any)._isNewGame && this.currentNodeIndex === 0) {
@@ -436,22 +588,16 @@ class GameScene {
             // 对于新游戏的第一个节点，只更新当前节点指定的立绘（如果有）
             if (node.elements && node.elements.sprite !== undefined) {
                 console.log("当前节点定义了立绘:", node.elements.sprite);
-                this.spriteManager.updateCharacterSprites({ sprite: node.elements.sprite });
+                this.sceneManager.getSpriteManager().updateCharacterSprites({ sprite: node.elements.sprite });
             } else {
                 // 如果当前节点没有指定立绘，则清除所有立绘
                 console.log("当前节点未定义立绘，清除所有立绘");
-                this.spriteManager.clearAllSprites();
+                this.sceneManager.clearAllSprites();
             }
         } else {
             // 正常更新立绘
             console.log("正常更新立绘:", mergedElements.sprite);
-            this.spriteManager.updateCharacterSprites(mergedElements);
         }
-
-        // 处理选项
-        this.choiceManager.handleChoices(node);
-
-        // 移除了自动跳转逻辑，现在所有跳转都需要用户点击
     }
 
     private mergeElements(previous: SceneElement, current: SceneElement): SceneElement {
@@ -480,62 +626,62 @@ class GameScene {
         return result;
     }
 
-    private updateBackground(element: SceneElement): void {
-        console.log("更新背景 - 接收到的元素:", element);
-        // 确保即使element.background为undefined，也要使用localStorage中的背景
-        const backgroundToUse = element.background !== undefined && element.background !== null ?
-            element.background :
-            (localStorage.getItem("MSYbackgroundIMG") || "");
-        console.log("使用的背景:", backgroundToUse);
+    // private updateBackground(element: SceneElement): void {
+    //     console.log("更新背景 - 接收到的元素:", element);
+    //     // 确保即使element.background为undefined，也要使用localStorage中的背景
+    //     const backgroundToUse = element.background !== undefined && element.background !== null ?
+    //         element.background :
+    //         (localStorage.getItem("MSYbackgroundIMG") || "");
+    //     console.log("使用的背景:", backgroundToUse);
 
-        // 如果没有背景要设置，则直接返回
-        if (backgroundToUse === undefined || backgroundToUse === "") {
-            console.log("没有背景需要设置");
-            return;
-        }
+    //     // 如果没有背景要设置，则直接返回
+    //     if (backgroundToUse === undefined || backgroundToUse === "") {
+    //         console.log("没有背景需要设置");
+    //         return;
+    //     }
 
-        // 使用BackgroundManager设置背景
-        this.backgroundManager.setBackground(backgroundToUse);
+    //     // 使用BackgroundManager设置背景
+    //     this.sceneManager.getBackgroundManager().setBackground(backgroundToUse);
 
-        // 保存背景到localStorage
-        localStorage.setItem("MSYbackgroundIMG", backgroundToUse);
-        
-        // 记录背景历史（用于back功能）
-        const backgroundHistory = JSON.parse(localStorage.getItem("backgroundHistory") || "[]");
-        
-        // 如果当前背景与历史记录中的最后一个不同，则添加到历史记录中
-        if (backgroundHistory[backgroundHistory.length - 1] !== backgroundToUse) {
-            backgroundHistory.push(backgroundToUse);
-            
-            // 限制历史记录长度为10个，避免占用过多存储空间
-            if (backgroundHistory.length > 10) {
-                backgroundHistory.shift();
-            }
-        }
-        
-        // 保存更新后的历史记录
-        localStorage.setItem("backgroundHistory", JSON.stringify(backgroundHistory));
-    }
-        private updateMusic(element: SceneElement): void {
-        // 更新音效
-        if (element.soundEffect) {
-            this.audioManager.playSoundEffect(element.soundEffect);
-        }
+    //     // 保存背景到localStorage
+    //     localStorage.setItem("MSYbackgroundIMG", backgroundToUse);
 
-        // 更新背景音乐
-        if (element.bgm !== undefined) {
-            // 如果bgm为null，停止当前音乐
-            if (element.bgm === null || element.bgm === "null") {
-                // 立即停止当前背景音乐
-                this.audioManager.stopBackgroundMusic();
-            } else {
-                // 更新背景音乐
-                this.audioManager.updateBackgroundMusic(element.bgm);
-            }
-        }
-    }
+    //     // 记录背景历史（用于back功能）
+    //     const backgroundHistory = JSON.parse(localStorage.getItem("backgroundHistory") || "[]");
 
-           private navigateToScene(sceneId: string): void {
+    //     // 如果当前背景与历史记录中的最后一个不同，则添加到历史记录中
+    //     if (backgroundHistory[backgroundHistory.length - 1] !== backgroundToUse) {
+    //         backgroundHistory.push(backgroundToUse);
+
+    //         // 限制历史记录长度为10个，避免占用过多存储空间
+    //         if (backgroundHistory.length > 10) {
+    //             backgroundHistory.shift();
+    //         }
+    //     }
+
+    //     // 保存更新后的历史记录
+    //     localStorage.setItem("backgroundHistory", JSON.stringify(backgroundHistory));
+    // }
+    //     private updateMusic(element: SceneElement): void {
+    //     // 更新音效
+    //     if (element.soundEffect) {
+    //         this.sceneManager.getAudioManager().playSoundEffect(element.soundEffect);
+    //     }
+
+    //     // 更新背景音乐
+    //     if (element.bgm !== undefined) {
+    //         // 如果bgm为null，停止当前音乐
+    //         if (element.bgm === null || element.bgm === "null") {
+    //             // 立即停止当前背景音乐
+    //             this.sceneManager.getAudioManager().stopBackgroundMusic();
+    //         } else {
+    //             // 更新背景音乐
+    //             this.sceneManager.getAudioManager().updateBackgroundMusic(element.bgm);
+    //         }
+    //     }
+    // }
+
+    private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
         // 重置点击计数
@@ -601,7 +747,7 @@ class GameScene {
         // 获取背景元素
         const bg1Element = document.getElementById('bg1');
         const bg2Element = document.getElementById('bg2');
-        const backgroundManager = this.backgroundManager;
+        const backgroundManager = this.sceneManager.getBackgroundManager();
         let currentBgNum = (backgroundManager as any).backgroundNum;
 
         // 创建黑色背景覆盖层
@@ -864,6 +1010,8 @@ class GameScene {
             return;
         }
 
+        console.log("开始处理小游戏:", node.game);
+
         // 保存当前的点击处理函数
         const moveElement = document.getElementById("move");
         const dialogElement = document.getElementById("dialog");
@@ -887,7 +1035,7 @@ class GameScene {
         // 获取背景元素
         const bg1Element = document.getElementById('bg1');
         const bg2Element = document.getElementById('bg2');
-        const backgroundManager = this.backgroundManager;
+        const backgroundManager = this.sceneManager.getBackgroundManager();
         let currentBgNum = (backgroundManager as any).backgroundNum;
 
         // 创建黑色背景覆盖层
@@ -927,13 +1075,13 @@ class GameScene {
                     currentBgElement.style.display = 'none';
                 }
 
-                // 背景淡出完成后创建小游戏容器
+                // 背景淡出完成后创建小游戏容器和对话框
                 createMiniGameContainer();
             }
         }, 50);
 
         const createMiniGameContainer = () => {
-            // 显示小游戏容器并隐藏其他元素
+            // 显示小游戏容器
             this.miniGameContainer.style.display = 'block';
             this.miniGameContainer.style.position = 'fixed';
             this.miniGameContainer.style.top = '0';
@@ -947,7 +1095,49 @@ class GameScene {
             // 创建游戏容器，使用正确的CSS路径
             this.miniGameContainer.innerHTML = MiniGameFactory.getGameTemplate(node.game!.id);
 
-            // 淡入小游戏
+            // 使用SceneManager创建场景元素
+            const gameElementsContainer = document.createElement('div');
+            gameElementsContainer.id = 'minigame-elements-container';
+            gameElementsContainer.style.position = 'absolute';
+            gameElementsContainer.style.top = '0';
+            gameElementsContainer.style.left = '0';
+            gameElementsContainer.style.width = '100%';
+            gameElementsContainer.style.height = '100%';
+            gameElementsContainer.style.zIndex = '1001';
+            gameElementsContainer.style.pointerEvents = 'none';
+
+            // 创建一个覆盖层用于点击隐藏对话框
+            const overlay = document.createElement('div');
+            overlay.id = 'minigame-overlay';
+            overlay.style.position = 'absolute';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.zIndex = '1002';
+            overlay.style.backgroundColor = 'transparent';
+            overlay.style.display = 'block';
+            overlay.style.pointerEvents = 'auto';
+
+            // 添加点击事件来隐藏对话框和覆盖层
+            overlay.onclick = (e) => {
+                e.stopPropagation();
+                // 隐藏游戏元素容器
+                gameElementsContainer.style.display = 'none';
+                // 隐藏覆盖层
+                overlay.style.display = 'none';
+            };
+
+            // 先添加覆盖层再添加游戏元素容器
+            this.miniGameContainer.appendChild(overlay);
+            this.miniGameContainer.appendChild(gameElementsContainer);
+
+            // 使用SceneManager创建场景元素
+            if (node.elements) {
+                this.sceneManager.createSceneElementsContainer(gameElementsContainer, node.elements);
+            }
+
+            // 淡入小游戏和对话框
             setTimeout(() => {
                 this.miniGameContainer.style.opacity = '1';
             }, 50);
@@ -969,420 +1159,187 @@ class GameScene {
                             // 恢复背景显示并淡入
                             const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
                             if (currentBgElement) {
-                                currentBgElement.style.display = '';
-                            }
+                                currentBgElement.style.display = 'block';
+                                let fadeInOpacity = 0;
+                                const fadeInInterval = setInterval(() => {
+                                    fadeInOpacity += 0.05;
+                                    currentBgElement.style.opacity = fadeInOpacity.toString();
+                                    blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
 
-                            // 淡出黑色覆盖层，同时淡入背景
-                            let overlayOpacity = 1;
-                            let backgroundOpacity = 0;
-                            const fadeOutOverlay = setInterval(() => {
-                                overlayOpacity -= 0.05;
-                                backgroundOpacity += 0.05;
+                                    if (fadeInOpacity >= 1) {
+                                        clearInterval(fadeInInterval);
+                                        // 移除黑色覆盖层
+                                        if (blackOverlay.parentNode) {
+                                            blackOverlay.parentNode.removeChild(blackOverlay);
+                                        }
 
-                                blackOverlay.style.opacity = overlayOpacity.toString();
+                                        // 恢复原始点击事件
+                                        if (moveElement) moveElement.onclick = originalMoveHandler;
+                                        if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                                        if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
 
-                                if (currentBgElement) {
-                                    currentBgElement.style.opacity = backgroundOpacity.toString();
-                                }
+                                        // 恢复对话框显示
+                                        dialogElements.forEach(el => {
+                                            (el as HTMLElement).style.display = '';
+                                        });
 
-                                if (overlayOpacity <= 0) {
-                                    clearInterval(fadeOutOverlay);
-                                    blackOverlay.style.opacity = '0';
+                                        // 继续游戏
+                                        if (node.next) {
+                                            // 如果有指定的下一个节点，则跳转到该节点
+                                            const nextNodeId = node.next;
+                                            console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
 
-                                    if (currentBgElement) {
-                                        currentBgElement.style.opacity = '1';
-                                    }
+                                            // 查找当前场景中的目标节点
+                                            if (this.currentScene) {
+                                                const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                                    (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
+                                                );
 
-                                    // 移除黑色覆盖层
-                                    if (blackOverlay.parentNode) {
-                                        blackOverlay.parentNode.removeChild(blackOverlay);
-                                    }
-                                }
-                            }, 50);
-
-                            // 重新显示对话框元素
-                            dialogElements.forEach(el => {
-                                (el as HTMLElement).style.display = '';
-                            });
-
-                            // 恢复场景点击事件
-                            if (moveElement) moveElement.onclick = originalMoveHandler;
-                            if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                            if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
-
-                            // 根据分数跳转到相应的节点
-                            let nextNodeId: string = "default";
-                            if (node.game) {
-                                // 检查是否有新的end配置
-                                if (node.game.end && Array.isArray(node.game.end)) {
-                                    for (const endConfig of node.game.end) {
-                                        if (endConfig.condition(score)) {
-                                            nextNodeId = endConfig.next;
-                                            break;
+                                                if (targetNodeIndex !== -1) {
+                                                    // 如果找到了节点，跳转到该节点
+                                                    this.currentNodeIndex = targetNodeIndex;
+                                                    // 更新点击次数，确保存档正确
+                                                    localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                                    // 渲染新节点
+                                                    this.renderCurrentNode();
+                                                } else {
+                                                    // 如果没找到节点，尝试作为场景ID处理
+                                                    this.navigateToScene(nextNodeId);
+                                                }
+                                            } else {
+                                                // 如果没有当前场景，尝试作为场景ID处理
+                                                this.navigateToScene(nextNodeId);
+                                            }
+                                        } else {
+                                            // 如果没有指定下一个节点，则继续到下一个节点
+                                            this.nextMove();
                                         }
                                     }
+                                }, 50);
+                            } else {
+                                // 没有背景元素，直接移除覆盖层并恢复原始事件
+                                if (blackOverlay.parentNode) {
+                                    blackOverlay.parentNode.removeChild(blackOverlay);
                                 }
-                            }
 
-                            // 查找目标节点在当前场景中的索引
-                            if (this.currentScene) {
-                                const targetNodeIndex = this.currentScene.nodes.findIndex(n => n.id === nextNodeId);
-                                if (targetNodeIndex !== -1) {
-                                    // 如果找到了节点，跳转到该节点
-                                    this.currentNodeIndex = targetNodeIndex;
-                                    this.clickCount = targetNodeIndex;
-                                    localStorage.setItem("nowclick", this.clickCount.toString());
-                                    this.renderCurrentNode();
+                                // 恢复原始点击事件
+                                if (moveElement) moveElement.onclick = originalMoveHandler;
+                                if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                                if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+
+                                // 恢复对话框显示
+                                dialogElements.forEach(el => {
+                                    (el as HTMLElement).style.display = '';
+                                });
+
+                                // 继续游戏
+                                if (node.next) {
+                                    // 如果有指定的下一个节点，则跳转到该节点
+                                    const nextNodeId = node.next;
+                                    console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
+
+                                    // 查找当前场景中的目标节点
+                                    if (this.currentScene) {
+                                        const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                            (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
+                                        );
+
+                                        if (targetNodeIndex !== -1) {
+                                            // 如果找到了节点，跳转到该节点
+                                            this.currentNodeIndex = targetNodeIndex;
+                                            // 更新点击次数，确保存档正确
+                                            localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                            // 渲染新节点
+                                            this.renderCurrentNode();
+                                        } else {
+                                            // 如果没找到节点，尝试作为场景ID处理
+                                            this.navigateToScene(nextNodeId);
+                                        }
+                                    } else {
+                                        // 如果没有当前场景，尝试作为场景ID处理
+                                        this.navigateToScene(nextNodeId);
+                                    }
                                 } else {
-                                    // 如果没找到节点，使用navigateToScene方法（可能是跳转到其他场景）
-                                    this.navigateToScene(nextNodeId);
+                                    // 如果没有指定下一个节点，则继续到下一个节点
+                                    this.nextMove();
                                 }
                             }
                         }, 1000);
                     },
-                    node.game?.config
+                    node.game!.config
                 );
 
                 if (gameInstance) {
                     // 启动游戏
                     gameInstance.start();
                 } else {
-                    console.error(`无法创建游戏实例: ${node.game?.id}`);
+                    console.error(`无法创建游戏实例: ${node.game!.id}`);
                 }
             }, 0);
         };
     }
 
-   private bindEvents(): void {
-    // 绑定点击事件
-    const moveElement = document.getElementById("move");
-    const dialogElement = document.getElementById("dialog");
-    const textBoxElement = document.getElementById("text-box");
-
-    const nextMoveHandler = () => {
-        // 检查是否显示了选项，如果显示了选项则不执行下一步
-        const selectionBox = document.getElementById("selection_box");
-        if (selectionBox && selectionBox.style.display !== "none") {
-            return; // 如果选项可见，则不执行下一步
-        }
-        
-        // 如果正在等待用户选择，则不允许继续跳过
-        if ((this as any).waitingForChoice) {
+    private nextMove(): void {
+        console.log("[GameScene] nextMove方法被调用");
+        if (!this.currentScene) {
+            console.log("[GameScene] 没有当前场景，返回");
             return;
         }
-        
-        this.nextMove();
-    };
-
-    if (moveElement) moveElement.onclick = nextMoveHandler;
-    if (dialogElement) dialogElement.onclick = nextMoveHandler;
-    if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
-
-    // 绑定键盘事件 - 空格键跳过剧情
-    document.addEventListener('keydown', (event) => {
-        // 检查是否按下了空格键
-        if (event.code === 'Space') {
-            // 阻止默认的空格键行为（页面滚动）
-            event.preventDefault();
-            
-            // 检查是否有弹窗或菜单打开，如果有则不执行跳过
-            const skipElement = document.getElementById("skip");
-            const returnElement = document.getElementById("return");
-            const bagOverlay = document.getElementById("bag-overlay");
-            const itemModal = document.getElementById("item-modal");
-            
-            const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
-                               (returnElement && returnElement.classList.contains("active")) ||
-                               (bagOverlay && bagOverlay.style.display === "flex") ||
-                               (itemModal && itemModal.style.display === "flex");
-            
-            if (!hasOpenModal) {
-                // 检查是否显示了选项，如果显示了选项则不执行下一步
-                const selectionBox = document.getElementById("selection_box");
-                if (selectionBox && selectionBox.style.display !== "none") {
-                    return; // 如果选项可见，则不执行下一步
-                }
-                
-                // 如果正在等待用户选择，则不允许继续跳过
-                if ((this as any).waitingForChoice) {
-                    return;
-                }
-                
-                this.nextMove();
-            }
-        }
-    });
-    if (moveElement) moveElement.onclick = nextMoveHandler;
-    if (dialogElement) dialogElement.onclick = nextMoveHandler;
-    if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
-
-   // 绑定键盘事件 - 空格键跳过剧情
-    document.addEventListener('keydown', (event) => {
-        // 检查是否按下了空格键
-        if (event.code === 'Space') {
-            // 阻止默认的空格键行为（页面滚动）
-            event.preventDefault();
-            
-            // 检查是否有弹窗或菜单打开，如果有则不执行跳过
-            const skipElement = document.getElementById("skip");
-            const returnElement = document.getElementById("return");
-            const bagOverlay = document.getElementById("bag-overlay");
-            const itemModal = document.getElementById("item-modal");
-            
-            const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
-                               (returnElement && returnElement.classList.contains("active")) ||
-                               (bagOverlay && bagOverlay.style.display === "flex") ||
-                               (itemModal && itemModal.style.display === "flex");
-            
-            if (!hasOpenModal) {
-                // 检查是否显示了选项，如果显示了选项则不执行下一步
-                const selectionBox = document.getElementById("selection_box");
-                if (selectionBox && selectionBox.style.display !== "none") {
-                    return; // 如果选项可见，则不执行下一步
-                }
-                
-                // 如果正在等待用户选择，则不允许继续跳过
-                if ((this as any).waitingForChoice) {
-                    return;
-                }
-                
-                this.nextMove();
-            }
-        }
-    });
-
-    // 绑定菜单事件
-    const returnButton = document.getElementById("op_return");
-    const logButton = document.getElementById("op_log");
-    const loadButton = document.getElementById("op_load");
-    const autoButton = document.getElementById("op_auto");
-    const skipButton = document.getElementById("op_skip");
-    const bagButton = document.getElementById("op_bag");
-    const backButton = document.getElementById("op_back"); // 添加back按钮引用
-
-    if (returnButton) {
-        returnButton.onclick = () => {
-            const returnElement = document.getElementById("return");
-            if (returnElement) {
-                returnElement.classList.toggle("active");
-            }
-        };
-    }
-
-    if (logButton) {
-        logButton.onclick = () => {
-            this.redirectToNewPage("../log_page/log_page.html");
-        };
-    }
-
-    if (loadButton) {
-        loadButton.onclick = () => {
-            this.redirectToNewPage("../archive_page/archive_page.html");
-        };
-    }
-
-    if (autoButton) {
-        autoButton.onclick = () => this.startAutoClick();
-    }
-
-    if (skipButton) {
-        skipButton.onclick = () => {
-            const skipElement = document.getElementById("skip");
-            if (skipElement) {
-                skipElement.classList.toggle("active");
-            }
-        };
-    }
-
-    // 绑定背包按钮事件
-    if (bagButton) {
-        bagButton.onclick = () => {
-            this.toggleBag();
-        };
-    }
-
-    // 绑定back按钮事件 - 返回上一个节点
-    if (backButton) {
-        backButton.onclick = () => {
-            this.goBackToPreviousNode();
-        };
-    } else {
-        console.warn("未找到back按钮元素(op_back)");
-    }
-
-    // 绑定弹窗事件
-    const skipYes = document.getElementById("skip_yes");
-    const skipNo = document.getElementById("skip_no");
-    const returnYes = document.getElementById("return_yes");
-    const returnNo = document.getElementById("return_no");
-    
-    if (skipYes) {
-        skipYes.onclick = () => {
-            // 检查是否显示了选项，如果显示了选项则不执行跳过
-            const selectionBox = document.getElementById("selection_box");
-            if (selectionBox && selectionBox.style.display !== "none") {
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    skipElement.classList.remove("active");
-                }
-                return; // 如果选项可见，则不执行跳过
-            }
-            
-            // 如果正在等待用户选择，则不允许继续跳过
-            if ((this as any).waitingForChoice) {
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    skipElement.classList.remove("active");
-                }
-                return;
-            }
-            
-            if (this.currentScene) {
-                // 查找下一个有选项的节点，同时考虑分支条件
-                let nextChoiceNodeIndex = -1;
-                for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
-                    const node = this.currentScene.nodes[i];
-                    // 检查节点是否有选项且满足条件
-                    if (node.choices && node.choices.length > 0) {
-                        // 检查节点条件（如果有的话）
-                        if (!node.condition || node.condition()) {
-                            nextChoiceNodeIndex = i;
-                            break;
-                        }
-                    }
-                }
-                
-                // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
-                if (nextChoiceNodeIndex !== -1) {
-                    this.currentNodeIndex = nextChoiceNodeIndex;
-                    // 添加标记，表示用户已跳转到选项节点
-                    (this as any).waitingForChoice = true;
-                } else {
-                    this.currentNodeIndex = this.currentScene.nodes.length - 1;
-                }
-                this.clickCount = this.currentNodeIndex;
-                localStorage.setItem("nowclick", this.clickCount.toString());
-                this.renderCurrentNode();
-            }
-            const skipElement = document.getElementById("skip");
-            if (skipElement) {
-                skipElement.classList.remove("active");
-            }
-        };
-    }
-    
-    if (skipNo) {
-        skipNo.onclick = () => {
-            const skipElement = document.getElementById("skip");
-            if (skipElement) {
-                skipElement.classList.remove("active");
-            }
-        };
-    }
-
-    if (returnYes) {
-        returnYes.onclick = () => {
-            window.location.href = "../main_menu/main_menu.html";
-        };
-    }
-
-    if (returnNo) {
-        returnNo.onclick = () => {
-            const returnElement = document.getElementById("return");
-            if (returnElement) {
-                returnElement.classList.remove("active");
-            }
-        };
-    }
-
-    // 绑定背包界面事件
-    const closeBagButton = document.getElementById("close-bag");
-    const bagOverlay = document.getElementById("bag-overlay");
-    const itemModal = document.getElementById("item-modal");
-    const closeModal = document.querySelector(".close-modal");
-
-    if (closeBagButton) {
-        closeBagButton.onclick = () => {
-            if (bagOverlay) {
-                bagOverlay.style.display = "none";
-            }
-        };
-    }
-
-    if (bagOverlay) {
-        bagOverlay.onclick = (event) => {
-            if (event.target === bagOverlay) {
-                bagOverlay.style.display = "none";
-            }
-        };
-    }
-
-    if (closeModal) {
-        (closeModal as HTMLElement).onclick = () => {
-            if (itemModal) {
-                itemModal.style.display = "none";
-            }
-        };
-    }
-
-    if (itemModal) {
-        itemModal.onclick = (event) => {
-            if (event.target === itemModal) {
-                itemModal.style.display = "none";
-            }
-        };
-    }
-    
-     // 监听选项点击事件，清除等待状态
-    const selectionBox = document.getElementById("selection_box");
-    if (selectionBox) {
-        // 使用事件委托来监听选项按钮的点击
-        selectionBox.addEventListener('click', (event) => {
-            const target = event.target as HTMLElement;
-            if (target.classList.contains('selection')) {
-                // 用户选择了选项，清除等待状态
-                (this as any).waitingForChoice = false;
-            }
-        });
-    }
-}
-    private nextMove(): void {
-        if (!this.currentScene) return;
 
         // 检查是否显示了选项，如果显示了选项则不执行下一步
         const selectionBox = document.getElementById("selection_box");
-        if (selectionBox && selectionBox.style.display !== "none") {
-            return; // 如果选项可见，则不执行下一步
+        if (selectionBox) {
+            const isVisible = selectionBox.style.display !== "none" &&
+                selectionBox.style.visibility !== "hidden" &&
+                selectionBox.children.length > 0;
+            console.log("[GameScene] 选项框状态 - display:", selectionBox.style.display,
+                "visibility:", selectionBox.style.visibility,
+                "子元素数量:", selectionBox.children.length,
+                "是否可见:", isVisible);
+
+            if (isVisible) {
+                console.log("[GameScene] 选项框可见，不执行下一步");
+                return; // 如果选项可见，则不执行下一步
+            }
         }
 
         // 如果正在等待用户选择，则不允许继续跳过
         if ((this as any).waitingForChoice) {
+            console.log("[GameScene] 正在等待用户选择");
             // 检查当前节点是否有选项，如果有，则继续保持等待状态
             const currentNode = this.getCurrentNode();
             if (currentNode && currentNode.choices && currentNode.choices.length > 0) {
                 // 仍然在选项节点，不执行任何操作
+                console.log("[GameScene] 当前节点有选项，继续保持等待状态");
                 return;
             } else {
                 // 已经离开了选项节点，可以清除等待标记
+                console.log("[GameScene] 已离开选项节点，清除等待标记");
                 (this as any).waitingForChoice = false;
             }
         }
 
         // 播放点击音效
-        this.audioManager.playClickSound();
+        console.log("[GameScene] 播放点击音效");
+        this.sceneManager.getAudioManager().playClickSound();
 
         // 获取当前节点
         const currentNode = this.getCurrentNode();
+        console.log("[GameScene] 当前节点:", currentNode);
 
         // 检查当前节点是否有next属性且没有选项
         if (currentNode && currentNode.next && (!currentNode.choices || currentNode.choices.length === 0)) {
+            console.log("[GameScene] 当前节点有next属性且没有选项");
             // 跳转到next指定的节点或场景
             if (typeof currentNode.next === "string") {
+                console.log("[GameScene] next是字符串类型");
                 // 检查是否是当前场景内的节点ID
                 if (this.currentScene) {
                     const targetNodeIndex = this.currentScene.nodes.findIndex((n: any) => n.id === currentNode.next);
+                    console.log("[GameScene] 查找目标节点索引:", targetNodeIndex);
                     if (targetNodeIndex !== -1) {
                         // 是当前场景内的节点，直接跳转到该节点
+                        console.log("[GameScene] 跳转到当前场景内节点，索引:", targetNodeIndex);
                         this.currentNodeIndex = targetNodeIndex;
                         this.clickCount++;
                         localStorage.setItem("nowclick", this.clickCount.toString());
@@ -1391,6 +1348,7 @@ class GameScene {
                     }
                 }
                 // 如果不是当前场景内的节点，则进行场景间跳转
+                console.log("[GameScene] 跳转到其他场景:", currentNode.next);
                 this.navigateToScene(currentNode.next);
             }
             return;
@@ -1398,21 +1356,25 @@ class GameScene {
 
         // 如果还有下一个节点
         if (this.currentNodeIndex < this.currentScene.nodes.length - 1) {
+            console.log("[GameScene] 跳转到下一个节点");
             this.currentNodeIndex++;
             this.clickCount++;
             localStorage.setItem("nowclick", this.clickCount.toString());
             this.renderCurrentNode();
         } else {
             // 到达场景结尾
+            console.log("[GameScene] 到达场景结尾");
             localStorage.setItem("nowclick", "0");
             const node = this.getCurrentNode();
             if (node && node.next) {
                 if (typeof node.next === "string") {
+                    console.log("[GameScene] 场景结尾跳转到:", node.next);
                     this.navigateToScene(node.next);
                 }
             }
         }
-        }   private startAutoClick(): void {
+    }
+    private startAutoClick(): void {
         const autoButton = document.getElementById("op_auto");
 
         // 实现自动播放功能
@@ -1428,19 +1390,31 @@ class GameScene {
             this.autoClickInterval = setInterval(() => {
                 // 检查是否显示了选项，如果显示了选项则不执行下一步
                 const selectionBox = document.getElementById("selection_box");
-                if (selectionBox && selectionBox.style.display !== "none") {
-                    // 如果选项可见，则停止自动播放
-                    this.startAutoClick();
-                    return;
+                if (selectionBox) {
+                    const isVisible = selectionBox.style.display !== "none" &&
+                        selectionBox.style.visibility !== "hidden" &&
+                        selectionBox.children.length > 0;
+                    console.log("[GameScene-auto] 选项框状态 - display:", selectionBox.style.display,
+                        "visibility:", selectionBox.style.visibility,
+                        "子元素数量:", selectionBox.children.length,
+                        "是否可见:", isVisible);
+
+                    if (isVisible) {
+                        // 如果选项可见，则停止自动播放
+                        console.log("[GameScene-auto] 选项框可见，停止自动播放");
+                        this.startAutoClick();
+                        return;
+                    }
                 }
-                
+
                 // 如果正在等待用户选择，则停止自动播放
                 if ((this as any).waitingForChoice) {
                     // 停止自动播放
+                    console.log("[GameScene-auto] 正在等待用户选择，停止自动播放");
                     this.startAutoClick();
                     return;
                 }
-                
+
                 this.nextMove();
             }, 1500);
             if (autoButton) {
@@ -1448,14 +1422,10 @@ class GameScene {
             }
         }
     }
-        private redirectToNewPage(nextpage: string): void {
-        const nextPageURL = nextpage + "?referrer=" + encodeURIComponent(window.location.href);
-        window.location.href = nextPageURL;
-    }
 
-     /**
-     * 返回上一个节点的功能
-     */
+    /**
+    * 返回上一个节点的功能
+    */
     private goBackToPreviousNode(): void {
         // 检查是否有上一个节点可以返回
         if (this.currentNodeIndex > 0 && this.currentScene) {
@@ -1479,123 +1449,6 @@ class GameScene {
         } else {
             console.log("已经到达第一个节点，无法再返回");
         }
-    }
-    /**
-     * 切换背包界面显示/隐藏
-     */
-    private toggleBag(): void {
-        const bagOverlay = document.getElementById("bag-overlay");
-        if (bagOverlay) {
-            const isVisible = bagOverlay.style.display === "flex";
-            if (isVisible) {
-                bagOverlay.style.display = "none";
-            } else {
-                this.renderBag();
-                bagOverlay.style.display = "flex";
-            }
-        }
-    }
-
-    /**
-     * 渲染背包内容
-     */
-    private renderBag(): void {
-        const bagGrid = document.getElementById("bag-grid");
-        if (!bagGrid) return;
-
-        // 清空现有内容
-        bagGrid.innerHTML = "";
-
-        // 获取ArchiveManager实例
-        const archiveManager = ArchiveManager.getInstance();
-
-        // 获取玩家拥有的物品
-        const playerItems: string[] = [];
-        for (const itemId in ITEMS_DATABASE) {
-            if (archiveManager.hasItem(itemId)) {
-                playerItems.push(itemId);
-            }
-        }
-
-        // 如果没有物品，显示提示
-        if (playerItems.length === 0) {
-            bagGrid.innerHTML = '<p class="empty-bag" style="grid-column: 1/-1; text-align: center; color: #eeeeee;">背包是空的</p>';
-            return;
-        }
-
-        // 渲染每个物品
-        playerItems.forEach(itemId => {
-            const item = ITEMS_DATABASE[itemId];
-            if (item) {
-                const itemElement = this.createItemElement(item);
-                bagGrid.appendChild(itemElement);
-            }
-        });
-    }
-
-    /**
-     * 创建物品元素
-     * @param item 物品数据
-     * @returns HTML元素
-     */
-    private createItemElement(item: Item): HTMLElement {
-        const itemElement = document.createElement("div");
-        itemElement.className = "bag-item";
-        itemElement.innerHTML = `
-            <div class="item-icon">${item.icon}</div>
-            <p class="item-name">${item.name}</p>
-        `;
-
-        itemElement.addEventListener("click", () => {
-            this.showItemModal(item);
-        });
-
-        return itemElement;
-    }
-
-    /**
-     * 显示物品详情弹窗
-     * @param item 物品数据
-     */
-    private showItemModal(item: Item): void {
-        const modal = document.getElementById("item-modal");
-        const itemName = document.getElementById("modal-item-name");
-        const itemDescription = document.getElementById("modal-item-description");
-
-        if (itemName) itemName.textContent = item.name;
-        if (itemDescription) itemDescription.textContent = item.description;
-
-        if (modal) {
-            modal.style.display = "flex";
-        }
-    }
-
-    /**
-     * 添加物品到背包
-     * @param itemId 物品ID
-     */
-    public addItemToBag(itemId: string): void {
-        const archiveManager = ArchiveManager.getInstance();
-        archiveManager.addItem(itemId);
-    }
-
-    /**
-     * 从背包移除物品
-     * @param itemId 物品ID
-     */
-    public removeItemFromBag(itemId: string): void {
-        const archiveManager = ArchiveManager.getInstance();
-        archiveManager.removeItem(itemId);
-    }
-
-    /**
-     * 检查背包中是否有指定物品
-     * @param itemId 物品ID
-     * @returns 是否拥有该物品
-     */
-    public hasItemInBag(itemId: string): boolean {
-        const archiveManager = ArchiveManager.getInstance();
-        return archiveManager.hasItem(itemId);
     }
 }
 
