@@ -67,20 +67,24 @@ export class ChoiceManager {
         this.textManager = textManager;
     }
 
+
     /**
      * 处理选项显示和交互
      * @param node 包含选项信息的场景节点
      */
     public handleChoices(node: any): void {
         const selectionBox = document.getElementById("selection_box");
+        console.log("[ChoiceManager] 处理选项，selectionBox:", selectionBox);
         if (!selectionBox) return;
         
         // 清空选项容器
         selectionBox.innerHTML = "";
         
         if (node.choices && node.choices.length > 0) {
+            console.log("[ChoiceManager] 有选项需要显示，选项数量:", node.choices.length);
             // 显示选项
             selectionBox.style.display = "block";
+            console.log("[ChoiceManager] 显示选项框");
             
             node.choices.forEach((choice: any) => {
                 // 检查条件
@@ -93,11 +97,16 @@ export class ChoiceManager {
                 button.onclick = () => {
                     console.log("选项被点击:", choice);
                     
+                    // 隐藏选项框
+                    selectionBox.style.display = "none";
+                    console.log("[ChoiceManager] 隐藏选项框");
+                    
                     // 清除GameScene中的等待状态
                     const gameSceneElement = document.getElementById("move");
                     if (gameSceneElement) {
                         // 通过DOM元素访问GameScene实例并清除waitingForChoice状态
                         (gameSceneElement as any).waitingForChoice = false;
+                        console.log("[ChoiceManager] 清除waitingForChoice状态");
                     }
                     
                     // 清除最后记录的文本，避免重复
@@ -160,29 +169,24 @@ export class ChoiceManager {
                                 if (this.renderCurrentNodeCallback) {
                                     this.renderCurrentNodeCallback();
                                 }
-                            } else {
-                                // 节点不在当前场景中，可能是直接引用的节点对象
-                                console.log("SceneNode不在当前场景中，直接渲染");
-                                // 这种情况下，我们需要特殊处理，可能需要修改当前节点
-                                // 更新点击次数，确保存档正确
-                                if (this.getCurrentNodeIndexCallback) {
-                                    const currentClickCount = this.getCurrentNodeIndexCallback();
-                                    localStorage.setItem("nowclick", currentClickCount.toString());
-                                }
-                                if (this.renderCurrentNodeCallback) {
-                                    this.renderCurrentNodeCallback();
-                                }
+                                return;
                             }
+                        }
+                        
+                        // 如果SceneNode不在当前场景中，直接调用它
+                        console.log("SceneNode不在当前场景中，直接调用");
+                        if (this.renderCurrentNodeCallback) {
+                            this.renderCurrentNodeCallback();
                         }
                     }
                 };
-                const p = document.createElement("p");
-                p.appendChild(button);
-                selectionBox.appendChild(p);
+                
+                selectionBox.appendChild(button);
             });
         } else {
-            // 隐藏选项
+            // 没有选项，隐藏选项框
             selectionBox.style.display = "none";
+            console.log("[ChoiceManager] 没有选项，隐藏选项框");
         }
     }
 }

@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Noto Serif SC';
-    src: local('Noto Serif SC CN'),
-        url('../../../../assets/fonts/SourceHanSerifSC-VF.otf') format('opentype');
+    /* src: local('Noto Serif SC CN'), */
+        /* url('../../../../assets/fonts/SourceHanSerifSC-VF.otf') format('opentype'); */
     font-weight: normal;
     font-style: normal;
     font-display: swap;

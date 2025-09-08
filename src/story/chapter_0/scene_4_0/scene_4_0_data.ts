@@ -703,7 +703,10 @@ sprite:{
     id: "battle_shadow_34",  
     elements: {  
         name: "旁白",  
-        text: "在跨过漫长的旅途后，依旧没能得到任何答案。"  
+        text: "在跨过漫长的旅途后，依旧没能得到任何答案。"  ,
+        sprite:{
+    left:null,
+}  
     }  
 },  
 {  
@@ -788,7 +791,10 @@ sprite:{
     id: "battle_shadow_42",  
     elements: {  
         name: "光泠",  
-        text: "为什么......在最后还要做出如此苦涩的选择？"  
+        text: "为什么......在最后还要做出如此苦涩的选择？" ,
+        sprite:{
+    left:"guangling/down.png",
+}   
     }  
 },  
 {  
@@ -802,7 +808,10 @@ sprite:{
     id: "battle_shadow_43",  
     elements: {  
         name: "我",  
-        text: "错的不是我，而是这个世界！"  
+        text: "错的不是我，而是这个世界！" ,
+        sprite:{
+    left:null,
+}    
     }  
 },  
 {  
@@ -810,7 +819,7 @@ sprite:{
     elements: {  
         background:"sc4.1/4-1-1.jpg",
         name: "旁白",  
-        text: "理智早已被疯狂取代，癫狂的大笑中，拔出蚀心刃，将光泠的身体扔在脚下。"  
+        text: "理智早已被疯狂取代，癫狂的大笑中，拔出蚀心刃，将光泠的身体扔在脚下。"  ,
     }  
 },  
 {  
@@ -938,7 +947,10 @@ sprite:{
         background:"sc0.1/0-1-1.jpg",
         bgm:"bgm2.mp3",
         name: "？？？",  
-        text: "您醒了。"  
+        text: "您醒了。",
+        sprite:{
+    left:"guangling/smile.png",
+}     
     }  
 },  
 {  
@@ -967,7 +979,7 @@ sprite:{
         name: "旁白",  
         text: "破败的废墟里，少女再一次，朝成为白纸的你露出微笑。" ,
         sprite:{
-            left:"guangling/smile.png",
+            left:"guangling/smile1.png",
         }  
     }  ,
     action: () => {
