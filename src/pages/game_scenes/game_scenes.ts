@@ -100,6 +100,34 @@ class GameScene {
         document.body.appendChild(this.miniGameContainer);
         console.log("[GameScene] 小游戏容器已创建");
 
+        // 添加键盘事件监听器，包括 ESC 键来触发暂停菜单
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                this.togglePauseMenu();
+            }
+        });
+
+        // 监听页面可见性变化，当页面失去焦点时自动暂停
+        document.addEventListener('visibilitychange', () => {
+            console.log("[GameScene] visibilitychange event, hidden:", document.hidden);
+            if (document.hidden) {
+                this.handleAutoPause();
+            }
+        });
+
+        // 监听窗口失去焦点事件，当打开其他窗口时自动暂停
+        window.addEventListener('blur', () => {
+            console.log("[GameScene] window blur event");
+            // 延迟执行，确保状态正确
+            setTimeout(() => {
+                this.handleAutoPause();
+            }, 100);
+        });
+
+        // 监听窗口获得焦点事件
+        window.addEventListener('focus', () => {
+            console.log("[GameScene] window focus event");
+        });
         // 从URL参数获取存档ID
         const urlParams = new URLSearchParams(window.location.search);
         // 手动构建参数对象以避免使用不兼容的API
@@ -1450,6 +1478,235 @@ class GameScene {
             console.log("已经到达第一个节点，无法再返回");
         }
     }
+
+    /**
+     * 处理自动暂停逻辑
+     */
+    private handleAutoPause(): void {
+        // 检查是否已经有暂停菜单显示
+        const pauseOverlay = document.getElementById("pause-overlay");
+        if (pauseOverlay && pauseOverlay.style.display === 'flex') {
+            return; // 已经暂停了，不需要再次暂停
+        }
+        
+        // 检查是否在小游戏或视频播放中
+        const miniGameContainer = document.getElementById("mini-game-container");
+        const videoContainer = document.getElementById("video-container");
+        
+        const inMiniGame = miniGameContainer && miniGameContainer.style.display !== 'none';
+        const inVideo = videoContainer && videoContainer.style.display !== 'none';
+        
+        console.log("[GameScene] handleAutoPause - inMiniGame:", inMiniGame, "inVideo:", inVideo);
+        
+        // 只有不在小游戏或视频播放中时才触发暂停
+        if (!inMiniGame && !inVideo) {
+            console.log("[GameScene] Triggering auto pause");
+            this.togglePauseMenu();
+        }
+    }
+
+  /**
+     * 切换暂停菜单的显示状态
+     */
+    private togglePauseMenu(): void {
+        console.log("[GameScene] togglePauseMenu called");
+        
+        // 创建暂停菜单元素（如果不存在）
+        let pauseOverlay = document.getElementById("pause-overlay");
+        if (!pauseOverlay) {
+            console.log("[GameScene] Creating pause menu");
+            // 创建暂停遮罩层
+            pauseOverlay = document.createElement('div');
+            pauseOverlay.id = 'pause-overlay';
+            pauseOverlay.className = 'pause-overlay';
+            
+            // 创建暂停菜单
+            const pauseMenu = document.createElement('div');
+            pauseMenu.id = 'pause-menu';
+            pauseMenu.className = 'pause-menu';
+            pauseMenu.innerHTML = `
+                <h2>游戏暂停</h2>
+                <button id="resume-button" class="pause-button">继续游戏</button>
+                <button id="settings-button" class="pause-button">设置</button>
+                <button id="exit-button" class="pause-button">退出游戏</button>
+            `;
+            
+            pauseOverlay.appendChild(pauseMenu);
+            document.body.appendChild(pauseOverlay);
+            
+            // 添加样式
+            this.addPauseStyles();
+            
+            // 绑定事件
+            this.bindPauseEvents(pauseOverlay);
+        }
+        
+        // 切换显示状态
+        if (pauseOverlay.style.display === 'flex') {
+            console.log("[GameScene] Closing pause menu");
+            pauseOverlay.style.display = 'none';
+            // 恢复自动播放（如果之前是开启状态）
+            if ((this as any)._wasAutoPlaying) {
+                this.startAutoClick();
+                (this as any)._wasAutoPlaying = false;
+            }
+        } else {
+            console.log("[GameScene] Opening pause menu");
+            // 如果正在自动播放，暂时停止并记录状态
+            if (this.autoClickInterval) {
+                this.startAutoClick();
+                (this as any)._wasAutoPlaying = true;
+            }
+            
+            pauseOverlay.style.display = 'flex';
+            // 触发重排以确保动画生效
+            pauseOverlay.offsetHeight;
+            const pauseMenu = document.getElementById('pause-menu');
+            if (pauseMenu) {
+                pauseMenu.classList.add('show');
+            }
+        }
+    }
+    /**
+     * 添加暂停菜单样式
+     */
+    private addPauseStyles(): void {
+        // 检查样式是否已添加
+        if (document.getElementById('pause-styles')) {
+            return;
+        }
+        
+        const style = document.createElement('style');
+        style.id = 'pause-styles';
+        style.textContent = `
+            .pause-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .pause-menu {
+                background-color: rgba(30, 30, 30, 0.95);
+                border-radius: 15px;
+                padding: 30px;
+                width: 300px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transform: scale(0.9);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .pause-menu.show {
+                transform: scale(1);
+                opacity: 1;
+            }
+            
+            .pause-menu h2 {
+                color: #fff;
+                margin-top: 0;
+                margin-bottom: 25px;
+                font-size: 24px;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            
+            .pause-button {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                margin: 10px 0;
+                background-color: rgba(50, 50, 50, 0.8);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .pause-button:hover {
+                background-color: rgba(70, 70, 70, 0.9);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .pause-button:active {
+                transform: translateY(0);
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+    
+    /**
+     * 绑定暂停菜单事件
+     */
+    private bindPauseEvents(pauseOverlay: HTMLElement): void {
+        const pauseMenu = document.getElementById('pause-menu');
+        const resumeButton = document.getElementById('resume-button');
+        const settingsButton = document.getElementById('settings-button');
+        const exitButton = document.getElementById('exit-button');
+        
+        // 点击遮罩层关闭暂停菜单
+        pauseOverlay.addEventListener('click', (event) => {
+            if (event.target === pauseOverlay) {
+                this.closePauseMenu();
+            }
+        });
+        
+        // 继续游戏按钮
+        if (resumeButton) {
+            resumeButton.addEventListener('click', () => {
+                this.closePauseMenu();
+            });
+        }
+        
+         // 设置按钮
+        if (settingsButton) {
+            settingsButton.addEventListener('click', () => {
+                this.closePauseMenu();
+                // 跳转到设置页面时传递当前页面作为referrer参数
+                window.location.href = '../settings/settings.html?referrer=' + encodeURIComponent(window.location.href);
+            });
+        }
+        
+        // 退出游戏按钮
+        if (exitButton) {
+            exitButton.addEventListener('click', () => {
+                this.closePauseMenu();
+                window.location.href = '../main_menu/main_menu.html';
+            });
+        }
+    }
+    
+    /**
+     * 关闭暂停菜单
+     */
+    private closePauseMenu(): void {
+        const pauseOverlay = document.getElementById('pause-overlay');
+        const pauseMenu = document.getElementById('pause-menu');
+        
+        if (pauseMenu) {
+            pauseMenu.classList.remove('show');
+            // 等待动画结束后隐藏overlay
+            setTimeout(() => {
+                if (pauseOverlay) {
+                    pauseOverlay.style.display = 'none';
+                }
+            }, 300);
+        }
+    }
+
 }
 
 // 导出游戏场景实例
