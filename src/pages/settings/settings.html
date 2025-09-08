@@ -32,6 +32,32 @@
             <input type="range" id="menuVolume" min="0" max="100" value="100">
             <span id="menuVolumeValue">100%</span>
         </div>
+        <div class="setting-item">
+            <label><span data-zh="未读文本允许跳过" data-en="Allow Skipping Unread Text">未读文本允许跳过</span></label>
+            <label class="switch">
+                <input type="checkbox" id="skipUnreadText">
+                <span class="slider"></span>
+            </label>
+        </div>
+               <div class="setting-item">
+            <label><span data-zh="变更已读文本颜色" data-en="Change Read Text Color">变更已读文本颜色</span></label>
+            <label class="switch">
+                <input type="checkbox" id="changeReadTextColor">
+                <span class="slider"></span>
+            </label>
+        </div>
+               <div class="setting-item">
+            <label for="autoPlaySpeed"><span data-zh="自动播放速度" data-en="Auto Play Speed">自动播放速度</span>:</label>
+            <input type="range" id="autoPlaySpeed" min="500" max="5000" step="500" value="1500">
+            <span id="autoPlaySpeedValue" class="volume-value">1500ms</span>
+        </div>
+        <div class="setting-item">
+            <label><span data-zh="点击时停止自动播放" data-en="Stop Auto Play on Click">点击时停止自动播放</span></label>
+            <label class="switch">
+                <input type="checkbox" id="stopAutoPlayOnClick">
+                <span class="slider"></span>
+            </label>
+        </div>
     
     <div class="button-group">
       <button id="saveSettings" data-zh="保存设置" data-en="Save Settings">保存设置</button>
