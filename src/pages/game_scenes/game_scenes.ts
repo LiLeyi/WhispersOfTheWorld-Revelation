@@ -1053,6 +1053,193 @@ class GameScene {
         };
     }
 
+     /**
+     * 切换暂停菜单的显示状态
+     */
+    private togglePauseMenu(): void {
+        // 创建暂停菜单元素（如果不存在）
+        let pauseOverlay = document.getElementById("pause-overlay");
+        if (!pauseOverlay) {
+            // 创建暂停遮罩层
+            pauseOverlay = document.createElement('div');
+            pauseOverlay.id = 'pause-overlay';
+            pauseOverlay.className = 'pause-overlay';
+            
+            // 创建暂停菜单
+            const pauseMenu = document.createElement('div');
+            pauseMenu.id = 'pause-menu';
+            pauseMenu.className = 'pause-menu';
+            pauseMenu.innerHTML = `
+                <h2>游戏暂停</h2>
+                <button id="resume-button" class="pause-button">继续游戏</button>
+                <button id="settings-button" class="pause-button">设置</button>
+                <button id="exit-button" class="pause-button">退出游戏</button>
+            `;
+            
+            pauseOverlay.appendChild(pauseMenu);
+            document.body.appendChild(pauseOverlay);
+            
+            // 添加样式
+            this.addPauseStyles();
+            
+            // 绑定事件
+            this.bindPauseEvents(pauseOverlay);
+        }
+        
+        // 切换显示状态
+        if (pauseOverlay.style.display === 'flex') {
+            pauseOverlay.style.display = 'none';
+        } else {
+            pauseOverlay.style.display = 'flex';
+            // 触发重排以确保动画生效
+            pauseOverlay.offsetHeight;
+            const pauseMenu = document.getElementById('pause-menu');
+            if (pauseMenu) {
+                pauseMenu.classList.add('show');
+            }
+        }
+    }
+    
+    /**
+     * 添加暂停菜单样式
+     */
+    private addPauseStyles(): void {
+        // 检查样式是否已添加
+        if (document.getElementById('pause-styles')) {
+            return;
+        }
+        
+        const style = document.createElement('style');
+        style.id = 'pause-styles';
+        style.textContent = `
+            .pause-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .pause-menu {
+                background-color: rgba(30, 30, 30, 0.95);
+                border-radius: 15px;
+                padding: 30px;
+                width: 300px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transform: scale(0.9);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .pause-menu.show {
+                transform: scale(1);
+                opacity: 1;
+            }
+            
+            .pause-menu h2 {
+                color: #fff;
+                margin-top: 0;
+                margin-bottom: 25px;
+                font-size: 24px;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            
+            .pause-button {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                margin: 10px 0;
+                background-color: rgba(50, 50, 50, 0.8);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .pause-button:hover {
+                background-color: rgba(70, 70, 70, 0.9);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .pause-button:active {
+                transform: translateY(0);
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+    
+    /**
+     * 绑定暂停菜单事件
+     */
+    private bindPauseEvents(pauseOverlay: HTMLElement): void {
+        const pauseMenu = document.getElementById('pause-menu');
+        const resumeButton = document.getElementById('resume-button');
+        const settingsButton = document.getElementById('settings-button');
+        const exitButton = document.getElementById('exit-button');
+        
+        // 点击遮罩层关闭暂停菜单
+        pauseOverlay.addEventListener('click', (event) => {
+            if (event.target === pauseOverlay) {
+                this.closePauseMenu();
+            }
+        });
+        
+        // 继续游戏按钮
+        if (resumeButton) {
+            resumeButton.addEventListener('click', () => {
+                this.closePauseMenu();
+            });
+        }
+        
+         // 设置按钮
+        if (settingsButton) {
+            settingsButton.addEventListener('click', () => {
+                this.closePauseMenu();
+                // 跳转到设置页面时传递当前页面作为referrer参数
+                window.location.href = '../settings/settings.html?referrer=' + encodeURIComponent(window.location.href);
+            });
+        }
+        
+        // 退出游戏按钮
+        if (exitButton) {
+            exitButton.addEventListener('click', () => {
+                this.closePauseMenu();
+                window.location.href = '../main_menu/main_menu.html';
+            });
+        }
+    }
+    
+    /**
+     * 关闭暂停菜单
+     */
+    private closePauseMenu(): void {
+        const pauseOverlay = document.getElementById('pause-overlay');
+        const pauseMenu = document.getElementById('pause-menu');
+        
+        if (pauseMenu) {
+            pauseMenu.classList.remove('show');
+            // 等待动画结束后隐藏overlay
+            setTimeout(() => {
+                if (pauseOverlay) {
+                    pauseOverlay.style.display = 'none';
+                }
+            }, 300);
+        }
+    }
+
    private bindEvents(): void {
     // 绑定点击事件
     const moveElement = document.getElementById("move");
@@ -1102,52 +1289,37 @@ class GameScene {
                 if (selectionBox && selectionBox.style.display !== "none") {
                     return; // 如果选项可见，则不执行下一步
                 }
-                
-                // 如果正在等待用户选择，则不允许继续跳过
-                if ((this as any).waitingForChoice) {
-                    return;
-                }
-                
                 this.nextMove();
             }
         }
-    });
-    if (moveElement) moveElement.onclick = nextMoveHandler;
-    if (dialogElement) dialogElement.onclick = nextMoveHandler;
-    if (textBoxElement) textBoxElement.onclick = nextMoveHandler;
-
-   // 绑定键盘事件 - 空格键跳过剧情
-    document.addEventListener('keydown', (event) => {
-        // 检查是否按下了空格键
-        if (event.code === 'Space') {
-            // 阻止默认的空格键行为（页面滚动）
+       // 检查是否按下了ESC键
+        else if (event.key === 'Escape') {
             event.preventDefault();
-            
-            // 检查是否有弹窗或菜单打开，如果有则不执行跳过
-            const skipElement = document.getElementById("skip");
-            const returnElement = document.getElementById("return");
-            const bagOverlay = document.getElementById("bag-overlay");
-            const itemModal = document.getElementById("item-modal");
-            
-            const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
-                               (returnElement && returnElement.classList.contains("active")) ||
-                               (bagOverlay && bagOverlay.style.display === "flex") ||
-                               (itemModal && itemModal.style.display === "flex");
-            
-            if (!hasOpenModal) {
-                // 检查是否显示了选项，如果显示了选项则不执行下一步
-                const selectionBox = document.getElementById("selection_box");
-                if (selectionBox && selectionBox.style.display !== "none") {
-                    return; // 如果选项可见，则不执行下一步
-                }
-                
-                // 如果正在等待用户选择，则不允许继续跳过
-                if ((this as any).waitingForChoice) {
-                    return;
-                }
-                
-                this.nextMove();
-            }
+            // 显示暂停菜单
+            this.togglePauseMenu();
+        }
+    });
+
+    // 监听窗口失去焦点事件，当游戏窗口失去焦点时打开暂停菜单
+    window.addEventListener('blur', () => {
+        // 只有当游戏正在运行且没有显示其他模态框时才打开暂停菜单
+        const skipElement = document.getElementById("skip");
+        const returnElement = document.getElementById("return");
+        const bagOverlay = document.getElementById("bag-overlay");
+        const itemModal = document.getElementById("item-modal");
+        
+        const hasOpenModal = (skipElement && skipElement.classList.contains("active")) ||
+                           (returnElement && returnElement.classList.contains("active")) ||
+                           (bagOverlay && bagOverlay.style.display === "flex") ||
+                           (itemModal && itemModal.style.display === "flex");
+        
+        // 检查暂停菜单是否已经打开
+        const pauseOverlay = document.getElementById("pause-overlay");
+        const isPauseMenuOpen = pauseOverlay && pauseOverlay.style.display === 'flex';
+        
+        if (!hasOpenModal && !isPauseMenuOpen) {
+            // 窗口失去焦点时打开暂停菜单
+            this.togglePauseMenu();
         }
     });
 

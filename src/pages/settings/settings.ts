@@ -2,9 +2,21 @@ import "./settings.css";
 import { AudioManager } from '../../components/AudioManager';
 
 let currentLang: "zh" | "en" = "zh";
+let audioManager: AudioManager;
 
-// 获取音频管理器实例
-const audioManager = AudioManager.getInstance();
+// 检查是否从游戏页面进入（通过referrer参数）
+function isFromGame(): boolean {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = urlParams.get("referrer");
+  return referrer ? referrer.includes("game_scenes") : false;
+}
+
+// 获取游戏页面URL
+function getGamePageUrl(): string | null {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = urlParams.get("referrer");
+  return referrer || null;
+}
 
 // 切换语言
 function toggleLang(): void {
@@ -76,15 +88,49 @@ function loadSettings(): void {
   updateVolumeDisplay("menuVolumeValue", menuVolume);
 }
 
-// 返回主菜单
-function backToMenu(): void {
-  window.location.href = "../main_menu/main_menu.html";
+// 返回功能 - 根据来源决定返回哪里
+function back(): void {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = urlParams.get("referrer");
+  
+  if (isFromGame() && referrer) {
+    // 如果从游戏进入，返回游戏页面
+    window.location.href = referrer;
+  } else if (referrer) {
+    // 如果有referrer但不是来自游戏，则返回referrer指定的页面
+    window.location.href = referrer;
+  } else {
+    // 否则返回主菜单
+    window.location.href = "../main_menu/main_menu.html";
+  }
 }
 
 // 页面加载完成后绑定事件
 document.addEventListener("DOMContentLoaded", () => {
+  // 初始化AudioManager
+  audioManager = AudioManager.getInstance();
+  
   // 初始化语言按钮
   toggleLang();
+  
+  // 根据来源更新返回按钮文本
+  const backBtn = document.getElementById("backToMenu");
+  if (backBtn) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const referrer = urlParams.get("referrer");
+    
+    if (referrer) {
+      backBtn.setAttribute("data-zh", "返回");
+      backBtn.setAttribute("data-en", "Back");
+      const text = currentLang === "zh" ? "返回" : "Back";
+      backBtn.textContent = text;
+    } else {
+      backBtn.setAttribute("data-zh", "返回主菜单");
+      backBtn.setAttribute("data-en", "Back to Main Menu");
+      const text = currentLang === "zh" ? "返回主菜单" : "Back to Main Menu";
+      backBtn.textContent = text;
+    }
+  }
   
   // 加载保存的设置
   loadSettings();
@@ -113,5 +159,5 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("saveSettings")?.addEventListener("click", saveSettings);
   
   // 绑定返回按钮
-  document.getElementById("backToMenu")?.addEventListener("click", backToMenu);
+  document.getElementById("backToMenu")?.addEventListener("click", back);
 });
