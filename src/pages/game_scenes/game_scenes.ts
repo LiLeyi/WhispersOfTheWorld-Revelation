@@ -8,56 +8,13 @@ import { SceneManager } from '../../components/SceneManager';
 import { BagManager } from '../../components/BagManager';
 import { AutoSaveManager } from '../../components/AutoSaveManager'; 
 
-// 定义道具接口
-interface Item {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-}
+// 导入场景相关CSS样式
+import '../../components/dialog-box/scene-sprite.css';
+import '../../components/dialog-box/scene-dialog.css';
+import '../../components/dialog-box/scene-menu.css';
 
 // 添加全局变量来控制点击时是否停止自动播放
 let stopAutoPlayOnClick = false
-
-// 道具数据库
-const ITEMS_DATABASE: Record<string, Item> = {
-    "ancient_coin": {
-        id: "ancient_coin",
-        name: "古币",
-        description: "一枚古老的硬币，上面刻着未知的符文。似乎有某种神秘的力量。",
-        icon: "🪙"
-    },
-    "mystic_gem": {
-        id: "mystic_gem",
-        name: "神秘宝石",
-        description: "散发着微弱蓝光的宝石，让人感到平静和安宁。",
-        icon: "💎"
-    },
-    "old_key": {
-        id: "old_key",
-        name: "古老的钥匙",
-        description: "一把生锈的钥匙，不知道能打开什么。",
-        icon: "🗝️"
-    },
-    "healing_potion": {
-        id: "healing_potion",
-        name: "治疗药水",
-        description: "可以恢复生命值的红色药水。",
-        icon: "🧪"
-    },
-    "magic_scroll": {
-        id: "magic_scroll",
-        name: "魔法卷轴",
-        description: "记载着古老咒语的卷轴，似乎蕴含着强大的力量。",
-        icon: "📜"
-    },
-    "silver_ring": {
-        id: "silver_ring",
-        name: "银戒指",
-        description: "一枚精美的银戒指，镶嵌着小小的红宝石。",
-        icon: "💍"
-    }
-};
 
 class GameScene {
     private currentScene: Scene | null = null;
@@ -743,62 +700,6 @@ private showAutoSaveNotification(message: string): void {
         console.log("合并结果:", result);
         return result;
     }
-
-    // private updateBackground(element: SceneElement): void {
-    //     console.log("更新背景 - 接收到的元素:", element);
-    //     // 确保即使element.background为undefined，也要使用localStorage中的背景
-    //     const backgroundToUse = element.background !== undefined && element.background !== null ?
-    //         element.background :
-    //         (localStorage.getItem("MSYbackgroundIMG") || "");
-    //     console.log("使用的背景:", backgroundToUse);
-
-    //     // 如果没有背景要设置，则直接返回
-    //     if (backgroundToUse === undefined || backgroundToUse === "") {
-    //         console.log("没有背景需要设置");
-    //         return;
-    //     }
-
-    //     // 使用BackgroundManager设置背景
-    //     this.sceneManager.getBackgroundManager().setBackground(backgroundToUse);
-
-    //     // 保存背景到localStorage
-    //     localStorage.setItem("MSYbackgroundIMG", backgroundToUse);
-
-    //     // 记录背景历史（用于back功能）
-    //     const backgroundHistory = JSON.parse(localStorage.getItem("backgroundHistory") || "[]");
-
-    //     // 如果当前背景与历史记录中的最后一个不同，则添加到历史记录中
-    //     if (backgroundHistory[backgroundHistory.length - 1] !== backgroundToUse) {
-    //         backgroundHistory.push(backgroundToUse);
-
-    //         // 限制历史记录长度为10个，避免占用过多存储空间
-    //         if (backgroundHistory.length > 10) {
-    //             backgroundHistory.shift();
-    //         }
-    //     }
-
-    //     // 保存更新后的历史记录
-    //     localStorage.setItem("backgroundHistory", JSON.stringify(backgroundHistory));
-    // }
-    //     private updateMusic(element: SceneElement): void {
-    //     // 更新音效
-    //     if (element.soundEffect) {
-    //         this.sceneManager.getAudioManager().playSoundEffect(element.soundEffect);
-    //     }
-
-    //     // 更新背景音乐
-    //     if (element.bgm !== undefined) {
-    //         // 如果bgm为null，停止当前音乐
-    //         if (element.bgm === null || element.bgm === "null") {
-    //             // 立即停止当前背景音乐
-    //             this.sceneManager.getAudioManager().stopBackgroundMusic();
-    //         } else {
-    //             // 更新背景音乐
-    //             this.sceneManager.getAudioManager().updateBackgroundMusic(element.bgm);
-    //         }
-    //     }
-    // }
-
     private navigateToScene(sceneId: string): void {
         console.log(`[GameScene] 跳转到场景: ${sceneId}`);
 
@@ -1121,168 +1022,165 @@ private showAutoSaveNotification(message: string): void {
         };
     }
 
-    private handleMiniGame(node: SceneNode): void {
-        // 检查是否是小游戏节点
-        if (!node.game) {
-            console.error('尝试处理小游戏，但节点没有game属性');
-            return;
+private handleMiniGame(node: SceneNode): void {
+    // 检查是否是小游戏节点
+    if (!node.game) {
+        console.error('尝试处理小游戏，但节点没有game属性');
+        return;
+    }
+
+    console.log("开始处理小游戏:", node.game);
+
+    // 保存当前的点击处理函数
+    const moveElement = document.getElementById("move");
+    const dialogElement = document.getElementById("dialog");
+    const textBoxElement = document.getElementById("text-box");
+
+    const originalMoveHandler = moveElement ? moveElement.onclick : null;
+    const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
+    const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
+
+    // 隐藏对话框和其他游戏场景元素
+    const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
+    dialogElements.forEach(el => {
+        (el as HTMLElement).style.display = 'none';
+    });
+
+    // 禁用场景点击事件
+    if (moveElement) moveElement.onclick = null;
+    if (dialogElement) dialogElement.onclick = null;
+    if (textBoxElement) textBoxElement.onclick = null;
+
+    // 获取背景元素
+    const bg1Element = document.getElementById('bg1');
+    const bg2Element = document.getElementById('bg2');
+    const backgroundManager = this.sceneManager.getBackgroundManager();
+    let currentBgNum = (backgroundManager as any).backgroundNum;
+
+    // 创建黑色背景覆盖层
+    const blackOverlay = document.createElement('div');
+    blackOverlay.id = 'minigame-black-overlay';
+    blackOverlay.style.position = 'fixed';
+    blackOverlay.style.top = '0';
+    blackOverlay.style.left = '0';
+    blackOverlay.style.width = '100%';
+    blackOverlay.style.height = '100%';
+    blackOverlay.style.backgroundColor = 'black';
+    blackOverlay.style.zIndex = '998';
+    blackOverlay.style.opacity = '0';
+    blackOverlay.style.pointerEvents = 'none';
+    document.body.appendChild(blackOverlay);
+
+    // 淡出背景到黑色
+    let backgroundOpacity = 1;
+    let overlayOpacity = 0;
+    const backgroundFadeOut = setInterval(() => {
+        backgroundOpacity -= 0.05;
+        overlayOpacity += 0.05;
+
+        // 淡出当前显示的背景元素
+        const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+        if (currentBgElement) {
+            currentBgElement.style.opacity = backgroundOpacity.toString();
         }
 
-        console.log("开始处理小游戏:", node.game);
+        // 淡入黑色覆盖层
+        blackOverlay.style.opacity = overlayOpacity.toString();
 
-        // 保存当前的点击处理函数
-        const moveElement = document.getElementById("move");
-        const dialogElement = document.getElementById("dialog");
-        const textBoxElement = document.getElementById("text-box");
-
-        const originalMoveHandler = moveElement ? moveElement.onclick : null;
-        const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
-        const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
-
-        // 隐藏对话框和其他游戏场景元素
-        const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
-        dialogElements.forEach(el => {
-            (el as HTMLElement).style.display = 'none';
-        });
-
-        // 禁用场景点击事件
-        if (moveElement) moveElement.onclick = null;
-        if (dialogElement) dialogElement.onclick = null;
-        if (textBoxElement) textBoxElement.onclick = null;
-
-        // 获取背景元素
-        const bg1Element = document.getElementById('bg1');
-        const bg2Element = document.getElementById('bg2');
-        const backgroundManager = this.sceneManager.getBackgroundManager();
-        let currentBgNum = (backgroundManager as any).backgroundNum;
-
-        // 创建黑色背景覆盖层
-        const blackOverlay = document.createElement('div');
-        blackOverlay.id = 'minigame-black-overlay';
-        blackOverlay.style.position = 'fixed';
-        blackOverlay.style.top = '0';
-        blackOverlay.style.left = '0';
-        blackOverlay.style.width = '100%';
-        blackOverlay.style.height = '100%';
-        blackOverlay.style.backgroundColor = 'black';
-        blackOverlay.style.zIndex = '998';
-        blackOverlay.style.opacity = '0';
-        blackOverlay.style.pointerEvents = 'none';
-        document.body.appendChild(blackOverlay);
-
-        // 淡出背景到黑色
-        let backgroundOpacity = 1;
-        let overlayOpacity = 0;
-        const backgroundFadeOut = setInterval(() => {
-            backgroundOpacity -= 0.05;
-            overlayOpacity += 0.05;
-
-            // 淡出当前显示的背景元素
-            const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+        if (backgroundOpacity <= 0) {
+            clearInterval(backgroundFadeOut);
+            // 隐藏背景元素
             if (currentBgElement) {
-                currentBgElement.style.opacity = backgroundOpacity.toString();
+                currentBgElement.style.display = 'none';
             }
 
-            // 淡入黑色覆盖层
-            blackOverlay.style.opacity = overlayOpacity.toString();
+            // 背景淡出完成后创建小游戏容器和对话框
+            createMiniGameContainer();
+        }
+    }, 50);
 
-            if (backgroundOpacity <= 0) {
-                clearInterval(backgroundFadeOut);
-                // 隐藏背景元素
-                if (currentBgElement) {
-                    currentBgElement.style.display = 'none';
+    const createMiniGameContainer = () => {
+        // 显示小游戏容器
+        this.miniGameContainer.style.display = 'block';
+        this.miniGameContainer.style.position = 'fixed';
+        this.miniGameContainer.style.top = '0';
+        this.miniGameContainer.style.left = '0';
+        this.miniGameContainer.style.width = '100%';
+        this.miniGameContainer.style.height = '100%';
+        this.miniGameContainer.style.zIndex = '1000';
+        this.miniGameContainer.style.opacity = '0';
+        this.miniGameContainer.style.transition = 'opacity 1s ease-in-out';
+
+        // 创建游戏容器，使用正确的CSS路径
+        this.miniGameContainer.innerHTML = MiniGameFactory.getGameTemplate(node.game!.id);
+
+        // 使用SceneManager创建场景元素
+        const gameElementsContainer = document.createElement('div');
+        gameElementsContainer.id = 'minigame-elements-container';
+        gameElementsContainer.style.position = 'absolute';
+        gameElementsContainer.style.top = '0';
+        gameElementsContainer.style.left = '0';
+        gameElementsContainer.style.width = '100%';
+        gameElementsContainer.style.height = '100%';
+        gameElementsContainer.style.zIndex = '1001';
+        gameElementsContainer.style.pointerEvents = 'none';
+
+        // 使用SceneManager创建场景元素
+        if (node.elements) {
+            this.sceneManager.createSceneElementsContainer(gameElementsContainer, node.elements);
+        }
+
+        // 淡入小游戏和对话框
+        setTimeout(() => {
+            this.miniGameContainer.style.opacity = '1';
+            
+            // 在对话框元素上添加点击事件来跳过对话
+            setTimeout(() => {
+                const dialogElement = gameElementsContainer.querySelector('#dialog');
+                if (dialogElement) {
+                    dialogElement.addEventListener('click', (e) => {
+                        console.log('[GameScene] 对话框被点击，隐藏对话框');
+                        // 检查点击的是否是按钮
+                        const target = e.target as HTMLElement;
+                        if (target.closest('button')) {
+                            // 点击的是按钮，不处理跳过逻辑
+                            console.log('[GameScene] 点击的是按钮，不处理跳过逻辑');
+                            return;
+                        }
+                        
+                        e.stopPropagation();
+                        // 隐藏游戏元素容器
+                        gameElementsContainer.style.display = 'none';
+                    });
                 }
-
-                // 背景淡出完成后创建小游戏容器和对话框
-                createMiniGameContainer();
-            }
+            }, 100); // 稍微延迟以确保DOM已完全渲染
         }, 50);
+        
+        this.miniGameContainer.appendChild(gameElementsContainer);
 
-        const createMiniGameContainer = () => {
-            // 显示小游戏容器
-            this.miniGameContainer.style.display = 'block';
-            this.miniGameContainer.style.position = 'fixed';
-            this.miniGameContainer.style.top = '0';
-            this.miniGameContainer.style.left = '0';
-            this.miniGameContainer.style.width = '100%';
-            this.miniGameContainer.style.height = '100%';
-            this.miniGameContainer.style.zIndex = '1000';
-            this.miniGameContainer.style.opacity = '0';
-            this.miniGameContainer.style.transition = 'opacity 1s ease-in-out';
+        // 确保DOM已更新后再创建游戏实例
+        setTimeout(() => {
+            // 使用工厂模式创建游戏实例
+            const gameInstance = MiniGameFactory.createGame(
+                node.game!.id,
+                (score: number) => {
+                    // 淡出小游戏
+                    this.miniGameContainer.style.opacity = '0';
 
-            // 创建游戏容器，使用正确的CSS路径
-            this.miniGameContainer.innerHTML = MiniGameFactory.getGameTemplate(node.game!.id);
+                    // 等待淡出完成后处理跳转
+                    setTimeout(() => {
+                        // 游戏结束后处理跳转
+                        this.miniGameContainer.style.display = 'none';
 
-            // 使用SceneManager创建场景元素
-            const gameElementsContainer = document.createElement('div');
-            gameElementsContainer.id = 'minigame-elements-container';
-            gameElementsContainer.style.position = 'absolute';
-            gameElementsContainer.style.top = '0';
-            gameElementsContainer.style.left = '0';
-            gameElementsContainer.style.width = '100%';
-            gameElementsContainer.style.height = '100%';
-            gameElementsContainer.style.zIndex = '1001';
-            gameElementsContainer.style.pointerEvents = 'none';
-
-            // 创建一个覆盖层用于点击隐藏对话框
-            const overlay = document.createElement('div');
-            overlay.id = 'minigame-overlay';
-            overlay.style.position = 'absolute';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.zIndex = '1002';
-            overlay.style.backgroundColor = 'transparent';
-            overlay.style.display = 'block';
-            overlay.style.pointerEvents = 'auto';
-
-            // 添加点击事件来隐藏对话框和覆盖层
-            overlay.onclick = (e) => {
-                e.stopPropagation();
-                // 隐藏游戏元素容器
-                gameElementsContainer.style.display = 'none';
-                // 隐藏覆盖层
-                overlay.style.display = 'none';
-            };
-
-            // 先添加覆盖层再添加游戏元素容器
-            this.miniGameContainer.appendChild(overlay);
-            this.miniGameContainer.appendChild(gameElementsContainer);
-
-            // 使用SceneManager创建场景元素
-            if (node.elements) {
-                this.sceneManager.createSceneElementsContainer(gameElementsContainer, node.elements);
-            }
-
-            // 淡入小游戏和对话框
-            setTimeout(() => {
-                this.miniGameContainer.style.opacity = '1';
-            }, 50);
-
-            // 确保DOM已更新后再创建游戏实例
-            setTimeout(() => {
-                // 使用工厂模式创建游戏实例
-                const gameInstance = MiniGameFactory.createGame(
-                    node.game!.id,
-                    (score: number) => {
-                        // 淡出小游戏
-                        this.miniGameContainer.style.opacity = '0';
-
-                        // 等待淡出完成后处理跳转
-                        setTimeout(() => {
-                            // 游戏结束后处理跳转
-                            this.miniGameContainer.style.display = 'none';
-
-                            // 恢复背景显示并淡入
-                            const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
-                            if (currentBgElement) {
-                                currentBgElement.style.display = 'block';
-                                let fadeInOpacity = 0;
-                                const fadeInInterval = setInterval(() => {
-                                    fadeInOpacity += 0.05;
-                                    currentBgElement.style.opacity = fadeInOpacity.toString();
-                                    blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
+                        // 恢复背景显示并淡入
+                        const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+                        if (currentBgElement) {
+                            currentBgElement.style.display = 'block';
+                            let fadeInOpacity = 0;
+                            const fadeInInterval = setInterval(() => {
+                                fadeInOpacity += 0.05;
+                                currentBgElement.style.opacity = fadeInOpacity.toString();
+                                blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
 
                                     if (fadeInOpacity >= 1) {
                                         clearInterval(fadeInInterval);
@@ -1300,6 +1198,14 @@ private showAutoSaveNotification(message: string): void {
                                         dialogElements.forEach(el => {
                                             (el as HTMLElement).style.display = '';
                                         });
+                                        
+                                        // 淡入立绘元素（如果存在）
+                                        if (gameElementsContainer) {
+                                            const sceneElementsContainer = gameElementsContainer.querySelector('.scene-elements-container');
+                                            if (sceneElementsContainer && (sceneElementsContainer as any).fadeInSprites) {
+                                                (sceneElementsContainer as any).fadeInSprites();
+                                            }
+                                        }
 
                                         // 继续游戏
                                         if (node.next) {
@@ -1333,69 +1239,69 @@ private showAutoSaveNotification(message: string): void {
                                             this.nextMove();
                                         }
                                     }
-                                }, 50);
-                            } else {
-                                // 没有背景元素，直接移除覆盖层并恢复原始事件
-                                if (blackOverlay.parentNode) {
-                                    blackOverlay.parentNode.removeChild(blackOverlay);
-                                }
+                            }, 50);
+                        } else {
+                            // 没有背景元素，直接移除覆盖层并恢复原始事件
+                            if (blackOverlay.parentNode) {
+                                blackOverlay.parentNode.removeChild(blackOverlay);
+                            }
 
-                                // 恢复原始点击事件
-                                if (moveElement) moveElement.onclick = originalMoveHandler;
-                                if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                                if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+                            // 恢复原始点击事件
+                            if (moveElement) moveElement.onclick = originalMoveHandler;
+                            if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                            if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
 
-                                // 恢复对话框显示
-                                dialogElements.forEach(el => {
-                                    (el as HTMLElement).style.display = '';
-                                });
+                            // 恢复对话框显示
+                            dialogElements.forEach(el => {
+                                (el as HTMLElement).style.display = '';
+                            });
 
-                                // 继续游戏
-                                if (node.next) {
-                                    // 如果有指定的下一个节点，则跳转到该节点
-                                    const nextNodeId = node.next;
-                                    console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
+                            // 继续游戏
+                            if (node.next) {
+                                // 如果有指定的下一个节点，则跳转到该节点
+                                const nextNodeId = node.next;
+                                console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
 
-                                    // 查找当前场景中的目标节点
-                                    if (this.currentScene) {
-                                        const targetNodeIndex = this.currentScene.nodes.findIndex(
-                                            (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
-                                        );
+                                // 查找当前场景中的目标节点
+                                if (this.currentScene) {
+                                    const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                        (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
+                                    );
 
-                                        if (targetNodeIndex !== -1) {
-                                            // 如果找到了节点，跳转到该节点
-                                            this.currentNodeIndex = targetNodeIndex;
-                                            // 更新点击次数，确保存档正确
-                                            localStorage.setItem("nowclick", targetNodeIndex.toString());
-                                            // 渲染新节点
-                                            this.renderCurrentNode();
-                                        } else {
-                                            // 如果没找到节点，尝试作为场景ID处理
-                                            this.navigateToScene(nextNodeId);
-                                        }
+                                    if (targetNodeIndex !== -1) {
+                                        // 如果找到了节点，跳转到该节点
+                                        this.currentNodeIndex = targetNodeIndex;
+                                        // 更新点击次数，确保存档正确
+                                        localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                        // 渲染新节点
+                                        this.renderCurrentNode();
                                     } else {
-                                        // 如果没有当前场景，尝试作为场景ID处理
+                                        // 如果没找到节点，尝试作为场景ID处理
                                         this.navigateToScene(nextNodeId);
                                     }
                                 } else {
-                                    // 如果没有指定下一个节点，则继续到下一个节点
-                                    this.nextMove();
+                                    // 如果没有当前场景，尝试作为场景ID处理
+                                    this.navigateToScene(nextNodeId);
                                 }
+                            } else {
+                                // 如果没有指定下一个节点，则继续到下一个节点
+                                this.nextMove();
                             }
-                        }, 1000);
-                    },
-                    node.game!.config
-                );
+                        }
+                    }, 1000);
+                },
+                node.game!.config
+            );
 
-                if (gameInstance) {
-                    // 启动游戏
-                    gameInstance.start();
-                } else {
-                    console.error(`无法创建游戏实例: ${node.game!.id}`);
-                }
-            }, 0);
-        };
-    }
+            if (gameInstance) {
+                // 启动游戏
+                gameInstance.start();
+            } else {
+                console.error(`无法创建游戏实例: ${node.game!.id}`);
+            }
+        }, 0);
+    };
+}
 
           private nextMove(): void {
         console.log("[GameScene] nextMove方法被调用");

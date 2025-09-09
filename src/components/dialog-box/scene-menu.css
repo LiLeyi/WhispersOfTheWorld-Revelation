@@ -1,0 +1,225 @@
+/* scene-menu.css - 场景中菜单相关样式 */
+.scene-elements-container #menu {
+    position: absolute;
+    bottom: 3%;
+    right: 5%;
+    width: auto;
+    height: 3%;
+    z-index: 20;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    pointer-events: auto;
+}
+
+#menu {
+    position: absolute;
+    bottom: 3%;
+    right: 5%;
+    width: auto;
+    height: 3%;
+    z-index: 20;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.scene-elements-container .op {
+    width: auto;
+    height: 40px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    outline: none;
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Crimson Text', 'Libre Baskerville', serif;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.op {
+    width: auto;
+    height: 40px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    outline: none;
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Crimson Text', 'Libre Baskerville', serif;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.scene-elements-container .op::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.op::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.scene-elements-container .op:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.op:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.scene-elements-container .op:hover::before {
+    left: 100%;
+}
+
+.op:hover::before {
+    left: 100%;
+}
+
+.scene-elements-container .op:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.op:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .scene-elements-container .op {
+        font-size: 20px;
+        padding: 6px 14px;
+        letter-spacing: 0.8px;
+    }
+    
+    .op {
+        font-size: 20px;
+        padding: 6px 14px;
+        letter-spacing: 0.8px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .scene-elements-container .op {
+        font-size: 18px;
+        padding: 6px 12px;
+        gap: 12px;
+        letter-spacing: 0.7px;
+    }
+    
+    .op {
+        font-size: 18px;
+        padding: 6px 12px;
+        gap: 12px;
+        letter-spacing: 0.7px;
+    }
+    
+    .scene-elements-container #menu {
+        gap: 12px;
+    }
+    
+    #menu {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .scene-elements-container .op {
+        font-size: 16px;
+        padding: 5px 10px;
+        gap: 10px;
+        letter-spacing: 0.6px;
+    }
+    
+    .op {
+        font-size: 16px;
+        padding: 5px 10px;
+        gap: 10px;
+        letter-spacing: 0.6px;
+    }
+    
+    .scene-elements-container #menu {
+        gap: 10px;
+    }
+    
+    #menu {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .scene-elements-container .op {
+        font-size: 14px;
+        padding: 4px 8px;
+        gap: 8px;
+        letter-spacing: 0.5px;
+    }
+    
+    .op {
+        font-size: 14px;
+        padding: 4px 8px;
+        gap: 8px;
+        letter-spacing: 0.5px;
+    }
+    
+    .scene-elements-container #menu {
+        gap: 8px;
+        right: 3%;
+    }
+    
+    #menu {
+        gap: 8px;
+        right: 3%;
+    }
+}

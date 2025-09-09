@@ -10,10 +10,23 @@ export class TextManager {
     private changeReadTextColor: boolean = false; // 添加变更已读文本颜色的标志
 
     constructor() {
-        this.nameElement = document.getElementById("name");
-        this.textElement = document.getElementById("texts");
         // 初始化时获取当前存档ID
         this.currentArchiveId = this.getCurrentArchiveId();
+        // 不在构造函数中立即获取元素，而是在需要时通过ensureElements方法获取
+        this.nameElement = null;
+        this.textElement = null;
+    }
+
+    /**
+     * 确保DOM元素存在，如果不存在则尝试重新获取
+     */
+    private ensureElements(): void {
+        if (!this.nameElement) {
+            this.nameElement = document.getElementById("name");
+        }
+        if (!this.textElement) {
+            this.textElement = document.getElementById("texts");
+        }
     }
 
     /**
@@ -59,6 +72,9 @@ export class TextManager {
      * @param element 包含文本和名称信息的场景元素
      */
     public updateText(element: { name?: string | null, text: string }): void {
+        // 确保元素存在
+        this.ensureElements();
+        
         if (this.nameElement && this.textElement) {
             if (element.name && element.name !== "旁白") {
                 this.nameElement.innerHTML = element.name;
@@ -92,6 +108,8 @@ export class TextManager {
                 name: element.name || "旁白",
                 text: element.text
             });
+        } else {
+            console.warn("[TextManager] 无法找到name或texts元素，无法更新文本");
         }
     }
     /**
@@ -99,6 +117,9 @@ export class TextManager {
      * @param element 包含文本和名称信息的场景元素
      */
     public updateTextWithoutRecording(element: { name?: string | null, text: string }): void {
+        // 确保元素存在
+        this.ensureElements();
+        
         if (this.nameElement && this.textElement) {
             if (element.name && element.name !== "旁白") {
                 this.nameElement.innerHTML = element.name;
@@ -106,6 +127,8 @@ export class TextManager {
                 this.nameElement.innerHTML = "";
             }
             this.textElement.innerHTML = element.text;
+        } else {
+            console.warn("[TextManager] 无法找到name或texts元素，无法更新文本");
         }
     }
     

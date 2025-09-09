@@ -1,0 +1,179 @@
+/* scene-sprite.css - 场景中立绘相关样式 */
+.scene-elements-container .sprite {
+    position: absolute;
+    bottom: -500px; /* 更靠下，让立绘一半在屏幕外面 */
+    height: 130%; /* 更大，使立绘一半在屏幕外面 */
+    transform: translateY(0);
+    z-index: 5;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
+}
+
+.sprite {
+    position: absolute;
+    bottom: -500px; /* 更靠下，让立绘一半在屏幕外面 */
+    height: 130%; /* 更大，使立绘一半在屏幕外面 */
+    transform: translateY(0);
+    z-index: 5;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    font-family: 'Libre Baskerville', 'Crimson Text', serif;
+}
+
+.scene-elements-container .sprite.left {
+    left: 5%;
+    transform: translateX(-50px) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.sprite.left {
+    left: 5%;
+    transform: translateX(-50px) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.scene-elements-container .sprite.center {
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.sprite.center {
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.scene-elements-container .sprite.right {
+    right: 5%;
+    transform: translateX(50px) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.sprite.right {
+    right: 5%;
+    transform: translateX(50px) translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.scene-elements-container .sprite.show {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+.sprite.show {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+.scene-elements-container .sprite.center.show {
+    transform: translateX(-50%) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+.sprite.center.show {
+    transform: translateX(-50%) translateY(0);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .scene-elements-container .sprite {
+        height: 135%;
+        bottom: -180px;
+    }
+    
+    .sprite {
+        height: 135%;
+        bottom: -180px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .scene-elements-container .sprite {
+        height: 130%;
+        bottom: -160px;
+    }
+    
+    .sprite {
+        height: 130%;
+        bottom: -160px;
+    }
+    
+    .scene-elements-container .sprite.left {
+        left: 3%;
+    }
+    
+    .sprite.left {
+        left: 3%;
+    }
+    
+    .scene-elements-container .sprite.right {
+        right: 3%;
+    }
+    
+    .sprite.right {
+        right: 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    .scene-elements-container .sprite {
+        height: 125%;
+        bottom: -140px;
+    }
+    
+    .sprite {
+        height: 125%;
+        bottom: -140px;
+    }
+    
+    .scene-elements-container .sprite.left {
+        left: 2%;
+    }
+    
+    .sprite.left {
+        left: 2%;
+    }
+    
+    .scene-elements-container .sprite.right {
+        right: 2%;
+    }
+    
+    .sprite.right {
+        right: 2%;
+    }
+}
+
+@media (max-width: 480px) {
+    .scene-elements-container .sprite {
+        height: 120%;
+        bottom: -120px;
+    }
+    
+    .sprite {
+        height: 120%;
+        bottom: -120px;
+    }
+    
+    .scene-elements-container .sprite.left {
+        left: 1%;
+    }
+    
+    .sprite.left {
+        left: 1%;
+    }
+    
+    .scene-elements-container .sprite.right {
+        right: 1%;
+    }
+    
+    .sprite.right {
+        right: 1%;
+    }
+}
