@@ -50,6 +50,8 @@ export interface BaseSceneNode<T = void> {
     condition?: T extends void ? (() => boolean) : ((gameData: T) => boolean);          // 节点条件。未达成条件则直接跳过这个节点
     actionCondition?: () => boolean;    // 执行action的条件。未设置就是无条件
     action?: () => void;                // 节点动作。进入节点时执行的动作
+    keyNode?: boolean;                  // 是否为关键节点，用于自动存档
+    description?: string;               // 节点描述，用于存档显示
 }
 
 // 场景接口

@@ -6,6 +6,7 @@ import { ArchiveManager } from '../../components/ArchiveManager';
 import { MiniGameFactory } from '../../components/MiniGameFactory';
 import { SceneManager } from '../../components/SceneManager';
 import { BagManager } from '../../components/BagManager';
+import { AutoSaveManager } from '../../components/AutoSaveManager'; 
 
 // 定义道具接口
 interface Item {
@@ -67,6 +68,7 @@ class GameScene {
     private sceneManager: SceneManager;
     private choiceManager: ChoiceManager;
     private bagManager: BagManager;
+    private autoSaveManager: AutoSaveManager; // 新增自动存档管理器
     private previousElements: SceneElement = {
         background: undefined,
         soundEffect: undefined,
@@ -78,10 +80,11 @@ class GameScene {
     // 在GameScene类中添加小游戏容器
     private miniGameContainer: HTMLDivElement = document.createElement('div');
 
-    constructor() {
+     constructor() {
         this.sceneManager = new SceneManager();
         this.choiceManager = new ChoiceManager();
         this.bagManager = BagManager.getInstance();
+        this.autoSaveManager = AutoSaveManager.getInstance(); // 初始化自动存档管理器
         
         // 初始化场景元素
         this.sceneManager.initializeSceneElements();
@@ -528,6 +531,9 @@ class GameScene {
         console.log("渲染节点:", node);
         if (!node) return;
 
+        // 检查是否为关键节点并触发自动存档
+        this.checkAndTriggerAutoSave(node);
+
         // 检查节点条件（如果不满足则跳过该节点）
         if (node.condition && !node.condition()) {
             // 如果条件不满足，跳转到下一个节点
@@ -607,6 +613,110 @@ class GameScene {
             console.log("正常更新立绘:", mergedElements.sprite);
         }
     }
+   private checkAndTriggerAutoSave(node: SceneNode): void {
+    // 检查节点是否有标记为关键节点
+    if (node.keyNode) {
+        const sceneId = this.currentScene?.id || 'unknown_scene';
+        const nodeId = node.id || `node_${this.currentNodeIndex}`;
+        const description = node.description || `关键节点: ${sceneId} - ${nodeId}`;
+        
+        // 检查是否已经为当前节点创建过自动存档
+        const autoSaveKey = `autoSave_${sceneId}_${nodeId}`;
+        const hasAutoSaved = sessionStorage.getItem(autoSaveKey);
+        
+        if (!hasAutoSaved) {
+            console.log(`[GameScene] 检测到关键节点，触发自动存档: ${description}`);
+            
+            // 触发自动存档
+            this.autoSaveManager.createAutoSave(
+                sceneId,
+                this.currentNodeIndex,
+                description
+            );
+            
+            // 标记当前节点已自动存档
+            sessionStorage.setItem(autoSaveKey, 'true');
+            
+            // 显示自动存档提示
+            this.showAutoSaveNotification("已自动存档");
+        }
+    }
+}
+
+/**
+ * 显示自动存档提示
+ * @param message 提示信息
+ */
+private showAutoSaveNotification(message: string): void {
+    // 创建提示元素
+    const notification = document.createElement('div');
+    notification.id = 'auto-save-notification';
+    notification.className = 'auto-save-notification';
+    notification.innerHTML = `
+        <div class="auto-save-content">
+            <span class="auto-save-icon">💾</span>
+            <span class="auto-save-text">${message}</span>
+        </div>
+    `;
+    
+    // 添加样式
+    const style = document.createElement('style');
+    style.textContent = `
+        .auto-save-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            font-family: sans-serif;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .auto-save-notification.show {
+            transform: translateX(0);
+        }
+        
+        .auto-save-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .auto-save-icon {
+            font-size: 18px;
+        }
+    `;
+    
+    // 添加元素到页面
+    document.head.appendChild(style);
+    document.body.appendChild(notification);
+    
+    // 显示动画
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // 3秒后自动隐藏并移除
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+            if (style.parentNode) {
+                style.parentNode.removeChild(style);
+            }
+        }, 300);
+    }, 3000);
+}
 
     private mergeElements(previous: SceneElement, current: SceneElement): SceneElement {
         console.log("合并元素 - previous:", previous, "current:", current);

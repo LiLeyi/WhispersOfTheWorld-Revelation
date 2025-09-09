@@ -1352,6 +1352,7 @@ const scene: Scene = {
                 name: "光泠",
                 text: "那么，您准备好接受巨石的考验了吗？"
             },
+            keyNode: true,
     choices: [
         {
             text: "尽管来吧。",

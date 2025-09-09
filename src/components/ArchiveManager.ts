@@ -31,15 +31,20 @@ export class ArchiveManager {
     /**
      * 获取 ArchiveManager 的单例实例
      */
-    public static getInstance(): ArchiveManager {
+     public static getInstance(): ArchiveManager {
         // 检查当前实例是否与当前存档ID匹配
         if (!ArchiveManager.instance || ArchiveManager.instance.archiveId !== ArchiveManager.currentArchiveId) {
             ArchiveManager.instance = new ArchiveManager();
         }
         console.log(`[ArchiveManager] 获取实例，存档ID: ${ArchiveManager.instance.archiveId}`);
+        
+        // 将实例暴露给window对象，以便其他组件可以访问
+        if (typeof window !== 'undefined') {
+            (window as any).archiveManagerInstance = ArchiveManager.instance;
+        }
+        
         return ArchiveManager.instance;
     }
-
     /**
      * 设置当前存档ID并刷新实例
      * @param archiveId 存档ID

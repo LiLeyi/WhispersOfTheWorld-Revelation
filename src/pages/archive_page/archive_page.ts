@@ -1,6 +1,7 @@
 import "./archive_page.css"
 import { ArchiveManager } from '../../components/ArchiveManager';
 import { SceneRegistry } from '../../story/SceneRegistry';
+import { AutoSaveManager } from '../../components/AutoSaveManager'; // 添加导入
 
 // 存档数据接口
 interface SaveSlot {
@@ -18,7 +19,11 @@ interface SaveSlot {
 const STORAGE_KEY = "myGameSaveSlots";
 let saveData: (SaveSlot | null)[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]") || [];
 while(saveData.length < 9) saveData.push(null);
-// 渲染存档槽
+
+// 添加自动存档管理器实例
+const autoSaveManager = AutoSaveManager.getInstance();
+
+// 渲染手动存档槽
 async function renderSlots(){
     const container = document.getElementById('saveSlotsContainer');
     if (!container) return;
@@ -130,7 +135,150 @@ async function renderSlots(){
     }
 }
 
+// 渲染自动存档槽
+async function renderAutoSaveSlots() {
+    const container = document.getElementById('autoSaveSlotsContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const autoSaveSlots = autoSaveManager.getAutoSaveSlots();
+    
+    // 如果没有自动存档，显示提示信息
+    if (autoSaveSlots.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'row';
+        
+        const slotDiv = document.createElement('div');
+        slotDiv.className = 'auto-save-slot empty';
+        slotDiv.innerHTML = `
+            <div class="auto-save-info">
+                <h3>暂无自动存档</h3>
+                <p>游戏会在关键节点自动保存进度</p>
+            </div>
+        `;
+        
+        emptyDiv.appendChild(slotDiv);
+        container.appendChild(emptyDiv);
+        return;
+    }
+    
+    // 显示自动存档槽位
+    for (let row = 0; row < 2; row++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'row';
+        
+        for (let col = 0; col < 3; col++) {
+            const index = row * 3 + col;
+            if (index >= autoSaveSlots.length) break;
+            
+            const slot = autoSaveSlots[index];
+            const slotDiv = document.createElement('div');
+            slotDiv.className = 'auto-save-slot';
+            
+            // 获取当前台词和场景标题
+            let currentText = '无';
+            let sceneTitle = '';
+            let backgroundStyle = '';
+            
+            try {
+                // 从存档数据中获取场景ID
+                const sceneId = slot.sceneId;
+                if (sceneId) {
+                    // 动态加载场景数据
+                    const sceneModule = await SceneRegistry[sceneId]();
+                    const scene = sceneModule.default;
+                    
+                    // 获取场景标题
+                    if (scene && scene.title) {
+                        sceneTitle = scene.title;
+                    }
+                    
+                    // 查找当前节点
+                    if (scene && scene.nodes && slot.nodeIndex !== undefined) {
+                        const nodeIndex = Math.min(slot.nodeIndex, scene.nodes.length - 1);
+                        if (nodeIndex >= 0 && scene.nodes[nodeIndex] && scene.nodes[nodeIndex].elements) {
+                            const elements = scene.nodes[nodeIndex].elements;
+                            currentText = elements.text || '无';
+                            
+                            // 设置背景图片
+                            if (elements.background) {
+                                backgroundStyle = `background-image: url('../../assets/images/background/${elements.background}');`;
+                            }
+                        }
+                    }
+                }
+                
+                // 如果节点中没有背景，则尝试从gameData中获取
+                if (!backgroundStyle && slot.gameData && slot.gameData.background) {
+                    backgroundStyle = `background-image: url('../../assets/images/background/${slot.gameData.background}');`;
+                }
+            } catch (e) {
+                console.error('加载自动存档场景数据失败:', e);
+                currentText = '加载失败';
+                sceneTitle = '未知场景';
+            }
+            
+            const date = new Date(slot.timestamp);
+            const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+            
+            slotDiv.innerHTML = `
+                <div class="auto-save-info" style="${backgroundStyle}">
+                    <h3>自动存档 #${index + 1}</h3>
+                    <p class="timestamp">${dateString}</p>
+                    <p>${sceneTitle}</p>
+                    <p>台词: ${currentText}</p>
+                </div>
+                <div class="auto-save-buttons">
+                    <button class="auto-save-button load-auto" onclick="loadAutoSave('${slot.id}')">
+                        读取
+                    </button>
+                    <button class="auto-save-button delete-auto" onclick="deleteAutoSave('${slot.id}')">
+                        删除
+                    </button>
+                </div>
+            `;
+            
+            rowDiv.appendChild(slotDiv);
+        }
+        
+        container.appendChild(rowDiv);
+    }
+    
+    const hoverSound = document.getElementById('hoverSound') as HTMLAudioElement | null;
+    if (hoverSound) {
+        document.querySelectorAll('.auto-save-button').forEach(btn=>{
+            btn.addEventListener('mouseover', ()=>hoverSound.play());
+        });
+    }
+}
 
+// 删除自动存档
+function deleteAutoSave(saveId: string) {
+    if (confirm('确定要删除这个自动存档吗？')) {
+        try {
+            // 获取所有自动存档
+            let autoSaveSlots = autoSaveManager.getAutoSaveSlots();
+            
+            // 过滤掉要删除的存档
+            autoSaveSlots = autoSaveSlots.filter((slot: any) => slot.id !== saveId);
+            
+            // 保存更新后的自动存档列表
+            localStorage.setItem('autoSaveSlots', JSON.stringify(autoSaveSlots));
+            
+            // 重新渲染自动存档槽
+            renderAutoSaveSlots();
+            
+            const clickSound = document.getElementById('clickSound') as HTMLAudioElement | null;
+            if (clickSound) clickSound.play();
+            
+            console.log(`[ArchivePage] 自动存档 ${saveId} 已删除`);
+        } catch (e) {
+            console.error('删除自动存档时出错:', e);
+            alert('删除自动存档时出错');
+        }
+    }
+}
 // 加载存档
 function loadGame(index: number){
     const slot = saveData[index];
@@ -177,6 +325,37 @@ function loadGame(index: number){
     const url = `${page}?scene=${slot.chapter}&click=${slot.click || 0}&referrer=archive_page`;
     console.log(`[ArchivePage] 跳转到URL: ${url}`);
     window.location.href = url;
+}
+
+// 加载自动存档
+function loadAutoSave(saveId: string) {
+    console.log(`[ArchivePage] 开始加载自动存档: ${saveId}`);
+    
+    try {
+        const success = autoSaveManager.restoreAutoSave(saveId);
+        if (success) {
+            // 从localStorage中获取场景和节点信息（这些信息在restoreAutoSave方法中设置）
+            const sceneId = localStorage.getItem('restoreSceneId') || 'chapter_0_scene_0';
+            const nodeIndex = localStorage.getItem('restoreNodeIndex') || '0';
+            
+            // 生成存档ID
+            const archiveId = 'autosave_' + Date.now();
+            
+            const clickSound = document.getElementById('clickSound') as HTMLAudioElement | null;
+            if (clickSound) clickSound.play();
+            
+            // 跳转到游戏场景页面
+            const page = "../game_scenes/game_scenes.html";
+            const url = `${page}?scene=${sceneId}&click=${nodeIndex}&archiveId=${archiveId}&referrer=archive_page`;
+            console.log(`[ArchivePage] 跳转到自动存档URL: ${url}`);
+            window.location.href = url;
+        } else {
+            alert('加载自动存档失败');
+        }
+    } catch (e) {
+        console.error('加载自动存档时出错:', e);
+        alert('加载自动存档时发生错误');
+    }
 }
 
 // 保存存档
@@ -290,8 +469,12 @@ document.addEventListener("DOMContentLoaded", function() {
     // 渲染存档槽
     renderSlots();
     
+    // 渲染自动存档槽
+    renderAutoSaveSlots();
+    
     // 输出所有存档信息到控制台，便于调试
     console.log("[ArchivePage] 当前所有存档数据:", saveData);
+    console.log("[ArchivePage] 当前所有自动存档数据:", autoSaveManager.getAutoSaveSlots());
 });
 
 // 导出函数以便在HTML中使用
@@ -299,3 +482,5 @@ document.addEventListener("DOMContentLoaded", function() {
 (window as any).saveGame = saveGame;
 (window as any).deleteGame = deleteGame;
 (window as any).renameGame = renameGame;
+(window as any).loadAutoSave = loadAutoSave; // 导出自动存档加载函数
+(window as any).deleteAutoSave = deleteAutoSave; // 添加这一行
