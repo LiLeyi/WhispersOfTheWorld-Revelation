@@ -485,8 +485,11 @@ export class SceneManager {
             console.log("[SceneManager] moveElement:", moveElement, "dialogElement:", dialogElement, "textBoxElement:", textBoxElement);
 
             // 绑定点击事件
-            const nextMoveHandler = () => {
-                console.log("[SceneManager] 点击事件触发");
+            const nextMoveHandler = (event: Event) => {
+                console.log("[SceneManager] 点击事件触发", event.target);
+                // 阻止事件冒泡
+                event.stopPropagation();
+                
                 // 检查是否显示了选项，如果显示了选项则不执行下一步
                 const selectionBox = document.getElementById("selection_box");
                 if (selectionBox) {
@@ -508,17 +511,36 @@ export class SceneManager {
                 nextMoveCallback();
             };
 
+            // 保存之前事件处理函数的引用，以便后续移除
+            const previousMoveHandler = (moveElement as any)._nextMoveHandler;
+            const previousDialogHandler = (dialogElement as any)._nextMoveHandler;
+            const previousTextBoxHandler = (textBoxElement as any)._nextMoveHandler;
+
+            // 移除之前的事件监听器（如果有的话）
+            if (moveElement && previousMoveHandler) {
+                moveElement.removeEventListener('click', previousMoveHandler);
+            }
+            if (dialogElement && previousDialogHandler) {
+                dialogElement.removeEventListener('click', previousDialogHandler);
+            }
+            if (textBoxElement && previousTextBoxHandler) {
+                textBoxElement.removeEventListener('click', previousTextBoxHandler);
+            }
+
             // 绑定点击事件到游戏区域
             if (moveElement) {
-                moveElement.onclick = nextMoveHandler;
+                moveElement.addEventListener('click', nextMoveHandler);
+                (moveElement as any)._nextMoveHandler = nextMoveHandler;
                 console.log("[SceneManager] 已绑定moveElement点击事件");
             }
             if (dialogElement) {
-                dialogElement.onclick = nextMoveHandler;
+                dialogElement.addEventListener('click', nextMoveHandler);
+                (dialogElement as any)._nextMoveHandler = nextMoveHandler;
                 console.log("[SceneManager] 已绑定dialogElement点击事件");
             }
             if (textBoxElement) {
-                textBoxElement.onclick = nextMoveHandler;
+                textBoxElement.addEventListener('click', nextMoveHandler);
+                (textBoxElement as any)._nextMoveHandler = nextMoveHandler;
                 console.log("[SceneManager] 已绑定textBoxElement点击事件");
             }
 

@@ -363,21 +363,30 @@ nodes: [
     id: "scene_2",
     elements: {
         name: "旁白",
-        text: "第二天早上，玛丽没有离开。"
+        text: "第二天早上，玛丽没有离开。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_3",
     elements: {
         name: "玛丽",
-        text: "你爱我吗？"
+        text: "你爱我吗？",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_4",
     elements: {
         name: "我",
-        text: "当下说的爱或者不爱没有任何意义，而且我也不确定自己是不是爱你。"
+        text: "当下说的爱或者不爱没有任何意义，而且我也不确定自己是不是爱你。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
@@ -470,84 +479,120 @@ nodes: [
     id: "scene_16",
     elements: {
         name: "旁白",
-        text: "晚上，玛丽来到我的公寓。刚进门就向我发问。"
+        text: "晚上，玛丽来到我的公寓。刚进门就向我发问。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_17",
     elements: {
         name: "玛丽",
-        text: "你愿不愿意和我结婚？"
+        text: "你愿不愿意和我结婚？",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_18",
     elements: {
         name: "我",
-        text: "如果你想的话，我们就结婚，我怎样都无所谓。"
+        text: "如果你想的话，我们就结婚，我怎样都无所谓。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_19",
     elements: {
         name: "玛丽",
-        text: "你到底爱不爱我？"
+        text: "你到底爱不爱我？",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_20",
     elements: {
         name: "我",
-        text: "当下说的爱或者不爱没有任何意义，而且我也不确定自己是不是爱你。"
+        text: "当下说的爱或者不爱没有任何意义，而且我也不确定自己是不是爱你。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_21",
     elements: {
         name: "玛丽",
-        text: "既然你都不爱我，那为什么还准备娶我呢？"
+        text: "既然你都不爱我，那为什么还准备娶我呢？",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_22",
     elements: {
         name: "我",
-        text: "这一点同样毫无意义。你愿意就结。"
+        text: "这一点同样毫无意义。你愿意就结。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_23",
     elements: {
         name: "玛丽",
-        text: "婚姻明明是一件意义重大的事情。"
+        text: "婚姻明明是一件意义重大的事情。",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_24",
     elements: {
         name: "我",
-        text: "不是的。"
+        text: "不是的。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_25",
     elements: {
         name: "玛丽",
-        text: "如果换了别的跟你有着恋人关系的女人向你求婚，你会答应吗？"
+        text: "如果换了别的跟你有着恋人关系的女人向你求婚，你会答应吗？",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_26",
     elements: {
         name: "我",
-        text: "当然会。"
+        text: "当然会。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_27",
     elements: {
         name: "玛丽",
-        text: "我现在不知道自己爱不爱你了，而你也不确定是不是爱你。"
+        text: "我现在不知道自己爱不爱你了，而你也不确定是不是爱你。",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
@@ -568,21 +613,30 @@ nodes: [
     id: "scene_29",
     elements: {
         name: "旁白",
-        text: "她一把挽住我的手，微笑起来。"
+        text: "她一把挽住我的手，微笑起来。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_30",
     elements: {
         name: "玛丽",
-        text: "我要嫁给你。"
+        text: "我要嫁给你。",
+        sprite: {
+            left:"NPC/marry.png"
+        }
     }
 },
 {
     id: "scene_31",
     elements: {
         name: "我",
-        text: "只要你愿意。"
+        text: "只要你愿意。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
@@ -759,21 +813,30 @@ nodes: [
     id: "scene_54",
     elements: {
         name: "旁白",
-        text: "玛丽出庭作证，说出我们一起的事，法庭一片哗然。"
+        text: "玛丽出庭作证，说出我们一起的事，法庭一片哗然。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
     id: "scene_55",
     elements: {
         name: "检察官",
-        text: "他没有灵魂，没有丝毫人性，没有任何一条在人类灵魂中占神圣地位的道德。"
+        text: "他没有灵魂，没有丝毫人性，没有任何一条在人类灵魂中占神圣地位的道德。",
+        sprite: {
+            left:"NPC/law_man.png"
+        }
     }
 },
 {
     id: "scene_56",
     elements: {
         name: "旁白",
-        text: "我的律师试图为我辩解，说这是一场偶然冲突，但无人在意。"
+        text: "我的律师试图为我辩解，说这是一场偶然冲突，但无人在意。",
+        sprite: {
+            left:null
+        }
     }
 },
 {
@@ -1302,35 +1365,47 @@ nodes: [
   id: "altar_17",
   elements: {
     name: "旁白",
-    text: "巫婆的白色眼珠盯着我。不由得握紧手中剑，蓄势待发。"
+    text: "巫婆的白色眼珠盯着我。不由得握紧手中剑，蓄势待发。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_18",
   elements: {
     name: "巫婆",
-    text: "是你吗？来到这里的渡厄之人？"
+    text: "是你吗？来到这里的渡厄之人？",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
   }
 },
 {
   id: "altar_19",
   elements: {
     name: "旁白",
-    text: "沙哑刺耳的声音从她的口中挣扎着挤出。"
+    text: "沙哑刺耳的声音从她的口中挣扎着挤出。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_20",
   elements: {
     name: "巫婆",
-    text: "我知道是你，你终于还是来到了这里。"
+    text: "我知道是你，你终于还是来到了这里。",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
   }
 },
 {
   id: "altar_21",
   elements: {
     name: "巫婆",
-    text: "我等了很久，终于等到你了。"
+    text: "我等了很久，终于等到你了。",
   }
 },
 {
@@ -1351,7 +1426,10 @@ nodes: [
   id: "altar_23",
   elements: {
     name: "你",
-    text: "你这家伙在说些什么啊。"
+    text: "你这家伙在说些什么啊。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1372,21 +1450,30 @@ nodes: [
   id: "altar_26",
   elements: {
     name: "巫婆",
-    text: "我也知道你，这位拥有美丽的金黄色头发的姑娘。"
+    text: "我也知道你，这位拥有美丽的金黄色头发的姑娘。",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
   }
 },
 {
   id: "altar_27",
   elements: {
     name: "你",
-    text: "废话少说。"
+    text: "废话少说。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
   id: "altar_28",
   elements: {
     name: "巫婆",
-    text: "好吧，苦苦追寻“始源之心”者。你是如此地急切与局促不安。"
+    text: "好吧，苦苦追寻“始源之心”者。你是如此地急切与局促不安。",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
   }
 },
 {
@@ -1442,7 +1529,10 @@ nodes: [
   id: "altar_34",
   elements: {
     name: "你",
-    text: "始源之心，在哪？"
+    text: "始源之心，在哪？",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1498,21 +1588,30 @@ nodes: [
   id: "altar_40",
   elements: {
     name: "旁白",
-    text: "巫婆缓缓走下祭坛，权杖上的头骨随之摇动，发出奇怪的声响。"
+    text: "巫婆缓缓走下祭坛，权杖上的头骨随之摇动，发出奇怪的声响。",
+    sprite: {
+            left:null
+        }
   }
-},
+},//这里可以加几句台词，开始打斗（比如看看你配不配得到始源之心）//
 {
   id: "altar_41",
   elements: {
     name: "巫婆",
-    text: "收下吧。如今我将这始源之心交予你，就像是悲剧的开幕。"
+    text: "收下吧。如今我将这始源之心交予你，就像是悲剧的开幕。",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
   }
 },
 {
   id: "altar_42",
   elements: {
     name: "旁白",
-    text: "巫婆摊开手，手中是一个暗红色的心脏——不，其实是一块石头。"
+    text: "巫婆摊开手，手中是一个暗红色的心脏——不，其实是一块石头。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1527,13 +1626,8 @@ nodes: [
       text: "收下",
       next: "altar_43_1"
     },
-    {
-      text: "质疑",
-      next: "altar_43_2"
-    }
   ]
 },
-//分支1//
 {
   id: "altar_43_1",
   elements: {
@@ -1547,7 +1641,7 @@ nodes: [
     name: "旁白",
     text: "巫婆看着我接过它，发出一阵沙哑的诡异笑声，随风化作黑烟散去，无影无踪。"
   }
-},
+},//这里触发剧情，获得增益和卡牌//
 {
   id: "altar_45",
   elements: {
@@ -1616,7 +1710,10 @@ nodes: [
   id: "altar_51",
   elements: {
     name: "你",
-    text: "其实也没什么。不过总算没有白费力气。"
+    text: "其实也没什么。不过总算没有白费力气。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1633,7 +1730,10 @@ nodes: [
   id: "altar_53",
   elements: {
     name: "你",
-    text: "谢谢你，光泠。"
+    text: "谢谢你，光泠。",
+    sprite: {
+            left:null
+        }
   }
 },
 {
@@ -1645,18 +1745,7 @@ nodes: [
             left:"guangling/smile.png"
         }
   },
-  next:"chapter_0_scene_2_1",//获得成就：不劳而获
-},//分支2//
-{
-  id: "altar_43_2",
-  elements: {
-    name: "你",
-    text: "你会这么容易把始源之心交给我们吗？",
-    sprite: {
-            left:"guangling/smile.png"
-        },
-  },
-  next:"待定",//内容暂定，挑战成功，获得成就：真正的心脏
+  next:"chapter_0_scene_2_1",
 },
 ]
 }

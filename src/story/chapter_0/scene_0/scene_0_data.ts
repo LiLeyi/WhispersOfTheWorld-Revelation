@@ -3,6 +3,7 @@ import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 
 // 定义第0章场景
 const scene: Scene = {
@@ -79,8 +80,8 @@ const scene: Scene = {
                     },
                     opponent: {
                         actionPoints: 3,
-                        hp: 2,
-                        maxHp: 2,
+                        hp: 15,
+                        maxHp: 15,
                         deck: {
                             'straight_punch_1': 2,  // 直拳I x2
                             'straight_punch_2': 1,  // 直拳II x1
@@ -92,8 +93,8 @@ const scene: Scene = {
                         initialDrawCount: 3     // 对手开始时抽3张牌
                     },
                     deckSelection: {
-                        minDeckSize: 8,   // 设置最小选牌数量
-                        maxDeckSize: 12   // 设置最大选牌数量
+                        minDeckSize: 3,   // 设置最小选牌数量
+                        maxDeckSize: 5   // 设置最大选牌数量
                     }
                 },
                 end: [
@@ -104,6 +105,75 @@ const scene: Scene = {
                     {
                         condition: (score: number) => true, // 默认条件，总是为真
                         next: "test2"
+                    }
+                ],
+                events: [
+                    {
+                        id: 'player_first_attack',
+                        condition: (gameData: CardGameEventData) => {
+                            return gameData.player.lastPlayedCard !== null &&
+                                gameData.opponent.hp < gameData.opponent.maxHp;
+                        },
+                        elements: {
+                            name: '对手',
+                            text: '哦？有点意思，竟然能伤到我'
+                        },
+                        next: "player_first_attack_1",
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },
+                    {
+                        id: 'player_first_attack_1',
+                        condition: () => false,
+                        elements: {
+                            name: '你',
+                            text: '那肯定。'
+                        },
+                        next: undefined
+                    },
+                    {
+                        id: 'opponent_critical_health',
+                        condition: (gameData: CardGameEventData) => {
+                            return gameData.opponent.hp <= 10;
+                        },
+                        elements: {
+                            name: '对手',
+                            text: '可恶...不能再这样下去了'
+                        },
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },
+                    {
+                        id: 'player_critical_health',
+                        condition: (gameData: CardGameEventData) => {
+                            return gameData.player.hp <= 10;
+                        },
+                        elements: {
+                            name: '旁白',
+                            text: '你感到体力不支，需要小心应对'
+                        },
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },
+                    {
+                        id: 'turn_5_reached',
+                        condition: (gameData: CardGameEventData) => {
+                            return gameData.turn >= 5;
+                        },
+                        elements: {
+                            name: '神秘声音',
+                            text: '战斗已经持续很久了，是时候结束这一切'
+                        },
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
                     }
                 ]
             }

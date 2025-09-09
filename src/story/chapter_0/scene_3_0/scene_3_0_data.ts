@@ -628,14 +628,20 @@ nodes: [
     id: "mountain_64",
     elements: {
         name: "你",
-        text: "恶魔。"
+        text: "恶魔。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_65",
     elements: {
         name: "梅菲斯特",
-        text: "我并非恶魔，而是答案。"
+        text: "我并非恶魔，而是答案。",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -664,7 +670,10 @@ nodes: [
     id: "mountain_69",
     elements: {
         name: "你",
-        text: "你的话语是如此的无力。"
+        text: "你的话语是如此的无力。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
@@ -678,7 +687,10 @@ nodes: [
     id: "mountain_71",
     elements: {
         name: "梅菲斯特",
-        text: "旅人啊，你们为何如此匆忙地奔向痛苦？"
+        text: "旅人啊，你们为何如此匆忙地奔向痛苦？",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -713,14 +725,20 @@ nodes: [
     id: "mountain_75",
     elements: {
         name: "旁白",
-        text: "他的话语似乎有种惑人心智的魔力，不断在耳边回响。"
+        text: "他的话语似乎有种惑人心智的魔力，不断在耳边回响。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_76",
     elements: {
         name: "梅菲斯特",
-        text: "正如我曾对那位博学的博士所言："
+        text: "正如我曾对那位博学的博士所言：",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -842,7 +860,7 @@ nodes: [
         name: "梅菲斯特",
         text: "那疲惫，那怀疑，那对意义的诘问......便是你迈向真理的第一步。",
         sprite: {
-            left: null,
+            left:"NPC/dead_man.png"
         }
     },
 },
@@ -1171,49 +1189,70 @@ nodes: [
     id: "mountain_107_2_1",
     elements: {
         name: "旁白",
-        text: "第一次浮现出近乎惊讶的神情，随机化为一种冰冷中燃烧的怒火。"
+        text: "第一次浮现出近乎惊讶的神情，随机化为一种冰冷中燃烧的怒火。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_108_2",
     elements: {
         name: "梅菲斯特",
-        text: "呵呵。"
+        text: "呵呵。",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
     id: "mountain_109_2",
     elements: {
         name: "旁白",
-        text: "他发出一声并非人类喉咙能产生的叹息，像是无数否定交织成的和弦。"
+        text: "他发出一声并非人类喉咙能产生的叹息，像是无数否定交织成的和弦。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_110_2",
     elements: {
         name: "梅菲斯特",
-        text: "竟敢在那永恒的织机前，妄谈选择？"
+        text: "竟敢在那永恒的织机前，妄谈选择？",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
     id: "mountain_111_2",
     elements: {
         name: "旁白",
-        text: "周围的空间开始震颤。梅菲斯特的身影依旧优雅地站在原地。"
+        text: "周围的空间开始震颤。梅菲斯特的身影依旧优雅地站在原地。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_111_2_1",
     elements: {
         name: "旁白",
-        text: "但身后的阴影却向四周膨胀、吞噬着周围的光线。"
+        text: "但身后的阴影却向四周膨胀、吞噬着周围的光线。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_112_2",
     elements: {
         name: "梅菲斯特",
-        text: "就让我看看吧！信念的血肉能否抵御深渊的利齿！"
+        text: "就让我看看吧！信念的血肉能否抵御深渊的利齿！",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -1221,7 +1260,10 @@ nodes: [
     elements: {
         background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
-        text: "就让我亲手撕碎你那可笑的意志！"
+        text: "就让我亲手撕碎你那可笑的意志！",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
     choices: [
         {
@@ -1241,14 +1283,20 @@ nodes: [
         background:"sc3.1/3-1-11.jpg",
         bgm: "bgm14.MP3",
         name: "旁白",
-        text: "被巨大的冲击力震飞，重重地甩在地上，眼前只剩下一片虚无。"
+        text: "被巨大的冲击力震飞，重重地甩在地上，眼前只剩下一片虚无。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_115_2_1",
     elements: {
         name: "旁白",
-        text: "梅菲斯特的黑影向我席卷而来，彻底包裹了我。"
+        text: "梅菲斯特的黑影向我席卷而来，彻底包裹了我。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
@@ -1262,7 +1310,10 @@ nodes: [
     id: "mountain_117_2_1",
     elements: {
         name: "梅菲斯特",
-        text: "就此安眠......无梦地安眠......"
+        text: "就此安眠......无梦地安眠......",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
     action: () => {
                 let am = AchievementManager.getInstance();
@@ -1292,7 +1343,10 @@ nodes: [
     id: "mountain_115_2_2",
     elements: {
         name: "你",
-        text: "你本人就像你的话语一样软弱无力。"
+        text: "你本人就像你的话语一样软弱无力。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
@@ -1300,21 +1354,30 @@ nodes: [
     elements: {
         background:"sc3.1/3-1-6.jpg",
         name: "旁白",
-        text: "瞬息之间，将梅菲斯特的身躯四分五裂，化为飘散的黑烟。"
+        text: "瞬息之间，将梅菲斯特的身躯四分五裂，化为飘散的黑烟。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_117_2_2",
     elements: {
         name: "梅菲斯特",
-        text: "怀疑已在心中扎根，虚无将会张开怀抱。"
+        text: "怀疑已在心中扎根，虚无将会张开怀抱。",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
     id: "mountain_118_2_2",
     elements: {
         name: "旁白",
-        text: "梅菲斯特的头颅依旧在地上蠕动。他的面容上泛起了悲悯。"
+        text: "梅菲斯特的头颅依旧在地上蠕动。他的面容上泛起了悲悯。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
@@ -1322,7 +1385,10 @@ nodes: [
     elements: {
         background:"sc3.1/3-1-7.jpg",
         name: "梅菲斯特",
-        text: "我是杀不死的，我是永恒的。"
+        text: "我是杀不死的，我是永恒的。",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -1336,14 +1402,20 @@ nodes: [
     id: "mountain_121_2_2",
     elements: {
         name: "旁白",
-        text: "头颅开始化作黑烟消散。"
+        text: "头颅开始化作黑烟消散。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
     id: "mountain_122_2_2",
     elements: {
         name: "梅菲斯特",
-        text: "攀登者啊，请聆听我最后的献词："
+        text: "攀登者啊，请聆听我最后的献词：",
+        sprite: {
+            left:"NPC/dead_man.png"
+        }
     },
 },
 {
@@ -1406,7 +1478,10 @@ nodes: [
     id: "mountain_131_2_2",
     elements: {
         name: "旁白",
-        text: "唱完这最后一句，梅菲斯特的头颅彻底灰飞烟灭。"
+        text: "唱完这最后一句，梅菲斯特的头颅彻底灰飞烟灭。",
+        sprite: {
+            left:null,
+        }
     },
 },
 {
@@ -1492,7 +1567,7 @@ nodes: [
             next: "mountain_140_2_2_2",
         },
     ]
-},
+},//选择分支2，进入与鬼怪的战斗//
 //分支2-2-2-1//
 {
     id: "mountain_140_2_2_1",
@@ -2419,7 +2494,7 @@ nodes: [
         name: "你",
         text: "遇到事情不能坐以待毙。不战斗就无法生存。做好觉悟，一起上吧。",
     },
-},
+},//这里可以将觉悟卡升级//
 {
     id: "mountain_191_2",
     elements: {
@@ -2480,7 +2555,7 @@ nodes: [
         name: "你",
         text: "来吧，你这家伙。",
         background:"sc3.1/3-1-13.jpg",
-    },
+    },//进入与恶魂之间的战斗//
     choices: [
         {
             text: "大获全胜。",
@@ -3552,7 +3627,7 @@ nodes: [
         name: "旁白",
         text: "而是质地柔软且覆有纹理、形态不定的，透露着一种苍凉与破碎感。",
     },
-},
+},//这里与无痕之泪融合//
 {
     id: "mountain_249_2_3_1",
     elements: {
@@ -3881,7 +3956,7 @@ nodes: [
         name: "你",
         text: "好东西，我收下了。。",
     },
-},
+},//融合暗寂//
 {
     id: "mountain_241_2_3_2_1",
     elements: {

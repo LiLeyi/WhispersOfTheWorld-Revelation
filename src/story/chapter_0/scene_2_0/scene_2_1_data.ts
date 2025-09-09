@@ -81,7 +81,7 @@ sprite: {
             left: "guangling/smile.png",
         }
     },
-},
+},//这里触发暗寂强化的剧情//
 {
     id: "darkblade_9",
     elements: {
@@ -375,7 +375,10 @@ sprite: {
     id: "darkblade_38_1",
     elements: {
         name: "旁白",
-        text: "看起来是人类的躯体，却承载着相当一部分机械结构。"
+        text: "看起来是人类的躯体，却承载着相当一部分机械结构。",
+        sprite: {
+            left:null
+        }
     },
 },
 {
@@ -553,7 +556,7 @@ sprite: {
         name: "旁白",
         text: "身上沾染着血迹的白发杀神以冷酷的眼神紧盯着我们，好似要把我们的一切看穿。"
     },
-},
+},//这里触发剧情发生战斗//
 {
     id: "darkblade_57",
     elements: {
@@ -627,7 +630,10 @@ sprite: {
     id: "darkblade_64_1",
     elements: {
         name: "你",
-        text: "人类，对吧。"
+        text: "人类，对吧。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -678,14 +684,20 @@ sprite: {
     id: "darkblade_76",
     elements: { 
       name: "？", 
-      text: "你们可以叫我“虚樹”（うつぼく / 虚树）" 
+      text: "你们可以叫我“虚樹”（うつぼく / 虚树）" ,
+      sprite: {
+            left:null
+        }
     },
   },
   {
     id: "darkblade_77",
     elements: { 
       name: "虚樹", 
-      text: "我的确，从你们身上感受不到敌意。" 
+      text: "我的确，从你们身上感受不到敌意。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -699,7 +711,10 @@ sprite: {
     id: "darkblade_79",
     elements: { 
       name: "旁白", 
-      text: "他转身离开，不再多言。" 
+      text: "他转身离开，不再多言。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
@@ -742,21 +757,30 @@ sprite: {
     id: "darkblade_84",
     elements: { 
       name: "旁白", 
-      text: "我们面对面地坐在椅子上。" 
+      text: "我们面对面地坐在椅子上。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_85",
     elements: { 
       name: "虚樹", 
-      text: "提出你们的疑问吧......外来者。" 
+      text: "提出你们的疑问吧......外来者。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
     id: "darkblade_86",
     elements: { 
       name: "旁白", 
-      text: "出于礼貌，还是先简单介绍了一下自己和光泠。" 
+      text: "出于礼貌，还是先简单介绍了一下自己和光泠。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
@@ -770,14 +794,20 @@ sprite: {
     id: "darkblade_88",
     elements: { 
       name: "你", 
-      text: "“齿轮”，这个地方，到底发生了什么？" 
+      text: "“齿轮”，这个地方，到底发生了什么？" ,
+      sprite: {
+            left:null,
     },
   },
+},
   {
     id: "darkblade_89",
     elements: { 
       name: "虚樹", 
-      text: "“齿轮”，是由觉醒机械统治的城市。" 
+      text: "“齿轮”，是由觉醒机械统治的城市。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -791,14 +821,20 @@ sprite: {
     id: "darkblade_91",
     elements: { 
       name: "旁白", 
-      text: "他依旧冷冷地看着我们，只是眼里的警惕与怀疑少了几分。" 
+      text: "他依旧冷冷地看着我们，只是眼里的警惕与怀疑少了几分。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_92",
     elements: { 
       name: "虚樹", 
-      text: "一些不甘被觉醒机械掌控和奴役的人类，向觉醒机械发起了反抗与斗争......" 
+      text: "一些不甘被觉醒机械掌控和奴役的人类，向觉醒机械发起了反抗与斗争......" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -812,14 +848,20 @@ sprite: {
     id: "darkblade_93",
     elements: { 
       name: "你", 
-      text: "觉醒机械，又是怎么回事？" 
+      text: "觉醒机械，又是怎么回事？" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_94",
     elements: { 
       name: "虚樹", 
-      text: "觉醒机械......最开始的时候，它们只是人类的造物。" 
+      text: "觉醒机械......最开始的时候，它们只是人类的造物。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -889,14 +931,20 @@ sprite: {
     id: "darkblade_101",
     elements: { 
       name: "你", 
-      text: "看来之前我们消灭的在城外游荡的机械怪物就是那一部分失控的类型。" 
+      text: "看来之前我们消灭的在城外游荡的机械怪物就是那一部分失控的类型。",
+      sprite: {
+            left:null,
+        } 
     },
   },
   {
     id: "darkblade_102",
     elements: { 
       name: "虚樹", 
-      text: "虽然原本的人类拥有各种威力强大的武器，但那些大规模杀伤性武器都被觉醒机械们掌控。" 
+      text: "虽然原本的人类拥有各种威力强大的武器，但那些大规模杀伤性武器都被觉醒机械们掌控。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -917,7 +965,10 @@ sprite: {
     id: "darkblade_103_1",
     elements: { 
       name: "虚樹", 
-      text: "人类完全不是那些具有自我意识、高度智能的机械体的对手。" 
+      text: "人类完全不是那些具有自我意识、高度智能的机械体的对手。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
    {
@@ -938,7 +989,10 @@ sprite: {
     id: "darkblade_105",
     elements: { 
       name: "虚樹", 
-      text: "是的。为什么获得完全胜利的机械体们没有对人类进行彻底的抹杀？" 
+      text: "是的。为什么获得完全胜利的机械体们没有对人类进行彻底的抹杀？",
+      sprite: {
+            left:"NPC/jixie_man.png"
+        } 
     },
   },
   {
@@ -959,14 +1013,20 @@ sprite: {
     id: "darkblade_106",
     elements: { 
       name: "你", 
-      text: "机械体还需要食物？" 
+      text: "机械体还需要食物？" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_107",
     elements: { 
       name: "虚樹", 
-      text: "这就是可怕的事情......被病毒感染后的机械体们已经不再是原本纯粹的机械体了。" 
+      text: "这就是可怕的事情......被病毒感染后的机械体们已经不再是原本纯粹的机械体了。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -980,14 +1040,20 @@ sprite: {
     id: "darkblade_108",
     elements: { 
       name: "你", 
-      text: "不可思议。" 
+      text: "不可思议。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_109",
     elements: { 
       name: "虚樹", 
-      text: "目前为止，我们还无法确切解释这种变化产生的原因，只知道是那种神秘的病毒引起的。" 
+      text: "目前为止，我们还无法确切解释这种变化产生的原因，只知道是那种神秘的病毒引起的。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -1029,14 +1095,20 @@ sprite: {
     id: "darkblade_114",
     elements: { 
       name: "你", 
-      text: "无限能量？" 
+      text: "无限能量？" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_115",
     elements: { 
       name: "虚樹", 
-      text: "听上去很不可思议吧，我也是这么想的。" 
+      text: "听上去很不可思议吧，我也是这么想的。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -1064,21 +1136,30 @@ sprite: {
     id: "darkblade_118",
     elements: { 
       name: "虚樹", 
-      text: "至于“永昼之瞳”来自何方，也无人知晓。只能推测出是与病毒同时期出现的。" 
+      text: "至于“永昼之瞳”来自何方，也无人知晓。只能推测出是与病毒同时期出现的。",
+      sprite: {
+            left:"NPC/jixie_man.png"
+        } 
     },
   },
   {
     id: "darkblade_119",
     elements: { 
       name: "你", 
-      text: "现在反抗的人类，又拿什么和觉醒机械斗争？" 
+      text: "现在反抗的人类，又拿什么和觉醒机械斗争？" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_120",
     elements: { 
       name: "虚樹", 
-      text: "人类的科技并没有断绝，武器也在不断地更新迭代。" 
+      text: "人类的科技并没有断绝，武器也在不断地更新迭代。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
   {
@@ -1099,7 +1180,10 @@ sprite: {
     id: "darkblade_121",
     elements: { 
       name: "你", 
-      text: "我还有些问题想要请教。" 
+      text: "我还有些问题想要请教。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
@@ -1113,14 +1197,20 @@ sprite: {
     id: "darkblade_122",
     elements: { 
       name: "旁白", 
-      text: "成为觉醒机械的部下——其实也只是随意差遣的奴隶罢了——这类人被称作“干部”。" 
+      text: "成为觉醒机械的部下——其实也只是随意差遣的奴隶罢了——这类人被称作“干部”。" ,
+      sprite: {
+            left:null,
+        }
     },
   },
   {
     id: "darkblade_123",
     elements: { 
       name: "虚樹", 
-      text: "干部往往会拥有一片自己管辖的地盘，并且还拥有随意掌控、支配一部分人类奴隶的权力。" 
+      text: "干部往往会拥有一片自己管辖的地盘，并且还拥有随意掌控、支配一部分人类奴隶的权力。" ,
+      sprite: {
+            left:"NPC/jixie_man.png"
+        }
     },
   },
 {
@@ -1134,7 +1224,10 @@ sprite: {
   id: "darkblade_126",
   elements: { 
     name: "你", 
-    text: "我想我们已经了解得差不多了。" 
+    text: "我想我们已经了解得差不多了。",
+    sprite: {
+            left:null,
+        } 
   },
 },
 {
@@ -1155,14 +1248,20 @@ sprite: {
   id: "darkblade_129",
   elements: { 
     name: "你", 
-    text: "不过关于你身上的事......" 
+    text: "不过关于你身上的事......",
+    sprite: {
+            left:null,
+        } 
   },
 },
 {
   id: "darkblade_130",
   elements: { 
     name: "虚樹", 
-    text: "......" 
+    text: "......" ,
+    sprite: {
+            left:"NPC/jixie_man.png"
+        }
   },
 },
 {
@@ -1183,21 +1282,30 @@ sprite: {
   id: "darkblade_133",
   elements: { 
     name: "旁白", 
-    text: "他紧闭双眼，低着头，似乎在忍耐着什么。" 
+    text: "他紧闭双眼，低着头，似乎在忍耐着什么。" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
   id: "darkblade_134",
   elements: { 
     name: "虚樹", 
-    text: "请吧。" 
+    text: "请吧。" ,
+    sprite: {
+            left:"NPC/jixie_man.png"
+        }
   },
 },
 {
   id: "darkblade_135",
   elements: { 
     name: "你", 
-    text: "那我们就不打扰了。" 
+    text: "那我们就不打扰了。" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1225,7 +1333,10 @@ sprite: {
   id: "darkblade_139",
   elements: { 
     name: "旁白", 
-    text: "还是有些担心他的状况" 
+    text: "还是有些担心他的状况",
+    sprite: {
+            left:null,
+        } 
   },
 },
 {
@@ -1306,6 +1417,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "我们真的有把握能在觉醒机械掌控之下得到“永昼之瞳”吗？",
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1348,6 +1462,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "你觉得呢？" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1366,7 +1483,7 @@ sprite: {
     name: "光泠", 
     text: "真的要就此放弃么？" ,
   },
-},//这里加个不放弃返回战斗的分支？
+},
 {
   id: "darkblade_154_1",
   elements: { 
@@ -1508,6 +1625,9 @@ sprite: {
     background:"sc2.1/2-1-10.png",
     name: "旁白", 
     text: "继续潜入，却意外发现了一名准备自杀的人类。" ,
+    sprite: {
+            left:null,
+        }
   },
   choices: [
     {
@@ -1540,6 +1660,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "没想到他竟然做出如此极端的行径！" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1561,6 +1684,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "他难道不知道，这是多么愚蠢的行为？" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1588,6 +1714,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "即使获得救赎，也仍然自愿步入无间地狱。" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1636,6 +1765,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "对于他，我感到莫大的悲哀与耻辱！" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1691,6 +1823,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "我想，我们继续下去可能不会是什么正确的选择。" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1746,6 +1881,9 @@ sprite: {
   elements: { 
     name: "你", 
     text: "该离开了。" ,
+    sprite: {
+            left:null,
+        }
   },
 },
 {
@@ -1772,7 +1910,7 @@ sprite: {
   id: "darkblade_183_2_1",
   elements: { 
     name: "光泠", 
-    text: "不过我尊重你的选择。" ,//获得成就：冷眼旁观
+    text: "不过我尊重你的选择。" ,
   },
   next:"chapter_0_scene_3_0",
 },
@@ -1850,9 +1988,12 @@ sprite: {
   id: "darkblade_163_2_2",
   elements: { 
     name: "旁白", 
-    text: "与国王的战斗一触即发。" ,//获得成就：英勇无畏
+    text: "与国王的战斗一触即发。" ,
     background:"sc2.1/2-1-5.png",
-  },
+    sprite: {
+            left:null,
+        }
+  },//这里插入战斗，一共两管血//
   choices: [
     {
       text: "赢了",
@@ -1946,7 +2087,10 @@ sprite: {
   id: "battle_1_2",
   elements: {
     name: "旁白",
-    text: "获得最终胜利的我们来到了塔的最中心，取得了被放在这里吸取能量的永昼之瞳。"
+    text: "获得最终胜利的我们来到了塔的最中心，取得了被放在这里吸取能量的永昼之瞳。",
+    sprite: {
+            left:null,
+        }
   }
 },
 {
@@ -1981,7 +2125,10 @@ sprite: {
   id: "battle_1_6",
   elements: {
     name: "旁白",
-    text: "得到“永昼之瞳”的我们，也在这之后平安离开。"//获得成就：齿轮之城的曙光
+    text: "得到“永昼之瞳”的我们，也在这之后平安离开。",
+    sprite: {
+            left:null,
+        }
   },
 next:"chapter_0_scene_3_0",
 },
@@ -2000,14 +2147,17 @@ next:"chapter_0_scene_3_0",
   id: "battle_2_2",
   elements: {
     name: "旁白",
-    text: "如海啸般狂暴的剧痛不停撕扯着我的神经。"
+    text: "如海啸般狂暴的剧痛不停撕扯着我的神经。",
+    sprite: {
+            left:null,
+        }
   }
 },
 {
   id: "battle_2_2_1",
   elements: {
     name: "旁白",
-    text: "动弹不得的麻木身躯如今除了那刻骨铭心的痛楚外一无所有。"
+    text: "动弹不得的麻木身躯如今除了那刻骨铭心的痛楚外一无所有。",
   }
 },
 {
@@ -2119,7 +2269,10 @@ next:"chapter_0_scene_3_0",
   id: "battle_2_18",
   elements: {
     name: "旁白",
-    text: "YOU ARE DEAD."
+    text: "YOU ARE DEAD.",
+    sprite: {
+            left:null,
+        }
   },
    action: () => {
                 let am = AchievementManager.getInstance();
@@ -2128,7 +2281,7 @@ next:"chapter_0_scene_3_0",
   choices: [
     {
       text: "死亡结局",
-      next: "chapter_0_scene_0"//返回第零章，并获得成就：壮烈的轮回
+      next: "chapter_0_scene_0"
     }
   ]
 },
