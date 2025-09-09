@@ -158,8 +158,6 @@ button, .btn {
 }
 
 /* 导入拆分的CSS文件 */
-@import url('./sprite.css');
-@import url('./dialog.css');
 @import url('./choices.css');
 @import url('./popup.css');
 
