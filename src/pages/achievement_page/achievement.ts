@@ -68,6 +68,22 @@ function renderAchievements(): void {
 
     listContainer.appendChild(list);
 
+    // 创建控制按钮容器
+    const controls = document.createElement("div");
+    controls.className = "carousel-controls";
+    
+    const prevBtn = document.createElement("div");
+    prevBtn.className = "carousel-btn prev";
+    prevBtn.innerHTML = "‹";
+    
+    const nextBtn = document.createElement("div");
+    nextBtn.className = "carousel-btn next";
+    nextBtn.innerHTML = "›";
+    
+    controls.appendChild(prevBtn);
+    controls.appendChild(nextBtn);
+    listContainer.appendChild(controls);
+
     // 3D 轮播逻辑
     let currentIndex = 0;
     const total = items.length;
@@ -136,6 +152,17 @@ function renderAchievements(): void {
         });
     });
 
+    // 控制按钮事件
+    prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        prev();
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        next();
+    });
+
     // 键盘导航（左右键与空格）
     const onKey = (e: KeyboardEvent) => {
         if (e.key === "ArrowRight") {
@@ -149,16 +176,28 @@ function renderAchievements(): void {
     };
     document.addEventListener("keydown", onKey);
 
-    // 已取消鼠标滚轮控制（不绑定 wheel 事件）
-
-    // 全局点击：点击空白区域触发下一项（不影响卡片聚焦与返回按钮）
-    const onGlobalClick = (e: MouseEvent) => {
+    // 屏幕左右半部分点击导航
+    const onScreenClick = (e: MouseEvent) => {
         const target = e.target as HTMLElement;
-        if (target.closest('#backButton')) return;
-        if (target.closest('.achievement-item')) return; // 卡片自己的 click 仍按原逻辑
-        next();
+        // 忽略按钮、返回按钮和成就项的点击
+        if (target.closest('.carousel-btn') || 
+            target.closest('#backButton') || 
+            target.closest('.achievement-item')) {
+            return;
+        }
+
+        // 获取屏幕宽度
+        const screenWidth = window.innerWidth;
+        // 根据点击位置判断是左半屏还是右半屏
+        if (e.clientX < screenWidth / 2) {
+            // 左半屏点击，向前切换
+            prev();
+        } else {
+            // 右半屏点击，向后切换
+            next();
+        }
     };
-    document.addEventListener("click", onGlobalClick);
+    document.addEventListener("click", onScreenClick);
 
     // 拖拽/触控滑动
     let dragging = false;

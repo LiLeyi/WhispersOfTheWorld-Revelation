@@ -175,12 +175,11 @@ button, .btn {
 
 /* 成就系统特定样式 */
 .achievement-container {
-    width: 80%;
+    width: 90%;
     max-width: 1200px;
-    margin: 50px auto;
-    padding: 30px;
+    margin: 30px auto;
+    padding: 20px;
     background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -209,10 +208,18 @@ button, .btn {
 .achievement-stats {
     margin-bottom: 30px;
     text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .achievement-stat {
-    margin-bottom: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    min-width: 150px;
+    text-align: center;
 }
 
 .achievement-stat-label {
@@ -223,130 +230,108 @@ button, .btn {
 
 .achievement-stat-value {
     color: #e9ecef;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 /* 成就网格布局 */
 .achievements-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
+    margin-top: 20px;
 }
 
-/* 3D 轮播模式（保持原有 class 名，额外挂载 carousel-3d 实现 3D 展示） */
+/* 优化后的3D轮播模式 - 更大并居中 */
 .achievements-grid.carousel-3d {
     position: relative;
     display: block;
-    perspective: 1200px;
-    height: 460px;
+    perspective: 800px;
+    height: 550px;
     overflow: visible;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 850px;
 }
 
 .achievements-grid.carousel-3d .achievement-item {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    width: 640px;
-    max-width: 80vw;
+    width: 450px;
     transform-style: preserve-3d;
-    transform-origin: 50% 50% 0;
-    will-change: transform, opacity, filter;
+    transform-origin: center center;
+    will-change: transform, opacity;
     cursor: pointer;
-}
-
-/* 中心卡片的放大与高光效果由 JS 注入 inline style 控制，这里提供基础过渡 */
-.achievements-grid.carousel-3d .achievement-item {
-    transition: transform 450ms ease, opacity 450ms ease, filter 450ms ease, box-shadow 300ms ease;
+    transition: transform 0.5s cubic-bezier(0.17, 0.67, 0.28, 0.95), 
+                opacity 0.5s cubic-bezier(0.17, 0.67, 0.28, 0.95);
+    margin-left: -225px; /* 宽度的一半，确保真正居中 */
+    margin-top: -100px;  /* 高度的一半，确保真正居中 */
 }
 
 .achievements-grid.carousel-3d .achievement-item:hover {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
-}
-
-/* 轮播导航（隐形区域用于拖拽/手势） */
-.achievements-grid.carousel-3d::after {
-    content: '';
-    position: absolute;
-    inset: -20px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
 .achievement-item {
-    padding: 24px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .achievement-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* 3D 模式下卡片的内容布局更适合展示大信息块 */
 .achievements-grid.carousel-3d .achievement-item {
-    padding: 28px 32px;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
-    /* 使用卡片各自的主题色变量创建柔和高光边框 */
+    text-align: left;
     border: 1px solid rgba(255, 255, 255, 0.22);
-    box-shadow:
-        0 18px 36px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 0 36px 0 var(--accent-glow, rgba(255,255,255,0.0));
-    background:
-        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)),
-        radial-gradient(1200px 300px at 50% -20%, var(--accent-start, rgba(255,255,255,0.08)), transparent 60%),
-        radial-gradient(1200px 300px at 50% 120%, var(--accent-end, rgba(255,255,255,0.06)), transparent 60%);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    max-width: 450px;
 }
 
 .achievements-grid.carousel-3d .achievement-icon {
-    font-size: 3.2rem;
-    margin-right: 0;
-    margin-bottom: 12px;
+    font-size: 2.8rem;
+    margin-right: 20px;
+    margin-bottom: 0;
+    min-width: 65px;
 }
 
 .achievements-grid.carousel-3d .achievement-info h3 {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
-    color: var(--accent-text, #f8d7da);
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+    color: #f8d7da;
 }
 
 .achievements-grid.carousel-3d .achievement-en-name {
-    font-size: 1rem;
+    font-size: 1.1rem;
     opacity: 0.9;
     margin-bottom: 10px;
 }
 
 .achievements-grid.carousel-3d .achievement-description {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: #f1f3f5;
     opacity: 0.95;
 }
 
 .achievements-grid.carousel-3d .achievement-status {
-    margin-top: 14px;
-    font-size: 1.05rem;
-}
-
-/* 抑制非中心卡片的文字渲染，避免堆叠干扰 */
-.achievements-grid.carousel-3d .achievement-item.is-dimmed .achievement-info,
-.achievements-grid.carousel-3d .achievement-item.is-dimmed .achievement-icon {
-    filter: blur(1px);
-}
-
-.achievements-grid.carousel-3d .achievement-item.is-hidden .achievement-info,
-.achievements-grid.carousel-3d .achievement-item.is-hidden .achievement-icon {
-    opacity: 0;
-    visibility: hidden;
+    margin-top: 10px;
+    font-size: 1.1rem;
 }
 
 .achievement-icon {
@@ -364,7 +349,6 @@ button, .btn {
     font-size: 1.4rem;
     margin-bottom: 5px;
     color: #f8d7da;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .achievement-en-name {
@@ -378,7 +362,6 @@ button, .btn {
     font-size: 1rem;
     color: #e9ecef;
     margin-bottom: 10px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .achievement-status {
@@ -394,6 +377,48 @@ button, .btn {
 
 .achievement-locked {
     color: #dc3545;
+}
+
+/* 轮播控制按钮 */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.carousel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-btn:active {
+    transform: scale(0.95);
+}
+
+.carousel-btn.prev {
+    padding-right: 5px;
+}
+
+.carousel-btn.next {
+    padding-left: 5px;
 }
 
 /* 响应式设计 */
@@ -424,6 +449,34 @@ button, .btn {
         height: 55px;
         font-size: 25px;
     }
+    
+    .achievements-grid.carousel-3d {
+        height: 500px;
+        max-width: 750px;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-item {
+        width: 400px;
+        max-width: 400px;
+        margin-left: -200px;
+        margin-top: -90px;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-icon {
+        font-size: 2.5rem;
+        margin-right: 18px;
+        min-width: 60px;
+    }
+    
+    .carousel-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -448,8 +501,26 @@ button, .btn {
         font-size: 1.2rem;
     }
     
-    .achievements-grid {
-        grid-template-columns: 1fr;
+    .achievements-grid.carousel-3d {
+        height: 450px;
+        max-width: 650px;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-item {
+        width: 360px;
+        max-width: 360px;
+        margin-left: -180px;
+        margin-top: -80px;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-info h3 {
+        font-size: 1.4rem;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-icon {
+        font-size: 2.3rem;
+        margin-right: 16px;
+        min-width: 55px;
     }
     
     #small {
@@ -461,6 +532,12 @@ button, .btn {
         width: 50px;
         height: 50px;
         font-size: 20px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
 }
 
@@ -479,6 +556,16 @@ button, .btn {
         font-size: 1.5rem;
     }
     
+    .achievement-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .achievement-stat {
+        width: 100%;
+        max-width: 300px;
+    }
+    
     .achievement-info h3 {
         font-size: 1.1rem;
     }
@@ -486,5 +573,42 @@ button, .btn {
     .achievement-icon {
         font-size: 1.5rem;
         margin-right: 10px;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-grid.carousel-3d {
+        height: 400px;
+        max-width: 100%;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-item {
+        width: 320px;
+        max-width: 320px;
+        margin-left: -160px;
+        margin-top: -70px;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-info h3 {
+        font-size: 1.3rem;
+    }
+    
+    .achievements-grid.carousel-3d .achievement-icon {
+        font-size: 2rem;
+        margin-right: 15px;
+        min-width: 50px;
+    }
+    
+    .carousel-controls {
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.1rem;
     }
 }
