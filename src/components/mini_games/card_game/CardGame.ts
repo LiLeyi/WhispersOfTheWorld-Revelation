@@ -573,8 +573,11 @@ class CardGame extends MiniGame {
                 }
             }
             
-            // 按优先级排序，但根据血量情况调整策略
+                     // 按优先级排序，但根据血量情况调整策略
             playableCards.sort((a, b) => {
+                // 确保比较的卡牌有效
+                if (!a || !b) return 0;
+                
                 // 如果巨石血量较高(>70%)且玩家血量较低(<50%)，更倾向于使用攻击牌
                 if (opponentHpRatio > 0.7 && playerHpRatio < 0.5) {
                     // 优先考虑攻击类型卡牌
@@ -610,6 +613,18 @@ class CardGame extends MiniGame {
             
             // 选择第一张卡牌
             const card = playableCards[0];
+            
+            // 添加卡牌有效性检查
+            if (!card || !card.id) {
+                console.error('AI选择了无效卡牌:', card);
+                // 没有可用卡牌，直接结束回合
+                setTimeout(() => {
+                    console.log('AI选择无效卡牌，结束回合');
+                    this.endTurn();
+                }, 1500);
+                return;
+            }
+            
             console.log('巨石选择卡牌:', card);
             
             // 在调试信息中显示选择的卡牌
@@ -632,10 +647,25 @@ class CardGame extends MiniGame {
         }
     }
 
- // 使用卡牌
+    // 使用卡牌
     private async playCard(player: Player, card: Card): Promise<void> {
         console.log(`${player.name} 使用卡牌:`, card);
         
+        // 添加卡牌有效性检查
+        if (!card) {
+            console.error('尝试使用无效卡牌:', card);
+            this.state.message = `使用卡牌时出错`;
+            this.updateUI();
+            return;
+        }
+        
+        if (!card.id) {
+            console.error('卡牌缺少ID:', card);
+            this.state.message = `卡牌数据不完整`;
+            this.updateUI();
+            return;
+        }
+
         // 在调试信息中显示使用卡牌的信息
         if (this.debugContentElement) {
             this.debugContentElement.innerHTML += `<div>${player.name}使用卡牌: ${card.name}</div>`;
@@ -655,7 +685,7 @@ class CardGame extends MiniGame {
         }
 
         // 保存卡牌索引用于后续处理
-        const cardIndex = player.hand.findIndex(c => c.id === card.id);
+        const cardIndex = player.hand.findIndex(c => c && c.id === card.id);
         
         // 执行出牌动画
         await UIManager.playCardAnimation(player.id as 'player' | 'opponent', card, card.id);
@@ -698,7 +728,7 @@ class CardGame extends MiniGame {
             console.log('巨石使用卡牌完毕，检查是否继续出牌');
             
             // 检查是否还有可用的卡牌并且还有行动点数
-            const remainingPlayableCards = this.state.opponent.hand.filter(c => c.cost <= this.state.opponent.actionPoints);
+            const remainingPlayableCards = this.state.opponent.hand.filter(c => c && c.cost <= this.state.opponent.actionPoints);
             if (remainingPlayableCards.length > 0 && this.state.opponent.actionPoints > 0) {
                 console.log('巨石还有可用卡牌，0.5秒后继续出牌'); // 缩短延迟时间
                 if (this.debugContentElement) {

@@ -59,7 +59,7 @@ export class PlayerService {
         player.buffs = player.buffs.filter(buff => !buffsToRemove.includes(buff));
     }
     
-    // 抽牌
+     // 抽牌
     static drawCards(player: Player, count: number): void {
         for (let i = 0; i < count; i++) {
             // 如果手牌已满，停止抽牌
@@ -80,7 +80,15 @@ export class PlayerService {
             // 从牌组中随机抽取一张牌
             const cardIndex = Math.floor(Math.random() * player.deck.length);
             const card = player.deck.splice(cardIndex, 1)[0];
-            player.hand.push(card);
+            
+            // 确保抽到的卡牌有效
+            if (card && card.id) {
+                player.hand.push(card);
+            } else {
+                console.warn('抽到了无效卡牌:', card);
+                // 如果抽到了无效卡牌，尝试再抽一张
+                i--; // 重新尝试这一轮抽牌
+            }
         }
     }
     
