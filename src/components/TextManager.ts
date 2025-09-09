@@ -142,9 +142,9 @@ export class TextManager {
             // 添加新条目
             history.push(entry);
             
-            // 限制历史记录数量，只保留最近的500条
-            if (history.length > 500) {
-                history = history.slice(-500);
+            // 限制历史记录数量，只保留最近的30条
+            if (history.length > 30) {
+                history = history.slice(-30);
             }
             
             // 保存到localStorage，使用特定存档的键名

@@ -398,6 +398,10 @@ class GameScene {
         // 移除initialState的使用，因为我们现在使用ArchiveManager管理状态
         this.currentState = {};
 
+        // 保存当前场景ID到localStorage，供文本历史记录使用
+        if (scene.id) {
+            localStorage.setItem('currentSceneId', scene.id);
+        }
         // 如果是新游戏，确保清除所有立绘
         if ((this as any)._isNewGame) {
             console.log("新游戏，清除所有立绘");

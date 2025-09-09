@@ -58,6 +58,9 @@ function displayGameLogs(container: HTMLElement, noLogsElement: HTMLElement | nu
     }
     // 如果是新游戏，则使用空的历史记录（即不显示任何历史记录）
 
+    // 反转数组，使最新记录显示在最上面
+    textHistory = textHistory.reverse();
+
     // 显示历史记录
     if (textHistory.length > 0) {
         if (noLogsElement) {
