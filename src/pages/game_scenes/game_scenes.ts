@@ -12,6 +12,9 @@ import '../../components/dialog-box/scene-sprite.css';
 import '../../components/dialog-box/scene-dialog.css';
 import '../../components/dialog-box/scene-menu.css';
 
+// 添加全局变量来控制点击时是否停止自动播放
+let stopAutoPlayOnClick = false
+
 class GameScene {
     private currentScene: Scene | null = null;
     private currentNodeIndex: number = 0;
@@ -49,8 +52,16 @@ class GameScene {
     }
 
     private init(): void {
-        console.log("[GameScene] 开始初始化游戏场景");
-
+        console.log("[GameScene] 开始初始化游戏场景");      
+        // 初始化已读文本颜色设置
+        const changeReadTextColorSetting = localStorage.getItem("changeReadTextColor");
+        const changeReadTextColor = changeReadTextColorSetting === "true";
+        this.sceneManager.getTextManager().setChangeReadTextColor(changeReadTextColor);
+        console.log("[GameScene] 初始化已读文本颜色设置，changeReadTextColor:", changeReadTextColor);
+        // 初始化点击时停止自动播放设置
+        const stopAutoPlayOnClickSetting = localStorage.getItem("stopAutoPlayOnClick");
+        stopAutoPlayOnClick = stopAutoPlayOnClickSetting === "true";
+        console.log("[GameScene] 初始化点击时停止自动播放设置，stopAutoPlayOnClick:", stopAutoPlayOnClick);
         // 创建小游戏容器
         this.miniGameContainer.id = 'mini-game-container';
         this.miniGameContainer.style.display = 'none';
@@ -147,86 +158,41 @@ class GameScene {
                         returnElement.classList.remove("active");
                     }
                 },
-            onSkipYes: () => {
-                console.log("[GameScene] 收到skipYes点击事件");
-                // 检查是否显示了选项，如果显示了选项则不执行跳过
-                const selectionBox = document.getElementById("selection_box");
-                if (selectionBox) {
-                    const isVisible = selectionBox.style.display !== "none" &&
-                        selectionBox.style.visibility !== "hidden" &&
-                        selectionBox.children.length > 0;
-                    console.log("[GameScene] 选项框状态 - display:", selectionBox.style.display,
-                        "visibility:", selectionBox.style.visibility,
-                        "子元素数量:", selectionBox.children.length,
-                        "是否可见:", isVisible);
-                        
-                    if (isVisible) {
-                        console.log("[GameScene] 选项框可见，不执行跳过");
-                        const skipElement = document.getElementById("skip");
-                        if (skipElement) {
-                            skipElement.classList.remove("active");
-                        }
-                        return; // 如果选项可见，则不执行跳过
-                    }
-                }
-                
-                // 如果正在等待用户选择，则不允许继续跳过
-                if ((this as any).waitingForChoice) {
-                    console.log("[GameScene] 正在等待用户选择，不执行跳过");
-                    const skipElement = document.getElementById("skip");
-                    if (skipElement) {
-                        skipElement.classList.remove("active");
-                    }
-                    return;
-                }
-                
-                console.log("[GameScene] 当前场景:", this.currentScene);
+          onSkipYes: () => {
+            // 简单直接的跳过实现
+            const skipUnread = localStorage.getItem("skipUnreadText") === "true";
+            
+            if (skipUnread) {
+                // 如果允许跳过未读文本，查找下一个选项节点
+                let foundChoiceNode = false;
                 if (this.currentScene) {
-                    // 查找下一个有选项的节点，同时考虑分支条件
-                    let nextChoiceNodeIndex = -1;
-                    console.log("[GameScene] 开始查找下一个选项节点，当前索引:", this.currentNodeIndex);
-                    console.log("[GameScene] 场景节点总数:", this.currentScene.nodes.length);
                     for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
                         const node = this.currentScene.nodes[i];
-                        console.log("[GameScene] 检查节点", i, ":", node);
-                        // 检查节点是否有选项且满足条件
                         if (node.choices && node.choices.length > 0) {
-                            console.log("[GameScene] 节点", i, "有选项");
-                            // 检查节点条件（如果有的话）
-                            if (!node.condition || node.condition()) {
-                                console.log("[GameScene] 节点", i, "条件满足");
-                                nextChoiceNodeIndex = i;
-                                break;
-                            } else {
-                                console.log("[GameScene] 节点", i, "条件不满足");
-                            }
-                        } else {
-                            console.log("[GameScene] 节点", i, "没有选项");
+                            this.currentNodeIndex = i;
+                            foundChoiceNode = true;
+                            break;
                         }
                     }
-                    
-                    // 如果找到了有选项的节点，则跳转到该节点；否则跳转到章节末尾
-                    if (nextChoiceNodeIndex !== -1) {
-                        console.log("[GameScene] 找到下一个选项节点，索引:", nextChoiceNodeIndex);
-                        this.currentNodeIndex = nextChoiceNodeIndex;
-                        // 添加标记，表示用户已跳转到选项节点
-                        (this as any).waitingForChoice = true;
-                        console.log("[GameScene] 设置waitingForChoice为true");
-                    } else {
-                        console.log("[GameScene] 未找到选项节点，跳转到章节末尾");
+                    // 如果没找到选项节点，跳到章节末尾
+                    if (!foundChoiceNode) {
                         this.currentNodeIndex = this.currentScene.nodes.length - 1;
                     }
                     this.clickCount = this.currentNodeIndex;
-                    localStorage.setItem("nowclick", this.clickCount.toString());
-                    console.log("[GameScene] 更新clickCount:", this.clickCount);
+                    localStorage.setItem("nowclick", String(this.clickCount));
                     this.renderCurrentNode();
                 }
-                const skipElement = document.getElementById("skip");
-                if (skipElement) {
-                    console.log("[GameScene] 关闭skip弹窗");
-                    skipElement.classList.remove("active");
-                }
-            },
+            } else {
+                // 如果不允许跳过未读文本，显示提示信息并不能跳过
+                alert("跳过未读文本功能已关闭");
+            }
+            
+            // 隐藏跳过弹窗
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.remove("active");
+            }
+        },
                 onSkipNo: () => {
                     const skipElement = document.getElementById("skip");
                     if (skipElement) {
@@ -389,6 +355,10 @@ class GameScene {
         // 移除initialState的使用，因为我们现在使用ArchiveManager管理状态
         this.currentState = {};
 
+        // 保存当前场景ID到localStorage，供文本历史记录使用
+        if (scene.id) {
+            localStorage.setItem('currentSceneId', scene.id);
+        }
         // 如果是新游戏，确保清除所有立绘
         if ((this as any)._isNewGame) {
             console.log("新游戏，清除所有立绘");
@@ -1223,11 +1193,18 @@ private handleMiniGame(node: SceneNode): void {
     };
 }
 
-    private nextMove(): void {
+          private nextMove(): void {
         console.log("[GameScene] nextMove方法被调用");
         if (!this.currentScene) {
             console.log("[GameScene] 没有当前场景，返回");
             return;
+        }
+
+        // 检查是否需要在点击时停止自动播放
+        if (stopAutoPlayOnClick && this.autoClickInterval) {
+            console.log("[GameScene] 点击时停止自动播放");
+            this.startAutoClick(); // 调用此方法来停止自动播放
+            return; // 停止自动播放后直接返回，不继续执行
         }
 
         // 检查是否显示了选项，如果显示了选项则不执行下一步
@@ -1318,7 +1295,7 @@ private handleMiniGame(node: SceneNode): void {
             }
         }
     }
-    private startAutoClick(): void {
+      private startAutoClick(): void {
         const autoButton = document.getElementById("op_auto");
 
         // 实现自动播放功能
@@ -1329,8 +1306,18 @@ private handleMiniGame(node: SceneNode): void {
             if (autoButton) {
                 autoButton.textContent = "auto"; // 恢复按钮文本
             }
+            
+            // 恢复点击事件
+            this.restoreClickEvents();
         } else {
-            // 开始自动播放，每1.5秒执行一次nextMove
+            // 从localStorage获取自动播放速度设置，默认1500ms
+            const autoPlaySpeedSetting = localStorage.getItem("autoPlaySpeed");
+            const autoPlaySpeed = autoPlaySpeedSetting ? parseInt(autoPlaySpeedSetting) : 1500;
+            
+            // 禁用点击事件
+            this.disableClickEvents();
+            
+            // 开始自动播放，使用设置的间隔时间
             this.autoClickInterval = setInterval(() => {
                 // 检查是否显示了选项，如果显示了选项则不执行下一步
                 const selectionBox = document.getElementById("selection_box");
@@ -1360,11 +1347,49 @@ private handleMiniGame(node: SceneNode): void {
                 }
 
                 this.nextMove();
-            }, 1500);
+            }, autoPlaySpeed);
             if (autoButton) {
                 autoButton.textContent = "stop"; // 更改按钮文本表示正在自动播放
             }
         }
+    }
+
+    /**
+     * 禁用点击事件
+     */
+    private disableClickEvents(): void {
+        console.log("[GameScene] 禁用点击事件");
+        
+        // 保存原始点击事件处理函数
+        const moveElement = document.getElementById("move");
+        const dialogElement = document.getElementById("dialog");
+        const textBoxElement = document.getElementById("text-box");
+        
+        // 保存原始事件处理函数以便后续恢复
+        (this as any)._originalMoveHandler = moveElement ? moveElement.onclick : null;
+        (this as any)._originalDialogHandler = dialogElement ? dialogElement.onclick : null;
+        (this as any)._originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
+        
+        // 禁用点击事件
+        if (moveElement) moveElement.onclick = null;
+        if (dialogElement) dialogElement.onclick = null;
+        if (textBoxElement) textBoxElement.onclick = null;
+    }
+
+    /**
+     * 恢复点击事件
+     */
+    private restoreClickEvents(): void {
+        console.log("[GameScene] 恢复点击事件");
+        
+        // 恢复原始点击事件处理函数
+        const moveElement = document.getElementById("move");
+        const dialogElement = document.getElementById("dialog");
+        const textBoxElement = document.getElementById("text-box");
+        
+        if (moveElement) moveElement.onclick = (this as any)._originalMoveHandler;
+        if (dialogElement) dialogElement.onclick = (this as any)._originalDialogHandler;
+        if (textBoxElement) textBoxElement.onclick = (this as any)._originalTextBoxHandler;
     }
 
     /**

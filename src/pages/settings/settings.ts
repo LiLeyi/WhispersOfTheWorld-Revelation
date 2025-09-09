@@ -58,16 +58,32 @@ function updateVolumeDisplay(elementId: string, value: string): void {
   }
 }
 
+// 更新自动播放速度显示
+function updateAutoPlaySpeedDisplay(value: string): void {
+  const element = document.getElementById("autoPlaySpeedValue");
+  if (element) {
+    element.textContent = value + "ms";
+  }
+}
+
 // 保存设置
 function saveSettings(): void {
   const gameVolume = (document.getElementById("gameVolume") as HTMLInputElement).value;
   const bgmVolume = (document.getElementById("bgmVolume") as HTMLInputElement).value;
   const menuVolume = (document.getElementById("menuVolume") as HTMLInputElement).value;
+  const skipUnreadText = (document.getElementById("skipUnreadText") as HTMLInputElement).checked;
+  const changeReadTextColor = (document.getElementById("changeReadTextColor") as HTMLInputElement).checked;
+  const autoPlaySpeed = (document.getElementById("autoPlaySpeed") as HTMLInputElement).value;
+  const stopAutoPlayOnClick = (document.getElementById("stopAutoPlayOnClick") as HTMLInputElement).checked;
   
   // 保存到 localStorage
   localStorage.setItem("gameVolume", gameVolume);
   localStorage.setItem("bgmVolume", bgmVolume);
   localStorage.setItem("menuVolume", menuVolume);
+  localStorage.setItem("skipUnreadText", skipUnreadText.toString());
+  localStorage.setItem("changeReadTextColor", changeReadTextColor.toString());
+  localStorage.setItem("autoPlaySpeed", autoPlaySpeed);
+  localStorage.setItem("stopAutoPlayOnClick", stopAutoPlayOnClick.toString());
   
   const message = currentLang === "zh" ? "设置已保存！" : "Settings saved!";
   alert(message);
@@ -78,14 +94,23 @@ function loadSettings(): void {
   const gameVolume = localStorage.getItem("gameVolume") || "100";
   const bgmVolume = localStorage.getItem("bgmVolume") || "100";
   const menuVolume = localStorage.getItem("menuVolume") || "100";
+  const skipUnreadText = localStorage.getItem("skipUnreadText") === "true";
+  const changeReadTextColor = localStorage.getItem("changeReadTextColor") === "true";
+  const autoPlaySpeed = localStorage.getItem("autoPlaySpeed") || "1500";
+  const stopAutoPlayOnClick = localStorage.getItem("stopAutoPlayOnClick") === "true";
   
   (document.getElementById("gameVolume") as HTMLInputElement).value = gameVolume;
   (document.getElementById("bgmVolume") as HTMLInputElement).value = bgmVolume;
   (document.getElementById("menuVolume") as HTMLInputElement).value = menuVolume;
+  (document.getElementById("skipUnreadText") as HTMLInputElement).checked = skipUnreadText;
+  (document.getElementById("changeReadTextColor") as HTMLInputElement).checked = changeReadTextColor;
+  (document.getElementById("autoPlaySpeed") as HTMLInputElement).value = autoPlaySpeed;
+  (document.getElementById("stopAutoPlayOnClick") as HTMLInputElement).checked = stopAutoPlayOnClick;
   
   updateVolumeDisplay("gameVolumeValue", gameVolume);
   updateVolumeDisplay("bgmVolumeValue", bgmVolume);
   updateVolumeDisplay("menuVolumeValue", menuVolume);
+  updateAutoPlaySpeedDisplay(autoPlaySpeed);
 }
 
 // 返回功能 - 根据来源决定返回哪里
@@ -160,4 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // 绑定返回按钮
   document.getElementById("backToMenu")?.addEventListener("click", back);
+
+  // 绑定自动播放速度滑块事件
+  document.getElementById("autoPlaySpeed")?.addEventListener("input", (e) => {
+    const target = e.target as HTMLInputElement;
+    updateAutoPlaySpeedDisplay(target.value);
+  });
 });

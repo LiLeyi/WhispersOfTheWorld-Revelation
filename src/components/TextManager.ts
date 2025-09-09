@@ -7,6 +7,7 @@ export class TextManager {
     private textElement: HTMLElement | null;
     private lastRecordedEntries: Array<{ name: string; text: string }> = [];
     private currentArchiveId: string = 'default';
+    private changeReadTextColor: boolean = false; // 添加变更已读文本颜色的标志
 
     constructor() {
         // 初始化时获取当前存档ID
@@ -29,13 +30,20 @@ export class TextManager {
     }
 
     /**
+     * 设置是否变更已读文本颜色
+     * @param change 是否变更已读文本颜色
+     */
+    public setChangeReadTextColor(change: boolean): void {
+        this.changeReadTextColor = change;
+    }
+
+    /**
      * 设置当前存档ID
      * @param archiveId 存档ID
      */
     public setCurrentArchiveId(archiveId: string): void {
         this.currentArchiveId = archiveId;
     }
-
     /**
      * 获取当前存档ID
      */
@@ -59,7 +67,7 @@ export class TextManager {
         return `gameTextHistory_${this.currentArchiveId}`;
     }
 
-    /**
+/**
      * 更新显示的文本和名称
      * @param element 包含文本和名称信息的场景元素
      */
@@ -73,7 +81,27 @@ export class TextManager {
             } else {
                 this.nameElement.innerHTML = "";
             }
-            this.textElement.innerHTML = element.text;
+            
+            // 检查是否需要变更已读文本颜色
+            if (this.changeReadTextColor) {
+                // 获取当前文本历史记录
+                const textHistory = this.getTextHistory();
+                const currentText = element.text;
+                
+                // 检查当前文本是否在历史记录中
+                const isRead = textHistory.some(entry => entry.text === currentText);
+                
+                if (isRead) {
+                    // 如果已读，使用灰色显示
+                    this.textElement.innerHTML = `<span style="color: #ebe7c0ff;">${currentText}</span>`;
+                } else {
+                    // 如果未读，使用正常颜色显示
+                    this.textElement.innerHTML = currentText;
+                }
+            } else {
+                // 如果不变更颜色，使用正常显示
+                this.textElement.innerHTML = element.text;
+            }
             
             // 记录文本历史
             this.recordTextHistory({
@@ -84,7 +112,6 @@ export class TextManager {
             console.warn("[TextManager] 无法找到name或texts元素，无法更新文本");
         }
     }
-    
     /**
      * 更新显示的文本和名称，但不记录到历史中
      * @param element 包含文本和名称信息的场景元素
@@ -138,9 +165,9 @@ export class TextManager {
             // 添加新条目
             history.push(entry);
             
-            // 限制历史记录数量，只保留最近的500条
-            if (history.length > 500) {
-                history = history.slice(-500);
+            // 限制历史记录数量，只保留最近的30条
+            if (history.length > 30) {
+                history = history.slice(-30);
             }
             
             // 保存到localStorage，使用特定存档的键名
