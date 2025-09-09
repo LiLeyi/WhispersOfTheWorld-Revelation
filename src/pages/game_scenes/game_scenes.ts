@@ -37,22 +37,24 @@ class GameScene {
     // 在GameScene类中添加小游戏容器
     private miniGameContainer: HTMLDivElement = document.createElement('div');
 
-     constructor() {
-        this.sceneManager = new SceneManager();
-        this.choiceManager = new ChoiceManager();
-        this.bagManager = BagManager.getInstance();
-        this.autoSaveManager = AutoSaveManager.getInstance(); // 初始化自动存档管理器
-        
-        // 初始化场景元素
-        this.sceneManager.initializeSceneElements();
-        
-        // 等待DOM加载完成后初始化
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.init());
-        } else {
-            this.init();
-        }
+    constructor() {
+    this.sceneManager = new SceneManager();
+    this.choiceManager = new ChoiceManager();
+    this.bagManager = BagManager.getInstance();
+    this.autoSaveManager = AutoSaveManager.getInstance(); // 确保正确初始化
+    
+    console.log("[GameScene] AutoSaveManager实例:", this.autoSaveManager);
+    
+    // 初始化场景元素
+    this.sceneManager.initializeSceneElements();
+    
+    // 等待DOM加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.init());
+    } else {
+        this.init();
     }
+}
 
     private init(): void {
         console.log("[GameScene] 开始初始化游戏场景");      
@@ -483,120 +485,135 @@ class GameScene {
         return this.currentScene.nodes[this.currentNodeIndex] || null;
     }
 
-    private renderCurrentNode(): void {
-        const node = this.getCurrentNode();
-        console.log("渲染节点:", node);
-        if (!node) return;
+private renderCurrentNode(): void {
+    const node = this.getCurrentNode();
+    console.log("[GameScene] 渲染节点:", node);
+    if (!node) return;
 
-        // 检查是否为关键节点并触发自动存档
-        this.checkAndTriggerAutoSave(node);
+    // 检查是否为关键节点并触发自动存档
+    console.log("[GameScene] 检查自动存档条件，node.keyNode:", node.keyNode);
+    this.checkAndTriggerAutoSave(node);
 
-        // 检查节点条件（如果不满足则跳过该节点）
-        if (node.condition && !node.condition()) {
-            // 如果条件不满足，跳转到下一个节点
-            this.nextMove();
-            return;
-        }
-
-        // 检查是否有视频需要播放
-        if (node.video) {
-            this.handleVideo(node);
-            return;
-        }
-
-        // 检查是否有小游戏需要执行
-        if (node.game) {
-            this.handleMiniGame(node);
-            return;
-        }
-
-        // 执行节点动作（仅在动作条件满足时执行）
-        if (node.action && (!node.actionCondition || node.actionCondition())) {
-            node.action();
-        }
-
-        // 处理选项
-        if (node.choices && node.choices.length > 0) {
-            console.log("处理选项");
-
-            // 在显示选项前，先更新对话框内容（使用不记录历史的方法）
-            if (node.elements) {
-                // 合并当前节点元素与前一个节点元素
-                const mergedElements = this.mergeElements(this.previousElements, node.elements);
-                console.log("合并后的元素:", mergedElements);
-                this.previousElements = mergedElements;
-
-                // 使用SceneManager更新场景元素（不记录到历史中）
-                this.sceneManager.updateSceneElementsWithoutRecording(mergedElements);
-            }
-
-            this.choiceManager.handleChoices(node);
-            // 添加等待标记，表示正在等待用户选择
-            (this as any).waitingForChoice = true;
-            return;
-        }
-
-        // 合并当前节点元素与前一个节点元素
-        const mergedElements = this.mergeElements(this.previousElements, node.elements);
-        console.log("合并后的元素:", mergedElements);
-        this.previousElements = mergedElements;
-
-        // 保存当前的previousElements状态到localStorage
-        try {
-            localStorage.setItem("previousElements", JSON.stringify(this.previousElements));
-        } catch (e) {
-            console.error("无法保存previousElements到localStorage", e);
-        }
-
-        // 使用SceneManager更新场景元素（会记录到历史中）
-        this.sceneManager.updateSceneElements(mergedElements);
-        this.sceneManager.updateBackground(mergedElements);
-        this.sceneManager.updateAudio(mergedElements);
-
-        // 更新立绘（如果是新游戏且是第一个节点，则不显示之前保存的立绘）
-        if ((this as any)._isNewGame && this.currentNodeIndex === 0) {
-            console.log("新游戏第一个节点，检查当前节点是否有立绘定义");
-            // 对于新游戏的第一个节点，只更新当前节点指定的立绘（如果有）
-            if (node.elements && node.elements.sprite !== undefined) {
-                console.log("当前节点定义了立绘:", node.elements.sprite);
-                this.sceneManager.getSpriteManager().updateCharacterSprites({ sprite: node.elements.sprite });
-            } else {
-                // 如果当前节点没有指定立绘，则清除所有立绘
-                console.log("当前节点未定义立绘，清除所有立绘");
-                this.sceneManager.clearAllSprites();
-            }
-        } else {
-            // 正常更新立绘
-            console.log("正常更新立绘:", mergedElements.sprite);
-        }
+    // 检查节点条件（如果不满足则跳过该节点）
+    if (node.condition && !node.condition()) {
+        // 如果条件不满足，跳转到下一个节点
+        this.nextMove();
+        return;
     }
-   private checkAndTriggerAutoSave(node: SceneNode): void {
+
+    // 检查是否有视频需要播放
+    if (node.video) {
+        this.handleVideo(node);
+        return;
+    }
+
+    // 检查是否有小游戏需要执行
+    if (node.game) {
+        this.handleMiniGame(node);
+        return;
+    }
+
+    // 执行节点动作（仅在动作条件满足时执行）
+    if (node.action && (!node.actionCondition || node.actionCondition())) {
+        node.action();
+    }
+
+    // 处理选项
+    if (node.choices && node.choices.length > 0) {
+        console.log("处理选项");
+
+        // 在显示选项前，先更新对话框内容（使用不记录历史的方法）
+        if (node.elements) {
+            // 合并当前节点元素与前一个节点元素
+            const mergedElements = this.mergeElements(this.previousElements, node.elements);
+            console.log("合并后的元素:", mergedElements);
+            this.previousElements = mergedElements;
+
+            // 使用SceneManager更新场景元素（不记录到历史中）
+            this.sceneManager.updateSceneElementsWithoutRecording(mergedElements);
+        }
+
+        this.choiceManager.handleChoices(node);
+        // 添加等待标记，表示正在等待用户选择
+        (this as any).waitingForChoice = true;
+        return;
+    }
+
+    // 合并当前节点元素与前一个节点元素
+    const mergedElements = this.mergeElements(this.previousElements, node.elements);
+    console.log("合并后的元素:", mergedElements);
+    this.previousElements = mergedElements;
+
+    // 保存当前的previousElements状态到localStorage
+    try {
+        localStorage.setItem("previousElements", JSON.stringify(this.previousElements));
+        
+        // 确保背景信息也保存到localStorage中，供自动存档使用
+        if (mergedElements.background) {
+            localStorage.setItem("MSYbackgroundIMG", mergedElements.background);
+        }
+    } catch (e) {
+        console.error("无法保存previousElements到localStorage", e);
+    }
+
+    // 使用SceneManager更新场景元素（会记录到历史中）
+    this.sceneManager.updateSceneElements(mergedElements);
+    this.sceneManager.updateBackground(mergedElements);
+    this.sceneManager.updateAudio(mergedElements);
+
+    // 更新立绘（如果是新游戏且是第一个节点，则不显示之前保存的立绘）
+    if ((this as any)._isNewGame && this.currentNodeIndex === 0) {
+        console.log("新游戏第一个节点，检查当前节点是否有立绘定义");
+        // 对于新游戏的第一个节点，只更新当前节点指定的立绘（如果有）
+        if (node.elements && node.elements.sprite !== undefined) {
+            console.log("当前节点定义了立绘:", node.elements.sprite);
+            this.sceneManager.getSpriteManager().updateCharacterSprites({ sprite: node.elements.sprite });
+        } else {
+            // 如果当前节点没有指定立绘，则清除所有立绘
+            console.log("当前节点未定义立绘，清除所有立绘");
+            this.sceneManager.clearAllSprites();
+        }
+    } else {
+        // 正常更新立绘
+        console.log("正常更新立绘:", mergedElements.sprite);
+    }
+}
+private checkAndTriggerAutoSave(node: SceneNode): void {
     // 检查节点是否有标记为关键节点
     if (node.keyNode) {
         const sceneId = this.currentScene?.id || 'unknown_scene';
         const nodeId = node.id || `node_${this.currentNodeIndex}`;
         const description = node.description || `关键节点: ${sceneId} - ${nodeId}`;
         
-        // 检查是否已经为当前节点创建过自动存档
-        const autoSaveKey = `autoSave_${sceneId}_${nodeId}`;
-        const hasAutoSaved = sessionStorage.getItem(autoSaveKey);
+        // 检查是否已经为当前节点创建过自动存档（在整个游戏过程中只保存一次）
+        const autoSaveManager = this.autoSaveManager;
+        const autoSaveSlots = autoSaveManager.getAutoSaveSlots();
+        const hasAutoSaved = autoSaveSlots.some((slot: any) => 
+            slot.sceneId === sceneId && slot.nodeIndex === this.currentNodeIndex
+        );
         
         if (!hasAutoSaved) {
             console.log(`[GameScene] 检测到关键节点，触发自动存档: ${description}`);
             
+            // 在创建自动存档前，确保背景信息是最新的
+            if (node.elements?.background) {
+                localStorage.setItem('MSYbackgroundIMG', node.elements.background);
+            }
+            
             // 触发自动存档
-            this.autoSaveManager.createAutoSave(
+            autoSaveManager.createAutoSave(
                 sceneId,
                 this.currentNodeIndex,
                 description
             );
             
-            // 标记当前节点已自动存档
-            sessionStorage.setItem(autoSaveKey, 'true');
-            
             // 显示自动存档提示
             this.showAutoSaveNotification("已自动存档");
+        } else {
+            console.log(`[GameScene] 当前节点已自动存档过，跳过: ${sceneId}-${nodeId}`);
         }
+    } else {
+        console.log(`[GameScene] 当前节点不是关键节点，不触发自动存档`);
     }
 }
 

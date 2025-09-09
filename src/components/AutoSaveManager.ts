@@ -19,44 +19,57 @@ export class AutoSaveManager {
         return AutoSaveManager.instance;
     }
 
-    /**
-     * 创建自动存档
-     * @param sceneId 当前场景ID
-     * @param nodeIndex 当前节点索引
-     * @param description 存档描述
-     */
-    public createAutoSave(sceneId: string, nodeIndex: number, description: string): void {
-        try {
-            // 获取现有的自动存档槽位
-            let autoSaveSlots = this.getAutoSaveSlots();
-            
-            // 创建新的存档数据
-            const newSave = {
-                id: Date.now().toString(),
-                timestamp: new Date().getTime(),
-                sceneId: sceneId,
-                nodeIndex: nodeIndex,
-                description: description,
-                gameData: this.captureGameData()
-            };
+  /**
+ * 创建自动存档
+ * @param sceneId 当前场景ID
+ * @param nodeIndex 当前节点索引
+ * @param description 存档描述
+ */
+public createAutoSave(sceneId: string, nodeIndex: number, description: string): void {
+    try {
+        // 获取现有的自动存档槽位
+        let autoSaveSlots = this.getAutoSaveSlots();
+        
+        // 创建新的存档数据
+        const newSave = {
+            id: Date.now().toString(),
+            timestamp: new Date().getTime(),
+            sceneId: sceneId,
+            nodeIndex: nodeIndex,
+            description: description,
+            gameData: this.captureGameData()
+        };
 
-            // 添加到存档槽位数组开头
+        console.log(`[AutoSaveManager] 准备创建自动存档:`, newSave);
+
+        // 检查是否已存在相同场景和节点的存档
+        const existingIndex = autoSaveSlots.findIndex((slot: any) => 
+            slot.sceneId === sceneId && slot.nodeIndex === nodeIndex
+        );
+
+        if (existingIndex !== -1) {
+            // 如果已存在相同节点的存档，替换它
+            autoSaveSlots[existingIndex] = newSave;
+            console.log(`[AutoSaveManager] 替换已存在的自动存档: ${description}`);
+        } else {
+            // 如果不存在，添加到开头
             autoSaveSlots.unshift(newSave);
-
-            // 如果超过最大槽位数，移除最旧的存档
-            if (autoSaveSlots.length > AutoSaveManager.MAX_AUTO_SLOTS) {
-                autoSaveSlots = autoSaveSlots.slice(0, AutoSaveManager.MAX_AUTO_SLOTS);
-            }
-
-            // 保存更新后的存档槽位
-            localStorage.setItem(AutoSaveManager.AUTO_SAVE_KEY, JSON.stringify(autoSaveSlots));
-            
-            console.log(`[AutoSaveManager] 自动存档已创建: ${description}`);
-        } catch (e) {
-            console.error("[AutoSaveManager] 创建自动存档时出错:", e);
+            console.log(`[AutoSaveManager] 添加新的自动存档: ${description}`);
         }
-    }
 
+        // 如果超过最大槽位数，移除最旧的存档（但保留最新的）
+        if (autoSaveSlots.length > AutoSaveManager.MAX_AUTO_SLOTS) {
+            autoSaveSlots = autoSaveSlots.slice(0, AutoSaveManager.MAX_AUTO_SLOTS);
+        }
+
+        // 保存更新后的存档槽位
+        localStorage.setItem(AutoSaveManager.AUTO_SAVE_KEY, JSON.stringify(autoSaveSlots));
+        
+        console.log(`[AutoSaveManager] 自动存档已创建: ${description}`);
+    } catch (e) {
+        console.error("[AutoSaveManager] 创建自动存档时出错:", e);
+    }
+}
     /**
      * 恢复自动存档
      * @param saveId 要恢复的存档ID
@@ -120,7 +133,7 @@ export class AutoSaveManager {
         return [];
     }
 
-   /**
+  /**
  * 捕获当前游戏数据用于存档
  */
 private captureGameData(): any {
@@ -132,8 +145,8 @@ private captureGameData(): any {
         const currentSceneId = localStorage.getItem('currentSceneId') || '';
         const currentClickCount = parseInt(localStorage.getItem('nowclick') || '0');
         
-        // 获取背景信息
-        const background = localStorage.getItem('MSYbackgroundIMG') || '';
+        // 获取背景信息 - 优先从previousElements获取当前节点背景
+        let background = localStorage.getItem('MSYbackgroundIMG') || '';
         
         // 获取文本历史记录
         const textHistoryKey = `gameTextHistory_${localStorage.getItem('currentArchiveId') || 'default'}`;
