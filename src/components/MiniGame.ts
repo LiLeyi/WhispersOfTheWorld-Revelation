@@ -9,6 +9,8 @@ abstract class MiniGame {
     protected gameOverElement: HTMLElement | null = null;
     protected isRunning: boolean = false;
     protected score: number = 0;
+    protected events: Array<any> = []; // 存储游戏事件
+    protected triggeredEvents: Set<string> = new Set(); // 记录已触发的事件ID
     
     constructor(protected onComplete: (score: number) => void) {}
 
@@ -61,6 +63,84 @@ abstract class MiniGame {
     protected setUIElements(scoreElementId: string, gameOverElementId: string): void {
         this.scoreElement = document.getElementById(scoreElementId);
         this.gameOverElement = document.getElementById(gameOverElementId);
+    }
+
+    /**
+     * 设置游戏事件
+     * @param events 游戏事件数组
+     */
+    public setEvents(events: Array<any>): void {
+        this.events = events || [];
+    }
+
+    /**
+     * 触发游戏事件
+     * @param eventType 事件类型（通用类型）
+     * @param gameData 游戏数据
+     */
+    protected triggerEvents(eventType: string, gameData: any): void {
+        console.log(`[MiniGame] 检查触发事件类型: ${eventType}`, gameData);
+        
+        // 用于跟踪本次触发过程中实际触发的事件数量
+        let triggeredCount = 0;
+        
+        // 按顺序遍历所有事件
+        this.events.forEach((event, index) => {
+            console.log(`[MiniGame] 检查第 ${index + 1} 个事件:`, event);
+            
+            // 检查onlyOnce限制
+            if (event.triggerConfig?.onlyOnce && this.triggeredEvents.has(event.id)) {
+                console.log(`[MiniGame] 事件 ${event.id} 已触发过且onlyOnce=true，跳过`);
+                return;
+            }
+            
+            // 检查条件
+            if (event.condition) {
+                try {
+                    const conditionResult = event.condition(gameData);
+                    console.log(`[MiniGame] 事件 ${event.id} 条件检查结果: ${conditionResult}`);
+                    if (!conditionResult) {
+                        console.log(`[MiniGame] 事件 ${event.id} 条件不满足，跳过`);
+                        return;
+                    }
+                } catch (error) {
+                    console.error('[MiniGame] 事件条件检查出错:', error);
+                    return;
+                }
+            } else {
+                console.log(`[MiniGame] 事件 ${event.id} 没有条件函数`);
+            }
+            
+            // 检查冲突限制
+            if (event.triggerConfig?.conflict && triggeredCount > 0) {
+                console.log(`[MiniGame] 事件 ${event.id} 由于冲突设置且已有 ${triggeredCount} 个事件触发，跳过`);
+                return;
+            }
+            
+            console.log(`[MiniGame] 触发事件: ${event.id}`);
+            // 标记事件已触发（只有真正触发了事件才标记）
+            if (event.triggerConfig?.onlyOnce) {
+                this.triggeredEvents.add(event.id);
+                console.log(`[MiniGame] 标记事件 ${event.id} 为已触发`);
+            }
+            
+            // 增加已触发事件计数
+            triggeredCount++;
+            
+            // 触发事件
+            this.handleEvent(event);
+        });
+        
+        console.log(`[MiniGame] 本次共触发 ${triggeredCount} 个事件`);
+    }
+
+    /**
+     * 处理事件
+     * @param event 事件对象
+     */
+    protected handleEvent(event: any): void {
+        // 这个方法应该在子类中被重写以处理具体事件
+        console.log('触发事件:', event.id);
     }
 
     /**

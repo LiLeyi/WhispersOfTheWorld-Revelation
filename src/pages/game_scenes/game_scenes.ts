@@ -1039,7 +1039,7 @@ private showAutoSaveNotification(message: string): void {
         };
     }
 
-private handleMiniGame(node: SceneNode): void {
+    private handleMiniGame(node: SceneNode): void {
     // 检查是否是小游戏节点
     if (!node.game) {
         console.error('尝试处理小游戏，但节点没有game属性');
@@ -1053,9 +1053,21 @@ private handleMiniGame(node: SceneNode): void {
     const dialogElement = document.getElementById("dialog");
     const textBoxElement = document.getElementById("text-box");
 
-    const originalMoveHandler = moveElement ? moveElement.onclick : null;
-    const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
-    const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
+    // 保存原始事件处理函数
+    let originalMoveHandler: EventListener | null = null;
+    let originalDialogHandler: EventListener | null = null;
+    let originalTextBoxHandler: EventListener | null = null;
+
+    // 获取原始事件处理函数
+    if (moveElement) {
+        originalMoveHandler = (moveElement as any)._nextMoveHandler || null;
+    }
+    if (dialogElement) {
+        originalDialogHandler = (dialogElement as any)._nextMoveHandler || null;
+    }
+    if (textBoxElement) {
+        originalTextBoxHandler = (textBoxElement as any)._nextMoveHandler || null;
+    }
 
     // 隐藏对话框和其他游戏场景元素
     const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
@@ -1064,9 +1076,27 @@ private handleMiniGame(node: SceneNode): void {
     });
 
     // 禁用场景点击事件
-    if (moveElement) moveElement.onclick = null;
-    if (dialogElement) dialogElement.onclick = null;
-    if (textBoxElement) textBoxElement.onclick = null;
+    if (moveElement) {
+        // 移除当前的事件监听器
+        if ((moveElement as any)._nextMoveHandler) {
+            moveElement.removeEventListener('click', (moveElement as any)._nextMoveHandler);
+            (moveElement as any)._nextMoveHandler = null;
+        }
+    }
+    if (dialogElement) {
+        // 移除当前的事件监听器
+        if ((dialogElement as any)._nextMoveHandler) {
+            dialogElement.removeEventListener('click', (dialogElement as any)._nextMoveHandler);
+            (dialogElement as any)._nextMoveHandler = null;
+        }
+    }
+    if (textBoxElement) {
+        // 移除当前的事件监听器
+        if ((textBoxElement as any)._nextMoveHandler) {
+            textBoxElement.removeEventListener('click', (textBoxElement as any)._nextMoveHandler);
+            (textBoxElement as any)._nextMoveHandler = null;
+        }
+    }
 
     // 获取背景元素
     const bg1Element = document.getElementById('bg1');
@@ -1207,9 +1237,39 @@ private handleMiniGame(node: SceneNode): void {
                                         }
 
                                         // 恢复原始点击事件
-                                        if (moveElement) moveElement.onclick = originalMoveHandler;
-                                        if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                                        if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+                                        if (moveElement) {
+                                            // 移除可能存在的事件监听器
+                                            if ((moveElement as any)._nextMoveHandler) {
+                                                moveElement.removeEventListener('click', (moveElement as any)._nextMoveHandler);
+                                            }
+                                            // 恢复原始事件监听器
+                                            if (originalMoveHandler) {
+                                                moveElement.addEventListener('click', originalMoveHandler);
+                                                (moveElement as any)._nextMoveHandler = originalMoveHandler;
+                                            }
+                                        }
+                                        if (dialogElement) {
+                                            // 移除可能存在的事件监听器
+                                            if ((dialogElement as any)._nextMoveHandler) {
+                                                dialogElement.removeEventListener('click', (dialogElement as any)._nextMoveHandler);
+                                            }
+                                            // 恢复原始事件监听器
+                                            if (originalDialogHandler) {
+                                                dialogElement.addEventListener('click', originalDialogHandler);
+                                                (dialogElement as any)._nextMoveHandler = originalDialogHandler;
+                                            }
+                                        }
+                                        if (textBoxElement) {
+                                            // 移除可能存在的事件监听器
+                                            if ((textBoxElement as any)._nextMoveHandler) {
+                                                textBoxElement.removeEventListener('click', (textBoxElement as any)._nextMoveHandler);
+                                            }
+                                            // 恢复原始事件监听器
+                                            if (originalTextBoxHandler) {
+                                                textBoxElement.addEventListener('click', originalTextBoxHandler);
+                                                (textBoxElement as any)._nextMoveHandler = originalTextBoxHandler;
+                                            }
+                                        }
 
                                         // 恢复对话框显示
                                         dialogElements.forEach(el => {
@@ -1264,9 +1324,39 @@ private handleMiniGame(node: SceneNode): void {
                             }
 
                             // 恢复原始点击事件
-                            if (moveElement) moveElement.onclick = originalMoveHandler;
-                            if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                            if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+                            if (moveElement) {
+                                // 移除可能存在的事件监听器
+                                if ((moveElement as any)._nextMoveHandler) {
+                                    moveElement.removeEventListener('click', (moveElement as any)._nextMoveHandler);
+                                }
+                                // 恢复原始事件监听器
+                                if (originalMoveHandler) {
+                                    moveElement.addEventListener('click', originalMoveHandler);
+                                    (moveElement as any)._nextMoveHandler = originalMoveHandler;
+                                }
+                            }
+                            if (dialogElement) {
+                                // 移除可能存在的事件监听器
+                                if ((dialogElement as any)._nextMoveHandler) {
+                                    dialogElement.removeEventListener('click', (dialogElement as any)._nextMoveHandler);
+                                }
+                                // 恢复原始事件监听器
+                                if (originalDialogHandler) {
+                                    dialogElement.addEventListener('click', originalDialogHandler);
+                                    (dialogElement as any)._nextMoveHandler = originalDialogHandler;
+                                }
+                            }
+                            if (textBoxElement) {
+                                // 移除可能存在的事件监听器
+                                if ((textBoxElement as any)._nextMoveHandler) {
+                                    textBoxElement.removeEventListener('click', (textBoxElement as any)._nextMoveHandler);
+                                }
+                                // 恢复原始事件监听器
+                                if (originalTextBoxHandler) {
+                                    textBoxElement.addEventListener('click', originalTextBoxHandler);
+                                    (textBoxElement as any)._nextMoveHandler = originalTextBoxHandler;
+                                }
+                            }
 
                             // 恢复对话框显示
                             dialogElements.forEach(el => {
@@ -1307,7 +1397,8 @@ private handleMiniGame(node: SceneNode): void {
                         }
                     }, 1000);
                 },
-                node.game!.config
+                node.game!.config,
+                node.game!.events
             );
 
             if (gameInstance) {

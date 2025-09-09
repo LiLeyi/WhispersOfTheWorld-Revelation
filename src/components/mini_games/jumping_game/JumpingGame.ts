@@ -114,7 +114,7 @@ class JumpingGame extends MiniGame {
     // 游戏状态
     private state: JumpingGameState;
 
-    constructor(onComplete: (score: number) => void, private gameConfig?: JumpingGameConfig) {
+    constructor(onComplete: (score: number) => void, private gameConfig?: JumpingGameConfig, private gameEvents?: Array<any>) {
         super(onComplete);
         console.log('初始化跳一跳小游戏，配置:', gameConfig);
 

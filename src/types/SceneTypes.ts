@@ -24,6 +24,7 @@ export interface Choice {
 
 // 场景节点接口
 export interface SceneNode extends BaseSceneNode {
+    elements: SceneElement // SceneNode必须有elements
     game?: {
         id: string;                     // 游戏ID
         config: JumpingGameConfig | CardGameConfig;      // 游戏配置，有其他的配置需加在这里
@@ -31,19 +32,23 @@ export interface SceneNode extends BaseSceneNode {
             condition: (score: number) => boolean; // 分数的条件
             next: string;               // 跳转的节点
         }>;
-        plot?: MiniGamePlot;
+        events?: Array<MiniGameEvent>;
     } | null;
     video?: string | null;              // 视频路径。这个路径的根目录是src/assets/video/。播放完后会跳转到下一个场景
 }
 
 // 小游戏中剧情
-export interface MiniGamePlot extends BaseSceneNode {
+export interface MiniGameEvent extends BaseSceneNode<any> {
+    triggerConfig?: {
+        onlyOnce?: boolean; // 只触发一次
+        conflict?: boolean; // 若其他的事件触发了，那么不触发该事件
+    }
 }
 
 // 基础节点接口
 export interface BaseSceneNode<T = void> {
     id: string;                         // 节点ID
-    elements: SceneElement;             // 场景元素，例如对话框、立绘一类
+    elements?: SceneElement;             // 场景元素，例如对话框、立绘一类
     choices?: Choice[];                 // 选项的数组
     next?: string;                      // 下一个节点或章节的id。不填的话默认进行到节点数组下一个元素
     autoNext?: boolean;                 // 是否自动跳转

@@ -11,6 +11,8 @@ import { UIManager } from "./components/UIManager";
 import { DEFAULT_PLAYER_DECK } from "./CardManager";
 import { AudioManager } from "../../../components/AudioManager";
 import { DeckSelection } from "./DeckSelection";
+import { CardGameEventData } from "../../../types/MiniGameEvents";
+import { SceneManager } from "../../SceneManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
@@ -106,7 +108,10 @@ class CardGame extends MiniGame {
     // 玩家选择的卡组
     private selectedPlayerDeck: Record<string, number> | null = null;
     
-    constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig) {
+    // 场景管理器实例
+    private sceneManager: any = null;
+    
+    constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig, private gameEvents?: Array<any>) {
         super(onComplete);
         
 // 在CardGame类的构造函数中，处理player deck配置
@@ -178,6 +183,21 @@ class CardGame extends MiniGame {
         };
 
         this.setUIElements('score', 'game-over');
+        
+        // 设置事件
+        if (gameEvents) {
+            console.log('[CardGame] 设置游戏事件:', gameEvents);
+            this.setEvents(gameEvents);
+            console.log('[CardGame] 当前事件数量:', this.events.length);
+        } else if (gameConfig && (gameConfig as any).events) {
+            console.log('[CardGame] 从gameConfig设置游戏事件:', (gameConfig as any).events);
+            this.setEvents((gameConfig as any).events);
+            console.log('[CardGame] 当前事件数量:', this.events.length);
+        } else {
+            console.log('[CardGame] 未找到游戏事件配置');
+            console.log('[CardGame] gameConfig内容:', gameConfig);
+            console.log('[CardGame] gameEvents内容:', gameEvents);
+        }
     }
 
     protected init(): void {
@@ -763,6 +783,18 @@ class CardGame extends MiniGame {
             player.discardPile.push(removedCard);
         }
 
+        // 触发所有符合条件的事件
+        const gameData: CardGameEventData = this.getGameData();
+        if (player.id === 'player') {
+            gameData.player.lastPlayedCard = card.id;
+            console.log('[CardGame] 玩家出牌，检查触发事件，当前游戏数据:', gameData);
+            this.triggerEvents('player_play_card', gameData);
+        } else {
+            gameData.opponent.lastPlayedCard = card.id;
+            console.log('[CardGame] 对手出牌，检查触发事件，当前游戏数据:', gameData);
+            this.triggerEvents('opponent_play_card', gameData);
+        }
+
         // 更新UI
         this.updateUI();
 
@@ -815,6 +847,11 @@ class CardGame extends MiniGame {
             this.state.message += message;
         });
         
+        // 触发所有符合条件的事件
+        const gameData: CardGameEventData = this.getGameData();
+        console.log('[CardGame] 回合结束，检查触发事件，当前游戏数据:', gameData);
+        this.triggerEvents('turn_end', gameData);
+        
         if (this.state.currentPlayer === 'player') {
             // 玩家回合结束，轮到巨石
             // 不再清除玩家的防御点数，而是在玩家下一回合开始时清除
@@ -856,12 +893,118 @@ class CardGame extends MiniGame {
             this.state.player.hp = 0;
             this.state.message = '你输了！';
             this.state.playerWon = false;
+            
+            // 触发所有符合条件的事件
+            const gameData: CardGameEventData = this.getGameData();
+            console.log('[CardGame] 玩家失败，检查触发事件，当前游戏数据:', gameData);
+            this.triggerEvents('player_lose', gameData);
+            
             this.endGame();
         } else if (this.state.opponent.hp <= 0) {
             this.state.opponent.hp = 0;
             this.state.message = '你赢了！';
             this.state.playerWon = true;
+            
+            // 触发所有符合条件的事件
+            const gameData: CardGameEventData = this.getGameData();
+            console.log('[CardGame] 玩家胜利，检查触发事件，当前游戏数据:', gameData);
+            this.triggerEvents('player_win', gameData);
+            
             this.endGame();
+        }
+    }
+
+    /**
+     * 获取当前游戏数据
+     */
+    private getGameData(): CardGameEventData {
+        return {
+            player: {
+                hp: this.state.player.hp,
+                maxHp: this.state.player.maxHp,
+                lastPlayedCard: this.playerPlayedCards.length > 0 
+                    ? this.playerPlayedCards[this.playerPlayedCards.length - 1].card.id 
+                    : null
+            },
+            opponent: {
+                hp: this.state.opponent.hp,
+                maxHp: this.state.opponent.maxHp,
+                lastPlayedCard: this.opponentPlayedCards.length > 0 
+                    ? this.opponentPlayedCards[this.opponentPlayedCards.length - 1].card.id 
+                    : null
+            },
+            turn: this.state.turn,
+            totalTurns: this.state.turn
+        };
+    }
+
+    /**
+     * 处理事件
+     * @param event 事件对象
+     */
+    protected handleEvent(event: any): void {
+        console.log('[CardGame] 处理事件:', event);
+        
+        // 创建场景管理器实例（如果还没有的话）
+        if (!this.sceneManager) {
+            // 尝试从全局获取场景管理器
+            this.sceneManager = (window as any).sceneManagerInstance;
+            console.log('[CardGame] 场景管理器实例:', this.sceneManager);
+        }
+        
+        // 如果仍然无法获取场景管理器，尝试直接创建一个新的实例
+        if (!this.sceneManager) {
+            try {
+                this.sceneManager = new SceneManager();
+                console.log('[CardGame] 创建新的场景管理器实例:', this.sceneManager);
+            } catch (e) {
+                console.log('[CardGame] 无法创建场景管理器实例:', e);
+            }
+        }
+        
+        if (this.sceneManager) {
+            // 使用场景管理器显示事件对话框
+            const elementsContainer = document.getElementById('card-game-container');
+            if (elementsContainer) {
+                console.log('[CardGame] 创建事件对话框');
+                
+                // 创建覆盖层以显示事件对话
+                const overlay = document.createElement('div');
+                overlay.id = 'minigame-event-overlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.zIndex = '2000';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                overlay.style.cursor = 'pointer';
+                
+                // 创建场景元素容器
+                const sceneElementsContainer = this.sceneManager.createSceneElementsContainer(
+                    overlay, 
+                    event.elements
+                );
+                
+                console.log('[CardGame] 创建场景元素容器:', sceneElementsContainer);
+                
+                // 添加点击事件以关闭对话框
+                const closeHandler = () => {
+                    console.log('[CardGame] 关闭事件对话框');
+                    if (overlay.parentNode) {
+                        overlay.parentNode.removeChild(overlay);
+                    }
+                    // 移除事件监听器
+                    overlay.removeEventListener('click', closeHandler);
+                };
+                
+                overlay.addEventListener('click', closeHandler);
+                elementsContainer.appendChild(overlay);
+            } else {
+                console.warn('[CardGame] 未找到card-game-container元素');
+            }
+        } else {
+            console.warn('[CardGame] 场景管理器未找到，无法显示事件对话');
         }
     }
 
