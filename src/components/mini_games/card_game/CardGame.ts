@@ -1358,25 +1358,32 @@ class CardGame extends MiniGame {
      * 获取当前游戏数据
      */
     private getGameData(): CardGameEventData {
+        // 获取玩家本回合出的牌
+        const playerCards = this.playedCards.filter(card => card.player === 'player');
+        // 获取对手本回合出的牌
+        const opponentCards = this.playedCards.filter(card => card.player === 'opponent');
+
         return {
             player: {
                 hp: this.state.player.hp,
                 maxHp: this.state.player.maxHp,
-                lastPlayedCard: this.playerPlayedCards.length > 0 
-                    ? this.playerPlayedCards[this.playerPlayedCards.length - 1].card.id 
+                lastPlayedCard: playerCards.length > 0 
+                    ? playerCards[playerCards.length - 1].card.id 
                     : null
             },
             opponent: {
                 hp: this.state.opponent.hp,
                 maxHp: this.state.opponent.maxHp,
-                lastPlayedCard: this.opponentPlayedCards.length > 0 
-                    ? this.opponentPlayedCards[this.opponentPlayedCards.length - 1].card.id 
+                lastPlayedCard: opponentCards.length > 0 
+                    ? opponentCards[opponentCards.length - 1].card.id 
                     : null
             },
             turn: this.state.turn,
             totalTurns: this.state.turn
         };
     }
+
+
 
     /**
      * 处理事件
