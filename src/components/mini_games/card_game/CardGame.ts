@@ -10,6 +10,7 @@ import { GameService } from "./services/GameService";
 import { UIManager } from "./components/UIManager";
 import { DEFAULT_PLAYER_DECK } from "./CardManager";
 import { AudioManager } from "../../../components/AudioManager";
+import { DeckSelection } from "./DeckSelection";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
@@ -70,6 +71,9 @@ class CardGame extends MiniGame {
                 <div id="player-hand" style="display:flex;gap:20px;transition:all 0.3s ease;margin-bottom:15px;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
             </div>
             
+            <!-- 卡组选择区域 -->
+            <div id="deck-selection-container" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;display:none;"></div>
+            
             <!-- 末日风格装饰元素 -->
             <div style="position:absolute;top:20%;left:5%;width:50px;height:2px;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;z-index:1;"></div>
             <div style="position:absolute;top:70%;right:7%;width:30px;height:2px;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;z-index:1;"></div>
@@ -87,6 +91,7 @@ class CardGame extends MiniGame {
     private debugContentElement: HTMLElement | null = null; // 添加调试信息元素引用
     private playerPlayedCardsElement: HTMLElement | null = null; // 玩家已出牌区域
     private opponentPlayedCardsElement: HTMLElement | null = null; // 对手已出牌区域
+    private deckSelectionContainer: HTMLElement | null = null; // 卡组选择容器
     
     // 已出牌记录（包含回合信息）
     private playerPlayedCards: Array<{card: Card, turn: number}> = []; // 玩家已出的牌
@@ -98,6 +103,9 @@ class CardGame extends MiniGame {
     private audioManager: any;
     // 原始背景音乐
     private originalBgm: string = "";
+    // 玩家选择的卡组
+    private selectedPlayerDeck: Record<string, number> | null = null;
+    
     constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig) {
         super(onComplete);
         
@@ -127,7 +135,7 @@ class CardGame extends MiniGame {
         this.state = {
             player: {
                 id: 'player',
-                name: '玩家',
+                name: this.gameConfig?.player?.name || '玩家',
                 hp: this.config.player!.hp!,
                 maxHp: this.config.player!.maxHp!,
                 actionPoints: this.config.player!.actionPoints!,
@@ -145,7 +153,7 @@ class CardGame extends MiniGame {
             },
             opponent: {
                 id: 'opponent',
-                name: '巨石',
+                name: this.gameConfig?.opponent?.name || '巨石',
                 hp: this.config.opponent!.hp!,
                 maxHp: this.config.opponent!.maxHp!,
                 actionPoints: this.config.opponent!.actionPoints!,
@@ -174,8 +182,38 @@ class CardGame extends MiniGame {
 
     protected init(): void {
         this.setupUIElements();
-        this.setupEventListeners();
-        this.startGame();
+        // 显示卡组选择界面而不是直接开始游戏
+        this.showDeckSelection();
+    }
+
+    private showDeckSelection(): void {
+        if (this.deckSelectionContainer) {
+            this.deckSelectionContainer.style.display = 'block';
+            
+            // 获取选牌配置
+            const minDeckSize = this.gameConfig?.deckSelection?.minDeckSize || 5;
+            const maxDeckSize = this.gameConfig?.deckSelection?.maxDeckSize || 10;
+            
+            const deckSelection = new DeckSelection(this.deckSelectionContainer, (selectedDeck) => {
+                if (Object.keys(selectedDeck).length > 0) {
+                    // 玩家选择了卡组，使用选择的卡组开始游戏
+                    this.selectedPlayerDeck = selectedDeck;
+                    this.updateGameStateWithSelectedDeck();
+                    this.deckSelectionContainer!.style.display = 'none';
+                    this.startGame();
+                } else {
+                    // 玩家取消了选择，退出游戏
+                    this.onComplete(0);
+                }
+            }, minDeckSize, maxDeckSize);
+        }
+    }
+
+    private updateGameStateWithSelectedDeck(): void {
+        if (this.selectedPlayerDeck) {
+            // 更新玩家卡组
+            this.state.player.deck = GameService.createInitialDeck(this.selectedPlayerDeck, true);
+        }
     }
 
     private setupUIElements(): void {
@@ -189,6 +227,10 @@ class CardGame extends MiniGame {
         this.debugContentElement = document.getElementById('debug-content'); // 获取调试信息元素引用
         this.playerPlayedCardsElement = document.getElementById('player-played-cards'); // 获取玩家已出牌区域
         this.opponentPlayedCardsElement = document.getElementById('opponent-played-cards'); // 获取对手已出牌区域
+        this.deckSelectionContainer = document.getElementById('deck-selection-container'); // 获取卡组选择容器
+        
+        // 设置事件监听器
+        this.setupEventListeners();
         
         // 设置背景图片
         this.setBackgroundImage();
@@ -313,7 +355,7 @@ class CardGame extends MiniGame {
         }
     }
 
- // 开始游戏
+    // 开始游戏
     private startGame(): void {
         // 播放背景音乐
         this.playBackgroundMusic();
@@ -321,7 +363,15 @@ class CardGame extends MiniGame {
         // 初始抽牌
         PlayerService.drawCards(this.state.player, this.config.player!.initialDrawCount!);
         PlayerService.drawCards(this.state.opponent, this.config.opponent!.initialDrawCount!);
+        
+        // 确保游戏阶段设置为draw
+        this.state.gamePhase = 'draw';
+        this.state.currentPlayer = 'player';
+        
         this.updateUI();
+        
+        // 启动游戏循环
+        this.gameLoop();
     }
 
     // 播放背景音乐
@@ -721,7 +771,9 @@ class CardGame extends MiniGame {
         
         // 如果是玩家出牌
         if (player.id === 'player') {
-            console.log('玩家使用卡牌完毕，等待玩家结束回合');
+            console.log('玩家使用卡牌完毕，等待玩家进行其他操作或结束回合');
+            // 玩家出牌后继续保持在main阶段，等待玩家进行其他操作
+            this.state.gamePhase = 'main';
         }
         // 如果是巨石出牌
         else if (player.id === 'opponent') {
@@ -750,6 +802,7 @@ class CardGame extends MiniGame {
             }
         }
     }
+
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
@@ -849,7 +902,7 @@ class CardGame extends MiniGame {
     protected update(): void {
         console.log('更新游戏状态，当前阶段:', this.state.gamePhase, '当前玩家:', this.state.currentPlayer);
         // 更新游戏状态
-        if (this.state.gamePhase !== 'gameover') {
+        if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main') {
             if (this.state.currentPlayer === 'player') {
                 this.playerTurn();
             } else {
@@ -895,14 +948,16 @@ class CardGame extends MiniGame {
         // 更新结束回合按钮状态
         if (this.endTurnButton) {
             // 只有在玩家回合且不是抽牌阶段时才启用按钮
-            if (this.state.currentPlayer === 'player' && this.state.gamePhase !== 'draw') {
+            if (this.state.currentPlayer === 'player' && this.state.gamePhase === 'main') {
                 this.endTurnButton.disabled = false;
                 this.endTurnButton.style.opacity = '1';
                 this.endTurnButton.style.cursor = 'pointer';
+                console.log('结束回合按钮已启用');
             } else {
                 this.endTurnButton.disabled = true;
                 this.endTurnButton.style.opacity = '0.5';
                 this.endTurnButton.style.cursor = 'not-allowed';
+                console.log('结束回合按钮已禁用', '当前玩家:', this.state.currentPlayer, '游戏阶段:', this.state.gamePhase);
             }
         }
         

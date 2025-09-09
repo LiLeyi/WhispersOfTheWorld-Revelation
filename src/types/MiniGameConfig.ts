@@ -30,6 +30,7 @@ export interface CardGameConfig {
         deck?: Record<string, number> | (() => Record<string, number>);  // 玩家牌组配置，格式为 { 牌的id: 数量 }
         drawCount?: number;             // 玩家每回合抽牌数，默认为1
         initialDrawCount?: number;      // 玩家游戏开始时初始抽牌数，默认为3
+        name?: string;                  // 玩家名字
     };
     
     opponent?: {
@@ -39,6 +40,7 @@ export interface CardGameConfig {
         deck?: Record<string, number> | (() => Record<string, number>);  // 对手牌组配置，格式为 { 牌的id: 数量 }
         drawCount?: number;             // 对手每回合抽牌数，默认为1
         initialDrawCount?: number;      // 对手游戏开始时初始抽牌数，默认为3
+        name?: string;                  // 对手名字
     };
     
     // 添加背景音乐配置
@@ -46,4 +48,10 @@ export interface CardGameConfig {
     
     // 添加背景图片配置
     backgroundImage?: string;           // 卡牌游戏背景图片路径
+    
+    // 添加选牌配置
+    deckSelection?: {
+        minDeckSize?: number;           // 玩家选牌时最小卡组数量
+        maxDeckSize?: number;           // 玩家选牌时最大卡组数量
+    };
 }
