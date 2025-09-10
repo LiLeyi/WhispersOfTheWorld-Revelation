@@ -795,26 +795,29 @@ class CardGame extends MiniGame {
             // 可以根据需要添加对手手牌的交互逻辑
         }
     }
-
-       // 更新已出牌区域
+     // 更新已出牌区域
     private updatePlayedCards(): void {
         // 更新已出牌区域
         if (this.playedCardsElement) {
             // 清空当前显示的所有卡牌
             this.playedCardsElement.innerHTML = '';
             
-            // 只添加当前回合和上一回合的卡牌
-            for (const playedCard of this.playedCards) {
-                // 只显示当前回合和上一回合的卡牌
-                if (playedCard.turn >= this.state.turn - 1) {
-                    const cardElement = UIManager.createPlayedCardElement(playedCard, this.state.turn);
-                    this.playedCardsElement.appendChild(cardElement);
-                }
+            // 显示所有当前在场上的卡牌（最多显示9张）
+            const cardsToShow = this.playedCards.slice(-9); // 取最新的9张牌
+            
+            // 如果总牌数超过9张，移除最早的牌
+            while (this.playedCards.length > 9) {
+                this.playedCards.shift(); // 移除最早出的牌
+            }
+            
+            // 显示卡牌
+            for (const playedCard of cardsToShow) {
+                const cardElement = UIManager.createPlayedCardElement(playedCard, this.state.turn);
+                this.playedCardsElement.appendChild(cardElement);
             }
         }
     }
-
-    // 开始游戏
+      // 开始游戏
     private startGame(): void {
         // 播放背景音乐
         this.playBackgroundMusic();
@@ -1119,8 +1122,8 @@ class CardGame extends MiniGame {
                 // 优先级相同时随机排序
                 return Math.random() - 0.5;
             });
-            
-            // 选择第一张卡牌
+                
+     // 选择第一张卡牌
             const card = playableCards[0];
             
             // 添加卡牌有效性检查
@@ -1139,6 +1142,21 @@ class CardGame extends MiniGame {
             // 在调试信息中显示选择的卡牌
             if (this.debugContentElement) {
                 this.debugContentElement.innerHTML += `<div>巨石选择: ${card.name}(类型:${card.type},优先级:${card.priority},消耗:${card.cost})</div>`;
+            }
+            
+            // 为对手卡牌添加sourceElement属性，确保动画能正常工作
+            if (this.opponentHandElement) {
+                const allCards = this.opponentHandElement.querySelectorAll('.card');
+                // 查找匹配的卡牌元素
+                for (let i = 0; i < allCards.length; i++) {
+                    const cardElement = allCards[i] as HTMLElement;
+                    if (cardElement.dataset.cardName === card.name) {
+                        // 添加sourceElement属性
+                        const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                        cardWithElement.sourceElement = cardElement;
+                        break;
+                    }
+                }
             }
             
             this.playCard(this.state.opponent, card);
