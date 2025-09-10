@@ -725,7 +725,10 @@ const scene: Scene = {
             elements: {
                 background: "sc0.1/0-1-2.jpg",
                 name: "旁白",
-                text: "好在自己很快冷静下来，反复咀嚼思索她的语句。"
+                text: "好在自己很快冷静下来，反复咀嚼思索她的语句。",
+                sprite: {
+                    left: null
+                }
             },
             choices: [
                 {

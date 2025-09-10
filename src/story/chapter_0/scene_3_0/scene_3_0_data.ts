@@ -639,9 +639,7 @@ nodes: [
     elements: {
         name: "梅菲斯特",
         text: "我并非恶魔，而是答案。",
-        sprite: {
-            left:"NPC/dead_man.png"
-        }
+
     },
 },
 {

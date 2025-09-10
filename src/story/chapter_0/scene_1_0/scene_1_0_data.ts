@@ -732,14 +732,20 @@ const scene: Scene = {
             id: "town_square_26",
             elements: {
                 name: "旁白",
-                text: "转身离开时，又听见旁边的交谈声。"
+                text: "转身离开时，又听见旁边的交谈声。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
             id: "town_square_27",
             elements: {
                 name: "隐者",
-                text: "你为何要下山？在林中你是纯净的，可以与上帝同在。"
+                text: "你为何要下山？在林中你是纯净的，可以与上帝同在。",
+                        sprite: {
+            left:"NPC/dead_man.png"
+        }
             }
         },
         {
@@ -753,35 +759,48 @@ const scene: Scene = {
             id: "town_square_29",
             elements: {
                 name: "隐者",
-                text: "留下来吧，和我一起在荒林里歌颂上帝。"
+                text: "留下来吧，和我一起在荒林里歌颂上帝。",
+                
             }
         },
         {
             id: "mysterious_person_0",
             elements: {
                 name: "？",
-                text: "我爱人类，不是因为他们与上帝同在，而是因为他们需要超越。"
+                text: "我爱人类，不是因为他们与上帝同在，而是因为他们需要超越。",
+                sprite: {
+            left:"NPC/jixie_man.png"
+        }
             }
         },
         {
             id: "mysterious_person_1",
             elements: {
                 name: "？",
-                text: "上帝已死。人类必须学会创造新的意义，否则他们将沉沦。"
+                text: "上帝已死。人类必须学会创造新的意义，否则他们将沉沦。",
+                sprite: {
+            left:"NPC/jixie_man.png"
+        }
             }
         },
         {
             id: "mysterious_person_2",
             elements: {
                 name: "隐者",
-                text: "你太年轻，还不懂。人类需要上帝来安慰他们的痛苦。"
+                text: "你太年轻，还不懂。人类需要上帝来安慰他们的痛苦。",
+                        sprite: {
+            left:"NPC/dead_man.png"
+        }
             }
         },
          {
             id: "mysterious_person_2.5",
             elements: {
                 name: "旁白",
-                text: "另一人转身离开"
+                text: "另一人转身离开",
+                        sprite: {
+            left:null
+        }
             }
         },
          {
@@ -800,6 +819,9 @@ const scene: Scene = {
                 text: "难道他还没有听说吗？——上帝已经死了！",
                 bgm: "bgm6.mp3",
                 background: "sc1.1/1-1-4.png",
+                sprite: {
+            left:"NPC/jixie_man.png"
+        }
             }
         },
         {
@@ -813,14 +835,18 @@ const scene: Scene = {
             id: "mysterious_person_5",
             elements: {
                 name: "？",
-                text: "我看见你了，行走在深渊之索上的人。"
+                text: "我看见你了，行走在深渊之索上的人。",
+                sprite: {
+            left:"NPC/jixie_man.png"
+        }
             },
         },
         {
             id: "mysterious_person_5",
             elements: {
                 name: "？",
-                text: "你空无一物，却背负全世界的重量。"
+                text: "你空无一物，却背负全世界的重量。",
+                
             },
         },
         {
@@ -896,8 +922,11 @@ const scene: Scene = {
         {
             id: "mysterious_person_11",
             elements: {
-                name: "？",
-                text: "他转身而去，背影消失在视线中。"
+                name: "旁白",
+                text: "他转身而去，背影消失在视线中。",
+                sprite: {
+            left:null
+        }
             }
         },
         {
