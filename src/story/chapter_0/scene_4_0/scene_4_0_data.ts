@@ -566,7 +566,7 @@ nodes:[
         name: "？？？",  
         text: "让我看看，你这一次是否具有独自面对真相的勇气？"  
     }  
-},  
+},  //与影子发生战斗//
 {  
     id: "battle_shadow_22",  
     elements: {  
@@ -622,12 +622,12 @@ sprite:{
     },
     choices: [
         {
-            text: "你真的没有在欺骗我吗吗？",
+            text: "你真的没有在欺骗我吗？",
             next: "battle_shadow_28_1"
         },
         {
             text: "我会努力去追寻这一切的真相。",
-            next: "chapter_0_scene_0"
+            next: "battle_shadow_28_2"
         },
     ]  
 }, 
@@ -686,8 +686,13 @@ sprite:{
             text: "已拾取蚀心刃",
             next: "battle_shadow_33"
         },
+        {
+            text: "没有蚀心刃",
+            next: "battle_shadow_33_1"
+        },
     ]
 },
+//蚀心刃分支//
 {  
     id: "battle_shadow_33",  
     elements: {  
@@ -992,7 +997,788 @@ sprite:{
             next: "chapter_0_scene_0",
         },
     ],
-},  
+}, 
+//无蚀心刃分支// 
+{  
+    id: "battle_shadow_33_1",  
+    elements: {  
+        name: "你",  
+        bgm:"bgm2.mp3",
+        text: "你说得对，这一切只能由我自己决定。" ,
+        sprite:{
+    left:null,
+}  
+    },
+},
+{  
+    id: "battle_shadow_34_1",  
+    elements: {  
+        name: "你",  
+        text: "希望我真的能走上正确的道路吧。" ,
+        sprite:{
+    left:null,
+}  
+    },
+},
+{  
+    id: "battle_shadow_35_1",  
+    elements: {  
+        name: "光泠",  
+        text: "但愿如此。" ,
+        sprite:{
+    left:"guangling/smile.png",
+}  
+    },
+},
+{  
+    id: "battle_shadow_36_1",  
+    elements: {  
+        name: "你",  
+        text: "抱歉，也许我真不该这样怀疑你。" ,
+        sprite:{
+    left:null,
+}  
+    },
+},
+{  
+    id: "battle_shadow_37_1",  
+    elements: {  
+        name: "光泠",  
+        text: "没关系，我能理解你的心情。" ,
+        sprite:{
+    left:"guangling/smile.png",
+}  
+    },
+},
+{  
+    id: "battle_shadow_38_1",  
+    elements: {  
+        name: "光泠",  
+        text: "面对谜团，想要追求背后的真相，这无可厚非。" ,
+        sprite:{
+    left:"guangling/smile.png",
+}  
+    },
+},
+{  
+    id: "battle_shadow_39_1",  
+    elements: {  
+        name: "你",  
+        text: "嗯，谢谢你，一路陪我走到这里。" ,
+        sprite:{
+    left:null,
+}  
+    },
+},
+{  
+    id: "battle_shadow_40_1",  
+    elements: {  
+        name: "光泠",  
+        text: "希望我们相处的每一刻时光，都能成为支撑彼此内心的力量。" ,
+        sprite:{
+    left:"guangling/smile.png",
+}  
+    },
+  next:"ending_1",
+},
+//不怀疑光泠的分支//
+{  
+    id: "battle_shadow_28_2",  
+    elements: {  
+        name: "你",  
+        text: "谜题的答案，可不会主动送上门来啊。" ,
+        sprite:{
+    left:"null",
+}  
+    },
+},
+{
+    id: "battle_shadow_29_2",
+    elements: {
+        name: "你",
+        text: "只要寒冷与黑夜还在，篝火就要继续燃烧。",
+    },
+},
+{
+    id: "battle_shadow_30_2",
+    elements: {
+        name: "你",
+        text: "只要灾厄仍在世界上蔓延，我就会继续前进。",
+        sprite: {
+            left: "null"
+        }
+    },
+},
+{
+    id: "battle_shadow_31_2",
+    elements: {
+        name: "光泠",
+        text: "不要问篝火该不该燃烧，先问寒冷黑暗在不在。",
+        sprite: {
+            left: "guangling/smile.png",
+        }
+    },
+},
+{
+    id: "battle_shadow_31_2_1",
+    elements: {
+        name: "光泠",
+        text: "不要问正义该不该祭奠，先问人间不平还在不在。",
+    },
+},
+{
+    id: "battle_shadow_32_2",
+    elements: {
+        name: "光泠",
+        text: "相信你一定会迎来你所期望的结局。",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+},
+//进入主线//
+{
+    id: "ending_1",
+    elements: {
+        name: "光泠",
+        text: "请让我与你同行，一同见证那未知的未来吧。",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+    choices: [
+        {
+            text: "但我更想要依靠人类自己的力量。",
+            next: "ending_1_3",
+        },
+        {
+            text: "我想和你处于相同的时间，看向相同的世界。",
+            next: "ending_1_4",
+        },
+    ],
+},
+//进入结局3//
+{
+    id: "ending_1_3",
+    elements: {
+        name: "光泠",
+        text: "人类......自己的力量？",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+},
+{
+    id: "ending_2_3",
+    elements: {
+        name: "你",
+        text: "即使已经在一起相处了这么久，我还是看不透你。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_3_3",
+    elements: {
+        name: "你",
+        text: "但我能清晰地察觉到，你与我，不一样。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_4_3",
+    elements: {
+        name: "光泠",
+        text: "......",
+         sprite: {
+            left: "guangling/wubiaoqing.png",
+        }
+    },
+},
+{
+    id: "ending_5_3",
+    elements: {
+        name: "你",
+        text: "你身上流动的，是不属于人类的力量。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_5_3_1",
+    elements: {
+        name: "你",
+        text: "虽然纯净、圣洁，看上去和这个世界上正在发生的一切污浊的灾厄都大相径庭。",
+    },
+},
+{
+    id: "ending_5_3_2",
+    elements: {
+        name: "你",
+        text: "但是，隐隐之中，两者间却又有某种难以言说的联系。",
+    },
+},
+{
+    id: "ending_5_3_3",
+    elements: {
+        name: "你",
+        text: "就好像......两者原本同源一体......只不过因为某些原因而分离。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_6_3",
+    elements: {
+        name: "光泠",
+        text: "......该夸赞你敏锐的洞察力吗？",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+},
+{
+    id: "ending_7_3",
+    elements: {
+        name: "你",
+        text: "我会依靠自己的力量，夺取属于人类的最终胜利。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_7_3_1",
+    elements: {
+        name: "你",
+        text: "我要将自己的意志焚烧殆尽，终结这个千疮百孔的世界上的灾厄。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_8_3",
+    elements: {
+        name: "光泠",
+        text: "这就是，你最后的选择吗。",
+        sprite: {
+            left: "guangling/down.png",
+        }
+    },
+},
+{
+    id: "ending_9_3",
+    elements: {
+        name: "你",
+        text: "真正的王牌只有自己而已。我会和命运战斗，并且赢给你看。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_10_3",
+    elements: {
+        name: "光泠",
+        text: "......",
+        sprite: {
+            left: "guangling/down.png",
+        }
+    },
+},
+{
+    id: "ending_11_3",
+    elements: {
+        name: "光泠",
+        text: "你的心早已走在我看不见的地方。",
+    },
+},
+{
+    id: "ending_12_3",
+    elements: {
+        name: "光泠",
+        text: "当时间的尺度被无限拉长，活着的注定死亡，守护的必然毁坏，",
+    },
+},
+{
+    id: "ending_12_3_1",
+    elements: {
+        name: "光泠",
+        text: "所坚持的一切都显得毫无意义……",
+    },
+},
+{
+    id: "ending_12_3_2",
+    elements: {
+        name: "光泠",
+        text: "所以不要一直将目光看得那么远，适当地回过头，看看身边吧。",
+    },
+},
+{
+    id: "ending_12_3_3",
+    elements: {
+        name: "光泠",
+        text: "这姑且算是我的......一点私心吧。",
+    },
+},
+{
+    id: "ending_13_3",
+    elements: {
+        name: "你",
+        text: "我意已决，不必多言。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_14_3",
+    elements: {
+        name: "光泠",
+        text: "哪怕到了即将分离的时候，也希望你不要忘记，",
+        sprite: {
+            left: "guangling/tanqi.png",
+        }
+    },
+},
+{
+    id: "ending_14_3_1",
+    elements: {
+        name: "光泠",
+        text: "不论彼此身在何方，我们的目光都会在同一个终点相聚。就此道别吧。",
+    },
+},
+{
+    id: "ending_15_3",
+    elements: {
+        name: "你",
+        text: "虽然很感激你所做的一切，但是——再见了，光泠。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "ending_16_3",
+    elements: {
+        name: "光泠",
+        text: "再见。愿胜利的光辉照亮你的前路。祈盼希望能永远伴你身旁。",
+        sprite: {
+            left: "guangling/smile.png",
+        }
+    },
+},
+{
+    id: "ending_17_3",
+    elements: {
+        name: "旁白",
+        text: "转身离去，不再回头。如果战斗是种罪孽，",
+    sprite: {
+            left: null,
+        }
+},
+},
+{
+    id: "ending_17_3_1",
+    elements: {
+        name: "旁白",
+        text: "那就让我一个人来承担吧。……独自向着无脸人离开的方向追去。",
+    },
+},
+{
+    id: "ending_18_3",
+    elements: {
+        name: "旁白",
+        text: "风声撕裂夜空。追击着无脸人，不知不觉中又回到了当初苏醒时的废墟。",
+    },
+},
+{
+    id: "ending_18_3_1",
+    elements: {
+        name: "旁白",
+        text: "穿过断裂的石柱，跨过坍塌的拱门。灰烬如同雪般飘落，",
+    },
+},
+{
+    id: "ending_18_3_2",
+    elements: {
+        name: "旁白",
+        text: "脚下的废墟在沉默中低吟。一切在这里起始，也将在这里迎来终结。",
+    },
+},
+{
+    id: "ending_19_3",
+    elements: {
+        name: "？？？",
+        text: "竟然追上来了么？不错。",
+    },
+},
+{
+    id: "ending_20_3",
+    elements: {
+        name: "旁白",
+        text: "无脸人站立在废墟中央，发出毫无生机的声音。",
+    },
+},
+{
+    id: "ending_20_3_1",
+    elements: {
+        name: "你",
+        text: "你已经准备好受死了吧。",
+    },
+},
+{
+    id: "ending_21_3",
+    elements: {
+        name: "？？？",
+        text: "呵，大言不惭！你的生命，你的愿望，你的力量，都是如此的微不足道。",
+    },
+},
+{
+    id: "ending_21_3_1",
+    elements: {
+        name: "？？？",
+        text: "连你身边曾经最亲密的同伴，也没有和你并肩同行。",
+    },
+},
+{
+    id: "ending_21_3_2",
+    elements: {
+        name: "？？？",
+        text: "如此弱小无助的你，也配妄言？",
+    },
+},
+{
+    id: "ending_22_3",
+    elements: {
+        name: "旁白",
+        text: "话音未落，无脸人身后猛地冒出一团黑雾，瞬间化作一条条锁链，缠绕而来。",
+    },
+},
+{
+    id: "ending_22_3_1",
+    elements: {
+        name: "旁白",
+        text: "将暗寂化为黑金色长剑，手起剑落，斩断了所有黑雾锁链。",
+    },
+},
+{
+    id: "ending_22_3_2",
+    elements: {
+        name: "旁白",
+        text: "明白自我真正的困惑和恐惧，迎难而上才是真正的强大。",
+    },
+},
+{
+    id: "ending_23_3",
+    elements: {
+        name: "你",
+        text: "对付你，我一人足矣！",
+    },
+},
+{
+    id: "ending_24_3",
+    elements: {
+        name: "？？？",
+        text: "哦？你难道不渴求真相么？你就不想知道，我是谁吗？",
+    },
+},
+{
+    id: "ending_25_3",
+    elements: {
+        name: "你",
+        text: "我只知道，我会粉碎你的阴谋，然后拯救这个世界。",
+    },
+},
+{
+    id: "ending_26_3",
+    elements: {
+        name: "？？？",
+        text: "哈哈！可笑至极。告诉你真相吧！",
+    },
+},
+{
+    id: "ending_26_3_1",
+    elements: {
+        name: "？？？",
+        text: "我就是你，你就是我！",
+    },
+},
+{
+    id: "ending_26_3_2",
+    elements: {
+        name: "？？？",
+        text: "我们是同样的存在，我们本就是同一个人！",
+    },
+},
+{
+    id: "ending_26_3_3",
+    elements: {
+        name: "？？？",
+        text: "我就是你的过去，也将是你的未来！",
+    },
+},
+{
+    id: "ending_27_3",
+    elements: {
+        name: "你",
+        text: "我怎么会，像你一样黑暗腐朽？",
+    },
+},
+{
+    id: "ending_28_3",
+    elements: {
+        name: "？？？",
+        text: "呵！既然你已经是孤身一人，不如和我一起掌控这个世界吧。",
+    },
+},
+{
+    id: "ending_28_3_1",
+    elements: {
+        name: "？？？",
+        text: "我理解你的思想与心绪，我也知晓你内心深处的渴望与野心。",
+    },
+},
+{
+    id: "ending_28_3_2",
+    elements: {
+        name: "？？？",
+        text: "我们拥有相同的力量，我们来自相同的地方。我们齐心合力，就没人能够阻止我们。",
+    },
+},
+{
+    id: "ending_28_3_3",
+    elements: {
+        name: "？？？",
+        text: "好好想想吧！是与我同行？还是被我毁灭？",
+    },
+},
+{
+    id: "ending_29_3",
+    elements: {
+        name: "你",
+        text: "你的话语，就像你自身现在一样软弱无力。与你同行？你还不配！",
+    },
+},
+{
+    id: "ending_30_3",
+    elements: {
+        name: "？？？",
+        text: "这个世界，充斥着阴谋，卑鄙，丑陋，肮脏，腐朽。",
+    },
+},
+{
+    id: "ending_30_3_1",
+    elements: {
+        name: "？？？",
+        text: "并没有什么值得你去拯救的地方。",
+    },
+},
+{
+    id: "ending_31_3",
+    elements: {
+        name: "你",
+        text: "每个时代都会有阴谋家的身影，但同样不会缺少团结与勇气。",
+    },
+},
+{
+    id: "ending_31_3_1",
+    elements: {
+        name: "你",
+        text: "在唾弃黑暗时，也不要否认光明的存在。",
+    },
+},
+{
+    id: "ending_32_3",
+    elements: {
+        name: "？？？",
+        text: "你以为你能做的了什么呢？",
+    },
+},
+{
+    id: "ending_32_3_1",
+    elements: {
+        name: "？？？",
+        text: "每时每刻，在很多你看不见的地方，都上演着一幕幕惨绝人寰的悲剧。",
+    },
+},
+{
+    id: "ending_33_3",
+    elements: {
+        name: "你",
+        text: "太阳之所以伟大，是因为连尘埃都能照亮。",
+    },
+},
+{
+    id: "ending_33_3_1",
+    elements: {
+        name: "你",
+        text: "我要成为新世界的太阳。我要行天之道，总司一切。",
+    },
+},
+{
+    id: "ending_34_3",
+    elements: {
+        name: "？？？",
+        text: "不成熟的果实会很酸，不成熟的人会打架。",
+    },
+},
+{
+    id: "ending_34_3_1",
+    elements: {
+        name: "？？？",
+        text: "你为什么要执着于与我战斗！我们团结起来，双赢的局面岂不是更好？",
+    },
+},
+{
+    id: "ending_34_3_2",
+    elements: {
+        name: "？？？",
+        text: "放弃吧，不要再做无意义的抵抗！",
+    },
+},
+{
+    id: "ending_35_3",
+    elements: {
+        name: "你",
+        text: "我是为了那些无法战斗的人而战斗！为了这个地方，不想再看到有人流泪",
+    },
+},
+{
+    id: "ending_35_3_1",
+    elements: {
+        name: "你",
+        text: "我想要大家的脸上拥有笑容。如果说世界的命运掌握在你手里的话，那我，就要把它夺回来！",
+    },
+},
+{
+    id: "ending_36_3",
+    elements: {
+        name: "旁白",
+        text: "不再多言，握紧手中暗寂，向无脸人发起进攻。",
+    },
+},
+{
+    id: "ending_37_3",
+    elements: {
+        name: "？？？",
+        text: "冥顽不灵！",
+    },
+},
+{
+    id: "ending_38_3",
+    elements: {
+        name: "你",
+        text: "什么！？",
+    },
+},
+{
+    id: "ending_39_3",
+    elements: {
+        name: "旁白",
+        text: "意外的是，暗寂竟直接穿过了无脸人的躯体，如所经之处空无一物一般。",
+    },
+},
+{
+    id: "ending_40_3",
+    elements: {
+        name: "？？？",
+        text: "来吧，我会带你见证，真正的毁灭！",
+    },
+},
+{
+    id: "ending_41_3",
+    elements: {
+        name: "旁白",
+        text: "话音未落，无脸人逐渐消散，化作一团黑烟，径直冲入废墟地底。",
+    },
+},
+{
+    id: "ending_41_3_1",
+    elements: {
+        name: "旁白",
+        text: "此刻，异变突生——在废墟的中央，一道漆黑的裂隙缓缓张开，",
+    },
+},
+{
+    id: "ending_41_3_2",
+    elements: {
+        name: "旁白",
+        text: "仿佛世界的肌肤被撕开一道无法愈合的伤口。",
+    },
+},
+{
+    id: "ending_41_3_3",
+    elements: {
+        name: "旁白",
+        text: "从裂隙中涌起了一团团令人窒息的黑雾，迅速向四周弥漫扩张，",
+    },
+},
+{
+    id: "ending_41_3_4",
+    elements: {
+        name: "旁白",
+        text: "眨眼间遮天蔽日，天地失色。低沉的咆哮在天地间回荡，如同无数亡者的哭喊。",
+    },
+},
+{
+    id: "ending_42_3",
+    elements: {
+        name: "你",
+        text: "这是——？",
+    },
+},
+{
+    id: "ending_43_3",
+    elements: {
+        name: "旁白",
+        text: "吼——！一道来自裂缝中的嘶吼冲击着耳膜，大地随之震颤，碎石如雨坠落。",
+    },
+},
+{
+    id: "ending_43_3_1",
+    elements: {
+        name: "旁白",
+        text: "深埋地底的岩层被撕扯翻涌，火焰与黑雾喷薄而出，仿佛迎来了末日。然后，他出现了。",
+    },
+},
+{
+    id: "ending_44_3",
+    elements: {
+        name: "旁白",
+        text: "一具由黑雾与碎骨拼凑的身躯缓缓升起，肩背如山岳般庞大，胸口燃烧着漆黑火焰，",
+    },
+},
+{
+    id: "ending_44_3_1",
+    elements: {
+        name: "旁白",
+        text: "吞噬着天地的残光。一张模糊不清的面孔浮现，却不断变幻，",
+    },
+},
+{
+    id: "ending_44_3_2",
+    elements: {
+        name: "旁白",
+        text: "时而是骷髅，时而是扭曲的人脸，时而则是一片空洞。",
+    },
+},
+{
+    id: "ending_44_3_3",
+    elements: {
+        name: "旁白",
+        text: "他抬首的刹那，天空随之倾塌，赤红的裂纹在天空中扩散。",
+    },
+},
+
+
+
 
 
 
