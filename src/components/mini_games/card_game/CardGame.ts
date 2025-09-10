@@ -16,89 +16,521 @@ import { SceneManager } from "../../SceneManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
-        // 卡牌游戏的HTML模板
-    static readonly HTML_TEMPLATE = `
-        <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#d4af37;font-family:'Courier New', monospace;overflow:hidden;">
-            <!-- 背景图片层 -->
-            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
+ static readonly HTML_TEMPLATE = `
+        <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#ffffff;font-family:'Courier New', monospace;overflow:hidden;">
+          <!-- 背景图片层 -->
+            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#38383a;"></div>
             
             <!-- 末日风格背景纹理 -->
-            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>
-            
-            <div id="game-ui" style="position:absolute;top:10px;left:10px;z-index:10;display:none;"> <!-- 隐藏得分UI -->
-                <div id="score" style="font-size:24px;margin-bottom:10px;background:rgba(0,0,0,0.7);padding:8px 15px;border-radius:5px;border:1px solid #5f5f5fff;box-shadow:0 0 10px rgba(212, 175, 55, 0.3);">分数: 0</div>
-                <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:30px;border-radius:10px;text-align:center;display:none;z-index:20;border:2px solid #a7a7a7ff;box-shadow:0 0 20px rgba(164, 164, 164, 0.5);">
-                    <h2 style="color:#d4af37;margin-top:0;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;">游戏结束</h2>
-                    <div id="final-score" style="margin-bottom:20px;font-size:18px;">最终结果</div>
-                    <button id="restart-button" style="padding:12px 25px;font-size:16px;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #8B7D6B;border-radius:8px;cursor:pointer;margin-top:10px;letter-spacing:1px;box-shadow:0 0 10px rgba(139, 125, 107, 0.5);transition:all 0.3s;font-family:'Courier New', monospace;">重新开始</button>
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>  <div id="game-ui" style="position:absolute;top:2%;left:2%;z-index:10;display:none;"> <!-- 使用百分比替代固定像素 -->
+                <div id="score" style="font-size:1.5em;margin-bottom:0.5em;background:rgba(0,0,0,0.7);padding:0.5em 1em;border-radius:0.3em;border:1px solid #5f5f5fff;box-shadow:0 0 0.6em rgba(212, 175, 55, 0.3);">分数: 0</div>
+                <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:2em;border-radius:0.6em;text-align:center;display:none;z-index:20;border:0.1em solid #a7a7a7ff;box-shadow:0 0 1.2em rgba(164, 164, 164, 0.5);">
+                    <h2 style="color:#ffffff;margin-top:0;margin-bottom:1.2em;text-transform:uppercase;letter-spacing:0.1em;">游戏结束</h2>
+                    <div id="final-score" style="margin-bottom:1.2em;font-size:1.1em;">最终结果</div>
+                    <button id="restart-button" style="padding:0.7em 1.5em;font-size:1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#ffffff;border:1px solid #8B7D6B;border-radius:0.5em;cursor:pointer;margin-top:0.6em;letter-spacing:0.06em;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);transition:all 0.3s;font-family:'Courier New', monospace;">重新开始</button>
                 </div>
             </div>
             
             <!-- 对手信息区域 (右上角) -->
-            <div id="opponent-info-container" style="position:absolute;top:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #8B7D6B;min-width:220px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);">
+            <div id="opponent-info-container" style="position:absolute;top:1%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="opponent-info" style="text-align:center;"></div>
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:20px;right:20px;z-index:10;background:rgba(0,0,0,0.7);padding:15px;border-radius:8px;border:1px solid #8B7D6B;min-width:220px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);">
+            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
             <!-- 调试信息区域 -->
-            <div id="debug-info" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.8);padding:15px;border-radius:5px;z-index:1000;width:300px;border:1px solid #8B7D6B;box-shadow:0 0 10px rgba(139, 125, 107, 0.5);display:none;">
-                <h3 style="margin-top:0;color:#d4af37;border-bottom:1px solid #7d7c7aff;padding-bottom:5px;">调试信息</h3>
-                <div id="debug-content" style="font-size:12px;"></div>
+            <div id="debug-info" style="position:absolute;bottom:1%;left:1%;background:rgba(0,0,0,0.8);padding:1%;border-radius:0.3em;z-index:1000;width:20%;border:1px solid #8B7D6B;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);display:none;">
+                <h3 style="margin-top:0;color:#ffffff;border-bottom:1px solid #7d7c7aff;padding-bottom:0.3em;">调试信息</h3>
+                <div id="debug-content" style="font-size:0.75em;"></div>
+            </div>
+            
+            <style>
+                 :root {
+                    --card-w: 110px;
+                    --card-h: 160px;
+                    --spread-angle: 16deg;
+                    /* 新增玩家卡牌大小控制变量 */
+                    --player-card-w: 15.6vh;
+                    --player-card-h: 23.4vh;
+                    /* 新增玩家手牌区域偏移控制变量 */
+                    --player-hand-offset: -4.75%;
+                }
+                
+                @media (max-width: 768px) {
+                    :root {
+                        --card-w: 70px;
+                        --card-h: 100px;
+                        --player-card-w: 10vw;
+                        --player-card-h: 14vh;
+                    }
+                    
+                    #opponent-info-container, #player-info-container {
+                        min-width: 120px;
+                        padding: 8px;
+                        font-size: 12px;
+                    }
+                    
+                    #game-message {
+                        font-size: 16px;
+                    }
+                    
+                    #end-turn-button {
+                        padding: 8px 16px;
+                        font-size: 14px;
+                    }
+                    
+                    /* 响应式区域背景 */
+                    #opponent-area-background, #player-area-background {
+                        width: 90%;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    :root {
+                        --card-w: 50px;
+                        --card-h: 75px;
+                        --player-card-w: 8vw;
+                        --player-card-h: 12vh;
+                    }
+                    
+                    #opponent-info-container, #player-info-container {
+                        min-width: 100px;
+                        padding: 5px;
+                        font-size: 10px;
+                    }
+                    
+                    #game-message {
+                        font-size: 14px;
+                    }
+                    
+                    #end-turn-button {
+                        padding: 6px 12px;
+                        font-size: 12px;
+                    }
+                    
+                    /* 响应式区域背景 */
+                    #opponent-area-background, #player-area-background {
+                        width: 95%;
+                    }
+                }
+                
+                .deck {
+                    position: relative;
+                    width: 100%;
+                    height: 35vh; /* 使用视口高度单位替代固定像素值 */
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: center;
+                    pointer-events: auto;
+                }
+                
+                @media (max-width: 768px) {
+                    .deck {
+                        height: 25vh;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .deck {
+                        height: 20vh;
+                    }
+                }
+                
+                .card {
+                    --i: 0;
+                    width: var(--card-w);
+                    height: var(--card-h);
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform-origin: 50% 120%;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    overflow: hidden;
+                    user-select: none;
+                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+                    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1), opacity 0.22s ease, filter 0.22s ease;
+                    background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
+                    color: #fff;
+                    z-index: calc(100 - var(--i));
+                }
+                
+               /* 对手卡牌水平排列 */
+                #opponent-hand {
+                    height: 180px;
+                    gap: 15px;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                }
+                
+                @media (max-width: 768px) {
+                    #opponent-hand {
+                        height: 120px;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    #opponent-hand {
+                        height: 90px;
+                    }
+                }
+                
+                #opponent-hand .card {
+                    position: relative;
+                    left: unset;
+                    bottom: unset;
+                    transform: none !important;
+                    margin: 0 5px;
+                    width: var(--card-w);
+                    height: var(--card-h);
+                    border-radius: 10px;
+                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+                    transition: all 0.45s cubic-bezier(0.2, 0.9, 0.25, 1);
+                    background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
+                    color: #fff;
+                    z-index: 1;
+                }
+                
+                /* 玩家卡牌扇形展开 */
+                .deck.player-hand .card {
+                    transform: translateX(calc(var(--centered-offset) * 1px));
+                }
+                
+                .deck.player-hand.open .card {
+                    transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-26px);
+                }
+                
+                @media (max-width: 768px) {
+                    .deck.player-hand.open .card {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-16px);
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .deck.player-hand.open .card {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-10px);
+                    }
+                }
+                
+                /* 悬停预览（其他牌淡出） */
+                .deck.player-hand .card.peek {
+                    z-index: 1500;
+                    transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-76px) scale(1.15);
+                    filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.7));
+                }
+                
+                @media (max-width: 768px) {
+                    .deck.player-hand .card.peek {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-50px) scale(1.15);
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .deck.player-hand .card.peek {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(calc(var(--rotation) * 1deg)) translateY(-35px) scale(1.1);
+                    }
+                }
+                
+                .deck.player-hand.dim .card:not(.peek):not(.selected) {
+                    opacity: 0.28;
+                    filter: grayscale(0.6) brightness(0.6);
+                }
+                
+                /* 选中状态 */
+                .deck.player-hand .card.selected {
+                    z-index: 1600;
+                    transform: translateX(calc(var(--offset) * 1px)) rotate(0deg) translateY(-44px) scale(1.07);
+                }
+                
+                @media (max-width: 768px) {
+                    .deck.player-hand .card.selected {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(0deg) translateY(-30px) scale(1.05);
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .deck.player-hand .card.selected {
+                        transform: translateX(calc(var(--offset) * 1px)) rotate(0deg) translateY(-20px) scale(1.03);
+                    }
+                }
+                
+                /* 出牌 */
+                .card.playing {
+                    pointer-events: none;
+                    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1), left 0.6s ease, top 0.6s ease, opacity 0.35s ease;
+                    z-index: 2000;
+                }
+                
+                .placed {
+                    position: relative;
+                    transform: none !important;
+                    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+                }
+                
+                /* 玩家和对手出牌区域的不同边框颜色 */
+                #player-played-cards .placed {
+                    border: 2px solid #4a9dff;
+                }
+                
+                #opponent-played-cards .placed {
+                    border: 2px solid #ff4a4a;
+                }
+                
+                /* 抽牌入堆：class 驱动 */
+                .incoming {
+                    position: fixed;
+                    width: var(--card-w);
+                    height: var(--card-h);
+                    border-radius: 10px;
+                    left: 50%;
+                    top: -20vh; /* 使用视口高度单位替代固定像素值 */
+                    transform: translate(-50%, 0) scale(0.9);
+                    z-index: 2800;
+                    opacity: 0.98;
+                    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                                top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                                transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                                opacity 0.3s ease-out;
+                }
+                
+                .incoming.center {
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
+                
+                .incoming.to-deck {
+                    transform: scale(1);
+                    transition: left 0.7s cubic-bezier(0.27, 0.01, 0.47, 1.01),
+                                top 0.7s cubic-bezier(0.27, 0.01, 0.47, 1.01),
+                                transform 0.7s cubic-bezier(0.27, 0.01, 0.47, 1.01);
+                }
+                
+               .card-content {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 8px;
+                    font-weight: 700;
+                    background: linear-gradient(180deg, #ffd89b, #ff8a00);
+                    color: #082;
+                    padding: 10px;
+                    overflow: hidden;
+                }
+                
+                @media (max-width: 768px) {
+                    .card-content {
+                        padding: 5px;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .card-content {
+                        padding: 3px;
+                    }
+                }
+                
+                .card-name {
+                    font-size: 14px;
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                
+                @media (max-width: 768px) {
+                    .card-name {
+                        font-size: 10px;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .card-name {
+                        font-size: 8px;
+                    }
+                }
+                
+                .card-desc {
+                    font-size: 10px;
+                    text-align: center;
+                    margin: 5px 0;
+                    line-height: 1.2;
+                }
+                
+                @media (max-width: 768px) {
+                    .card-desc {
+                        font-size: 8px;
+                        margin: 3px 0;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .card-desc {
+                        font-size: 6px;
+                        margin: 2px 0;
+                    }
+                }
+                
+                .card-details {
+                    font-size: 10px;
+                    text-align: center;
+                    margin-top: 5px;
+                }
+                
+                @media (max-width: 768px) {
+                    .card-details {
+                        font-size: 8px;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .card-details {
+                        font-size: 6px;
+                    }
+                }
+                
+                .card-cost {
+                    color: #d4af37;
+                }
+                
+                .card-power {
+                    color: #d4af37;
+                }
+                
+                .card-priority {
+                    color: #d4af37;
+                }
+                
+               /* 出牌区域样式 */
+                .played-cards-container {
+                    height: 20vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1em;
+                    background: rgba(80, 73, 73, 0.8);
+                    transition: all 0.5s ease;
+                    z-index: 2;
+                    padding: 1em;
+                    border-radius: 1em;
+                    margin: 1em 0;
+                    border: 1px solid #8B7D6B;
+                    box-shadow: 0 0 15px rgba(139, 125, 107, 0.3);
+                }
+                
+                @media (max-width: 768px) {
+                    .played-cards-container {
+                        height: 15vh; /* 增加高度从10vh到15vh */
+                        gap: 0.6em;
+                        padding: 0.5em;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .played-cards-container {
+                        height: 12vh; /* 增加高度从8vh到12vh */
+                        gap: 0.3em;
+                        padding: 0.2em;
+                    }
+                }
+            </style>
+              
+           <!-- 对手区域背景装饰 -->
+            <div id="opponent-area-background" style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:70%;height:25vh;background:rgba(135, 124, 124, 0.8);border-bottom-left-radius:20px;border-bottom-right-radius:20px;z-index:0;box-shadow:0 5px 15px rgba(0,0,0,0.5);border:1px solid #8B7D6B;">
+                <div style="position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(212, 175, 55, 0.3);border-radius:10px;"></div>
+                <div style="position:absolute;top:30%;right:5%;width:25px;height:2px;background:#8B7D6B;transform:rotate(20deg);opacity:0.5;"></div>
+                <div style="position:absolute;top:70%;left:7%;width:15px;height:2px;background:#8B7D6B;transform:rotate(-30deg);opacity:0.5;"></div>
             </div>
             
             <!-- 对手区域 -->
-            <div id="opponent-area" style="height:30%;border-bottom:2px solid rgba(139, 125, 107, 0.7);display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
-                <div id="opponent-hand" style="display:flex;gap:20px;transition:all 0.3s ease;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
+            <div id="opponent-area" style="height:25vh;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:1;">
+                <div id="opponent-hand" class="deck opponent-hand" style="width:100%;display:flex;overflow:hidden;"></div>
             </div>
             
-            <!-- 对手已出牌区域 -->
-            <div id="opponent-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-bottom:1px dashed rgba(139, 125, 107, 0.5);transition: all 0.5s ease;z-index:1;"></div>
+           <!-- 中央已出牌区域 -->
+            <div id="center-played-cards" class="played-cards-container" style="position:absolute;top:25vh;left:15%;width:70%;height:35vh;z-index:2;"></div>
             
-            <!-- 战场区域 -->
-            <div id="battlefield" style="height:16%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.4);position:relative;z-index:1;border-top:1px dashed rgba(168, 164, 159, 0.5);border-bottom:1px dashed rgba(139, 125, 107, 0.5);">
-                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(139, 125, 107, 0.1) 4px, rgba(139, 125, 107, 0.1) 8px);"></div>
-                <div id="game-message" style="font-size:22px;text-align:center;margin-bottom:20px;text-shadow:0 0 5px rgba(134, 134, 134, 0.7);max-width:80%;line-height:1.4;z-index:2;"></div>
-                <button id="end-turn-button" style="padding:12px 30px;font-size:18px;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #bab9b7ff;border-radius:8px;cursor:pointer;letter-spacing:1px;box-shadow:0 0 15px rgba(139, 125, 107, 0.6);transition:all 0.3s;text-transform:uppercase;z-index:5;position:relative;font-family:'Courier New', monospace;">结束回合</button>
+           <!-- 战场区域 -->
+            <div id="battlefield" style="flex:1.5;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:1;position:absolute;bottom:35vh;right:0vh;width:15%;height:35vh;z-index:3;">
+                <div id="game-message" style="font-size:1.4em;text-align:center;margin-bottom:1.2em;text-shadow:0 0 0.3em rgba(134, 134, 134, 0.7);max-width:80%;line-height:1.4;z-index:2;"></div>
+                <button id="end-turn-button" style="padding:0.7em 2em;font-size:1.1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #bab9b7ff;border-radius:0.5em;cursor:pointer;letter-spacing:0.06em;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);transition:all 0.3s;text-transform:uppercase;z-index:5;font-family:'Courier New', monospace;">结束回合</button>
             </div>
             
-            <!-- 玩家已出牌区域 -->
-            <div id="player-played-cards" style="height:12%;display:flex;justify-content:center;align-items:center;gap:20px;background:rgba(30, 30, 30, 0.5);border-top:1px dashed rgba(139, 125, 107, 0.5);transition: all 0.5s ease;z-index:1;"></div>
+            <!-- 玩家区域背景装饰 -->
+            <div id="player-area-background" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:70%;height:35vh;background:rgba(135, 124, 124, 0.8);border-top-left-radius:20px;border-top-right-radius:20px;z-index:0;box-shadow:0 -5px 15px rgba(0,0,0,0.5);border:1px solid #8B7D6B;">
+                <div style="position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(212, 175, 55, 0.3);border-radius:10px;"></div>
+                <div style="position:absolute;top:20%;left:5%;width:30px;height:2px;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;"></div>
+                <div style="position:absolute;top:60%;right:7%;width:20px;height:2px;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;"></div>
+            </div>
             
-            <!-- 玩家区域 -->
-            <div id="player-area" style="height:30%;border-top:2px solid rgba(182, 179, 175, 0.7);display:flex;flex-direction:column-reverse;justify-content:center;align-items:center;background:rgba(0,0,0,0.3);position:relative;z-index:1;">
-                <div id="player-hand" style="display:flex;gap:20px;transition:all 0.3s ease;margin-bottom:15px;z-index:2;align-items:center;justify-content:center;width:100%;"></div>
+            <!-- 玩家手牌区域 -->
+            <div id="player-area" style="height:70vh;width:70%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;z-index:4;transform:translateX(20%);">
+                <div id="player-hand" class="deck player-hand" style="position:relative;width:100%;height:30vh;display:flex;align-items:flex-end;justify-content:center;pointer-events:auto;margin-top:1vh;transform:translateX(var(--player-hand-offset));--card-w:var(--player-card-w);--card-h:var(--player-card-h);"></div>
             </div>
             
             <!-- 卡组选择区域 -->
             <div id="deck-selection-container" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;display:none;"></div>
             
             <!-- 末日风格装饰元素 -->
-            <div style="position:absolute;top:20%;left:5%;width:50px;height:2px;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;z-index:1;"></div>
-            <div style="position:absolute;top:70%;right:7%;width:30px;height:2px;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;z-index:1;"></div>
-            <div style="position:absolute;top:40%;right:10%;width:40px;height:40px;border:1px solid #bdbcbbff;border-radius:50%;opacity:0.2;z-index:1;"></div>
+            <div style="position:absolute;top:20%;left:5%;width:3%;height:0.15em;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;z-index:1;"></div>
+            <div style="position:absolute;top:70%;right:7%;width:2%;height:0.15em;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;z-index:1;"></div>
+            <div style="position:absolute;top:40%;right:10%;width:2.5%;height:2.5%;border:1px solid #bdbcbbff;border-radius:50%;opacity:0.2;z-index:1;"></div>
         </div>
     `;
-    private state: CardGameState;
-    private restartButton: HTMLButtonElement | null = null;
-    private endTurnButton: HTMLButtonElement | null = null;
     private playerHandElement: HTMLElement | null = null;
     private opponentHandElement: HTMLElement | null = null;
     private playerInfoElement: HTMLElement | null = null;
     private opponentInfoElement: HTMLElement | null = null;
     private gameMessageElement: HTMLElement | null = null;
     private debugContentElement: HTMLElement | null = null; // 添加调试信息元素引用
-    private playerPlayedCardsElement: HTMLElement | null = null; // 玩家已出牌区域
-    private opponentPlayedCardsElement: HTMLElement | null = null; // 对手已出牌区域
+    private playedCardsElement: HTMLElement | null = null; // 统一的已出牌区域
     private deckSelectionContainer: HTMLElement | null = null; // 卡组选择容器
-    
+    private endTurnButton: HTMLButtonElement | null = null; // 结束回合按钮
+    private restartButton: HTMLButtonElement | null = null; // 重启游戏按钮
+
     // 已出牌记录（包含回合信息）
-    private playerPlayedCards: Array<{card: Card, turn: number}> = []; // 玩家已出的牌
-    private opponentPlayedCards: Array<{card: Card, turn: number}> = []; // 对手已出的牌
+    private playedCards: Array<{card: Card, turn: number, player: 'player' | 'opponent'}> = []; // 统一的已出牌记录
     
+    // 游戏状态
+    private state: CardGameState = {
+        player: {
+            id: 'player',
+            name: '玩家',
+            hp: 30,
+            maxHp: 30,
+            actionPoints: 3,
+            maxActionPoints: 3,
+            deck: [],
+            hand: [],
+            discardPile: [],
+            defense: 0,
+            buffs: []
+        },
+        opponent: {
+            id: 'opponent',
+            name: '巨石',
+            hp: 30,
+            maxHp: 30,
+            actionPoints: 3,
+            maxActionPoints: 3,
+            deck: [],
+            hand: [],
+            discardPile: [],
+            defense: 0,
+            buffs: []
+        },
+        currentPlayer: 'player',
+        gamePhase: 'draw',
+        turn: 1,
+        selectedCard: null,
+        message: '游戏开始！抽牌阶段。',
+        playerWon: null
+    };
     // 游戏配置
     private config: CardGameConfig;
     // 音频管理器
@@ -245,8 +677,7 @@ class CardGame extends MiniGame {
         this.opponentInfoElement = document.getElementById('opponent-info');
         this.gameMessageElement = document.getElementById('game-message');
         this.debugContentElement = document.getElementById('debug-content'); // 获取调试信息元素引用
-        this.playerPlayedCardsElement = document.getElementById('player-played-cards'); // 获取玩家已出牌区域
-        this.opponentPlayedCardsElement = document.getElementById('opponent-played-cards'); // 获取对手已出牌区域
+        this.playedCardsElement = document.getElementById('center-played-cards'); // 获取统一的已出牌区域
         this.deckSelectionContainer = document.getElementById('deck-selection-container'); // 获取卡组选择容器
         
         // 设置事件监听器
@@ -260,19 +691,9 @@ class CardGame extends MiniGame {
     private setBackgroundImage(): void {
         const backgroundElement = document.getElementById('card-game-background');
         if (backgroundElement) {
-            // 检查游戏配置中是否指定了背景图片
-            if (this.gameConfig?.backgroundImage) {
-                // 使用正确的相对路径
-                backgroundElement.style.backgroundImage = `url(../../assets/images/background/${this.gameConfig.backgroundImage})`;
-            } else {
-                // 使用默认背景图片
-                backgroundElement.style.backgroundImage = `url(../../assets/images/background/sc1.1/1-1-0.jpg)`;
-            }
-            
-            // 确保背景图片正确显示
-            backgroundElement.style.backgroundSize = 'cover';
-            backgroundElement.style.backgroundPosition = 'center';
-            backgroundElement.style.backgroundRepeat = 'no-repeat';
+            // 使用原来的深灰色背景
+            backgroundElement.style.backgroundColor = '#1a1a1a';
+            backgroundElement.style.backgroundImage = 'none';
         }
     }
 
@@ -324,52 +745,70 @@ class CardGame extends MiniGame {
             // 添加悬停效果
             this.endTurnButton.addEventListener('mouseenter', () => {
                 if (this.endTurnButton) {
-                    this.endTurnButton.style.background = 'linear-gradient(to bottom, #a00000, #6b0000)';
-                    this.endTurnButton.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.6)';
-                    this.endTurnButton.style.transform = 'scale(1.05)';
+                    this.endTurnButton.style.background = 'linear-gradient(to bottom, #7a6a2a, #5a4a0a)';
+                    this.endTurnButton.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.6)';
                 }
             });
             
             this.endTurnButton.addEventListener('mouseleave', () => {
                 if (this.endTurnButton) {
-                    this.endTurnButton.style.background = 'linear-gradient(to bottom, #8B0000, #4d0000)';
-                    this.endTurnButton.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.4)';
-                    this.endTurnButton.style.transform = 'scale(1)';
+                    this.endTurnButton.style.background = 'linear-gradient(to bottom, #5a5a5a, #3a3a3a)';
+                    this.endTurnButton.style.boxShadow = '0 0 10px rgba(212, 175, 55, 0.3)';
                 }
             });
         }
+        
+        // 为玩家手牌区域添加事件监听器
+        const playerHandElement = document.getElementById('player-hand');
+        if (playerHandElement) {
+            // 鼠标进入时展开手牌
+            playerHandElement.addEventListener('mouseenter', () => {
+                playerHandElement.classList.add('open');
+            });
+            
+            // 鼠标离开时收拢手牌
+            playerHandElement.addEventListener('mouseleave', () => {
+                playerHandElement.classList.remove('open');
+                // 清除所有悬停效果
+                const peekedCards = playerHandElement.querySelectorAll('.card.peek');
+                peekedCards.forEach(card => {
+                    card.classList.remove('peek');
+                });
+                playerHandElement.classList.remove('dim');
+            });
+            
+            // 点击空白处取消选中
+            document.body.addEventListener('click', (e) => {
+                if (!playerHandElement.contains(e.target as Node)) {
+                    const selectedCards = playerHandElement.querySelectorAll('.card.selected');
+                    selectedCards.forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    playerHandElement.classList.remove('dim');
+                }
+            });
+        }
+
+        // 为对手手牌区域添加事件监听器（如果需要）
+        const opponentHandElement = document.getElementById('opponent-hand');
+        if (opponentHandElement) {
+            // 可以根据需要添加对手手牌的交互逻辑
+        }
     }
 
-    // 更新已出牌区域
+       // 更新已出牌区域
     private updatePlayedCards(): void {
-        // 更新玩家已出牌区域
-        if (this.playerPlayedCardsElement) {
+        // 更新已出牌区域
+        if (this.playedCardsElement) {
             // 清空当前显示的所有卡牌
-            this.playerPlayedCardsElement.innerHTML = '';
+            this.playedCardsElement.innerHTML = '';
             
             // 只添加当前回合和上一回合的卡牌
-            for (let i = 0; i < this.playerPlayedCards.length; i++) {
-                const playedCard = this.playerPlayedCards[i];
+            for (const playedCard of this.playedCards) {
                 // 只显示当前回合和上一回合的卡牌
                 if (playedCard.turn >= this.state.turn - 1) {
-                    const cardElement = UIManager.createPlayedCardElement(playedCard, 'player', this.state.turn);
-                    this.playerPlayedCardsElement.appendChild(cardElement);
-                }
-            }
-        }
-        
-        // 更新对手已出牌区域
-        if (this.opponentPlayedCardsElement) {
-            // 清空当前显示的所有卡牌
-            this.opponentPlayedCardsElement.innerHTML = '';
-            
-            // 只添加当前回合和上一回合的卡牌
-            for (let i = 0; i < this.opponentPlayedCards.length; i++) {
-                const playedCard = this.opponentPlayedCards[i];
-                // 只显示当前回合和上一回合的卡牌
-                if (playedCard.turn >= this.state.turn - 1) {
-                    const cardElement = UIManager.createPlayedCardElement(playedCard, 'opponent', this.state.turn);
-                    this.opponentPlayedCardsElement.appendChild(cardElement);
+                    const cardElement = UIManager.createPlayedCardElement(playedCard, this.state.turn);
+                    this.playedCardsElement.appendChild(cardElement);
                 }
             }
         }
@@ -747,12 +1186,12 @@ class CardGame extends MiniGame {
             return;
         }
 
-        // 记录已出的牌（包含回合信息）
-        if (player.id === 'player') {
-            this.playerPlayedCards.push({card: {...card}, turn: this.state.turn});
-        } else {
-            this.opponentPlayedCards.push({card: {...card}, turn: this.state.turn});
-        }
+        // 记录已出的牌（包含回合信息）到统一的已出牌记录中
+        this.playedCards.push({
+            card: {...card}, 
+            turn: this.state.turn,
+            player: player.id as 'player' | 'opponent'
+        });
 
         // 保存卡牌索引用于后续处理
         const cardIndex = player.hand.findIndex(c => c && c.id === card.id);
@@ -918,25 +1357,32 @@ class CardGame extends MiniGame {
      * 获取当前游戏数据
      */
     private getGameData(): CardGameEventData {
+        // 获取玩家本回合出的牌
+        const playerCards = this.playedCards.filter(card => card.player === 'player');
+        // 获取对手本回合出的牌
+        const opponentCards = this.playedCards.filter(card => card.player === 'opponent');
+
         return {
             player: {
                 hp: this.state.player.hp,
                 maxHp: this.state.player.maxHp,
-                lastPlayedCard: this.playerPlayedCards.length > 0 
-                    ? this.playerPlayedCards[this.playerPlayedCards.length - 1].card.id 
+                lastPlayedCard: playerCards.length > 0 
+                    ? playerCards[playerCards.length - 1].card.id 
                     : null
             },
             opponent: {
                 hp: this.state.opponent.hp,
                 maxHp: this.state.opponent.maxHp,
-                lastPlayedCard: this.opponentPlayedCards.length > 0 
-                    ? this.opponentPlayedCards[this.opponentPlayedCards.length - 1].card.id 
+                lastPlayedCard: opponentCards.length > 0 
+                    ? opponentCards[opponentCards.length - 1].card.id 
                     : null
             },
             turn: this.state.turn,
             totalTurns: this.state.turn
         };
     }
+
+
 
     /**
      * 处理事件
@@ -1123,53 +1569,15 @@ class CardGame extends MiniGame {
 
         // 更新已出牌区域卡牌的视觉状态
     private updatePlayedCardsVisualState(): void {
-        // 处理玩家已出牌区域
-        if (this.playerPlayedCardsElement) {
-            const cards = this.playerPlayedCardsElement.querySelectorAll('.played-card');
+        // 处理统一的已出牌区域
+        if (this.playedCardsElement) {
+            const cards = this.playedCardsElement.querySelectorAll('.played-card');
             cards.forEach((card, index) => {
                 const cardElement = card as HTMLElement;
                 
                 // 确保索引在范围内
-                if (index < this.playerPlayedCards.length) {
-                    const playedCard = this.playerPlayedCards[index];
-                    
-                    // 检查是否是当前回合或上一回合出的牌
-                    const isCurrentTurnCard = (playedCard.turn === this.state.turn);
-                    const isPreviousTurnCard = (playedCard.turn === this.state.turn - 1);
-                    
-                    // 设置视觉状态
-                    if (isCurrentTurnCard) {
-                        cardElement.style.opacity = '1';
-                        cardElement.style.border = '2px solid #ff6347';
-                    } else if (isPreviousTurnCard) {
-                        cardElement.style.opacity = '0.7';
-                        cardElement.style.border = '2px solid #d4af37';
-                    } else {
-                        // 更早的牌应该淡出
-                        cardElement.style.opacity = '0';
-                        cardElement.style.border = '2px solid #888';
-                        cardElement.style.transform = 'scale(0.5)';
-                        
-                        // 在动画结束后移除元素
-                        setTimeout(() => {
-                            if (cardElement.parentNode) {
-                                cardElement.parentNode.removeChild(cardElement);
-                            }
-                        }, 500);
-                    }
-                }
-            });
-        }
-        
-        // 处理对手已出牌区域
-        if (this.opponentPlayedCardsElement) {
-            const cards = this.opponentPlayedCardsElement.querySelectorAll('.played-card');
-            cards.forEach((card, index) => {
-                const cardElement = card as HTMLElement;
-                
-                // 确保索引在范围内
-                if (index < this.opponentPlayedCards.length) {
-                    const playedCard = this.opponentPlayedCards[index];
+                if (index < this.playedCards.length) {
+                    const playedCard = this.playedCards[index];
                     
                     // 检查是否是当前回合或上一回合出的牌
                     const isCurrentTurnCard = (playedCard.turn === this.state.turn);
@@ -1248,8 +1656,7 @@ class CardGame extends MiniGame {
         };
         
         // 清空已出牌记录
-        this.playerPlayedCards = [];
-        this.opponentPlayedCards = [];
+        this.playedCards = [];
 
         // 隐藏游戏结束界面
         if (this.gameOverElement) {
