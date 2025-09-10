@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐馆 - 世界的低语：启示录</title>
+    <!-- 样式通过打包自动注入，无需手动<link> -->
+</head>
+<body>
+    <!-- 背景图片容器（与主菜单保持一致，便于淡入动画与适配） -->
+    <div class="background-container">
+        <img id="backgroundImage" alt="Background Image">
+    </div>
+
+    <!-- 共用的全局音乐元素，供 AudioManager 控制（与其他页面一致） -->
+    <audio id="music" loop></audio>
+
+    <div class="music-library-container">
+        <header class="music-header">
+            <h1 class="title">Music Library</h1>
+            <div class="header-actions">
+                <button id="backButton" class="btn btn-secondary">返回</button>
+            </div>
+        </header>
+
+        <section class="player-section">
+            <div class="now-playing">
+                <div class="cover" id="cover"></div>
+                <div class="meta">
+                    <div class="track-title" id="trackTitle">未选择曲目</div>
+                    <div class="track-artist" id="trackArtist">——</div>
+                    <div class="time">
+                        <span id="currentTime">00:00</span>
+                        <span class="divider">/</span>
+                        <span id="duration">00:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="prevBtn" class="icon-btn" aria-label="上一首">⏮</button>
+                <button id="playPauseBtn" class="icon-btn primary" aria-label="播放/暂停">▶</button>
+                <button id="nextBtn" class="icon-btn" aria-label="下一首">⏭</button>
+                <input id="seekBar" type="range" min="0" max="100" value="0" aria-label="进度" />
+                <div class="volume">
+                    <span class="vol-label">VOL</span>
+                    <input id="volumeBar" type="range" min="0" max="100" value="100" aria-label="音量" />
+                </div>
+            </div>
+        </section>
+
+        <section class="library-section">
+            <div class="library-toolbar">
+                <div class="search-wrap">
+                    <input id="searchInput" type="text" placeholder="搜索曲目 (按场景)" autocomplete="off" />
+                    <!-- 联想建议列表 -->
+                    <ul id="suggestions" class="suggestions"></ul>
+                </div>
+                <div class="filters">
+                    <button data-filter="all" class="filter-btn active">全部</button>
+                    <button data-filter="bgm" class="filter-btn">BGM</button>
+                    <button data-filter="se" class="filter-btn">音效</button>
+                </div>
+            </div>
+
+            <!-- 曲目列表：行内 data-src 为音频文件标识（文件名或完整URL），可直接替换/追加 -->
+            <!-- 预留插入音乐链接位置：
+                 1) 如果是项目内 bgm 文件，请填入文件名（如 bgm1.mp3 / bgm2.MP3），AudioManager 会生成路径 ../../assets/bgm/{文件名}
+                 2) 如果是外部URL（以 / 或 http 开头），可直接填入 data-src 为完整URL
+            -->
+            <ul id="trackList" class="track-list">
+                <li class="track-item" data-src="bgm_main.MP3" data-title="主界面主题" data-artist="WotW" data-type="bgm"></li>
+                <li class="track-item" data-src="bgm1.mp3" data-title="旅途-1" data-artist="WotW" data-type="bgm"></li>
+                <li class="track-item" data-src="bgm2.MP3" data-title="旅途-2" data-artist="WotW" data-type="bgm"></li>
+                <li class="track-item" data-src="bgm3.mp3" data-title="小憩" data-artist="WotW" data-type="bgm"></li>
+                <li class="track-item" data-src="card_play.mp3" data-title="卡牌出牌" data-artist="SFX" data-type="se"></li>
+                <li class="track-item" data-src="card_hover.mp3" data-title="卡牌悬停" data-artist="SFX" data-type="se"></li>
+                <!-- 在此继续添加更多曲目条目 <li class="track-item" data-src="你的文件或URL" data-title="曲名" data-artist="作者" data-type="bgm|se"></li> -->
+            </ul>
+        </section>
+    </div>
+
+    <!-- 页面脚本通过 webpack 注入，无需手动<script> -->
+</body>
+</html>
+
