@@ -100,6 +100,83 @@ export class UIManager {
                         </div>
                     `;
                     
+   // 添加点击事件，实现点击放大查看功能
+                    cardElement.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        // 如果已经有一个放大的卡片，先将其恢复原状
+                        const existingEnlarged = document.querySelector('.card.enlarged');
+                        if (existingEnlarged && existingEnlarged !== this) {
+                            existingEnlarged.classList.remove('enlarged');
+                            if (existingEnlarged.parentNode) {
+                                existingEnlarged.parentNode.removeChild(existingEnlarged.nextSibling as HTMLElement); // 移除覆盖层
+                            }
+                        }
+                        
+                        // 切换当前卡片的放大状态
+                        if (this.classList.contains('enlarged')) {
+                            // 如果已经放大，则恢复原状
+                            this.classList.remove('enlarged');
+                            // 移除覆盖层
+                            if (this.nextSibling && (this.nextSibling as HTMLElement).classList.contains('card-overlay')) {
+                                this.parentNode?.removeChild(this.nextSibling);
+                            }
+                        } else {
+                            // 如果未放大，则放大显示
+                            this.classList.add('enlarged');
+                            
+            // 创建一个覆盖层来显示放大的卡片
+                    const overlay = document.createElement('div');
+                    overlay.className = 'card-overlay';
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    overlay.style.zIndex = '3000';
+                    overlay.style.display = 'flex';
+                    overlay.style.justifyContent = 'center';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.cursor = 'pointer';
+                    
+                    // 克隆卡片并放大
+                    const enlargedCard = this.cloneNode(true) as HTMLElement;
+                    enlargedCard.style.transform = 'scale(2)';
+                    enlargedCard.style.transition = 'transform 0.3s ease';
+                    enlargedCard.style.zIndex = '3001';
+                    enlargedCard.style.margin = '0';
+                    enlargedCard.style.boxSizing = 'border-box';
+                    
+                    // 确保卡片使用flex布局居中
+                    // 移除可能干扰居中的样式
+                    enlargedCard.style.position = 'static'; // 确保不是绝对定位
+                    
+                    // 关键修改：添加transform-origin来确保缩放中心点正确
+                    enlargedCard.style.transformOrigin = 'center center';
+                    
+                    // 添加阴影效果
+                    enlargedCard.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.5)';
+                    
+                    // 调整背景颜色和透明度
+                    enlargedCard.style.background = 'linear-gradient(135deg, #ff9a00, #ff6b00)';
+                    enlargedCard.style.opacity = '0.95';
+                    
+                    overlay.appendChild(enlargedCard);
+                            
+                            // 点击覆盖层任何地方都关闭放大视图
+                            overlay.addEventListener('click', () => {
+                                if (overlay.parentNode) {
+                                    overlay.parentNode.removeChild(overlay);
+                                }
+                                cardElement.classList.remove('enlarged');
+                            });
+                            
+                            // 添加到容器中
+                            document.body.appendChild(overlay);
+                        }
+                    });
+                    
                     element.appendChild(cardElement);
                 });
             } else {
