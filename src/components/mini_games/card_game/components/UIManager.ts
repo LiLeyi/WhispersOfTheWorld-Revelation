@@ -18,7 +18,7 @@ export class UIManager {
             }
             
             element.innerHTML = `
-                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#d4af37;text-align:center;text-shadow:0 0 3px rgba(212, 175, 55, 0.7);border-bottom:1px solid #d4af37;padding-bottom:5px;">${player.name}</div>
+                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#d4af37;text-align:center;text-shadow:0 0 3px rgba(255, 236, 143, 1);border-bottom:1px solid #d4af37;padding-bottom:5px;">${player.name}</div>
                 <div style="display:grid;grid-template-columns:1fr;gap:8px;font-size:14px;">
                     <!-- 血条 -->
                     <div>
@@ -266,7 +266,7 @@ export class UIManager {
                 rgba(0, 0, 0, 0.1) 4px
             );pointer-events:none;z-index:0;"></div>
             <div style="position:relative;z-index:1;">
-                <div style="font-weight: bold; font-size: 11px; text-align: center; color:#d4af37; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
+                <div style="font-weight: bold; font-size: 11px; text-align: center; color:#000000; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
                 <div style="font-size: 9px; text-align: center; margin: 5px 0; color:#aaa;">${playedCard.card.description}</div>
                 <div style="font-size: 10px; text-align: center;">
                     <div style="margin-bottom:3px;color:#d4af37;">消耗: ${playedCard.card.cost}</div>
