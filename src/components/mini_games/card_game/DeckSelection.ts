@@ -96,9 +96,6 @@ export class DeckSelection {
                 <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-weight:700;background:linear-gradient(rgba(226, 218, 197, 0.8), rgba(226, 218, 197, 0.8));background-size:cover;color:#000;padding:15px;overflow:hidden;">
                     <div style="font-size:18px;text-align:center;margin-bottom:10px;color:#000;font-weight:bold;">${cardData.name}</div>
                     <div style="font-size:12px;text-align:center;margin:8px 0;line-height:1.3;color:#000;">${cardData.description}</div>
-                    <div style="font-size:12px;text-align:center;margin-top:10px;color:#000;">
-                        <div>类型: ${this.getCardTypeText(cardData.type)}</div>
-                    </div>
                 </div>
                 <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);padding:8px;text-align:center;">
                     <div style="font-size:14px;color:#d4af37;margin-bottom:8px;">拥有: ${count}张</div>
