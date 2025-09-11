@@ -153,8 +153,8 @@ class CardGame extends MiniGame {
                     user-select: none;
                     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
                     transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1), opacity 0.22s ease, filter 0.22s ease;
-                    background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
-                    color: #fff;
+                    background: rgb(226, 218, 197);
+                    color: #000;
                     z-index: calc(100 - var(--i));
                 }
                 
@@ -190,8 +190,8 @@ class CardGame extends MiniGame {
                     border-radius: 10px;
                     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
                     transition: all 0.45s cubic-bezier(0.2, 0.9, 0.25, 1);
-                    background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
-                    color: #fff;
+                    background: rgb(226, 218, 197);
+                    color: #000;
                     z-index: 1;
                 }
                 
@@ -263,12 +263,20 @@ class CardGame extends MiniGame {
                     pointer-events: none;
                     transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1), left 0.6s ease, top 0.6s ease, opacity 0.35s ease;
                     z-index: 2000;
+                    background: rgb(226, 218, 197);
+                    background-image: url('../../assets/images/beijing.png');
+                    background-size: cover;
+                    color: #000;
                 }
                 
                 .placed {
                     position: relative;
                     transform: none !important;
                     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+                    background: rgb(226, 218, 197);
+                    background-image: url('../../assets/images/beijing.png');
+                    background-size: cover;
+                    color: #000;
                 }
                 
                 /* 玩家和对手出牌区域的不同边框颜色 */
@@ -310,7 +318,7 @@ class CardGame extends MiniGame {
                                 transform 0.7s cubic-bezier(0.27, 0.01, 0.47, 1.01);
                 }
                 
-               .card-content {
+                .card-content {
                     position: absolute;
                     inset: 0;
                     display: flex;
@@ -319,8 +327,11 @@ class CardGame extends MiniGame {
                     justify-content: center;
                     border-radius: 8px;
                     font-weight: 700;
-                    background: linear-gradient(180deg, #ffd89b, #ff8a00);
-                    color: #082;
+                    background: 
+                        linear-gradient(rgba(226, 218, 197, 0.8), rgba(226, 218, 197, 0.8)),
+                        url('../../assets/images/beijing.png');
+                    background-size: cover;
+                    color: #000;
                     padding: 10px;
                     overflow: hidden;
                 }
@@ -338,20 +349,22 @@ class CardGame extends MiniGame {
                 }
                 
                 .card-name {
-                    font-size: 14px;
+                    font-size: 16px;
                     text-align: center;
                     margin-bottom: 5px;
+                    color: #000;
+                    font-weight: bold;
                 }
                 
                 @media (max-width: 768px) {
                     .card-name {
-                        font-size: 10px;
+                        font-size: 12px;
                     }
                 }
                 
                 @media (max-width: 480px) {
                     .card-name {
-                        font-size: 8px;
+                        font-size: 10px;
                     }
                 }
                 
@@ -360,6 +373,7 @@ class CardGame extends MiniGame {
                     text-align: center;
                     margin: 5px 0;
                     line-height: 1.2;
+                    color: #000;
                 }
                 
                 @media (max-width: 768px) {
@@ -380,6 +394,7 @@ class CardGame extends MiniGame {
                     font-size: 10px;
                     text-align: center;
                     margin-top: 5px;
+                    color: #000;
                 }
                 
                 @media (max-width: 768px) {
@@ -395,15 +410,15 @@ class CardGame extends MiniGame {
                 }
                 
                 .card-cost {
-                    color: #d4af37;
+                    color: #000;
                 }
                 
                 .card-power {
-                    color: #d4af37;
+                    color: #000;
                 }
                 
                 .card-priority {
-                    color: #d4af37;
+                    color: #000;
                 }
                 
                /* 出牌区域样式 */
@@ -832,12 +847,12 @@ class CardGame extends MiniGame {
         if (this.playedCardsElement) {
             // 清空当前显示的所有卡牌
             this.playedCardsElement.innerHTML = '';
-
-            // 显示所有当前在场上的卡牌（最多显示9张）
-            const cardsToShow = this.playedCards.slice(-9); // 取最新的9张牌
-
-            // 如果总牌数超过9张，移除最早的牌
-            while (this.playedCards.length > 9) {
+            
+            // 显示所有当前在场上的卡牌（最多显示8张）
+            const cardsToShow = this.playedCards.slice(-8); // 取最新的8张牌
+            
+            // 如果总牌数超过8张，移除最早的牌
+            while (this.playedCards.length > 8) {
                 this.playedCards.shift(); // 移除最早出的牌
             }
 
