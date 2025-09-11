@@ -1004,7 +1004,8 @@ sprite:{
 {  
     id: "battle_shadow_33_1",  
     elements: {  
-        name: "你",  
+        
+      name: "你",  
         bgm:"bgm2.mp3",
         text: "你说得对，这一切只能由我自己决定。" ,
         sprite:{
@@ -1086,8 +1087,8 @@ sprite:{
 //不怀疑光泠的分支//
 {  
     id: "battle_shadow_28_2",  
-    elements: {  
-        name: "你",  
+    elements: {   
+      name: "你",  
         text: "谜题的答案，可不会主动送上门来啊。" ,
         sprite:{
     left:"null",
@@ -1164,7 +1165,8 @@ sprite:{
 {
     id: "ending_1_3",
     elements: {
-        name: "光泠",
+        
+      name: "光泠",
         text: "人类......自己的力量？",
         sprite: {
             left: "guangling/smile1.png",
@@ -1397,7 +1399,8 @@ sprite:{
 {
     id: "ending_18_3",
     elements: {
-        name: "旁白",
+      background:"sc4.1/4-1-11.jpg",   
+      name: "旁白",
         text: "风声撕裂夜空。追击着无脸人，不知不觉中又回到了当初苏醒时的废墟。",
     },
 },
@@ -1426,6 +1429,7 @@ sprite:{
     id: "ending_20_3",
     elements: {
         name: "旁白",
+        background:"sc4.1/4-1-12.jpg", 
         text: "无脸人站立在废墟中央，发出毫无生机的声音。",
     },
 },
@@ -1572,7 +1576,8 @@ sprite:{
 {
     id: "ending_30_3",
     elements: {
-        name: "？？？",
+        
+      name: "？？？",
         text: "这个世界，充斥着阴谋，卑鄙，丑陋，肮脏，腐朽。",
     },
 },
@@ -1705,7 +1710,8 @@ sprite:{
 {
     id: "ending_41_3_1",
     elements: {
-        name: "旁白",
+         background:"sc4.1/4-1-15.jpg", 
+      name: "旁白",
         text: "此刻，异变突生——在废墟的中央，一道漆黑的裂隙缓缓张开，",
     },
 },
@@ -1782,7 +1788,8 @@ sprite:{
 {
     id: "ending_45_3",
     elements: {
-        name: "旁白",
+       background:"sc4.1/4-1-12.jpg",   
+      name: "旁白",
         text: "这便是————",
     },
     choices: [
@@ -1795,7 +1802,8 @@ sprite:{
 {
     id: "ending_46_3",
     elements: {
-        name: "旁白",
+       background:"sc4.1/4-1-15.jpg",   
+      name: "旁白",
         text: "空气骤然凝固，废墟仿佛因祂的出现而失去了重量，整个世界都陷入停滞。",
         sprite: {
             left: null,
@@ -1922,7 +1930,8 @@ sprite:{
 {
     id: "ending_62_3",
     elements: {
-        name: "旁白",
+       background:"sc4.1/4-1-21.jpg",   
+      name: "旁白",
         text: "天地破碎，废墟在烈风中崩裂，赤红的天空裂纹如伤口般蔓延。"
     }
 },
@@ -2027,7 +2036,8 @@ sprite:{
 {
     id: "ending_76_3",
     elements: {
-        name: "旁白",
+         background:"sc4.1/4-1-8.jpg", 
+      name: "旁白",
         text: "身体被无形之力拖拽，坠入一片无尽的黑暗之中。"
     }
 },
@@ -2072,6 +2082,7 @@ sprite:{
     id: "ending_81_3",
     elements: {
         name: "旁白",
+         background:"sc4.1/4-1-7.jpg", 
         text: "少女的眼瞳难掩疑惑，她漫步于废墟之中。",
         sprite: {
             left: null,
@@ -2143,6 +2154,7 @@ sprite:{
     id: "ending_89_3",
     elements: {
         name: "旁白",
+         background:"sc4.1/4-1-21.jpg", 
         text: "她注视着这个即将覆灭的世界，静候着自己的消亡。",
         sprite: {
             left: null,
@@ -2173,6 +2185,7 @@ sprite:{
     id: "ending_92_3",
     elements: {
         name: "旁白",
+         background:"sc4.1/4-1-7.jpg", 
         text: "她向那无数的墓碑低头行礼。",
         sprite: {
             left: null,
@@ -2451,6 +2464,7 @@ sprite: {
     id: "ending_9_4",
     elements: {
         name: "旁白",
+         background:"sc0.1/0-1-1.jpg", 
         text: "风声撕裂夜空。追击着无脸人，不知不觉中又回到了当初苏醒时的废墟。",
         sprite: {
             left: null,
@@ -2460,7 +2474,8 @@ sprite: {
 {
     id: "ending_10_4",
     elements: {
-        name: "旁白",
+         background:"sc4.1/4-1-11.jpg", 
+      name: "旁白",
         text: "穿过断裂的石柱，跨过坍塌的拱门。灰烬如同雪般飘落，脚下的废墟在沉默中低吟。"
     }
 },
@@ -2474,7 +2489,8 @@ sprite: {
 {
     id: "ending_12_4",
     elements: {
-        name: "？？？",
+       background:"sc4.1/4-1-12.jpg",   
+      name: "？？？",
         text: "竟然追上来了么？"
     }
 },
@@ -2515,7 +2531,8 @@ sprite: {
 {
     id: "ending_17_4",
     elements: {
-        name: "旁白",
+       background:"sc4.1/4-1-10.jpg",   
+      name: "旁白",
         text: "空气骤然凝固，废墟仿佛因祂的出现而失去了重量，整个世界都陷入停滞。"
     }
 },
@@ -2680,6 +2697,7 @@ sprite: {
 {
     "id": "ending_33_4",
     "elements": {
+       background:"sc4.1/4-1-10.jpg", 
       "name": "旁白",
       "text": "漆黑的火焰燃烧在废墟之上，天地的裂痕不断扩大，宛如整个世界都在坠落。",
       sprite:{
@@ -2843,6 +2861,7 @@ sprite: {
 {
     "id": "ending_51_4",
     "elements": {
+       background:"sc4.1/4-1-13.jpg", 
       "name": "旁白",
       "text": "猛烈的光线从暗寂中直冲而出，燃烧着最后的生命力量，",
     }
@@ -2864,6 +2883,7 @@ sprite: {
   {
     "id": "ending_53_4",
     "elements": {
+      
       "name": "旁白",
       "text": "瞬间，烟尘席卷天地，让人看不清眼前到底发生了什么。",
     }
@@ -3018,6 +3038,7 @@ sprite: {
   {
     "id": "ending_71_4",
     "elements": {
+       background:"sc4.1/4-1-21.jpg", 
       "name": "旁白",
       "text": "下一刻，漆黑的火焰倾泻而下，吞没了眼前的一切。",
     }
@@ -3183,6 +3204,7 @@ sprite: {
   {
     "id": "ending_91_4",
     "elements": {
+       background:"sc4.1/4-1-7.jpg", 
       "name": "旁白",
       "text": "直至走到废墟的边缘，发现一片不知废弃了多久的墓地。",
     }
@@ -3357,6 +3379,7 @@ sprite: {
 {
     id: "ending_33_5",
     elements: {
+       background:"sc4.1/4-1-20.jpg", 
       name: "旁白",
       text: "天地颤动，废墟在末日的轰鸣中崩塌。",
       sprite: { 
@@ -3528,6 +3551,7 @@ sprite: {
 {
   id: "ending_56_5",
   elements: {
+     background:"sc4.1/4-1-14.jpg", 
     name: "旁白",
     text: "光与暗在废墟中央交汇，轰鸣震彻天地。灾厄之主的身躯在圣洁光芒中崩裂，腐朽黑雾化为哀嚎与悲鸣。"
   }
@@ -3577,6 +3601,7 @@ sprite: {
 {
   id: "ending_63_5",
   elements: {
+     background:"sc4.1/4-1-22.jpg", 
     name: "旁白",
     text: "生与死、枯与荣在一瞬间彼此重叠。"
   }
@@ -3655,6 +3680,7 @@ sprite: {
 {
   id: "ending_72_5",
   elements: {
+     background:"sc4.1/4-1-17.jpg", 
     name: "旁白",
     text: "光芒散尽，你睁开眼，发现自己伫立在陌生而纯净的天地。"
   }
@@ -3721,6 +3747,7 @@ sprite: {
 {
   id: "ending_80_5",
   elements: {
+     background:"sc4.1/4-1-6.jpg", 
     name: "？？？",
     text: "……您来了。"
   }
@@ -3943,6 +3970,7 @@ sprite: {
 {
   id: "ending_34_6",
   elements: {
+     background:"sc4.1/4-1-19.jpg", 
     name: "旁白",
     text: "废墟中央，大地轰然塌陷，露出一条向深处延伸的阶梯。",
     sprite:{
@@ -3963,6 +3991,7 @@ sprite: {
 {
   id: "ending_36_6",
   elements: {
+     background:"sc4.1/4-1-8.jpg", 
     name: "旁白",
     text: "走入幽暗的裂口，沿着阶梯向下，深入伸手不见五指的黑暗地底。",
     sprite:{
@@ -4085,6 +4114,7 @@ sprite: {
 {
   id: "ending_49_6",
   elements: {
+     background:"sc4.1/4-1-19.jpg", 
     name: "旁白",
     text: "越过光泠，在黑暗的更深处伸出双手，",
     sprite:{
@@ -4109,6 +4139,7 @@ sprite: {
 {
   id: "ending_51_6",
   elements: {
+     background:"sc4.1/4-1-18.jpg", 
     name: "旁白",
     text: "模糊的色块逐渐凝聚成型，眨了眨眼，让温热的液体顺着脸颊流下。"
   }
@@ -4577,6 +4608,7 @@ sprite: {
 {
   id: "ending_33_7",
   elements: {
+   background:"sc4.1/4-1-10.jpg", 
     name: "旁白",
     text: "漆黑的火焰燃烧在废墟之上，天地的裂痕不断扩大，宛如整个世界都在坠落。",
     sprite:{
@@ -4685,6 +4717,7 @@ sprite: {
 {
   id: "ending_44_7",
   elements: {
+    background:"sc3.1/3-1-11.jpg", 
     name: "旁白",
     text: "在某一刻，生命的火花悄然熄灭。",
     sprite: {
@@ -4719,6 +4752,7 @@ sprite: {
 {
   id: "ending_33_8",
   elements: {
+    background:"sc4.1/4-1-20.jpg", 
     name: "旁白",
     text: "漆黑的火焰燃烧在废墟之上，天地的裂痕不断扩大，宛如整个世界都在坠落。",
     sprite: {
@@ -4889,7 +4923,7 @@ sprite: {
   id: "ending_55_8",
   elements: {
     name: "旁白",
-    text: "然而——想象中你被这黑焰焚烧殆尽的情景并没有出现。"
+    text: "然而——想象中被这黑焰焚烧殆尽的情景并没有出现。"
   }
 },
 {
@@ -4937,6 +4971,7 @@ sprite: {
 {
   id: "ending_62_8",
   elements: {
+    background:"sc4.1/4-1-13.jpg", 
     name: "旁白",
     text: "突然发现，光泠的周围，乃至灾厄之主——被一片白光笼罩的地方——都陷入了一种冻结的状态。"
   }
@@ -5058,6 +5093,7 @@ sprite:{
 {
   id: "ending_74_8",
   elements: {
+    background:"sc4.1/4-1-9.jpg", 
     name: "旁白",
     text: "如同太阳坠落在此处，光环从她的身体中爆裂开来！",
     sprite:{
@@ -5270,6 +5306,7 @@ sprite:{
 {
   id: "ending_94_8",
   elements: {
+    background:"sc4.1/4-1-14.jpg", 
     name: "旁白",
     text: "昼夜交替如风卷云涌，四季如页纸般翻飞，生与死在一瞬间彼此重叠。"
   }
@@ -5284,6 +5321,7 @@ sprite:{
 {
   id: "ending_96_8",
   elements: {
+    background:"sc4.1/4-1-9.jpg", 
     name: "旁白",
     text: "光泠与灾厄之主的身影在加速的时间中消散，化作旧世最后一片涟漪。"
   }
@@ -5298,6 +5336,7 @@ sprite:{
 {
   id: "ending_98_8",
   elements: {
+    background:"sc4.1/4-1-21.jpg", 
     name: "旁白",
     text: "下一刻，被光潮裹挟着推向前方，瞬息之间穿越过崩塌的废墟与扭曲的时空。"
   }
@@ -5382,6 +5421,7 @@ sprite:{
 {
   id: "ending_110_8",
   elements: {
+background:"sc4.1/4-1-25.jpg", 
     name: "旁白",
     text: "旭日初升，照耀眼前所见的万物，湖面波光粼粼，山峦光明而壮美。"
   }
@@ -5543,6 +5583,7 @@ sprite:{
 {
   id: "ending_131_8",
   elements: {
+    background:"sc4.1/4-1-23.jpg", 
     name: "旁白",
     text: "一颗曳尾的流星在此刻划过天际。"
   }
@@ -5663,6 +5704,7 @@ sprite:{
 {
   id: "ending_147_8",
   elements: {
+    background:"sc4.1/4-1-26.jpg", 
     name: "旁白",
     text: "遥远的星体，即使从奇点到热寂，跨过星系，越过太阳日冕和银河旋臂，",
     sprite:{
@@ -5816,6 +5858,7 @@ sprite:{
 {
   id: "ending_49_9",
   elements: {
+    background:"sc4.1/4-1-10.jpg", 
     name: "旁白",
     text: "天地间回荡着灾厄之主的嚎叫，似是在讥笑我们的意志孱弱不堪。",
     sprite:{
@@ -5854,6 +5897,7 @@ sprite:{
 {
   id: "ending_54_9",
   elements: {
+    background:"sc4.1/4-1-21.jpg", 
     name: "旁白",
     text: "下一刻，漆黑的火焰倾泻而下，吞没了眼前的一切。"
   }
@@ -5896,6 +5940,7 @@ sprite:{
 {
   id: "ending_60_9",
   elements: {
+    background:"sc4.1/4-1-13.jpg", 
     name: "旁白",
     text: "灾厄之主被一片白光笼罩，陷入了一种“冻结”的状态。"
   }
@@ -6102,6 +6147,7 @@ sprite:{
 {
   id: "ending_83_9",
   elements: {
+    background:"sc4.1/4-1-9.jpg", 
     name: "光泠",
     text: "在曙光到来之前点燃篝火吧！",
     sprite:{
@@ -6161,6 +6207,7 @@ sprite:{
 {
   id: "ending_89_9",
   elements: {
+    background:"sc4.1/4-1-26.jpg", 
     name: "光泠",
     text: "能将夜空点亮的繁星很美，如同末世中的生命一般，在黑暗中熠熠生辉。",
     sprite:{
@@ -6191,6 +6238,7 @@ sprite:{
 {
   id: "ending_91_9",
   elements: {
+    
     name: "光泠",
     text: "这个世界上有很多压倒性的力量，但它们却从未真正掌握在任何人手中。",
     sprite:{
@@ -6328,6 +6376,7 @@ sprite:{
 {
   id: "ending_106_9",
   elements: {
+    background:"sc4.1/4-1-16.jpg", 
     name: "旁白",
     text: "灾厄之主的黑影吞没了天穹，世界在祂的怒啸下濒临崩解。"
   }
@@ -6356,6 +6405,7 @@ sprite:{
 {
   id: "ending_110_9",
   elements: {
+    background:"sc3.1/3-1-11.jpg", 
     name: "旁白",
     text: "大地上陡然裂开一条深渊巨口，一片黑暗死寂的天空竟然向下崩塌，似要挤压、吞噬世间的一切存在。"
   }
@@ -6954,6 +7004,7 @@ sprite:{
 {
   id: "ending_184_9",
   elements: {
+    background:"sc4.1/4-1-24.jpg", 
     name: "旁白",
     text: "摇曳的树冠，温暖的阳光透过其间，尘埃飞舞。"
   }
