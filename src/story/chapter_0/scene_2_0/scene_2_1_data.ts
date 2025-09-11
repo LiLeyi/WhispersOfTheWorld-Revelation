@@ -695,9 +695,6 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "我的确，从你们身上感受不到敌意。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
     },
   },
   {
@@ -768,9 +765,6 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "提出你们的疑问吧......外来者。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
     },
   },
   {
@@ -805,9 +799,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "“齿轮”，是由觉醒机械统治的城市。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -832,9 +824,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "一些不甘被觉醒机械掌控和奴役的人类，向觉醒机械发起了反抗与斗争......" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -859,9 +849,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "觉醒机械......最开始的时候，它们只是人类的造物。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -942,9 +930,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "虽然原本的人类拥有各种威力强大的武器，但那些大规模杀伤性武器都被觉醒机械们掌控。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -966,9 +952,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "人类完全不是那些具有自我意识、高度智能的机械体的对手。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
    {
@@ -990,9 +974,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "是的。为什么获得完全胜利的机械体们没有对人类进行彻底的抹杀？",
-      sprite: {
-            left:"NPC/jixie_man.png"
-        } 
+
     },
   },
   {
@@ -1024,9 +1006,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "这就是可怕的事情......被病毒感染后的机械体们已经不再是原本纯粹的机械体了。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -1051,9 +1031,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "目前为止，我们还无法确切解释这种变化产生的原因，只知道是那种神秘的病毒引起的。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -1106,9 +1084,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "听上去很不可思议吧，我也是这么想的。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -1137,9 +1113,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "至于“永昼之瞳”来自何方，也无人知晓。只能推测出是与病毒同时期出现的。",
-      sprite: {
-            left:"NPC/jixie_man.png"
-        } 
+
     },
   },
   {
@@ -1157,9 +1131,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "人类的科技并没有断绝，武器也在不断地更新迭代。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
   {
@@ -1208,9 +1180,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "干部往往会拥有一片自己管辖的地盘，并且还拥有随意掌控、支配一部分人类奴隶的权力。" ,
-      sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
     },
   },
 {
@@ -1259,9 +1229,7 @@ sprite: {
   elements: { 
     name: "虚樹", 
     text: "......" ,
-    sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
   },
 },
 {
@@ -1293,9 +1261,7 @@ sprite: {
   elements: { 
     name: "虚樹", 
     text: "请吧。" ,
-    sprite: {
-            left:"NPC/jixie_man.png"
-        }
+
   },
 },
 {
@@ -1379,7 +1345,9 @@ sprite: {
     name: "光泠", 
     text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？" ,
     background:"sc2.1/2-1-7.png",
+    
   },
+  keyNode: true,
   choices: [
     {
       text: "我想我们也许得另作打算了。",
@@ -1629,6 +1597,7 @@ sprite: {
             left:null,
         }
   },
+  keyNode: true,
   choices: [
     {
       text: "袖手旁观",
@@ -1993,7 +1962,8 @@ sprite: {
     sprite: {
             left:null,
         }
-  },//这里插入战斗，一共两管血//
+  },
+  keyNode: true,//这里插入战斗，一共两管血//
   choices: [
     {
       text: "赢了",

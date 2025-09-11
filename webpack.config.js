@@ -17,6 +17,7 @@ module.exports = (env, argv) => {
       settings: './src/pages/settings/settings.ts',
       bag_page: './src/pages/bag_page/bag_page.ts',
        achievement_page: './src/pages/achievement_page/achievement.ts',
+      music_library: './src/pages/music_library/music_library.ts',
       detail_hanxutong: './src/pages/about_us/detail_page/hanxutong/index.ts',
       detail_huangwenxi: './src/pages/about_us/detail_page/huangwenxi/index.ts',
       detail_lileyi: './src/pages/about_us/detail_page/lileyi/index.ts'
@@ -128,6 +129,12 @@ module.exports = (env, argv) => {
         filename: 'pages/achievement_page/achievement_page.html',
         template: './src/pages/achievement_page/achievement_page.html',
         chunks: ['achievement_page'],
+      }),
+
+      new HtmlWebpackPlugin({
+        template: './src/pages/music_library/music_library.html',
+        filename: 'pages/music_library/music_library.html',
+        chunks: ['music_library'],
       }),
 
 

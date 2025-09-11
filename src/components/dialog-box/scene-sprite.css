@@ -1,8 +1,8 @@
 /* scene-sprite.css - 场景中立绘相关样式 */
 .scene-elements-container .sprite {
     position: absolute;
-    bottom: -500px; /* 更靠下，让立绘一半在屏幕外面 */
-    height: 130%; /* 更大，使立绘一半在屏幕外面 */
+    bottom: -500px;
+    height: 130%;
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
@@ -13,8 +13,8 @@
 
 .sprite {
     position: absolute;
-    bottom: -500px; /* 更靠下，让立绘一半在屏幕外面 */
-    height: 130%; /* 更大，使立绘一半在屏幕外面 */
+    bottom: -500px;
+    height: 130%;
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
@@ -37,14 +37,20 @@
 
 .scene-elements-container .sprite.center {
     left: 50%;
-    transform: translateX(-50%) translateY(0);
+    top: 50%;
+    transform: translate(-50%, -50%);
     transition: all 0.3s ease-in-out;
+    height: 80%;
+    bottom: auto;
 }
 
 .sprite.center {
     left: 50%;
-    transform: translateX(-50%) translateY(0);
+    top: 50%;
+    transform: translate(-50%, -50%);
     transition: all 0.3s ease-in-out;
+    height: 80%;
+    bottom: auto;
 }
 
 .scene-elements-container .sprite.right {
@@ -72,108 +78,165 @@
 }
 
 .scene-elements-container .sprite.center.show {
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%);
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
 }
 
 .sprite.center.show {
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%);
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
 }
 
+.scene-elements-container .sprite.left.show {
+    transform: translateX(0) translateY(0);
+}
+
+.sprite.left.show {
+    transform: translateX(0) translateY(0);
+}
+
+.scene-elements-container .sprite.right.show {
+    transform: translateX(0) translateY(0);
+}
+
+.sprite.right.show {
+    transform: translateX(0) translateY(0);
+}
+
 /* 响应式设计 */
-@media (max-width: 1200px) {
-    .scene-elements-container .sprite {
-        height: 135%;
-        bottom: -180px;
-    }
-    
+@media (max-width: 1400px) {
+    .scene-elements-container .sprite,
     .sprite {
         height: 135%;
-        bottom: -180px;
+        bottom: -450px;
+    }
+    
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 75%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (max-width: 1200px) {
+    .scene-elements-container .sprite,
+    .sprite {
+        height: 135%;
+        bottom: -400px;
+    }
+    
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 75%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .scene-elements-container .sprite.left,
+    .sprite.left {
+        left: 3%;
+    }
+    
+    .scene-elements-container .sprite.right,
+    .sprite.right {
+        right: 3%;
     }
 }
 
 @media (max-width: 1000px) {
-    .scene-elements-container .sprite {
-        height: 130%;
-        bottom: -160px;
-    }
-    
+    .scene-elements-container .sprite,
     .sprite {
         height: 130%;
-        bottom: -160px;
+        bottom: -350px;
     }
     
-    .scene-elements-container .sprite.left {
-        left: 3%;
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 70%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
     
+    .scene-elements-container .sprite.left,
     .sprite.left {
-        left: 3%;
+        left: 2%;
     }
     
-    .scene-elements-container .sprite.right {
-        right: 3%;
-    }
-    
+    .scene-elements-container .sprite.right,
     .sprite.right {
-        right: 3%;
+        right: 2%;
     }
 }
 
 @media (max-width: 768px) {
-    .scene-elements-container .sprite {
-        height: 125%;
-        bottom: -140px;
-    }
-    
+    .scene-elements-container .sprite,
     .sprite {
         height: 125%;
-        bottom: -140px;
+        bottom: -300px;
     }
     
-    .scene-elements-container .sprite.left {
-        left: 2%;
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 65%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
     
+    .scene-elements-container .sprite.left,
     .sprite.left {
-        left: 2%;
+        left: 1%;
     }
     
-    .scene-elements-container .sprite.right {
-        right: 2%;
-    }
-    
+    .scene-elements-container .sprite.right,
     .sprite.right {
-        right: 2%;
+        right: 1%;
     }
 }
 
 @media (max-width: 480px) {
-    .scene-elements-container .sprite {
-        height: 120%;
-        bottom: -120px;
-    }
-    
+    .scene-elements-container .sprite,
     .sprite {
         height: 120%;
-        bottom: -120px;
+        bottom: -250px;
     }
     
-    .scene-elements-container .sprite.left {
-        left: 1%;
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 60%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
     
+    .scene-elements-container .sprite.left,
     .sprite.left {
-        left: 1%;
+        left: 0%;
     }
     
-    .scene-elements-container .sprite.right {
-        right: 1%;
-    }
-    
+    .scene-elements-container .sprite.right,
     .sprite.right {
-        right: 1%;
+        right: 0%;
+    }
+}
+
+/* 超小屏幕设备 */
+@media (max-width: 320px) {
+    .scene-elements-container .sprite,
+    .sprite {
+        height: 115%;
+        bottom: -200px;
+    }
+    
+    .scene-elements-container .sprite.center,
+    .sprite.center {
+        height: 55%;
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 }

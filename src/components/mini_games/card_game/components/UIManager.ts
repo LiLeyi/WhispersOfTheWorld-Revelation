@@ -18,7 +18,7 @@ export class UIManager {
             }
             
             element.innerHTML = `
-                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#d4af37;text-align:center;text-shadow:0 0 3px rgba(212, 175, 55, 0.7);border-bottom:1px solid #d4af37;padding-bottom:5px;">${player.name}</div>
+                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#d4af37;text-align:center;text-shadow:0 0 3px rgba(255, 236, 143, 1);border-bottom:1px solid #d4af37;padding-bottom:5px;">${player.name}</div>
                 <div style="display:grid;grid-template-columns:1fr;gap:8px;font-size:14px;">
                     <!-- 血条 -->
                     <div>
@@ -47,8 +47,8 @@ export class UIManager {
             `;
         }
     }
-    
-    // 更新手牌显示
+
+  // 更新手牌显示
     static updateHand(
         element: HTMLElement | null, 
         hand: Card[], 
@@ -76,9 +76,10 @@ export class UIManager {
                     const cardElement = document.createElement('div');
                     cardElement.className = 'card';
                     // 为每张卡牌添加唯一标识符
-                    const cardId = `${card.id}-${index}`;
+                    const cardId = `${card.id}-${Date.now()}-${index}`;
                     cardElement.dataset.cardId = cardId;
                     cardElement.dataset.cardName = card.name;
+                    cardElement.dataset.cardIndex = index.toString();
                     
                     // 添加金属质感效果
                     cardElement.innerHTML = `
@@ -100,6 +101,83 @@ export class UIManager {
                         </div>
                     `;
                     
+                    // 添加点击事件，实现点击放大查看功能
+                    cardElement.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        // 如果已经有一个放大的卡片，先将其恢复原状
+                        const existingEnlarged = document.querySelector('.card.enlarged');
+                        if (existingEnlarged && existingEnlarged !== this) {
+                            existingEnlarged.classList.remove('enlarged');
+                            if (existingEnlarged.parentNode) {
+                                existingEnlarged.parentNode.removeChild(existingEnlarged.nextSibling as HTMLElement); // 移除覆盖层
+                            }
+                        }
+                        
+                        // 切换当前卡片的放大状态
+                        if (this.classList.contains('enlarged')) {
+                            // 如果已经放大，则恢复原状
+                            this.classList.remove('enlarged');
+                            // 移除覆盖层
+                            if (this.nextSibling && (this.nextSibling as HTMLElement).classList.contains('card-overlay')) {
+                                this.parentNode?.removeChild(this.nextSibling);
+                            }
+                        } else {
+                            // 如果未放大，则放大显示
+                            this.classList.add('enlarged');
+                            
+                            // 创建一个覆盖层来显示放大的卡片
+                            const overlay = document.createElement('div');
+                            overlay.className = 'card-overlay';
+                            overlay.style.position = 'fixed';
+                            overlay.style.top = '0';
+                            overlay.style.left = '0';
+                            overlay.style.width = '100%';
+                            overlay.style.height = '100%';
+                            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                            overlay.style.zIndex = '3000';
+                            overlay.style.display = 'flex';
+                            overlay.style.justifyContent = 'center';
+                            overlay.style.alignItems = 'center';
+                            overlay.style.cursor = 'pointer';
+                            
+                            // 克隆卡片并放大
+                            const enlargedCard = this.cloneNode(true) as HTMLElement;
+                            enlargedCard.style.transform = 'scale(2)';
+                            enlargedCard.style.transition = 'transform 0.3s ease';
+                            enlargedCard.style.zIndex = '3001';
+                            enlargedCard.style.margin = '0';
+                            enlargedCard.style.boxSizing = 'border-box';
+                            
+                            // 确保卡片使用flex布局居中
+                            // 移除可能干扰居中的样式
+                            enlargedCard.style.position = 'static'; // 确保不是绝对定位
+                            
+                            // 关键修改：添加transform-origin来确保缩放中心点正确
+                            enlargedCard.style.transformOrigin = 'center center';
+                            
+                            // 添加阴影效果
+                            enlargedCard.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.5)';
+                            
+                            // 调整背景颜色和透明度
+                            enlargedCard.style.background = 'linear-gradient(135deg, #ff9a00, #ff6b00)';
+                            enlargedCard.style.opacity = '0.95';
+                            
+                            overlay.appendChild(enlargedCard);
+                            
+                            // 点击覆盖层任何地方都关闭放大视图
+                            overlay.addEventListener('click', () => {
+                                if (overlay.parentNode) {
+                                    overlay.parentNode.removeChild(overlay);
+                                }
+                                cardElement.classList.remove('enlarged');
+                            });
+                            
+                            // 添加到容器中
+                            document.body.appendChild(overlay);
+                        }
+                    });
+                    
                     element.appendChild(cardElement);
                 });
             } else {
@@ -117,9 +195,10 @@ export class UIManager {
                     const cardElement = document.createElement('div');
                     cardElement.className = 'card';
                     // 为每张卡牌添加唯一标识符
-                    const cardId = `${card.id}-${index}`;
+                    const cardId = `${card.id}-${Date.now()}-${index}`;
                     cardElement.dataset.cardId = cardId;
                     cardElement.dataset.cardName = card.name;
+                    cardElement.dataset.cardIndex = index.toString();
                     
                     // 设置卡牌样式变量
                     cardElement.style.setProperty('--i', index.toString());
@@ -170,9 +249,13 @@ export class UIManager {
                             cardElement.dataset.hasPlayedHoverSound = "false";
                         });
                         
+                       // 直接传递卡牌元素给点击回调
                         cardElement.addEventListener('click', () => {
-                            // 不再在这里播放点击音效，只调用点击回调函数
-                            onCardClick(card);
+                            // 添加sourceElement属性但不改变类型
+                            const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                            cardWithElement.sourceElement = cardElement;
+                            // 直接调用点击回调函数，传递卡牌和元素引用
+                            onCardClick(cardWithElement);
                         });
                     }
 
@@ -184,14 +267,35 @@ export class UIManager {
             }
         }
     }
-    
-       // 重新索引卡牌（设置位置）
+      // 重新索引卡牌（设置位置）
     static reindexCards(deck: HTMLElement): void {
         const cards = Array.from(deck.querySelectorAll('.card')) as HTMLElement[];
         const total = cards.length;
         const mid = (total - 1) / 2;
-        const spreadDistance = 80; // 增加展开时每张牌的间距，原值为60
-        const maxAngle = 25; // 增加最大展开角度，原值为16
+        
+        // 获取容器宽度以动态调整布局参数
+        const containerWidth = deck.clientWidth;
+        const cardWidth = 110; // 标准卡牌宽度
+        
+        // 根据卡牌数量动态调整展开距离和最大角度
+        let spreadDistance = 80;
+        let maxAngle = 25;
+        
+        // 如果卡牌数量较多，需要调整参数以适应容器
+        if (total > 0) {
+            // 计算理想情况下所有卡牌所需的总宽度
+            const totalCardsWidth = total * cardWidth;
+            
+            // 如果总宽度超过容器宽度，则需要调整
+            if (totalCardsWidth > containerWidth) {
+                // 减小卡牌间距以适应容器
+                const availableSpacePerCard = containerWidth / total;
+                spreadDistance = Math.max(30, availableSpacePerCard * 0.7); // 确保最小间距为30
+                
+                // 根据卡牌密度调整展开角度
+                maxAngle = Math.max(10, 25 - (total * 0.8));
+            }
+        }
         
         // 设置deck的变量
         deck.style.setProperty('--total', total.toString());
@@ -217,8 +321,7 @@ export class UIManager {
             htmlCard.style.setProperty('--rotation', rotation.toString());
         });
     }
-    
-    // 创建已出牌的卡片元素
+  // 创建已出牌的卡片元素
     static createPlayedCardElement(playedCard: {card: Card, turn: number, player: string}, currentTurn: number): HTMLElement {
         const cardElement = document.createElement('div');
         cardElement.className = 'played-card';
@@ -235,17 +338,26 @@ export class UIManager {
             borderColor = '#ff4a4a'; // 对手红色
         }
         
+        // 使用与手牌相同的固定尺寸
+        const cardWidth = 110;   // 与手牌宽度相同
+        const cardHeight = 165;  // 保持相同比例 (110/165 = 2/3)
+        const fontSize = 12;
+        const descFontSize = 11;
+        const detailsFontSize = 12;
+        const nameFontSize = 13;
+        const padding = 10;
+        
         cardElement.style.cssText = `
-            width: 90px;
-            height: 130px;
+            width: ${cardWidth}px;
+            height: ${cardHeight}px;
             background: linear-gradient(135deg, ${playedCard.player === 'player' ? '#2a2a2a' : '#1a1a1a'} 0%, ${playedCard.player === 'player' ? '#1a1a1a' : '#0a0a0a'} 100%);
             border: 2px solid ${isCurrentTurnCard ? '#ff6347' : (isPreviousTurnCard ? '#d4af37' : borderColor)};
             border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 8px;
-            font-size: 10px;
+            padding: ${padding}px;
+            font-size: ${fontSize}px;
             opacity: ${isCurrentTurnCard ? '1' : (isPreviousTurnCard ? '0.7' : '0.4')};
             transition: all 0.5s ease;
             position: relative;
@@ -255,7 +367,6 @@ export class UIManager {
             z-index: 1;
             flex-shrink: 0; /* 防止卡片在容器中被压缩 */
         `;
-
         // 添加使用过的卡牌效果
         cardElement.innerHTML = `
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
@@ -266,13 +377,13 @@ export class UIManager {
                 rgba(0, 0, 0, 0.1) 4px
             );pointer-events:none;z-index:0;"></div>
             <div style="position:relative;z-index:1;">
-                <div style="font-weight: bold; font-size: 11px; text-align: center; color:#d4af37; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
-                <div style="font-size: 9px; text-align: center; margin: 5px 0; color:#aaa;">${playedCard.card.description}</div>
-                <div style="font-size: 10px; text-align: center;">
+                <div style="font-weight: bold; font-size: ${nameFontSize}px; text-align: center; color:#000000; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
+                <div style="font-size: ${descFontSize}px; text-align: center; margin: 5px 0; color:#aaa;">${playedCard.card.description}</div>
+                <div style="font-size: ${detailsFontSize}px; text-align: center;">
                     <div style="margin-bottom:3px;color:#d4af37;">消耗: ${playedCard.card.cost}</div>
                     <div style="color:#d4af37;">效果: ${playedCard.card.power}</div>
                 </div>
-                <div style="position:absolute;top:4px;right:4px;font-size:8px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
+                <div style="position:absolute;top:4px;right:4px;font-size:${fontSize - 2}px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
                     ${playedCard.player === 'player' ? '我' : '敌'}
                 </div>
             </div>
@@ -283,7 +394,7 @@ export class UIManager {
         cardElement.dataset.hasPlayedHoverSound = "false";
 
         cardElement.addEventListener('mouseenter', () => {
-            cardElement.style.transform = 'scale(1.25) translateY(-12px)';
+            cardElement.style.transform = `scale(1.1) translateY(-${padding}px)`;
             cardElement.style.boxShadow = '0 12px 25px rgba(212, 175, 55, 0.6)';
             cardElement.style.zIndex = '5';
             
@@ -311,84 +422,57 @@ export class UIManager {
         return cardElement;
     }
     
-    // 执行抽牌动画
-    static async drawCardAnimation(
-        player: 'player' | 'opponent',
-        cardData: any
-    ): Promise<void> {
-        return new Promise((resolve) => {
-            // 获取相关元素
-            const handElement = document.getElementById(player === 'player' ? 'player-hand' : 'opponent-hand');
-            const battlefieldElement = document.getElementById('battlefield');
+   // 新增方法：重新调整已出牌区域所有卡牌的大小
+    static resizePlayedCards(): void {
+        const playedCardsContainer = document.getElementById('center-played-cards');
+        if (!playedCardsContainer) return;
+        
+        const playedCards = Array.from(playedCardsContainer.querySelectorAll('.played-card')) as HTMLElement[];
+        
+        // 如果没有卡牌，直接返回
+        if (playedCards.length === 0) return;
+        
+        // 使用与手牌相同的固定尺寸
+        const cardWidth = 110;   // 与手牌宽度相同
+        const cardHeight = 165;  // 保持相同比例 (110/165 = 2/3)
+        const fontSize = 12;
+        const descFontSize = 11;
+        const detailsFontSize = 12;
+        const nameFontSize = 13;
+        const padding = 10;
+        
+        // 根据新的尺寸调整所有卡牌
+        playedCards.forEach(card => {
+            // 更新样式
+            card.style.width = `${cardWidth}px`;
+            card.style.height = `${cardHeight}px`;
             
-            if (!handElement || !battlefieldElement) {
-                resolve();
-                return;
-            }
+            // 更新内部内容的样式
+            const contentDiv = card.querySelector('.card-content') || card;
+            const nameElement = card.querySelector('.card-name') || card;
+            const descElement = card.querySelector('.card-desc') || card;
+            const detailsElement = card.querySelector('.card-details') || card;
             
-            // 创建动画卡牌元素
-            const animatedCard = document.createElement('div');
-            animatedCard.className = 'card incoming';
-            animatedCard.style.setProperty('--i', '0');
+            // 更新整体样式
+            card.style.padding = `${padding}px`;
+            card.style.fontSize = `${fontSize}px`;
             
-            // 添加卡牌内容
-            animatedCard.innerHTML = `
-                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 3px,
-                    rgba(212, 175, 55, 0.05) 3px,
-                    rgba(212, 175, 55, 0.05) 6px
-                );pointer-events:none;z-index:0;"></div>
-                <div class="card-content">
-                    <div class="card-name">${cardData.name || '卡牌'}</div>
-                    <div class="card-desc">${cardData.description || '描述'}</div>
-                    <div class="card-details">
-                        <div style="margin-bottom:4px;">消耗: <span class="card-cost">${cardData.cost || '消耗'}</span></div>
-                        <div style="margin-bottom:4px;">效果: <span class="card-power">${cardData.power || '效果'}</span></div>
-                        <div>优先级: <span class="card-priority">${cardData.priority || '优先级'}</span></div>
-                    </div>
-                </div>
-            `;
+           // 更新各个部分的样式
+            (nameElement as HTMLElement).style.fontSize = `${nameFontSize}px`;
+            (descElement as HTMLElement).style.fontSize = `${descFontSize}px`;
+            (detailsElement as HTMLElement).style.fontSize = `${detailsFontSize}px`;
             
-            document.body.appendChild(animatedCard);
-            
-            // 强制重排以确保初始状态生效
-            animatedCard.offsetHeight;
-            
-            // 飞到中央（使用 class 改变 left/top/transform）
-            requestAnimationFrame(() => {
-                animatedCard.classList.add('center');
-            });
-            
-            // 在中央停顿一段时间，再飞回到牌堆位置
-            const pause = 600;
-            setTimeout(() => {
-                // 计算目标位置（牌堆中心下方）
-                const deckRect = handElement.getBoundingClientRect();
-                const targetX = Math.round(deckRect.left + deckRect.width / 2 - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--card-w')) / 2);
-                const targetY = Math.round(deckRect.top + deckRect.height / 2 - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--card-h')) / 2);
-                
-                // 添加轻微的随机偏移，使卡牌插入更自然
-                const randomOffset = (Math.random() - 0.5) * 20;
-                
-                // 使用 inline left/top 改变驱动过渡，同时切换 class 以调整 transform
-                animatedCard.classList.remove('center');
-                animatedCard.classList.add('to-deck');
-                animatedCard.style.left = `${targetX + randomOffset}px`;
-                animatedCard.style.top = `${targetY}px`;
-            }, pause);
-            
-            // 最终加入牌堆
-            setTimeout(() => {
-                document.body.removeChild(animatedCard);
-                resolve();
-            }, pause + 700);
+            // 更新位置
+            card.style.margin = '0 8px';
         });
-    }
-    
-    // 执行出牌动画
-    static async playCardAnimation(
+        
+        // 重新布局容器
+        playedCardsContainer.style.display = 'flex';
+        playedCardsContainer.style.flexWrap = 'wrap';
+        playedCardsContainer.style.justifyContent = 'center';
+        playedCardsContainer.style.alignItems = 'center';
+        playedCardsContainer.style.gap = '16px';
+    }  static async playCardAnimation(
         player: 'player' | 'opponent',
         cardData: any,
         cardId: string
@@ -404,94 +488,103 @@ export class UIManager {
                 return;
             }
             
-            // 查找要移动的卡牌元素
-            let sourceCardElement: HTMLElement | null = null;
-            const allCards = handElement.querySelectorAll('.card');
+            // 直接使用传递过来的卡牌元素
+            const sourceCardElement = cardData.sourceElement;
             
-            // 首先尝试通过cardId查找
-            for (let i = 0; i < allCards.length; i++) {
-                const card = allCards[i] as HTMLElement;
-                if (card.dataset.cardId && card.dataset.cardId.startsWith(cardId)) {
-                    sourceCardElement = card;
-                    break;
-                }
-            }
-            
-            // 如果找不到，尝试通过cardName查找
+            // 如果没有传递元素，则直接返回，因为我们无法确定要动画哪张卡牌
             if (!sourceCardElement) {
-                for (let i = 0; i < allCards.length; i++) {
-                    const card = allCards[i] as HTMLElement;
-                    if (card.dataset.cardName && card.dataset.cardName === cardData.name) {
-                        sourceCardElement = card;
-                        break;
-                    }
-                }
-            }
-            
-            // 如果还是找不到，直接使用第一张卡牌（作为备选方案）
-            if (!sourceCardElement && allCards.length > 0) {
-                sourceCardElement = allCards[0] as HTMLElement;
-            }
-            
-            // 如果仍然没有找到卡牌元素，则直接resolve并返回
-            if (!sourceCardElement) {
+                console.warn('未提供卡牌元素，无法执行动画');
                 resolve();
                 return;
             }
             
+             // 获取原始卡牌的位置和尺寸
             const cardRect = sourceCardElement.getBoundingClientRect();
+            
+            // 创建克隆元素
             const clone = sourceCardElement.cloneNode(true) as HTMLElement;
+            
+            // 在添加到DOM前设置初始样式避免闪现
             clone.style.position = 'fixed';
             clone.style.left = `${cardRect.left}px`;
             clone.style.top = `${cardRect.top}px`;
-            clone.style.width = `${cardRect.width}px`;
-            clone.style.height = `${cardRect.height}px`;
+            clone.style.margin = '0';
+            clone.style.zIndex = '1000';
             clone.classList.add('playing');
+            clone.style.visibility = 'visible';
+            clone.style.transform = 'scale(1) translate(0, 0)';
+            clone.style.transformOrigin = 'center center';
+            // 添加到文档中
             document.body.appendChild(clone);
+            
+            // 强制重排确保初始状态生效
+            clone.offsetHeight;
+            
+           // 设置过渡动画
+            clone.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1)';
             
             // 隐藏原牌
             sourceCardElement.style.visibility = 'hidden';
             
-            // 计算放置位置（放在出牌区域中央）
+            // 计算目标位置（出牌区域中央）
             const playedCardsRect = playedCardsElement.getBoundingClientRect();
             const targetX = playedCardsRect.left + playedCardsRect.width / 2 - cardRect.width / 2;
             const targetY = playedCardsRect.top + playedCardsRect.height / 2 - cardRect.height / 2;
             
-            // 添加一些动画效果增强
-            clone.style.transition = 'all 0.6s cubic-bezier(0.2, 0.8, 0.25, 1)';
-            clone.style.transform = 'scale(1.05)';
+            // 计算位移量而不是直接设置left和top
+            const translateX = targetX - cardRect.left;
+            const translateY = targetY - cardRect.top;
             
-            // 平滑移动
+            // 在下一帧开始动画
             requestAnimationFrame(() => {
-                clone.style.left = `${targetX}px`;
-                clone.style.top = `${targetY}px`;
-                clone.style.transform = 'scale(1)';
+                clone.style.transform = `scale(1) translate(${translateX}px, ${translateY}px)`;
             });
-            
+            // 动画完成后处理
             setTimeout(() => {
-                // 转为出牌区域内元素
-                clone.style.position = 'relative';
-                clone.style.left = '0';
-                clone.style.top = '0';
-                clone.classList.remove('playing');
-                clone.classList.add('placed');
-                clone.style.transform = 'none';
-                clone.style.margin = '0 8px';
-                playedCardsElement.appendChild(clone);
-                
-                // 移除原手牌
-                if (sourceCardElement && sourceCardElement.parentNode) {
-                    sourceCardElement.parentNode.removeChild(sourceCardElement);
+                try {
+                    // 将卡牌添加到出牌区域
+                    const finalClone = clone.cloneNode(true) as HTMLElement;
+                    finalClone.style.position = 'relative';
+                    finalClone.style.left = '0';
+                    finalClone.style.top = '0';
+                    finalClone.style.margin = '0 8px';
+                    finalClone.classList.remove('playing');
+                    finalClone.classList.add('placed');
+                    finalClone.style.transform = 'scale(1)';
+                    finalClone.style.transformOrigin = 'center center';
+                    finalClone.style.transition = 'none';
+                    
+                    playedCardsElement.appendChild(finalClone);
+                    
+                    // 在添加新卡牌后，重新调整所有卡牌的大小
+                    UIManager.resizePlayedCards();
+                } catch (e) {
+                    console.error('出牌动画执行出错:', e);
+                } finally {
+                    // 确保清理动画元素
+                    if (clone.parentNode) {
+                        clone.parentNode.removeChild(clone);
+                    }
+                    
+                    // 移除原手牌
+                    if (sourceCardElement && sourceCardElement.parentNode) {
+                        sourceCardElement.parentNode.removeChild(sourceCardElement);
+                    }
+                    
+                   // 重新索引玩家卡牌（如果是玩家手牌），确保在下一帧执行
+                    requestAnimationFrame(() => {
+                        if (player === 'player' && handElement) {
+                            // 确保玩家手牌保持展开状态
+                            handElement.classList.add('open');
+                            UIManager.reindexCards(handElement);
+                        } else if (handElement) {
+                            UIManager.reindexCards(handElement);
+                        }
+                    });
+                    
+                    resolve();
                 }
-                
-                // 重新索引玩家卡牌（如果是玩家手牌）
-                if (player === 'player' && handElement) {
-                    UIManager.reindexCards(handElement);
-                }
-                
-                // 动画结束
-                resolve();
             }, 600);
         });
-    }
+    } 
 }

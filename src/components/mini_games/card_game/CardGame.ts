@@ -17,34 +17,33 @@ import { SceneManager } from "../../SceneManager";
 // 卡牌游戏类
 class CardGame extends MiniGame {
  static readonly HTML_TEMPLATE = `
-        <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#d4af37;font-family:'Courier New', monospace;overflow:hidden;">
-            <!-- 背景图片层 -->
-            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#000000;"></div>
+        <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#ffffff;font-family:'Courier New', monospace;overflow:hidden;">
+          <!-- 背景图片层 -->
+            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#38383a;"></div>
             
             <!-- 末日风格背景纹理 -->
-            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>
-            <div id="game-ui" style="position:absolute;top:2%;left:2%;z-index:10;display:none;"> <!-- 使用百分比替代固定像素 -->
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>  <div id="game-ui" style="position:absolute;top:2%;left:2%;z-index:10;display:none;"> <!-- 使用百分比替代固定像素 -->
                 <div id="score" style="font-size:1.5em;margin-bottom:0.5em;background:rgba(0,0,0,0.7);padding:0.5em 1em;border-radius:0.3em;border:1px solid #5f5f5fff;box-shadow:0 0 0.6em rgba(212, 175, 55, 0.3);">分数: 0</div>
                 <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:2em;border-radius:0.6em;text-align:center;display:none;z-index:20;border:0.1em solid #a7a7a7ff;box-shadow:0 0 1.2em rgba(164, 164, 164, 0.5);">
-                    <h2 style="color:#d4af37;margin-top:0;margin-bottom:1.2em;text-transform:uppercase;letter-spacing:0.1em;">游戏结束</h2>
+                    <h2 style="color:#ffffff;margin-top:0;margin-bottom:1.2em;text-transform:uppercase;letter-spacing:0.1em;">游戏结束</h2>
                     <div id="final-score" style="margin-bottom:1.2em;font-size:1.1em;">最终结果</div>
-                    <button id="restart-button" style="padding:0.7em 1.5em;font-size:1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #8B7D6B;border-radius:0.5em;cursor:pointer;margin-top:0.6em;letter-spacing:0.06em;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);transition:all 0.3s;font-family:'Courier New', monospace;">重新开始</button>
+                    <button id="restart-button" style="padding:0.7em 1.5em;font-size:1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#ffffff;border:1px solid #8B7D6B;border-radius:0.5em;cursor:pointer;margin-top:0.6em;letter-spacing:0.06em;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);transition:all 0.3s;font-family:'Courier New', monospace;">重新开始</button>
                 </div>
             </div>
             
             <!-- 对手信息区域 (右上角) -->
-            <div id="opponent-info-container" style="position:absolute;top:2%;right:2%;z-index:10;background:rgba(0,0,0,0.7);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="opponent-info-container" style="position:absolute;top:1%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="opponent-info" style="text-align:center;"></div>
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:2%;right:2%;z-index:10;background:rgba(0,0,0,0.7);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
             <!-- 调试信息区域 -->
             <div id="debug-info" style="position:absolute;bottom:1%;left:1%;background:rgba(0,0,0,0.8);padding:1%;border-radius:0.3em;z-index:1000;width:20%;border:1px solid #8B7D6B;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);display:none;">
-                <h3 style="margin-top:0;color:#d4af37;border-bottom:1px solid #7d7c7aff;padding-bottom:0.3em;">调试信息</h3>
+                <h3 style="margin-top:0;color:#ffffff;border-bottom:1px solid #7d7c7aff;padding-bottom:0.3em;">调试信息</h3>
                 <div id="debug-content" style="font-size:0.75em;"></div>
             </div>
             
@@ -414,7 +413,7 @@ class CardGame extends MiniGame {
                     justify-content: center;
                     align-items: center;
                     gap: 1em;
-                    background: rgba(26, 26, 26, 0.8);
+                    background: rgba(80, 73, 73, 0.8);
                     transition: all 0.5s ease;
                     z-index: 2;
                     padding: 1em;
@@ -453,13 +452,13 @@ class CardGame extends MiniGame {
                 <div id="opponent-hand" class="deck opponent-hand" style="width:100%;display:flex;overflow:hidden;"></div>
             </div>
             
-            <!-- 中央已出牌区域 -->
-            <div id="center-played-cards" class="played-cards-container" style="position:relative;z-index:2;"></div>
+           <!-- 中央已出牌区域 -->
+            <div id="center-played-cards" class="played-cards-container" style="position:absolute;top:25vh;left:15%;width:70%;height:35vh;z-index:2;"></div>
             
-            <!-- 战场区域 -->
-            <div id="battlefield" style="flex:1.5;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:1;">
+           <!-- 战场区域 -->
+            <div id="battlefield" style="flex:1.5;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:1;position:absolute;bottom:35vh;right:0vh;width:15%;height:35vh;z-index:3;">
                 <div id="game-message" style="font-size:1.4em;text-align:center;margin-bottom:1.2em;text-shadow:0 0 0.3em rgba(134, 134, 134, 0.7);max-width:80%;line-height:1.4;z-index:2;"></div>
-                <button id="end-turn-button" style="padding:0.7em 2em;font-size:1.1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #bab9b7ff;border-radius:0.5em;cursor:pointer;letter-spacing:0.06em;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);transition:all 0.3s;text-transform:uppercase;z-index:5;position:relative;font-family:'Courier New', monospace;">结束回合</button>
+                <button id="end-turn-button" style="padding:0.7em 2em;font-size:1.1em;background:linear-gradient(to bottom, #5a5a5a, #3a3a3a);color:#d4af37;border:1px solid #bab9b7ff;border-radius:0.5em;cursor:pointer;letter-spacing:0.06em;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);transition:all 0.3s;text-transform:uppercase;z-index:5;font-family:'Courier New', monospace;">结束回合</button>
             </div>
             
             <!-- 玩家区域背景装饰 -->
@@ -470,7 +469,7 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 玩家手牌区域 -->
-            <div id="player-area" style="height:35vh;width:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;z-index:1;">
+            <div id="player-area" style="height:70vh;width:70%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;z-index:4;transform:translateX(20%);">
                 <div id="player-hand" class="deck player-hand" style="position:relative;width:100%;height:30vh;display:flex;align-items:flex-end;justify-content:center;pointer-events:auto;margin-top:1vh;transform:translateX(var(--player-hand-offset));--card-w:var(--player-card-w);--card-h:var(--player-card-h);"></div>
             </div>
             
@@ -796,26 +795,29 @@ class CardGame extends MiniGame {
             // 可以根据需要添加对手手牌的交互逻辑
         }
     }
-
-       // 更新已出牌区域
+     // 更新已出牌区域
     private updatePlayedCards(): void {
         // 更新已出牌区域
         if (this.playedCardsElement) {
             // 清空当前显示的所有卡牌
             this.playedCardsElement.innerHTML = '';
             
-            // 只添加当前回合和上一回合的卡牌
-            for (const playedCard of this.playedCards) {
-                // 只显示当前回合和上一回合的卡牌
-                if (playedCard.turn >= this.state.turn - 1) {
-                    const cardElement = UIManager.createPlayedCardElement(playedCard, this.state.turn);
-                    this.playedCardsElement.appendChild(cardElement);
-                }
+            // 显示所有当前在场上的卡牌（最多显示9张）
+            const cardsToShow = this.playedCards.slice(-9); // 取最新的9张牌
+            
+            // 如果总牌数超过9张，移除最早的牌
+            while (this.playedCards.length > 9) {
+                this.playedCards.shift(); // 移除最早出的牌
+            }
+            
+            // 显示卡牌
+            for (const playedCard of cardsToShow) {
+                const cardElement = UIManager.createPlayedCardElement(playedCard, this.state.turn);
+                this.playedCardsElement.appendChild(cardElement);
             }
         }
     }
-
-    // 开始游戏
+      // 开始游戏
     private startGame(): void {
         // 播放背景音乐
         this.playBackgroundMusic();
@@ -1120,8 +1122,8 @@ class CardGame extends MiniGame {
                 // 优先级相同时随机排序
                 return Math.random() - 0.5;
             });
-            
-            // 选择第一张卡牌
+                
+     // 选择第一张卡牌
             const card = playableCards[0];
             
             // 添加卡牌有效性检查
@@ -1140,6 +1142,21 @@ class CardGame extends MiniGame {
             // 在调试信息中显示选择的卡牌
             if (this.debugContentElement) {
                 this.debugContentElement.innerHTML += `<div>巨石选择: ${card.name}(类型:${card.type},优先级:${card.priority},消耗:${card.cost})</div>`;
+            }
+            
+            // 为对手卡牌添加sourceElement属性，确保动画能正常工作
+            if (this.opponentHandElement) {
+                const allCards = this.opponentHandElement.querySelectorAll('.card');
+                // 查找匹配的卡牌元素
+                for (let i = 0; i < allCards.length; i++) {
+                    const cardElement = allCards[i] as HTMLElement;
+                    if (cardElement.dataset.cardName === card.name) {
+                        // 添加sourceElement属性
+                        const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                        cardWithElement.sourceElement = cardElement;
+                        break;
+                    }
+                }
             }
             
             this.playCard(this.state.opponent, card);

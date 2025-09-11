@@ -1609,11 +1609,34 @@ private showAutoSaveNotification(message: string): void {
         if (dialogElement) dialogElement.onclick = (this as any)._originalDialogHandler;
         if (textBoxElement) textBoxElement.onclick = (this as any)._originalTextBoxHandler;
     }
-
-    /**
+ /**
     * 返回上一个节点的功能
     */
     private goBackToPreviousNode(): void {
+        // 检查是否在特殊界面（选项、小游戏、视频等）
+        const selectionBox = document.getElementById("selection_box");
+        const miniGameContainer = document.getElementById("mini-game-container");
+        const videoContainer = document.getElementById("video-container");
+        
+        // 检查是否在选项界面
+        const inSelection = selectionBox && 
+            selectionBox.style.display !== "none" && 
+            selectionBox.children.length > 0;
+            
+        // 检查是否在小游戏界面
+        const inMiniGame = miniGameContainer && miniGameContainer.style.display !== 'none';
+        
+        // 检查是否在视频播放界面
+        const inVideo = videoContainer && videoContainer.style.display !== 'none';
+        
+        // 如果在特殊界面，不允许返回
+        if (inSelection || inMiniGame || inVideo || (this as any).waitingForChoice) {
+            console.log("在特殊界面，无法使用返回功能");
+            // 显示提示信息告知用户当前状态无法回退
+            this.showBackNotAllowedNotification("当前状态无法回退");
+            return;
+        }
+
         // 检查是否有上一个节点可以返回
         if (this.currentNodeIndex > 0 && this.currentScene) {
             // 寻找上一个满足条件的节点
@@ -1622,6 +1645,13 @@ private showAutoSaveNotification(message: string): void {
                 const node = this.currentScene.nodes[previousNodeIndex];
                 // 检查节点条件（如果有的话）
                 if (!node.condition || node.condition()) {
+                    // 检查目标节点是否为特殊节点（小游戏或视频）
+                    if (node.game || node.video) {
+                        // 如果是特殊节点，继续向前查找
+                        previousNodeIndex--;
+                        continue;
+                    }
+                    
                     // 找到满足条件的节点，进行回退
                     this.currentNodeIndex = previousNodeIndex;
                     this.clickCount = this.currentNodeIndex;
@@ -1633,11 +1663,89 @@ private showAutoSaveNotification(message: string): void {
                 previousNodeIndex--;
             }
             console.log("没有找到满足条件的前一个节点，无法回退");
+            // 显示提示信息告知用户无法回退
+            this.showBackNotAllowedNotification("无法找到可回退的节点");
         } else {
             console.log("已经到达第一个节点，无法再返回");
+            // 显示提示信息告知用户无法回退
+            this.showBackNotAllowedNotification("已到达第一个节点，无法回退");
         }
     }
 
+    /**
+     * 显示无法回退的提示信息
+     * @param message 提示信息
+     */
+    private showBackNotAllowedNotification(message: string): void {
+        // 创建提示元素
+        const notification = document.createElement('div');
+        notification.id = 'back-not-allowed-notification';
+        notification.className = 'back-not-allowed-notification';
+        notification.innerHTML = `
+            <div class="back-not-allowed-content">
+                <span class="back-not-allowed-icon">⚠️</span>
+                <span class="back-not-allowed-text">${message}</span>
+            </div>
+        `;
+        
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .back-not-allowed-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #ffcc00;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-family: sans-serif;
+                font-size: 14px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                transform: translateX(120%);
+                transition: transform 0.3s ease-out;
+                backdrop-filter: blur(4px);
+                border: 1px solid rgba(255, 204, 0, 0.3);
+            }
+            
+            .back-not-allowed-notification.show {
+                transform: translateX(0);
+            }
+            
+            .back-not-allowed-content {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .back-not-allowed-icon {
+                font-size: 18px;
+            }
+        `;
+        
+        // 添加元素到页面
+        document.head.appendChild(style);
+        document.body.appendChild(notification);
+        
+        // 显示动画
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        // 3秒后自动隐藏并移除
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+                if (style.parentNode) {
+                    style.parentNode.removeChild(style);
+                }
+            }, 300);
+        }, 3000);
+    }
     /**
      * 处理自动暂停逻辑
      */

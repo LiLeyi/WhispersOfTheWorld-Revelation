@@ -34,7 +34,10 @@ nodes: [
             id: "mother_4",
             elements: {
                 name: "旁白",
-                text: "我想，昨天的可能性也许更大。要请假两天了。"
+                text: "我想，昨天的可能性也许更大。要请假两天了。",
+                 sprite: {
+            left:null
+        }
             },
         },
         {
@@ -42,14 +45,20 @@ nodes: [
         elements: {
             background: "sc1.2/1-2-2.png",
             name: "老板",
-            text: "是吗？你的母亲去世了......"
+            text: "是吗？你的母亲去世了......",
+             sprite: {
+            left:"NPC/law_man.png"
+        }
         }
     },
     {
         id: "office_2",
         elements: {
             name: "我",
-            text: "对不起先生，但这也不是我的过错。"
+            text: "对不起先生，但这也不是我的过错。",
+             sprite: {
+            left:null
+        }
         }
     },
     {
@@ -824,9 +833,6 @@ nodes: [
     elements: {
         name: "检察官",
         text: "他没有灵魂，没有丝毫人性，没有任何一条在人类灵魂中占神圣地位的道德。",
-        sprite: {
-            left:"NPC/law_man.png"
-        }
     }
 },
 {
@@ -1610,8 +1616,10 @@ nodes: [
     name: "旁白",
     text: "巫婆摊开手，手中是一个暗红色的心脏——不，其实是一块石头。",
     sprite: {
-            left:null
-        }
+            left:null,
+            center:null
+        },
+
   }
 },
 {
@@ -1619,7 +1627,10 @@ nodes: [
   elements: {
     name: "旁白",
      background: "sc1.2/1-2-12.jpg", 
-    text: "一块闪着暗红微光、心脏形状的石头，一块半透明、似有血液流动其中的石头。"
+    text: "一块闪着暗红微光、心脏形状的石头，一块半透明、似有血液流动其中的石头。",
+     sprite: {
+            center:"NPC/heart.png"
+        }
   },
   choices: [
     {
@@ -1639,7 +1650,10 @@ nodes: [
   id: "altar_44",
   elements: {
     name: "旁白",
-    text: "巫婆看着我接过它，发出一阵沙哑的诡异笑声，随风化作黑烟散去，无影无踪。"
+    text: "巫婆看着我接过它，发出一阵沙哑的诡异笑声，随风化作黑烟散去，无影无踪。",
+         sprite: {
+            center:null
+        }
   }
 },//这里触发剧情，获得增益和卡牌//
 {
