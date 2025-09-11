@@ -1,5 +1,5 @@
 export { CardGame } from './CardGame';
-export { Card, CardType, CardEffect, CardData } from './models/Card';
+export { Card, CardType, CardEffect } from './models/Card';
 export { Player } from './models/Player';
 export { Buff } from './models/Buff';
 export { CardGameState } from './models/GameState';

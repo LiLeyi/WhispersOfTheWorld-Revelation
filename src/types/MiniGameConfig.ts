@@ -31,6 +31,11 @@ export interface CardGameConfig {
         drawCount?: number;             // 玩家每回合抽牌数，默认为1
         initialDrawCount?: number;      // 玩家游戏开始时初始抽牌数，默认为3
         name?: string;                  // 玩家名字
+        initialBuffs?: Array<{          // 玩家初始buff
+            id: string;                 // buff的id
+            duration?: number;          // 持续时间
+            target?: 'self' | 'other' | 'both';  // 目标
+        }>; 
     };
     
     opponent?: {
@@ -41,6 +46,11 @@ export interface CardGameConfig {
         drawCount?: number;             // 对手每回合抽牌数，默认为1
         initialDrawCount?: number;      // 对手游戏开始时初始抽牌数，默认为3
         name?: string;                  // 对手名字
+        initialBuffs?: Array<{          // 对手初始buff
+            id: string;                 // buff的id
+            duration?: number;          // 持续时间
+            target?: 'self' | 'other' | 'both';  // 目标
+        }>; 
     };
     
     // 添加背景音乐配置

@@ -95,10 +95,6 @@ export class DeckSelection {
                 <div>
                     <h3 style="margin:0 0 10px 0;color:#d4af37;font-size:16px;">${cardData.name}</h3>
                     <p style="font-size:12px;margin:5px 0;">${cardData.description}</p>
-                    <div style="margin:8px 0;font-size:14px;">
-                        <div>消耗: ${cardData.cost}</div>
-                        <div>类型: ${this.getCardTypeText(cardData.type)}</div>
-                    </div>
                 </div>
                 <div style="margin-top:10px;">
                     <div style="font-size:14px;margin-bottom:8px;">拥有: ${count}张</div>

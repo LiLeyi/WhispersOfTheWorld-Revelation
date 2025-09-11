@@ -11,4 +11,6 @@ export interface CardGameState {
     selectedCard: Card | null; // 选中的卡牌
     message: string;     // 游戏消息
     playerWon: boolean | null; // 玩家是否获胜
+    // 添加记录上一张使用卡牌的字段
+    lastPlayedCard: Card | null; // 上一张使用的卡牌
 }

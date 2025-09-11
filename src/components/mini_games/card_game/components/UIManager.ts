@@ -4,7 +4,7 @@ import { AudioManager } from "../../../AudioManager";
 
 export class UIManager {
     // 更新玩家信息显示
-    static updatePlayerInfo(element: HTMLElement | null, player: Player): void {
+    static updatePlayerInfo(element: HTMLElement | null, player: Player, drawCount: number = 1): void {
         if (element) {
             const hpRatio = player.hp / player.maxHp;
             const hpPercentage = Math.max(0, Math.min(100, hpRatio * 100));
@@ -36,12 +36,12 @@ export class UIManager {
                         <span style="color:#d4af37">${player.actionPoints}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        <span>防御:</span>
-                        <span style="color:#d4af37">${player.defense}</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;">
                         <span>手牌:</span>
                         <span style="color:#d4af37">${player.hand.length}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span>抽牌数:</span>
+                        <span style="color:#d4af37">${drawCount}</span>
                     </div>
                 </div>
             `;
@@ -93,11 +93,6 @@ export class UIManager {
                         <div class="card-content">
                             <div class="card-name">${card.name}</div>
                             <div class="card-desc">${card.description}</div>
-                            <div class="card-details">
-                                <div style="margin-bottom:4px;">消耗: <span class="card-cost">${card.cost}</span></div>
-                                <div style="margin-bottom:4px;">效果: <span class="card-power">${card.power}</span></div>
-                                <div>优先级: <span class="card-priority">${card.priority}</span></div>
-                            </div>
                         </div>
                     `;
                     
@@ -205,7 +200,7 @@ export class UIManager {
                     
                     // 添加金属质感效果
                     cardElement.innerHTML = `
-                        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
+                       <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
                             -45deg,
                             transparent,
                             transparent 3px,
@@ -215,11 +210,6 @@ export class UIManager {
                         <div class="card-content">
                             <div class="card-name">${card.name}</div>
                             <div class="card-desc">${card.description}</div>
-                            <div class="card-details">
-                                <div style="margin-bottom:4px;">消耗: <span class="card-cost">${card.cost}</span></div>
-                                <div style="margin-bottom:4px;">效果: <span class="card-power">${card.power}</span></div>
-                                <div>优先级: <span class="card-priority">${card.priority}</span></div>
-                            </div>
                         </div>
                     `;
 
@@ -267,7 +257,7 @@ export class UIManager {
             }
         }
     }
-      // 重新索引卡牌（设置位置）
+    // 重新索引卡牌（设置位置）
     static reindexCards(deck: HTMLElement): void {
         const cards = Array.from(deck.querySelectorAll('.card')) as HTMLElement[];
         const total = cards.length;
@@ -321,7 +311,109 @@ export class UIManager {
             htmlCard.style.setProperty('--rotation', rotation.toString());
         });
     }
-  // 创建已出牌的卡片元素
+    // 更新玩家buff显示
+    static updatePlayerBuffs(element: HTMLElement | null, buffs: import("../models/Buff").Buff[]): void {
+        if (element) {
+            element.innerHTML = '';
+            // 只显示持续性的buff，不显示立即执行的buff
+            // 现在也包括永久buff（duration为-1）
+            const persistentBuffs = buffs.filter(buff => 
+                buff.duration !== undefined && buff.duration >= -1
+            );
+            
+            persistentBuffs.forEach(buff => {
+                const buffElement = document.createElement('div');
+                buffElement.className = 'buff-icon';
+                buffElement.style.width = '40px';
+                buffElement.style.height = '40px';
+                buffElement.style.borderRadius = '8px';
+                buffElement.style.backgroundColor = '#4a4a4a';
+                buffElement.style.display = 'flex';
+                buffElement.style.justifyContent = 'center';
+                buffElement.style.alignItems = 'center';
+                buffElement.style.color = '#fff';
+                buffElement.style.fontWeight = 'bold';
+                buffElement.style.boxShadow = '0 2px 5px rgba(0,0,0,0.3)';
+                buffElement.style.position = 'relative';
+                buffElement.style.cursor = 'pointer';
+                
+                // 显示剩余持续时间（如果大于0）
+                // 不再显示永久buff的数字（duration为-1）
+                if (buff.duration !== undefined && buff.duration > 0) {
+                    buffElement.textContent = buff.duration.toString();
+                }
+                
+                // 添加描述作为title属性，鼠标悬停时显示
+                const buffDescriptions: Record<string, string> = {
+                    'defence': '防御：抵挡对手的伤害，每抵挡一点防御减少一点，下次玩家出牌回合时消失。',
+                    'true_defence': '真防：抵挡对手的伤害，每抵挡一点防御减少一点，不会在下个玩家出牌回合消失，受到攻击时会先消耗防御，之后再消耗真防。',
+                    'attack_increase_once': '单次攻击加成：下次攻击的伤害增加指定点数，使用后buff消失。',
+                    'combo': '连击：下次伤害翻倍，作用后buff消失',
+                    'immunication': '免疫：免疫以后指定次数伤害；每免疫一次减一层',
+                    'incurable': '不治：无法回血',
+                    'hard': '坚硬：回合开始获得5点防御，buff消失',
+                    'true_hard': '真坚：回合开始获得5真防，buff消失',
+                    'sharp': '锋利：攻击永久增加指定数值，buff一直保持',
+                    'transfer': '转化：将攻击伤害转化为真防，buff每回合层数-1',
+                    'battery_bomb': '电池炸弹：每回合受到2真攻，获得1真防，当真防大于5时，9攻击，buff消失',
+                    'the_king': '国王：受到致命伤害时，血量上限+5，恢复所有血量，对方获得机械炸弹3层，机械炸弹卡牌3张，buff消失',
+                    'machanical_sentry': '机械哨兵：本回合"机械哨兵"卡片牌伤害增加指定数值，下回合buff消失',
+                    'machanical_bomb': '机械炸弹：每回合受到指定点数伤害，只能通过特定卡牌去消除buff',
+                    'machanical_guard': '机械护卫队：使用机械护卫队卡牌时，行动力消耗-1，buff一直保持',
+                    'delay_attack': '延迟攻击：下回合进行指定点数攻击',
+                    'conduction': '传导：本回合造成的攻击，会等量扣除到真防',
+                    'ban': '禁言：本回合无法再出牌',
+                    'fog': '雾：无法看见血量、行动值等数值',
+                    'ghast': '恶魂：受到致命伤害时，血量上限-10，恢复所有血量，对方血量上限减少一半，恢复所有血量，获得雾buff',
+                    'unreal_spell': '虚幻咒语：每回合进行1攻击，获得1行动，buff一直保持',
+                    'erosive_heart': '蚀心：所有攻击变为真攻，buff一直保持',
+                    'erosive': '腐蚀：每回合受到攻击',
+                    'shadow': '影子：复制上一张牌效果，作用后消失'
+                };
+                
+                buffElement.title = buffDescriptions[buff.id] || buff.id;
+                
+                // 添加自定义tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'buff-tooltip';
+                tooltip.textContent = buffDescriptions[buff.id] || buff.id;
+                tooltip.style.position = 'absolute';
+                tooltip.style.bottom = '100%';
+                tooltip.style.left = '50%';
+                tooltip.style.transform = 'translateX(-50%)';
+                tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                tooltip.style.color = '#fff';
+                tooltip.style.padding = '5px 10px';
+                tooltip.style.borderRadius = '4px';
+                tooltip.style.fontSize = '12px';
+                tooltip.style.whiteSpace = 'nowrap';
+                tooltip.style.zIndex = '1000';
+                tooltip.style.display = 'none';
+                tooltip.style.pointerEvents = 'none';
+                tooltip.style.marginBottom = '5px';
+                
+                buffElement.appendChild(tooltip);
+                
+                // 添加鼠标事件
+                buffElement.addEventListener('mouseenter', () => {
+                    tooltip.style.display = 'block';
+                });
+                
+                buffElement.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+                
+                element.appendChild(buffElement);
+            });
+        }
+    }
+    
+    // 更新对手buff显示
+    static updateOpponentBuffs(element: HTMLElement | null, buffs: import("../models/Buff").Buff[]): void {
+        // 对手的buff显示与玩家相同
+        this.updatePlayerBuffs(element, buffs);
+    }
+    // 创建已出牌的卡片元素
     static createPlayedCardElement(playedCard: {card: Card, turn: number, player: string}, currentTurn: number): HTMLElement {
         const cardElement = document.createElement('div');
         cardElement.className = 'played-card';
@@ -379,10 +471,6 @@ export class UIManager {
             <div style="position:relative;z-index:1;">
                 <div style="font-weight: bold; font-size: ${nameFontSize}px; text-align: center; color:#000000; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
                 <div style="font-size: ${descFontSize}px; text-align: center; margin: 5px 0; color:#aaa;">${playedCard.card.description}</div>
-                <div style="font-size: ${detailsFontSize}px; text-align: center;">
-                    <div style="margin-bottom:3px;color:#d4af37;">消耗: ${playedCard.card.cost}</div>
-                    <div style="color:#d4af37;">效果: ${playedCard.card.power}</div>
-                </div>
                 <div style="position:absolute;top:4px;right:4px;font-size:${fontSize - 2}px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
                     ${playedCard.player === 'player' ? '我' : '敌'}
                 </div>

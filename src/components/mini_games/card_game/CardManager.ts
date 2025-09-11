@@ -8,12 +8,12 @@ export interface PlayerDeck {
 
 // 默认卡组配置
 export const DEFAULT_PLAYER_DECK: Record<string, number> = {
-    // 根据用户提供的默认牌组配置
-    'straight_punch_1': 2,  // 直拳I x2
-    'straight_punch_2': 1,  // 直拳II x1
-    'kick_1': 2,            // 踢击I x2
-    'block_1': 2,           // 格挡I x2
-    'excite_1': 2           // 兴奋I x2
+    "punch": 1,      // 拳击：1攻0行动
+    "parry": 1,      // 招架：1攻 1行动 对方减少1行动
+    "hook": 1,       // 勾拳：3攻2行动
+    "dodge": 1,      // 闪避：2防1行动
+    "combo": 1,      // 连击：下张牌伤害*2 2行动
+    "see_through": 1 // 识破：5防 3行动
 };
 
 export class CardManager {

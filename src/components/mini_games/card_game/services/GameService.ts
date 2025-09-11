@@ -1,7 +1,6 @@
 import { Player } from "../models/Player";
 import { Card } from "../models/Card";
-import { CARD_TEMPLATES, CardData } from "../data/CardData";
-import { CardType } from "../models/Card";
+import { CARD_TEMPLATES } from "../data/CardData";
 
 export class GameService {
     // 创建初始卡组
@@ -16,16 +15,14 @@ export class GameService {
                 const cardTemplate = CARD_TEMPLATES[cardId];
                 if (cardTemplate) {
                     for (let i = 0; i < count; i++) {
-                        // 转换CardData为Card
+                        // 转换CardData为Card（适配新接口）
                         const card: Card = {
                             id: cardTemplate.id,
                             name: cardTemplate.name,
                             description: cardTemplate.description,
-                            type: cardTemplate.type as CardType,
-                            cost: cardTemplate.cost,
-                            power: cardTemplate.power,
                             priority: cardTemplate.priority,
-                            effects: cardTemplate.effects
+                            effect: cardTemplate.effect,
+                            cost: cardTemplate.cost
                         };
                         deck.push(card);
                     }

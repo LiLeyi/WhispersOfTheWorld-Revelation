@@ -5,37 +5,25 @@ export enum CardType {
     SPECIAL = "special"
 }
 
-// 卡牌效果类型定义
+// 卡牌效果接口
 export interface CardEffect {
-    type: 'damage' | 'heal' | 'buff' | 'debuff' | 'draw' | 'discard';
-    target: 'self' | 'opponent' | 'both';
-    value?: number;
-    // 对于buff/debuff效果的额外参数
-    buffType?: 'action_point_boost' | 'action_point_reduce' | 'defense_boost';
-    duration?: number;
-    description?: string;
+    id: string;              // 效果的id
+    duration?: number;       // 持续触发回合数
+    target?: 'self' | 'other' | 'both';
 }
 
-// 卡牌数据接口
-export interface CardData {
-    id: string;
-    name: string;
-    description: string;
-    type: 'attack' | 'defense' | 'special';
-    cost: number;
-    power: number;
-    priority: number;
-    effects: CardEffect[];
-}
-
-// 卡牌接口
+// 卡牌接口（统一了Card和CardData）
 export interface Card {
     id: string;
-    name: string;
-    description: string;
-    type: CardType;
-    cost: number;        // 行动值消耗
-    power: number;       // 卡牌效果值（攻击/防御值）
-    priority: number;    // 优先级，越高越优先使用
-    effects: CardEffect[]; // 卡牌效果
+    name: string;            // 名字，显示在卡面的标题位置
+    description: string;     // 描述，显示在卡面上
+    priority: number;        // 电脑出牌的优先级，越高电脑越优先出
+    effect: CardEffect[];
+    cost?: {
+        action?: number;
+        health?: number;
+    }
+    // 保留type和power以保持与现有代码的兼容性
+    type?: CardType;
+    power?: number;
 }

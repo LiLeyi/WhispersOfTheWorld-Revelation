@@ -1,9 +1,6 @@
 // buff效果接口
 export interface Buff {
-    id: string;           // buff ID
-    name: string;         // buff名称
-    duration: number;     // 持续回合数 (-1表示永久)
-    effect: 'action_point_boost' | 'action_point_reduce' | 'defense_boost' | 'defense_on_damage' | 'damage_boost'; // 效果类型
-    value: number;        // 效果值
-    target: 'self' | 'opponent'; // 目标
+    id: string; // 效果的id。把攻击、防御也算作效果，只不过不需要显示，因为马上就触发
+    duration?: number; // 持续触发回合数
+    target?: 'self' | 'other' | 'both';
 }
