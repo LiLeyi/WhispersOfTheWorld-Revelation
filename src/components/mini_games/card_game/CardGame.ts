@@ -1276,6 +1276,19 @@ class CardGame extends MiniGame {
             return;
         }
 
+        // 执行出牌动画
+        if ((card as Card & { sourceElement?: HTMLElement }).sourceElement) {
+            try {
+                await UIManager.playCardAnimation(
+                    player.id as 'player' | 'opponent',
+                    card,
+                    card.id
+                );
+            } catch (e) {
+                console.warn('出牌动画执行失败:', e);
+            }
+        }
+
         // 记录已出的牌（包含回合信息）到统一的已出牌记录中
         this.playedCards.push({
             card: {...card}, 
@@ -1363,7 +1376,6 @@ class CardGame extends MiniGame {
             }
         }
     }
-
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
