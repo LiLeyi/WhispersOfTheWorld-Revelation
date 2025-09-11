@@ -48,7 +48,7 @@ export class UIManager {
         }
     }
 
-  // 更新手牌显示
+    // 更新手牌显示
     static updateHand(
         element: HTMLElement | null, 
         hand: Card[], 
@@ -267,7 +267,8 @@ export class UIManager {
             }
         }
     }
-      // 重新索引卡牌（设置位置）
+    
+    // 重新索引卡牌（设置位置）
     static reindexCards(deck: HTMLElement): void {
         const cards = Array.from(deck.querySelectorAll('.card')) as HTMLElement[];
         const total = cards.length;
@@ -321,6 +322,7 @@ export class UIManager {
             htmlCard.style.setProperty('--rotation', rotation.toString());
         });
     }
+    
   // 创建已出牌的卡片元素
     static createPlayedCardElement(playedCard: {card: Card, turn: number, player: string}, currentTurn: number): HTMLElement {
         const cardElement = document.createElement('div');
@@ -338,52 +340,37 @@ export class UIManager {
             borderColor = '#ff4a4a'; // 对手红色
         }
         
-        // 使用与手牌相同的固定尺寸
-        const cardWidth = 110;   // 与手牌宽度相同
-        const cardHeight = 165;  // 保持相同比例 (110/165 = 2/3)
-        const fontSize = 12;
-        const descFontSize = 11;
-        const detailsFontSize = 12;
-        const nameFontSize = 13;
-        const padding = 10;
-        
         cardElement.style.cssText = `
-            width: ${cardWidth}px;
-            height: ${cardHeight}px;
-            background: linear-gradient(135deg, ${playedCard.player === 'player' ? '#2a2a2a' : '#1a1a1a'} 0%, ${playedCard.player === 'player' ? '#1a1a1a' : '#0a0a0a'} 100%);
-            border: 2px solid ${isCurrentTurnCard ? '#ff6347' : (isPreviousTurnCard ? '#d4af37' : borderColor)};
-            border-radius: 8px;
+            width: 110px;
+            height: 160px;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            user-select: none;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+            background: rgb(226, 218, 197);
+            background-image: url('../../assets/images/beijing.png');
+            background-size: cover;
+            color: #000;
+            border: 2px solid ${borderColor};
+            transition: all 0.3s ease;
+            margin: 0 5px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: ${padding}px;
-            font-size: ${fontSize}px;
-            opacity: ${isCurrentTurnCard ? '1' : (isPreviousTurnCard ? '0.7' : '0.4')};
-            transition: all 0.5s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
-            transform: scale(1);
-            z-index: 1;
-            flex-shrink: 0; /* 防止卡片在容器中被压缩 */
+            justify-content: center;
+            padding: 10px;
         `;
-        // 添加使用过的卡牌效果
+        
+        // 添加卡牌内容（移除了纹理效果，文字居中显示）
         cardElement.innerHTML = `
-            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.1) 2px,
-                rgba(0, 0, 0, 0.1) 4px
-            );pointer-events:none;z-index:0;"></div>
-            <div style="position:relative;z-index:1;">
-                <div style="font-weight: bold; font-size: ${nameFontSize}px; text-align: center; color:#000000; text-shadow: 0 0 3px rgba(212, 175, 55, 0.7);">${playedCard.card.name}</div>
-                <div style="font-size: ${descFontSize}px; text-align: center; margin: 5px 0; color:#aaa;">${playedCard.card.description}</div>
-                <div style="font-size: ${detailsFontSize}px; text-align: center;">
-                    <div style="margin-bottom:3px;color:#d4af37;">消耗: ${playedCard.card.cost}</div>
-                    <div style="color:#d4af37;">效果: ${playedCard.card.power}</div>
+            <div class="played-card-content" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+                <div class="played-card-name" style="font-weight: bold; font-size: 14px; text-align: center; color:#000; margin-bottom: 8px;">${playedCard.card.name}</div>
+                <div class="played-card-desc" style="font-size: 10px; text-align: center; margin: 4px 0; color:#000;">${playedCard.card.description}</div>
+                <div class="played-card-details" style="font-size: 11px; text-align: center; margin-top: 8px;">
+                    <div style="margin-bottom:3px;color:#000;">消耗: ${playedCard.card.cost}</div>
+                    <div style="color:#000;">效果: ${playedCard.card.power}</div>
                 </div>
-                <div style="position:absolute;top:4px;right:4px;font-size:${fontSize - 2}px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
+                <div style="position:absolute;top:4px;right:4px;font-size:8px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
                     ${playedCard.player === 'player' ? '我' : '敌'}
                 </div>
             </div>
@@ -394,7 +381,7 @@ export class UIManager {
         cardElement.dataset.hasPlayedHoverSound = "false";
 
         cardElement.addEventListener('mouseenter', () => {
-            cardElement.style.transform = `scale(1.1) translateY(-${padding}px)`;
+            cardElement.style.transform = 'scale(1.25) translateY(-12px)';
             cardElement.style.boxShadow = '0 12px 25px rgba(212, 175, 55, 0.6)';
             cardElement.style.zIndex = '5';
             
@@ -422,7 +409,7 @@ export class UIManager {
         return cardElement;
     }
     
-   // 新增方法：重新调整已出牌区域所有卡牌的大小
+    // 新增方法：重新调整已出牌区域所有卡牌的大小
     static resizePlayedCards(): void {
         const playedCardsContainer = document.getElementById('center-played-cards');
         if (!playedCardsContainer) return;
@@ -434,12 +421,7 @@ export class UIManager {
         
         // 使用与手牌相同的固定尺寸
         const cardWidth = 110;   // 与手牌宽度相同
-        const cardHeight = 165;  // 保持相同比例 (110/165 = 2/3)
-        const fontSize = 12;
-        const descFontSize = 11;
-        const detailsFontSize = 12;
-        const nameFontSize = 13;
-        const padding = 10;
+        const cardHeight = 160;  // 保持相同比例
         
         // 根据新的尺寸调整所有卡牌
         playedCards.forEach(card => {
@@ -447,23 +429,43 @@ export class UIManager {
             card.style.width = `${cardWidth}px`;
             card.style.height = `${cardHeight}px`;
             
-            // 更新内部内容的样式
-            const contentDiv = card.querySelector('.card-content') || card;
-            const nameElement = card.querySelector('.card-name') || card;
-            const descElement = card.querySelector('.card-desc') || card;
-            const detailsElement = card.querySelector('.card-details') || card;
+            // 更新内部内容的样式，确保文字居中
+            const contentDiv = card.querySelector('.played-card-content') as HTMLElement;
+            const nameElement = card.querySelector('.played-card-name') as HTMLElement;
+            const descElement = card.querySelector('.played-card-desc') as HTMLElement;
+            const detailsElement = card.querySelector('.played-card-details') as HTMLElement;
             
-            // 更新整体样式
-            card.style.padding = `${padding}px`;
-            card.style.fontSize = `${fontSize}px`;
+            if (contentDiv) {
+                contentDiv.style.display = 'flex';
+                contentDiv.style.flexDirection = 'column';
+                contentDiv.style.justifyContent = 'center';
+                contentDiv.style.alignItems = 'center';
+                contentDiv.style.height = '100%';
+            }
             
-           // 更新各个部分的样式
-            (nameElement as HTMLElement).style.fontSize = `${nameFontSize}px`;
-            (descElement as HTMLElement).style.fontSize = `${descFontSize}px`;
-            (detailsElement as HTMLElement).style.fontSize = `${detailsFontSize}px`;
+            if (nameElement) {
+                nameElement.style.fontWeight = 'bold';
+                nameElement.style.fontSize = '14px';
+                nameElement.style.textAlign = 'center';
+                nameElement.style.color = '#000';
+                nameElement.style.marginBottom = '8px';
+            }
+            
+            if (descElement) {
+                descElement.style.fontSize = '10px';
+                descElement.style.textAlign = 'center';
+                descElement.style.margin = '4px 0';
+                descElement.style.color = '#000';
+            }
+            
+            if (detailsElement) {
+                detailsElement.style.fontSize = '11px';
+                detailsElement.style.textAlign = 'center';
+                detailsElement.style.marginTop = '8px';
+            }
             
             // 更新位置
-            card.style.margin = '0 8px';
+            card.style.margin = '0 5px';
         });
         
         // 重新布局容器
@@ -472,7 +474,8 @@ export class UIManager {
         playedCardsContainer.style.justifyContent = 'center';
         playedCardsContainer.style.alignItems = 'center';
         playedCardsContainer.style.gap = '16px';
-    }  static async playCardAnimation(
+    }
+    static async playCardAnimation(
         player: 'player' | 'opponent',
         cardData: any,
         cardId: string

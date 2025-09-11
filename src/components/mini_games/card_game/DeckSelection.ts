@@ -91,21 +91,22 @@ export class DeckSelection {
         const selectedCount = this.selectedDeck[cardData.id] || 0;
         
         cardElement.innerHTML = `
-            <div style="background:rgba(30,30,30,0.8);border:1px solid #8B7D6B;border-radius:8px;padding:10px;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:space-between;transition:all 0.3s;">
-                <div>
-                    <h3 style="margin:0 0 10px 0;color:#d4af37;font-size:16px;">${cardData.name}</h3>
-                    <p style="font-size:12px;margin:5px 0;">${cardData.description}</p>
-                    <div style="margin:8px 0;font-size:14px;">
-                        <div>消耗: ${cardData.cost}</div>
+            <div style="width:165px;height:240px;position:relative;border-radius:10px;overflow:hidden;background:rgb(226, 218, 197);background-image:url('../../assets/images/beijing.png');background-size:cover;color:#000;border:1px solid #8B7D6B;box-shadow:0 12px 30px rgba(0, 0, 0, 0.6);margin:0 auto;">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(-45deg,transparent,transparent 3px,rgba(212, 175, 55, 0.05) 3px,rgba(212, 175, 55, 0.05) 6px);pointer-events:none;z-index:0;"></div>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-weight:700;background:linear-gradient(rgba(226, 218, 197, 0.8), rgba(226, 218, 197, 0.8));background-size:cover;color:#000;padding:15px;overflow:hidden;">
+                    <div style="font-size:18px;text-align:center;margin-bottom:10px;color:#000;font-weight:bold;">${cardData.name}</div>
+                    <div style="font-size:12px;text-align:center;margin:8px 0;line-height:1.3;color:#000;">${cardData.description}</div>
+                    <div style="font-size:12px;text-align:center;margin-top:10px;color:#000;">
+                        <div style="margin-bottom:6px;">消耗: ${cardData.cost}</div>
                         <div>类型: ${this.getCardTypeText(cardData.type)}</div>
                     </div>
                 </div>
-                <div style="margin-top:10px;">
-                    <div style="font-size:14px;margin-bottom:8px;">拥有: ${count}张</div>
-                    <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
-                        <button class="decrease-btn" style="width:25px;height:25px;background:#444;border:1px solid #8B7D6B;color:#d4af37;cursor:pointer;" ${selectedCount <= 0 ? 'disabled' : ''}>-</button>
-                        <span class="selected-count" style="min-width:20px;text-align:center;">${selectedCount}</span>
-                        <button class="increase-btn" style="width:25px;height:25px;background:#444;border:1px solid #8B7D6B;color:#d4af37;cursor:pointer;" ${selectedCount >= count || this.totalSelected >= this.maxDeckSize ? 'disabled' : ''}>+</button>
+                <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);padding:8px;text-align:center;">
+                    <div style="font-size:14px;color:#d4af37;margin-bottom:8px;">拥有: ${count}张</div>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                        <button class="decrease-btn" style="width:28px;height:28px;background:#444;border:1px solid #8B7D6B;color:#d4af37;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;" ${selectedCount <= 0 ? 'disabled' : ''}>-</button>
+                        <span class="selected-count" style="min-width:20px;text-align:center;font-size:14px;color:#d4af37;">${selectedCount}</span>
+                        <button class="increase-btn" style="width:28px;height:28px;background:#444;border:1px solid #8B7D6B;color:#d4af37;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;" ${selectedCount >= count || this.totalSelected >= this.maxDeckSize ? 'disabled' : ''}>+</button>
                     </div>
                 </div>
             </div>
