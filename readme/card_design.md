@@ -1,4 +1,6 @@
-# 卡牌设计
+## 卡牌设计
+
+### 已测完
 
 * 拳击（id：punch）：1攻击
 * 招架（id：parry）：1攻击，消耗1行动，对方减少1行动
@@ -20,6 +22,9 @@
 * 碎石（id：crushed_stone）：1攻击，造成2回合不治，消耗1行动
 * 鹅卵石（id：pebble）：2攻击，获得2防御，消耗2行动
 * 陨石（id：meteorite）：7攻击，消耗4行动
+
+### 未测试
+
 * 无痕之"泪"（id：tear_of_no_trace）：2真攻，消耗2行动
 * 不合身的长袍（id：ill_fitting_robe）：受到2伤害，获得5防御，2真防
 * 泛黄书页（id：faded_page）：1攻击，获得1真防，消耗1行动
@@ -75,7 +80,7 @@
 * 降智帽子（id：intelligence_reducing_hat）：恢复5血量，复制一张对方卡牌给对方
 * 惹人喜爱的钟表（id：lovable_clock）：10攻击，消耗2行动
 
-# Buff列表
+## Buff列表
 
 格式：
 
@@ -125,7 +130,7 @@ id；名称；描述（描述需写在程序中）；补充描述（对Buff作�
 * erosive；腐蚀；每回合受到攻击
 * shadow；影子；复制上一张牌效果，作用后消失
 
-接口：
+## 接口：
 
 ```typescript
 interface CardData {

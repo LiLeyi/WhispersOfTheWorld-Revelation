@@ -177,15 +177,33 @@ export class CardService {
                 console.log(`[DEBUG] ${target.name}添加防御交换效果`);
                 break;
                 
-            default:
-                // 处理持续性buff效果
+            default:                // 处理持续性buff效果
                 if (this.isBuffEffect(effect.id)) {
-                    const buff: Buff = {
-                        id: effect.id,
-                        duration: effect.duration,
-                        target: effect.target
-                    };
-                    target.buffs.push(buff);
+                    // 对于需要合并的buff类型，检查是否已经存在相同类型的buff
+                    const mergeableBuffs = ['incurable']; // 可以合并的buff类型
+                    if (mergeableBuffs.includes(effect.id)) {
+                        const existingBuff = target.buffs.find(buff => buff.id === effect.id);
+                        if (existingBuff) {
+                            // 如果已有相同buff，增加其持续时间
+                            existingBuff.duration = (existingBuff.duration || 0) + (effect.duration || 0);
+                        } else {
+                            // 如果没有相同buff，添加新的
+                            const buff: Buff = {
+                                id: effect.id,
+                                duration: effect.duration,
+                                target: effect.target
+                            };
+                            target.buffs.push(buff);
+                        }
+                    } else {
+                        // 其他buff直接添加
+                        const buff: Buff = {
+                            id: effect.id,
+                            duration: effect.duration,
+                            target: effect.target
+                        };
+                        target.buffs.push(buff);
+                    }
                     console.log(`[DEBUG] ${target.name}获得buff: ${effect.id}，持续时间: ${effect.duration}`);
                 }
                 break;

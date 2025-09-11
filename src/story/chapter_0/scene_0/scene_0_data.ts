@@ -79,7 +79,7 @@ const scene: Scene = {
                             "little_stone": 1,
                             "strange_stone": 1,
                             "bedrock": 1,
-                            "large_rock": 5
+                            "crushed_stone": 5
                         },
                         drawCount: 2,           // 玩家每回合抽2张牌
                         initialDrawCount: 2,     // 玩家开始时抽4张牌
@@ -92,11 +92,7 @@ const scene: Scene = {
                         maxHp: 15,
                         deck: {
                             "punch": 1,      // 拳击：1攻0行动
-                            "parry": 1,      // 招架：1攻 1行动 对方减少1行动
-                            "hook": 1,       // 勾拳：3攻2行动
-                            "dodge": 1,      // 闪避：2防1行动
-                            "combo": 1,      // 连击：下张牌伤害*2 2行动
-                            "see_through": 1 // 识破：5防 3行动
+                            "holiness": 1
                         },
                         drawCount: 2,           // 对手每回合抽1张牌
                         initialDrawCount: 3,     // 对手开始时抽3张牌

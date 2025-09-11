@@ -988,6 +988,10 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('玩家抽牌阶段');
+                // 在抽牌阶段开始时处理对手的buff效果
+                PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
+                    this.state.message += message;
+                }, this.state.lastPlayedCard);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
@@ -1021,6 +1025,10 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('巨石抽牌阶段');
+                // 在抽牌阶段开始时处理玩家的buff效果
+                PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
+                    this.state.message += message;
+                }, this.state.lastPlayedCard);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
@@ -1359,14 +1367,6 @@ class CardGame extends MiniGame {
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
-        
-        // 处理所有玩家的buff效果（但不减少防御buff的持续时间）
-        PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
-            this.state.message += message;
-        }, this.state.lastPlayedCard);
-        PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
-            this.state.message += message;
-        }, this.state.lastPlayedCard);
         
         // 触发所有符合条件的事件
         const gameData: CardGameEventData = this.getGameData();

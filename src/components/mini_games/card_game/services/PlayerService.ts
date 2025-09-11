@@ -18,18 +18,6 @@ export class PlayerService {
             
             // 根据buff类型更新持续时间
             switch (buff.id) {
-                // 这些buff在使用后消失或每回合减少层数
-                case 'immunication':
-                case 'transfer':
-                case 'machanical_sentry':
-                    if (buff.duration !== undefined && buff.duration > 0) {
-                        buff.duration--;
-                        if (buff.duration <= 0) {
-                            player.buffs.splice(i, 1);
-                        }
-                    }
-                    break;
-                    
                 // 这些buff每回合触发效果但不减少层数
                 case 'defence':
                 case 'true_defence':
@@ -47,6 +35,19 @@ export class PlayerService {
                 case 'true_hard':
                 case 'shadow':
                     player.buffs.splice(i, 1);
+                    break;
+                    
+                // 这些buff每回合减少层数
+                case 'incurable':
+                case 'immunication':
+                case 'transfer':
+                case 'machanical_sentry':
+                    if (buff.duration !== undefined && buff.duration > 0) {
+                        buff.duration--;
+                        if (buff.duration <= 0) {
+                            player.buffs.splice(i, 1);
+                        }
+                    }
                     break;
             }
         }
