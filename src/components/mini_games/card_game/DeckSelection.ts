@@ -15,12 +15,14 @@ export class DeckSelection {
         container: HTMLElement, 
         onComplete: (deck: Record<string, number>) => void,
         private minDeck: number = 5,
-        private maxDeck: number = 10
+        private maxDeck: number = 10,
+        initialDeck?: Record<string, number>  // 添加初始卡组参数
     ) {
         this.container = container;
         this.onComplete = onComplete;
         this.cardManager = CardManager.getInstance();
-        this.playerDeck = this.cardManager.getPlayerDeck();
+        // 使用传入的初始卡组或从CardManager获取
+        this.playerDeck = initialDeck || this.cardManager.getPlayerDeck();
         this.minDeckSize = minDeck;
         this.maxDeckSize = maxDeck;
         this.init();

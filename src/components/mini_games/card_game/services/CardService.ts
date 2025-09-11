@@ -126,7 +126,7 @@ export class CardService {
             case 'do_get_card':
                 // 抽牌逻辑
                 console.log(`[DEBUG] ${target.name}抽${effect.duration || 0}张牌`);
-                PlayerService.drawCards(target, effect.duration || 0);
+                PlayerService.drawCards(target, effect.duration || 0, updateMessage);
                 break;
                 
             case 'do_drop_card':
@@ -134,7 +134,8 @@ export class CardService {
                 if (target.hand.length > 0) {
                     const randomIndex = Math.floor(Math.random() * target.hand.length);
                     console.log(`[DEBUG] ${target.name}弃掉手牌: ${target.hand[randomIndex]?.name}`);
-                    target.hand.splice(randomIndex, 1);
+                    const [discardedCard] = target.hand.splice(randomIndex, 1);
+                    target.discardPile.push(discardedCard);
                 }
                 break;
                 

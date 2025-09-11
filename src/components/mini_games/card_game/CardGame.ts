@@ -678,6 +678,16 @@ class CardGame extends MiniGame {
             const minDeckSize = this.gameConfig?.deckSelection?.minDeckSize || 5;
             const maxDeckSize = this.gameConfig?.deckSelection?.maxDeckSize || 10;
 
+            // 使用场景配置的卡组或默认卡组
+            let initialDeck = DEFAULT_PLAYER_DECK;
+            if (this.gameConfig?.player?.deck) {
+                if (typeof this.gameConfig.player.deck === 'function') {
+                    initialDeck = this.gameConfig.player.deck();
+                } else {
+                    initialDeck = this.gameConfig.player.deck;
+                }
+            }
+
             const deckSelection = new DeckSelection(this.deckSelectionContainer, (selectedDeck) => {
                 if (Object.keys(selectedDeck).length > 0) {
                     // 玩家选择了卡组，使用选择的卡组开始游戏
@@ -690,7 +700,7 @@ class CardGame extends MiniGame {
                     // 玩家取消了选择，退出游戏
                     this.onComplete(0);
                 }
-            }, minDeckSize, maxDeckSize);
+            }, minDeckSize, maxDeckSize, initialDeck);
         }
     }
 

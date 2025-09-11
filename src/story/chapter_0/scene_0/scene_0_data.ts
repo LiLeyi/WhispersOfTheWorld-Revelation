@@ -71,18 +71,19 @@ const scene: Scene = {
                 id: "card_game",
                 config: {
                     player: {
-                        actionPoints: 3,
-                        hp: 20,
-                        maxHp: 20,
-                        deck: () => CardManager.getInstance().getPlayerDeck(),
+                        actionPoints: 1,
+                        hp: 10,
+                        maxHp: 10,
+                        // deck: () => CardManager.getInstance().getPlayerDeck(),
+                        deck: {
+                            "little_stone": 1,
+                            "strange_stone": 1,
+                            "bedrock": 1,
+                            "large_rock": 5
+                        },
                         drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 4,     // 玩家开始时抽4张牌
+                        initialDrawCount: 2,     // 玩家开始时抽4张牌
                         initialBuffs: [  // 设置初始buff
-                            {
-                                id: "defence",
-                                duration: 10,
-                                target: "self"
-                            }
                         ],
                     },
                     opponent: {

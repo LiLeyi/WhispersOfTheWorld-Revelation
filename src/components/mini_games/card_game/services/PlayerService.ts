@@ -13,7 +13,7 @@ export class PlayerService {
             
             // 执行buff效果
             CardService.executeBuffEffect(buff, player, opponent, updateMessage, (p, count) => {
-                this.drawCards(p, count);
+                this.drawCards(p, count, updateMessage);
             }, lastPlayedCard);
             
             // 根据buff类型更新持续时间
@@ -53,12 +53,18 @@ export class PlayerService {
     }
     
      // 抽牌
-    static drawCards(player: Player, count: number): void {
+     // 抽牌
+    static drawCards(player: Player, count: number, updateMessage?: (message: string) => void): void {
         console.log(`[DEBUG] ${player.name}抽${count}张牌`);
+        let drawnCount = 0; // 记录实际抽到的牌数
+        
         for (let i = 0; i < count; i++) {
             // 如果手牌已满（7张），停止抽牌
             if (player.hand.length >= 7) {
                 console.log(`[DEBUG] ${player.name}手牌已满，停止抽牌`);
+                if (updateMessage) {
+                    updateMessage(`${player.name}想要抽牌，但手牌已满`);
+                }
                 break;
             }
             
@@ -71,6 +77,9 @@ export class PlayerService {
             // 如果重新洗牌后仍然没有牌，停止抽牌
             if (player.deck.length === 0) {
                 console.log(`[DEBUG] ${player.name}重新洗牌后仍无牌可抽，停止抽牌`);
+                if (updateMessage) {
+                    updateMessage(`${player.name}想要抽牌，但牌堆已空`);
+                }
                 break;
             }
             
@@ -80,11 +89,21 @@ export class PlayerService {
             // 确保抽到的卡牌有效
             if (card && card.id) {
                 player.hand.push(card);
+                drawnCount++;
                 console.log(`[DEBUG] ${player.name}抽到卡牌: ${card.name}`);
             } else {
                 console.warn('抽到了无效卡牌:', card);
                 // 如果抽到了无效卡牌，尝试再抽一张
                 i--; // 重新尝试这一轮抽牌
+            }
+        }
+        
+        // 提供抽牌结果的反馈
+        if (updateMessage) {
+            if (drawnCount === count) {
+                updateMessage(`${player.name}抽到了${drawnCount}张牌`);
+            } else if (drawnCount < count) {
+                updateMessage(`${player.name}想要抽${count}张牌，但只抽到了${drawnCount}张`);
             }
         }
     }
