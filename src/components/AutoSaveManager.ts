@@ -70,7 +70,7 @@ public createAutoSave(sceneId: string, nodeIndex: number, description: string): 
         console.error("[AutoSaveManager] 创建自动存档时出错:", e);
     }
 }
-    /**
+   /**
      * 恢复自动存档
      * @param saveId 要恢复的存档ID
      * @returns 是否成功恢复
@@ -98,16 +98,20 @@ public createAutoSave(sceneId: string, nodeIndex: number, description: string): 
                     }
                 }
                 
-                // 恢复场景和节点信息
-                localStorage.setItem('currentSceneId', targetSave.gameData.sceneId || '');
-                localStorage.setItem('nowclick', String(targetSave.gameData.clickCount || 0));
+                // 恢复场景和节点信息到localStorage，供游戏场景页面读取
+                localStorage.setItem('restoreSceneId', targetSave.sceneId || '');
+                localStorage.setItem('restoreNodeIndex', String(targetSave.nodeIndex || 0));
                 
                 // 恢复背景信息
-                localStorage.setItem('MSYbackgroundIMG', targetSave.gameData.background || '');
+                if (targetSave.gameData.background) {
+                    localStorage.setItem('MSYbackgroundIMG', targetSave.gameData.background);
+                }
                 
                 // 恢复文本历史记录
-                const textHistoryKey = `gameTextHistory_${localStorage.getItem('currentArchiveId') || 'default'}`;
-                localStorage.setItem(textHistoryKey, targetSave.gameData.textHistory || '[]');
+                if (targetSave.gameData.textHistory) {
+                    const textHistoryKey = `gameTextHistory_${localStorage.getItem('currentArchiveId') || 'default'}`;
+                    localStorage.setItem(textHistoryKey, targetSave.gameData.textHistory);
+                }
             }
             
             console.log(`[AutoSaveManager] 成功恢复自动存档: ${targetSave.description}`);

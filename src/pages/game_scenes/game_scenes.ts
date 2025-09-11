@@ -310,10 +310,48 @@ class GameScene {
     }
 
 
-    private redirectToNewPage(nextpage: string): void {
-        const nextPageURL = nextpage + "?referrer=" + encodeURIComponent(window.location.href);
-        window.location.href = nextPageURL;
+private redirectToNewPage(nextpage: string): void {
+    // 获取当前URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // 构造目标URL
+    let targetUrl = nextpage;
+    
+    // 检查是否有场景参数，如果没有则从当前场景获取
+    const scene = urlParams.get('scene') || (this.currentScene ? this.currentScene.id : null);
+    console.log(`[GameScene] redirectToNewPage 参数:`, { 
+        nextpage, 
+        currentSceneId: this.currentScene?.id, 
+        scene,
+        currentNodeIndex: this.currentNodeIndex,
+        clickCount: this.clickCount
+    });
+    
+    const click = urlParams.get('click') || this.currentNodeIndex.toString();
+    const archiveId = urlParams.get('archiveId') || ArchiveManager.getCurrentArchiveId();
+    console.log(`[GameScene] redirectToNewPage 参数详情:`, { 
+        urlClick: urlParams.get('click'),
+        currentNodeIndex: this.currentNodeIndex,
+        click,
+        urlArchiveId: urlParams.get('archiveId'),
+        currentArchiveId: ArchiveManager.getCurrentArchiveId(),
+        archiveId
+    });
+    
+    if (scene) {
+        targetUrl += '?scene=' + encodeURIComponent(scene);
+        
+        if (click) targetUrl += '&click=' + encodeURIComponent(click);
+        if (archiveId) targetUrl += '&archiveId=' + encodeURIComponent(archiveId);
+        
+        // 添加来源标记
+        targetUrl += '&from=game_scenes';
     }
+    
+    console.log(`[GameScene] 跳转到: ${targetUrl}`);
+    window.location.href = targetUrl;
+}
+
 
     private async loadSceneByName(sceneName: string): Promise<void> {
         console.log(`[GameScene] 开始加载场景: ${sceneName}`);
@@ -354,7 +392,7 @@ class GameScene {
         }
     }
 
-    public loadScene(scene: Scene): void {
+      public loadScene(scene: Scene): void {
         console.log("[GameScene] loadScene开始，场景:", scene, "isNewGame标记:", (this as any)._isNewGame);
         this.currentScene = scene;
         // 移除initialState的使用，因为我们现在使用ArchiveManager管理状态
@@ -449,6 +487,21 @@ class GameScene {
             this.currentNodeIndex = 0;
         }
 
+        // 更新URL以包含场景参数和点击次数，确保从其他页面可以正确返回
+        // 注意：我们需要确保currentNodeIndex是最新的
+        const currentUrl = new URL(window.location.href);
+        if (scene.id) {
+            currentUrl.searchParams.set('scene', scene.id);
+            currentUrl.searchParams.set('from', 'game_scenes');
+            currentUrl.searchParams.set('click', this.currentNodeIndex.toString());
+            currentUrl.searchParams.set('archiveId', ArchiveManager.getCurrentArchiveId());
+            
+            // 只有当URL确实发生变化时才更新
+            if (currentUrl.toString() !== window.location.href) {
+                window.history.replaceState({}, '', currentUrl.toString());
+            }
+        }
+
         // 立即更新背景以确保读档后背景正确显示
         if (this.previousElements.background) {
             // 修改这里，确保背景被正确设置
@@ -479,7 +532,6 @@ class GameScene {
 
         this.renderCurrentNode();
     }
-
     private getCurrentNode(): SceneNode | null {
         if (!this.currentScene) return null;
         return this.currentScene.nodes[this.currentNodeIndex] || null;
@@ -1478,12 +1530,12 @@ private showAutoSaveNotification(message: string): void {
                     console.log("[GameScene] 查找目标节点索引:", targetNodeIndex);
                     if (targetNodeIndex !== -1) {
                         // 是当前场景内的节点，直接跳转到该节点
-                        console.log("[GameScene] 跳转到当前场景内节点，索引:", targetNodeIndex);
-                        this.currentNodeIndex = targetNodeIndex;
-                        this.clickCount++;
-                        localStorage.setItem("nowclick", this.clickCount.toString());
-                        this.renderCurrentNode();
-                        return;
+                console.log("[GameScene] 跳转到当前场景内节点，索引:", targetNodeIndex);
+                this.currentNodeIndex = targetNodeIndex;
+                this.clickCount = targetNodeIndex; // 保持clickCount与currentNodeIndex同步
+                localStorage.setItem("nowclick", this.clickCount.toString());
+                this.renderCurrentNode();
+                return;
                     }
                 }
                 // 如果不是当前场景内的节点，则进行场景间跳转
@@ -1493,7 +1545,7 @@ private showAutoSaveNotification(message: string): void {
             return;
         }
 
-        // 如果还有下一个节点
+          // 如果还有下一个节点
         if (this.currentNodeIndex < this.currentScene.nodes.length - 1) {
             console.log("[GameScene] 跳转到下一个节点");
             this.currentNodeIndex++;
@@ -1511,6 +1563,14 @@ private showAutoSaveNotification(message: string): void {
                     this.navigateToScene(node.next);
                 }
             }
+        }
+        
+        // 更新URL中的点击参数，确保从其他页面返回时能回到正确位置
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('click', this.currentNodeIndex.toString());
+        console.log("[GameScene] 更新URL参数:", currentUrl.toString());
+        if (currentUrl.toString() !== window.location.href) {
+            window.history.replaceState({}, '', currentUrl.toString());
         }
     }
       private startAutoClick(): void {
@@ -1652,11 +1712,18 @@ private showAutoSaveNotification(message: string): void {
                         continue;
                     }
                     
-                    // 找到满足条件的节点，进行回退
+                   // 找到满足条件的节点，进行回退
                     this.currentNodeIndex = previousNodeIndex;
                     this.clickCount = this.currentNodeIndex;
                     localStorage.setItem("nowclick", this.clickCount.toString());
                     this.renderCurrentNode();
+                    
+                    // 更新URL中的点击参数，确保从其他页面返回时能回到正确位置
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set('click', this.currentNodeIndex.toString());
+                    if (currentUrl.toString() !== window.location.href) {
+                        window.history.replaceState({}, '', currentUrl.toString());
+                    }
                     return;
                 }
                 // 如果当前节点不满足条件，继续向前查找

@@ -322,7 +322,7 @@ function loadGame(index: number){
 
     // 跳转回游戏场景页面，并传递场景信息
     const page = "../game_scenes/game_scenes.html";
-    const url = `${page}?scene=${slot.chapter}&click=${slot.click || 0}&referrer=archive_page`;
+    const url = `${page}?scene=${slot.chapter}&click=${slot.click || 0}`;
     console.log(`[ArchivePage] 跳转到URL: ${url}`);
     window.location.href = url;
 }
@@ -346,7 +346,7 @@ function loadAutoSave(saveId: string) {
             
             // 跳转到游戏场景页面
             const page = "../game_scenes/game_scenes.html";
-            const url = `${page}?scene=${sceneId}&click=${nodeIndex}&archiveId=${archiveId}&referrer=archive_page`;
+            const url = `${page}?scene=${sceneId}&click=${nodeIndex}&archiveId=${archiveId}`;
             console.log(`[ArchivePage] 跳转到自动存档URL: ${url}`);
             window.location.href = url;
         } else {
@@ -435,32 +435,31 @@ function setupBackButton() {
     const backButtonText = document.getElementById('backButtonText');
     
     if (backButton && backButtonText) {
-        // 检查是否从游戏场景进入（通过referrer参数）
+        // 检查是否从游戏场景进入
         const urlParams = new URLSearchParams(window.location.search);
-        const referrer = urlParams.get('referrer');
+        const from = urlParams.get('from');
+        const scene = urlParams.get('scene');
         
-        if (referrer) {
-            try {
-                // 解码referrer URL
-                const decodedReferrer = decodeURIComponent(referrer);
-                // 检查是否来自游戏场景
-                if (decodedReferrer.includes('game_scenes.html')) {
-                    // 从游戏场景进入，返回游戏
-                    backButtonText.textContent = '返回游戏';
-                    backButton.href = decodedReferrer;
-                    return;
-                }
-            } catch (e) {
-                console.error('解码referrer失败:', e);
-            }
+        if (from === 'game_scenes' && scene) {
+            // 从游戏场景进入，返回游戏
+            backButtonText.textContent = '返回游戏';
+            
+            // 构造返回URL
+            let returnUrl = '../game_scenes/game_scenes.html?scene=' + encodeURIComponent(scene);
+            const click = urlParams.get('click');
+            const archiveId = urlParams.get('archiveId');
+            
+            if (click) returnUrl += '&click=' + encodeURIComponent(click);
+            if (archiveId) returnUrl += '&archiveId=' + encodeURIComponent(archiveId);
+            
+            backButton.href = returnUrl;
+        } else {
+            // 默认情况：返回主菜单
+            backButtonText.textContent = '主菜单';
+            backButton.href = '../main_menu/main_menu.html';
         }
-        
-        // 默认情况：从主菜单进入，返回主菜单
-        backButtonText.textContent = '主菜单';
-        backButton.href = '../main_menu/main_menu.html';
     }
 }
-
 // 页面加载完成后执行
 document.addEventListener("DOMContentLoaded", function() {
     // 设置返回按钮行为

@@ -4,18 +4,11 @@ import { AudioManager } from '../../components/AudioManager';
 let currentLang: "zh" | "en" = "zh";
 let audioManager: AudioManager;
 
-// 检查是否从游戏页面进入（通过referrer参数）
+// 检查是否从游戏页面进入
 function isFromGame(): boolean {
   const urlParams = new URLSearchParams(window.location.search);
-  const referrer = urlParams.get("referrer");
-  return referrer ? referrer.includes("game_scenes") : false;
-}
-
-// 获取游戏页面URL
-function getGamePageUrl(): string | null {
-  const urlParams = new URLSearchParams(window.location.search);
-  const referrer = urlParams.get("referrer");
-  return referrer || null;
+  const from = urlParams.get("from");
+  return from === "game_scenes";
 }
 
 // 切换语言
@@ -116,16 +109,37 @@ function loadSettings(): void {
 // 返回功能 - 根据来源决定返回哪里
 function back(): void {
   const urlParams = new URLSearchParams(window.location.search);
+  const from = urlParams.get("from");
   const referrer = urlParams.get("referrer");
+  const scene = urlParams.get("scene");
   
-  if (isFromGame() && referrer) {
+  // 手动构建参数对象以避免使用不兼容的API
+  const paramsObj: Record<string, string> = {};
+  urlParams.forEach((value, key) => {
+      paramsObj[key] = value;
+  });
+  
+  console.log("设置页面返回功能参数:", { from, referrer, scene, urlParams: paramsObj });
+  
+  // 检查是否从游戏场景进入（支持两种参数格式）
+  if ((from === "game_scenes" || referrer) && scene) {
     // 如果从游戏进入，返回游戏页面
-    window.location.href = referrer;
-  } else if (referrer) {
-    // 如果有referrer但不是来自游戏，则返回referrer指定的页面
+    let returnUrl = "../game_scenes/game_scenes.html?scene=" + encodeURIComponent(scene);
+    const click = urlParams.get("click");
+    const archiveId = urlParams.get("archiveId");
+    
+    if (click) returnUrl += "&click=" + encodeURIComponent(click);
+    if (archiveId) returnUrl += "&archiveId=" + encodeURIComponent(archiveId);
+    
+    console.log("返回游戏URL:", returnUrl);
+    window.location.href = returnUrl;
+  } else if (referrer && referrer.includes('game_scenes')) {
+    // 如果有referrer参数且包含game_scenes，则直接返回referrer
+    console.log("通过referrer返回游戏:", referrer);
     window.location.href = referrer;
   } else {
     // 否则返回主菜单
+    console.log("返回主菜单");
     window.location.href = "../main_menu/main_menu.html";
   }
 }
@@ -141,13 +155,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // 根据来源更新返回按钮文本
   const backBtn = document.getElementById("backToMenu");
   if (backBtn) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const referrer = urlParams.get("referrer");
-    
-    if (referrer) {
-      backBtn.setAttribute("data-zh", "返回");
-      backBtn.setAttribute("data-en", "Back");
-      const text = currentLang === "zh" ? "返回" : "Back";
+    if (isFromGame()) {
+      backBtn.setAttribute("data-zh", "返回游戏");
+      backBtn.setAttribute("data-en", "Back to Game");
+      const text = currentLang === "zh" ? "返回游戏" : "Back to Game";
       backBtn.textContent = text;
     } else {
       backBtn.setAttribute("data-zh", "返回主菜单");

@@ -10,21 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化粒子系统
     initParticleSystem();
 
-    if (backButton) {
+   if (backButton) {
         backButton.addEventListener('click', () => {
-            // 检查是否有referrer参数，如果有则返回到游戏页面
+            // 检查是否从游戏场景进入
             const urlParams = new URLSearchParams(window.location.search);
-            const referrer = urlParams.get('referrer');
+            const from = urlParams.get('from');
+            const scene = urlParams.get('scene');
             
-            if (referrer) {
-                window.location.href = decodeURIComponent(referrer);
+            if (from === 'game_scenes' && scene) {
+                // 从游戏场景进入，构造返回URL
+                let returnUrl = '../game_scenes/game_scenes.html?scene=' + encodeURIComponent(scene);
+                const click = urlParams.get('click');
+                const archiveId = urlParams.get('archiveId');
+                
+                if (click) returnUrl += '&click=' + encodeURIComponent(click);
+                if (archiveId) returnUrl += '&archiveId=' + encodeURIComponent(archiveId);
+                
+                window.location.href = returnUrl;
             } else {
-                // 如果没有referrer，则返回到主菜单
+                // 默认返回主菜单
                 window.location.href = '../main_menu/main_menu.html';
             }
         });
     }
-
     if (logContainer) {
         displayGameLogs(logContainer, noLogsMessage);
     }
