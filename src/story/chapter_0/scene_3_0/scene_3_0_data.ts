@@ -869,6 +869,7 @@ nodes: [
         name: "梅菲斯特",
         text: "与我同行，你并非坠入黑暗，你只是......睁开了眼睛。"
     },
+    keyNode: true,
     choices: [
         {
             text: "也许......你说得对。或许这一切根本毫无意义。",
@@ -1263,6 +1264,7 @@ nodes: [
             left:"NPC/dead_man.png"
         }
     },
+    keyNode: true,
     choices: [
         {
             text: "失败",
@@ -1555,6 +1557,7 @@ nodes: [
             left: "guangling/smile.png",
         }
     },
+    keyNode: true,
     choices: [
         {
             text: "等等吧。",
@@ -2040,6 +2043,7 @@ nodes: [
         name: "旁白",
         text: "最后一刻，我们成功避开了恶魂的袭击，逃离了洞窟。真是可怕的力量。"
     },
+    keyNode: true,
     choices: [
         {
             text:"我们得好好想想，怎么面对这个前所未有的强敌。",
@@ -2553,7 +2557,8 @@ nodes: [
         name: "你",
         text: "来吧，你这家伙。",
         background:"sc3.1/3-1-13.jpg",
-    },//进入与恶魂之间的战斗//
+    },
+    keyNode: true,//进入与恶魂之间的战斗//
     choices: [
         {
             text: "大获全胜。",
@@ -3349,6 +3354,7 @@ nodes: [
         name: "旁白",
         text: "而另一个恶魂，却径直冲向了光泠所在的方向！",
     },
+    keyNode: true,
     choices: [
         {
             text: "先去保护光泠。",
@@ -3915,6 +3921,7 @@ nodes: [
         name: "你",
         text: "不管了，先把关键之物拿到手再说！",
     },
+    keyNode: true,
     choices: [
         {
             text: "毁掉“蚀心刃”",

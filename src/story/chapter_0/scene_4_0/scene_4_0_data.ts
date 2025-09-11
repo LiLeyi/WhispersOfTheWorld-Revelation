@@ -620,6 +620,7 @@ sprite:{
     left:"guangling/wubiaoqing.png",
 }  
     },
+    keyNode: true,
     choices: [
         {
             text: "你真的没有在欺骗我吗？",
@@ -681,6 +682,7 @@ sprite:{
     left:"guangling/wubiaoqing.png",
 }  
     },
+    keyNode: true,
     choices: [
         {
             text: "已拾取蚀心刃",
@@ -1146,6 +1148,7 @@ sprite:{
             left: "guangling/smile1.png",
         }
     },
+    keyNode: true,
     choices: [
         {
             text: "但我更想要依靠人类自己的力量。",
@@ -2643,6 +2646,7 @@ sprite: {
             left: null,
         }
     },
+    keyNode: true,
     choices: [
       {
         text: "未集齐三样关键之物",
@@ -2661,6 +2665,7 @@ sprite: {
       "name": "你",
       "text": "未集齐三样关键之物",
     },
+    keyNode: true,
     choices: [
         {
           text: "输了",
@@ -3328,6 +3333,7 @@ sprite: {
         left: null
      }
     },
+    keyNode: true,
     choices:[
         {
             text:"大获全胜（最后一管血你>2Hp）",
@@ -3834,6 +3840,7 @@ sprite: {
     name: "光泠",
     text: "接下来……你愿意陪我到最后一刻吗？"
   },
+  keyNode: true,
   choices: [
     {
       text: "愿意",
@@ -4823,6 +4830,7 @@ sprite: {
     name: "我",
     text: "我要斩断苦难的枷锁。"
   },
+  keyNode: true,
   choices: [
     {
       text: "我要终结世界的厄难！",

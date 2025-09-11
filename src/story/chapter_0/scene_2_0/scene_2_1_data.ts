@@ -1345,7 +1345,9 @@ sprite: {
     name: "光泠", 
     text: "不过，既然已经知晓了这里发生的事情，你下一步作何打算？" ,
     background:"sc2.1/2-1-7.png",
+    
   },
+  keyNode: true,
   choices: [
     {
       text: "我想我们也许得另作打算了。",
@@ -1595,6 +1597,7 @@ sprite: {
             left:null,
         }
   },
+  keyNode: true,
   choices: [
     {
       text: "袖手旁观",
@@ -1959,7 +1962,8 @@ sprite: {
     sprite: {
             left:null,
         }
-  },//这里插入战斗，一共两管血//
+  },
+  keyNode: true,//这里插入战斗，一共两管血//
   choices: [
     {
       text: "赢了",
