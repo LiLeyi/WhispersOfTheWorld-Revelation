@@ -571,22 +571,44 @@ class CardGame extends MiniGame {
         // 在CardGame类的构造函数中，处理player deck配置
         this.config = {
             player: {
-                actionPoints: gameConfig?.player?.actionPoints ?? 3,
-                hp: gameConfig?.player?.hp ?? 30,
-                maxHp: gameConfig?.player?.maxHp ?? 30,
+                actionPoints: typeof gameConfig?.player?.actionPoints === 'function'
+                    ? gameConfig.player.actionPoints()
+                    : gameConfig?.player?.actionPoints ?? 3,
+                hp: typeof gameConfig?.player?.hp === 'function'
+                    ? gameConfig.player.hp()
+                    : gameConfig?.player?.hp ?? 30,
+                maxHp: typeof gameConfig?.player?.maxHp === 'function'
+                    ? gameConfig.player.maxHp()
+                    : gameConfig?.player?.maxHp ?? 30,
                 deck: typeof gameConfig?.player?.deck === 'function'
                     ? gameConfig.player.deck()
                     : gameConfig?.player?.deck ?? DEFAULT_PLAYER_DECK,
-                drawCount: gameConfig?.player?.drawCount ?? 2,
-                initialDrawCount: gameConfig?.player?.initialDrawCount ?? 4
+                drawCount: typeof gameConfig?.player?.drawCount === 'function'
+                    ? gameConfig.player.drawCount()
+                    : gameConfig?.player?.drawCount ?? 2,
+                initialDrawCount: typeof gameConfig?.player?.initialDrawCount === 'function'
+                    ? gameConfig.player.initialDrawCount()
+                    : gameConfig?.player?.initialDrawCount ?? 4
             },
             opponent: {
-                actionPoints: gameConfig?.opponent?.actionPoints ?? 3,
-                hp: gameConfig?.opponent?.hp ?? 30,
-                maxHp: gameConfig?.opponent?.maxHp ?? 30,
-                deck: gameConfig?.opponent?.deck ?? DEFAULT_PLAYER_DECK,
-                drawCount: gameConfig?.opponent?.drawCount ?? 1,
-                initialDrawCount: gameConfig?.opponent?.initialDrawCount ?? 3
+                actionPoints: typeof gameConfig?.opponent?.actionPoints === 'function'
+                    ? gameConfig.opponent.actionPoints()
+                    : gameConfig?.opponent?.actionPoints ?? 3,
+                hp: typeof gameConfig?.opponent?.hp === 'function'
+                    ? gameConfig.opponent.hp()
+                    : gameConfig?.opponent?.hp ?? 30,
+                maxHp: typeof gameConfig?.opponent?.maxHp === 'function'
+                    ? gameConfig.opponent.maxHp()
+                    : gameConfig?.opponent?.maxHp ?? 30,
+                deck: typeof gameConfig?.opponent?.deck === 'function'
+                    ? gameConfig.opponent.deck()
+                    : gameConfig?.opponent?.deck ?? DEFAULT_PLAYER_DECK,
+                drawCount: typeof gameConfig?.opponent?.drawCount === 'function'
+                    ? gameConfig.opponent.drawCount()
+                    : gameConfig?.opponent?.drawCount ?? 1,
+                initialDrawCount: typeof gameConfig?.opponent?.initialDrawCount === 'function'
+                    ? gameConfig.opponent.initialDrawCount()
+                    : gameConfig?.opponent?.initialDrawCount ?? 3
             }
         };
 
@@ -595,10 +617,18 @@ class CardGame extends MiniGame {
             player: {
                 id: 'player',
                 name: this.gameConfig?.player?.name || '玩家',
-                hp: this.config.player!.hp!,
-                maxHp: this.config.player!.maxHp!,
-                actionPoints: this.config.player!.actionPoints!,
-                maxActionPoints: this.config.player!.actionPoints!,
+                hp: typeof this.config.player!.hp === 'function' 
+                    ? this.config.player!.hp()! 
+                    : this.config.player!.hp!,
+                maxHp: typeof this.config.player!.maxHp === 'function' 
+                    ? this.config.player!.maxHp()! 
+                    : this.config.player!.maxHp!,
+                actionPoints: typeof this.config.player!.actionPoints === 'function' 
+                    ? this.config.player!.actionPoints()! 
+                    : this.config.player!.actionPoints!,
+                maxActionPoints: typeof this.config.player!.actionPoints === 'function' 
+                    ? this.config.player!.actionPoints()! 
+                    : this.config.player!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.player!.deck === 'function' 
                         ? this.config.player!.deck() 
@@ -612,10 +642,18 @@ class CardGame extends MiniGame {
             opponent: {
                 id: 'opponent',
                 name: this.gameConfig?.opponent?.name || '巨石',
-                hp: this.config.opponent!.hp!,
-                maxHp: this.config.opponent!.maxHp!,
-                actionPoints: this.config.opponent!.actionPoints!,
-                maxActionPoints: this.config.opponent!.actionPoints!,
+                hp: typeof this.config.opponent!.hp === 'function' 
+                    ? this.config.opponent!.hp()! 
+                    : this.config.opponent!.hp!,
+                maxHp: typeof this.config.opponent!.maxHp === 'function' 
+                    ? this.config.opponent!.maxHp()! 
+                    : this.config.opponent!.maxHp!,
+                actionPoints: typeof this.config.opponent!.actionPoints === 'function' 
+                    ? this.config.opponent!.actionPoints()! 
+                    : this.config.opponent!.actionPoints!,
+                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function' 
+                    ? this.config.opponent!.actionPoints()! 
+                    : this.config.opponent!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.opponent!.deck === 'function' 
                         ? this.config.opponent!.deck() 
@@ -884,8 +922,12 @@ class CardGame extends MiniGame {
         this.playBackgroundMusic();
 
         // 初始抽牌
-        PlayerService.drawCards(this.state.player, this.config.player!.initialDrawCount!);
-        PlayerService.drawCards(this.state.opponent, this.config.opponent!.initialDrawCount!);
+        PlayerService.drawCards(this.state.player, typeof this.config.player!.initialDrawCount === 'function' 
+            ? this.config.player!.initialDrawCount()! 
+            : this.config.player!.initialDrawCount!);
+        PlayerService.drawCards(this.state.opponent, typeof this.config.opponent!.initialDrawCount === 'function' 
+            ? this.config.opponent!.initialDrawCount()! 
+            : this.config.opponent!.initialDrawCount!);
 
         // 确保游戏阶段设置为draw
         this.state.gamePhase = 'draw';
@@ -999,7 +1041,9 @@ class CardGame extends MiniGame {
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
-                PlayerService.drawCards(this.state.player, this.config.player!.drawCount!);
+                PlayerService.drawCards(this.state.player, typeof this.config.player!.drawCount === 'function' 
+                    ? this.config.player!.drawCount()! 
+                    : this.config.player!.drawCount!);
                 this.state.gamePhase = 'main';
                 this.state.message = '你的回合，选择一张卡牌使用';
                 this.updateUI();
@@ -1040,7 +1084,9 @@ class CardGame extends MiniGame {
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
-                PlayerService.drawCards(this.state.opponent, this.config.opponent!.drawCount!);
+                PlayerService.drawCards(this.state.player, typeof this.config.opponent!.drawCount === 'function' 
+                    ? this.config.opponent!.drawCount()! 
+                    : this.config.opponent!.drawCount!);
                 this.state.gamePhase = 'main';
                 this.state.message = '巨石回合';
                 this.updateUI();
@@ -1738,8 +1784,12 @@ class CardGame extends MiniGame {
     // 更新UI
     private updateUI(): void {
         this.updateScoreDisplay();
-        UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, this.config.player!.drawCount!);
-        UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, this.config.opponent!.drawCount!);
+        UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function' 
+            ? this.config.player!.drawCount()! 
+            : this.config.player!.drawCount!);
+        UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, typeof this.config.opponent!.drawCount === 'function' 
+            ? this.config.opponent!.drawCount()! 
+            : this.config.opponent!.drawCount!);
         UIManager.updateHand(
             this.playerHandElement,
             this.state.player.hand,
@@ -1846,10 +1896,18 @@ class CardGame extends MiniGame {
             player: {
                 id: 'player',
                 name: '玩家',
-                hp: this.config.player!.hp!,
-                maxHp: this.config.player!.maxHp!,
-                actionPoints: this.config.player!.actionPoints!,
-                maxActionPoints: this.config.player!.actionPoints!,
+                hp: typeof this.config.player!.hp === 'function' 
+                    ? this.config.player!.hp()! 
+                    : this.config.player!.hp!,
+                maxHp: typeof this.config.player!.maxHp === 'function' 
+                    ? this.config.player!.maxHp()! 
+                    : this.config.player!.maxHp!,
+                actionPoints: typeof this.config.player!.actionPoints === 'function' 
+                    ? this.config.player!.actionPoints()! 
+                    : this.config.player!.actionPoints!,
+                maxActionPoints: typeof this.config.player!.actionPoints === 'function' 
+                    ? this.config.player!.actionPoints()! 
+                    : this.config.player!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.player!.deck === 'function'
                         ? this.config.player!.deck()
@@ -1863,10 +1921,18 @@ class CardGame extends MiniGame {
             opponent: {
                 id: 'opponent',
                 name: '巨石',
-                hp: this.config.opponent!.hp!,
-                maxHp: this.config.opponent!.maxHp!,
-                actionPoints: this.config.opponent!.actionPoints!,
-                maxActionPoints: this.config.opponent!.actionPoints!,
+                hp: typeof this.config.opponent!.hp === 'function' 
+                    ? this.config.opponent!.hp()! 
+                    : this.config.opponent!.hp!,
+                maxHp: typeof this.config.opponent!.maxHp === 'function' 
+                    ? this.config.opponent!.maxHp()! 
+                    : this.config.opponent!.maxHp!,
+                actionPoints: typeof this.config.opponent!.actionPoints === 'function' 
+                    ? this.config.opponent!.actionPoints()! 
+                    : this.config.opponent!.actionPoints!,
+                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function' 
+                    ? this.config.opponent!.actionPoints()! 
+                    : this.config.opponent!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.opponent!.deck === 'function'
                         ? this.config.opponent!.deck()

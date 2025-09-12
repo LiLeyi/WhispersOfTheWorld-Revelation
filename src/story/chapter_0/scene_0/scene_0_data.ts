@@ -4,6 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
 import { CardGameEventData } from '../../../types/MiniGameEvents';
+import { Card } from '../../../components/mini_games/card_game/models/Card';
 
 // 定义第0章场景
 const scene: Scene = {
@@ -21,8 +22,8 @@ const scene: Scene = {
                 // }
             },
             // action: () => {
-            //     let bm = BagManager.getInstance();
-            //     bm.addItemToBag("ancient_coin")
+            //     let cm = CardManager.getInstance();
+            //     cm.updatePlayerMaxHp(cm.getPlayerMaxHp() + 1)
             // }
         },
         // {
@@ -71,19 +72,19 @@ const scene: Scene = {
                 id: "card_game",
                 config: {
                     player: {
-                        actionPoints: 1,
-                        hp: 30,
-                        maxHp: 30,
-                        // deck: () => CardManager.getInstance().getPlayerDeck(),
-                        deck: {
-                            "intelligence_reducing_hat": 5,      // 拳击：1攻0行动
-                            "diamond": 3,
-                            "darkness_shadow_form":3,
-                            "normal_candlelight":3,
-                            "wonderful_potion":3
-                        },
-                        drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 2,     // 玩家开始时抽4张牌
+                        actionPoints: CardManager.getInstance().getPlayerActions,
+                        hp: CardManager.getInstance().getPlayerMaxHp,
+                        maxHp: CardManager.getInstance().getPlayerMaxHp,
+                        drawCount: CardManager.getInstance().getPlayerDrawCount,           // 玩家每回合抽2张牌
+                        initialDrawCount: CardManager.getInstance().getPlayerInitialHandSize,     // 玩家开始时抽4张牌
+                        deck: CardManager.getInstance().getPlayerDeck,
+                        // deck: {
+                        //     "intelligence_reducing_hat": 5,      // 拳击：1攻0行动
+                        //     "diamond": 3,
+                        //     "darkness_shadow_form":3,
+                        //     "normal_candlelight":3,
+                        //     "wonderful_potion":3
+                        // },
                         initialBuffs: [  // 设置初始buff
                         ],
                     },
