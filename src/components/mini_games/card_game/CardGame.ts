@@ -963,7 +963,8 @@ class CardGame extends MiniGame {
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }
-    } private stopBackgroundMusic(): void {
+    } 
+    private stopBackgroundMusic(): void {
         try {
             if (this.audioManager) {
                 // 恢复原始背景音乐

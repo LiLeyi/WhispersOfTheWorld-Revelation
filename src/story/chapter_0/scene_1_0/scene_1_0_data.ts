@@ -1357,15 +1357,15 @@ const scene: Scene = {
                             hp: 15,
                             maxHp: 15,
                             deck:{
-                             "punch":3,
-                             "parry":3,
-                             "hook":3,
-                             "dodge":3,
-                              "combo":2,
-                              "holy_shield":2,
-                               "holiness":2,
-                               "darkness_initial":1,
-                               "enlightenment":1,
+                            "punch":3,
+                            "parry":3,
+                            "hook":3,
+                            "dodge":3,
+                            "combo":2,
+                            "holy_shield":2,
+                            "holiness":2,
+                            "darkness_initial":1,
+                            "enlightenment":1,
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3     // 玩家开始时抽3张牌
@@ -1387,7 +1387,8 @@ const scene: Scene = {
                             drawCount: 1,           // 对手每回合抽1张牌
                             initialDrawCount: 3     // 对手开始时抽3张牌
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg"
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"bgm29"
                     },
                     end: [
                         {
@@ -1449,15 +1450,15 @@ const scene: Scene = {
                             hp: 25,
                             maxHp: 25,
                             deck:{
-                             "punch":3,
-                             "parry":3,
-                             "hook":3,
-                             "dodge":3,
-                              "combo":2,
-                              "holy_shield":2,
-                               "holiness":2,
-                               "darkness_initial":1,
-                               "enlightenment":1,
+                            "punch":3,
+                            "parry":3,
+                            "hook":3,
+                            "dodge":3,
+                            "combo":2,
+                            "holy_shield":2,
+                            "holiness":2,
+                            "darkness_initial":1,
+                            "enlightenment":1,
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3     // 玩家开始时抽3张牌
@@ -1475,16 +1476,17 @@ const scene: Scene = {
                                 "strange_stone": 1,         
                                 "bedrock": 1, 
                                 "large_rock": 1,
-                                  "red_stone":2,
-                                  "diamond":2,
-                                  "crushed_stone":2,
-                                  "pebble":2,
-                                  "meteorite":1,      
+                                "red_stone":2,
+                                "diamond":2,
+                                "crushed_stone":2,
+                                "pebble":2,
+                                "meteorite":1,      
                             },
                             drawCount: 2,           // 对手每回合抽1张牌
                             initialDrawCount: 3     // 对手开始时抽3张牌
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg"
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"bgm30"
                     },
                     end: [
                         {

@@ -56,6 +56,40 @@ class GameScene {
     }
 }
 
+private addInitialCardsIfNeeded(): void {
+        // 确保存档ID设置正确
+        const archiveId = ArchiveManager.getCurrentArchiveId();
+        console.log("[GameScene] 当前存档ID:", archiveId);
+        
+        const archiveManager = ArchiveManager.getInstance();
+        console.log("[GameScene] 存档管理器实例:", archiveManager);
+        
+        // 检查是否已经添加过初始卡牌
+        if (!archiveManager.hasItem("punch")) {
+            console.log("[GameScene] 添加初始卡牌到背包");
+            
+            const INITIAL_CARDS = [
+                "punch",      // 拳击
+                "dodge",      // 闪避
+                "parry",      // 招架
+                "hook",       // 勾拳
+                "combo"       // 连击
+            ];
+            
+            const bagManager = BagManager.getInstance();
+            
+            INITIAL_CARDS.forEach(cardId => {
+                console.log(`[GameScene] 添加卡牌: ${cardId}`);
+                bagManager.addCardToBag(cardId);
+            });
+            
+            console.log("[GameScene] 初始卡牌已添加到背包");
+        } else {
+            console.log("[GameScene] 初始卡牌已存在，无需重复添加");
+        }
+    }
+
+    
     private init(): void {
         console.log("[GameScene] 开始初始化游戏场景");      
         // 初始化已读文本颜色设置
@@ -73,13 +107,15 @@ class GameScene {
         document.body.appendChild(this.miniGameContainer);
         console.log("[GameScene] 小游戏容器已创建");
 
+        // 确保添加初始卡牌
+        this.addInitialCardsIfNeeded();
+
         // 添加键盘事件监听器，包括 ESC 键来触发暂停菜单
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 this.togglePauseMenu();
             }
         });
-
         // 监听页面可见性变化，当页面失去焦点时自动暂停
         document.addEventListener('visibilitychange', () => {
             console.log("[GameScene] visibilitychange event, hidden:", document.hidden);
@@ -213,13 +249,18 @@ class GameScene {
                         bagOverlay.style.display = "none";
                     }
                 },
-                onShowItemModal: (item: any) => this.bagManager.showItemModal(item),
-                onCloseItemModal: () => {
+                onShowItemModal: (card: any) => {
                     const modal = document.getElementById("item-modal");
+                    const itemName = document.getElementById("modal-item-name");
+                    const itemDescription = document.getElementById("modal-item-description");
+                    
+                    if (itemName) itemName.textContent = card.name;
+                    if (itemDescription) itemDescription.textContent = card.description;
+                    
                     if (modal) {
-                        modal.style.display = "none";
+                        modal.style.display = "flex";
                     }
-                }
+                },
             }
         );
 
