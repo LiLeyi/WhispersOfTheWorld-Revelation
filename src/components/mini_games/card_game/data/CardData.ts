@@ -651,7 +651,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
         target: "other"
       },
       {
-        id: "machanical_sentry",
+        id: "mechanical_sentry",
         duration: 1,
         target: "self"
       }
@@ -665,8 +665,15 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     name: "机械工厂",
     description: "血量≥8时，获得一张“机械哨兵”卡牌；血量＜8时，恢复3点血量。",
     priority: 7,
-    effect: [],
-    cost: {}
+    effect: [
+      {
+        id: "do_mechanical_factory",
+        duration: 0,
+        target: "self"
+      }
+    ],
+    cost: {
+    }
   },
   full_battery_bomb: {
     id: "full_battery_bomb",
@@ -731,7 +738,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_guard: {
     id: "mechanical_guard",
     name: "机械护卫队",
-    description: "获得1点真防，并获得1层“机械护卫队”效果，消耗2行动。",
+    description: "获得1真防，每使用一次该牌，行动力会增加用该牌的次数，消耗2行动。",
     priority: 10,
     effect: [
       {
@@ -740,7 +747,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
         target: "self"
       },
       {
-        id: "machanical_guard",
+        id: "do_mechanical_guard",
+        duration: 1,
+        target: "self"
+      },
+      {
+        id: "mechanical_guard",
         duration: 1,
         target: "self"
       }
@@ -763,7 +775,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       {
         id: "delay_attack",
         duration: 2,
-        target: "other"
+        target: "self"
       }
     ],
     cost: {
@@ -971,7 +983,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       {
         id: "delay_attack",
         duration: 2,
-        target: "other"
+        target: "self"
       },
       {
         id: "do_true_defence",

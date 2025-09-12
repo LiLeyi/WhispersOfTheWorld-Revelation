@@ -22,9 +22,6 @@
 * 碎石（id：crushed_stone）：1攻击，造成2回合不治，消耗1行动
 * 鹅卵石（id：pebble）：2攻击，获得2防御，消耗2行动
 * 陨石（id：meteorite）：7攻击，消耗4行动
-
-### 未测试
-
 * 无痕之"泪"（id：tear_of_no_trace）：2真攻，消耗2行动
 * 不合身的长袍（id：ill_fitting_robe）：受到2伤害，获得5防御，2真防
 * 泛黄书页（id：faded_page）：1攻击，获得1真防，消耗1行动
@@ -47,8 +44,11 @@
 * 机械炸弹（id：mechanical_bomb）：自己的机械炸弹buff减一层，消耗1行动
 * 崭新齿轮（id：brand_new_gear）：2攻击
 * 没过期的机油（id：unexpired_oil）：增加2行动
-* 机械护卫队（id：mechanical_guard）：获得1真防，获得机械护卫队buff一层，消耗2行动
+* 机械护卫队（id：mechanical_guard）：获得1真防，每使用一次该牌，行动力会增加用该牌的次数，消耗2行动
 * 机械碎石（id：mechanical_crushed_stone）：2攻击，下回合2攻击，消耗1行动
+
+### 未测试
+
 * 机械陨石（id：mechanical_meteorite）：降低对方4层防御，4层真防，4攻击，消耗3行动
 * 死神低语（id：reapers_whisper）：15真攻，消耗3行动
 * 死神的呻吟（id：reapers_groan）：9真攻，消耗4行动
@@ -118,9 +118,9 @@ id；名称；描述（描述需写在程序中）；补充描述（对Buff作�
 * transfer；转化；将攻击伤害转化为真防，buff每回合层数-1
 * battery_bomb：电池炸弹；每回合受到2真攻，获得1真防，当真防大于5时，9攻击，buff消失
 * the_king；国王；受到致命伤害时，血量上限+5，恢复所有血量，对方获得机械炸弹3层，机械炸弹卡牌3张，buff消失。自己手牌变为满蓄电池炸弹六张
-* machanical_sentry：机械哨兵；本回合“机械哨兵”卡片牌伤害+duration，下回合buff消失
-* machanical_bomb；机械炸弹；每回合受到duration点伤害，只能通过特定卡牌去消除buff
-* machanical_guard；机械护卫队；使用机械护卫队卡牌时，行动力消耗-1，buff一直保持
+* mechanical_sentry：机械哨兵；本回合“机械哨兵”卡片牌伤害+duration，下回合buff消失
+* mechanical_bomb；机械炸弹；每回合受到duration点伤害，只能通过特定卡牌去消除buff
+* mechanical_guard；机械护卫队；使用机械护卫队卡牌时，行动力加duration，buff一直保持
 * delay_attack；延迟攻击；下回合进行duration点攻击
 * conduction；传导；本回合造成的攻击，会等量扣除到真防
 * ban；禁言；本回合无法再出牌

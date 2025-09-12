@@ -142,11 +142,15 @@ export class CardService {
 
             case 'do_copy_target_card':
                 // 复制对方手牌
-                if (target.id !== player.id && target.hand.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * target.hand.length);
-                    const cardToCopy = target.hand[randomIndex];
+                // 修复逻辑：确保目标是对手且对手手牌不为空
+                const opponentPlayer = target.id !== player.id ? target : opponent;
+                if (opponentPlayer && opponentPlayer.hand.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * opponentPlayer.hand.length);
+                    const cardToCopy = opponentPlayer.hand[randomIndex];
                     player.hand.push({ ...cardToCopy });
-                    console.log(`[DEBUG] ${player.name}复制${target.name}的手牌: ${cardToCopy.name}`);
+                    console.log(`[DEBUG] ${player.name}复制${opponentPlayer.name}的手牌: ${cardToCopy.name}`);
+                } else {
+                    console.log(`[DEBUG] ${player.name}尝试复制对方手牌，但对方没有手牌`);
                 }
                 break;
 
@@ -164,40 +168,103 @@ export class CardService {
                 // 刷新手牌（弃掉所有手牌并重新抽牌）
                 const cardCount = target.hand.length;
                 console.log(`[DEBUG] ${target.name}刷新手牌，弃掉${cardCount}张牌`);
+                // 将手牌移到弃牌堆而不是直接清空
+                target.discardPile.push(...target.hand);
                 target.hand = [];
-                // 直接抽牌
-                PlayerService.drawCards(target, cardCount);
+                // 直接抽牌，强制抽牌以确保抽到牌
+                PlayerService.drawCards(target, cardCount, updateMessage, true);
                 break;
 
             case 'do_defence_switch':
-                // 交换防御和真防
-                target.buffs.push({
-                    id: 'defence_switch',
-                    target: 'self'
-                });
-                console.log(`[DEBUG] ${target.name}添加防御交换效果`);
+                // 立即交换防御和真防
+                const currentDefense = this.getPlayerDefense(target);
+                const currentTrueDefense = this.getPlayerTrueDefense(target);
+
+                // 清除现有防御和真防
+                this.clearDefense(target);
+                this.clearTrueDefense(target);
+
+                // 交换数值 - 防御变为真防
+                if (currentDefense > 0) {
+                    const existingTrueDefenceBuff = target.buffs.find(b => b.id === 'true_defence');
+                    if (existingTrueDefenceBuff) {
+                        existingTrueDefenceBuff.duration = (existingTrueDefenceBuff.duration || 0) + currentDefense;
+                    } else {
+                        target.buffs.push({
+                            id: 'true_defence',
+                            duration: currentDefense,
+                            target: 'self'
+                        });
+                    }
+                }
+
+                // 交换数值 - 真防变为防御
+                if (currentTrueDefense > 0) {
+                    const existingDefenceBuff = target.buffs.find(b => b.id === 'defence');
+                    if (existingDefenceBuff) {
+                        existingDefenceBuff.duration = (existingDefenceBuff.duration || 0) + currentTrueDefense;
+                    } else {
+                        target.buffs.push({
+                            id: 'defence',
+                            duration: currentTrueDefense,
+                            target: 'self'
+                        });
+                    }
+                }
+
+                console.log(`[DEBUG] ${target.name}立即交换防御和真防: ${currentDefense}防御 -> ${currentDefense}真防, ${currentTrueDefense}真防 -> ${currentTrueDefense}防御`);
                 break;
 
             case 'do_mechanical_bomb_decrease':
                 // 立即减少一层机械炸弹buff
                 console.log('触发do_mechanical_bomb_decrease')
-                const mechanicalBombBuff = target.buffs.find(buff => buff.id === 'machanical_bomb');
+                const mechanicalBombBuff = target.buffs.find(buff => buff.id === 'mechanical_bomb');
                 if (mechanicalBombBuff) {
                     // 如果存在机械炸弹buff，减少其持续时间
                     if (mechanicalBombBuff.duration !== undefined) {
                         mechanicalBombBuff.duration -= 1;
                         // 如果持续时间为0，移除该buff
                         if (mechanicalBombBuff.duration <= 0) {
-                            target.buffs = target.buffs.filter(buff => buff.id !== 'machanical_bomb');
+                            target.buffs = target.buffs.filter(buff => buff.id !== 'mechanical_bomb');
                         }
                     }
                 }
                 break;
 
+            case 'do_mechanical_factory':
+                // 机械工厂效果：血量≥8时，获得一张机械哨兵卡牌；血量<8时，恢复3点血量
+                if (player.hp >= 8) {
+                    // 血量≥8时，获得一张机械哨兵卡牌
+                    const mechanicalSentryCard = CARD_TEMPLATES.mechanical_sentry;
+                    if (mechanicalSentryCard) {
+                        player.hand.push({ ...mechanicalSentryCard });
+                        console.log(`[DEBUG] ${player.name}获得一张机械哨兵卡牌`);
+                    }
+                } else {
+                    // 血量<8时，恢复3点血量
+                    const newHp = Math.min(player.maxHp, player.hp + 3);
+                    console.log(`[DEBUG] ${player.name}恢复3点血量: ${player.hp} -> ${newHp}`);
+                    player.hp = newHp;
+                }
+                break;
+
+            case 'do_mechanical_guard':
+                // 机械护卫队效果：直接增加行动力
+                // 基于当前机械护卫队buff层数增加行动力（不包括即将添加的新buff）
+                const currentGuardBuffs = player.buffs.filter(buff => buff.id === 'mechanical_guard');
+                let currentGuardLevel = 0;
+                for (const buff of currentGuardBuffs) {
+                    currentGuardLevel += buff.duration || 0;
+                }
+                
+                player.actionPoints += currentGuardLevel;
+                console.log(`[DEBUG] ${player.name}使用机械护卫队，基于现有${currentGuardLevel}层buff，行动力增加${currentGuardLevel}点，当前行动力: ${player.actionPoints}`);
+                break;
+
             default:                // 处理持续性buff效果
                 if (this.isBuffEffect(effect.id)) {
                     // 对于需要合并的buff类型，检查是否已经存在相同类型的buff
-                    const mergeableBuffs = ['incurable']; // 可以合并的buff类型
+                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack']; // 可以合并的buff类型
                     if (mergeableBuffs.includes(effect.id)) {
                         const existingBuff = target.buffs.find(buff => buff.id === effect.id);
                         if (existingBuff) {
@@ -232,7 +299,7 @@ export class CardService {
         const buffEffects = [
             'defence', 'true_defence', 'attack_increase_once', 'immunication',
             'incurable', 'hard', 'true_hard', 'sharp', 'transfer', 'battery_bomb',
-            'the_king', 'machanical_sentry', 'machanical_bomb', 'machanical_guard',
+            'the_king', 'mechanical_sentry', 'mechanical_bomb', 'mechanical_guard',
             'delay_attack', 'conduction', 'ban', 'fog', 'ghast', 'unreal_spell',
             'erosive_heart', 'erosive', 'shadow', 'combo'
         ];
@@ -406,10 +473,6 @@ export class CardService {
         lastPlayedCard: import("../models/Card").Card | null = null
     ): void {
         switch (buff.id) {
-            case 'delay_attack':
-                // 延迟攻击效果
-                this.applyDamage(opponent, buff.duration || 0, false, player, opponent);
-                break;
 
             case 'incurable':
                 // 不治状态，无法回血，这个效果在回血时检查
@@ -537,7 +600,7 @@ export class CardService {
                 }
                 break;
 
-            case 'machanical_bomb':
+            case 'mechanical_bomb':
                 // 机械炸弹：每回合受到duration点伤害
                 this.applyDamage(player, buff.duration || 0, false, null, null);
                 break;
@@ -597,7 +660,7 @@ export class CardService {
         damage += sharpIncrease;
 
         // 处理机械哨兵效果
-        const sentryBonus = BuffService.processMachanicalSentry(attacker, "攻击牌");
+        const sentryBonus = BuffService.processmechanicalSentry(attacker, "攻击牌");
         damage += sentryBonus;
 
         // 处理传导效果
@@ -717,18 +780,18 @@ export class BuffService {
         const transferBuffs = player.buffs.filter(buff => buff.id === 'transfer');
         for (const buff of transferBuffs) {
             // 将伤害转化为真防
-            player.buffs.push({
-                id: 'true_defence_add',
-                duration: damage,
-                target: 'self'
-            });
-
-            // 减少转化buff的持续时间
-            if (buff.duration !== undefined) {
-                buff.duration -= 1;
-                if (buff.duration <= 0) {
-                    player.buffs = player.buffs.filter(b => b !== buff);
-                }
+            // 添加或更新真防buff
+            const existingTrueDefenceBuff = player.buffs.find(buff => buff.id === 'true_defence');
+            if (existingTrueDefenceBuff) {
+                // 如果已有真防buff，增加其持续时间（在这里表示真防点数）
+                existingTrueDefenceBuff.duration = (existingTrueDefenceBuff.duration || 0) + (damage || 0);
+            } else {
+                // 如果没有真防buff，添加新的
+                player.buffs.push({
+                    id: 'true_defence',
+                    duration: damage || 0,
+                    target: 'self'
+                });
             }
         }
     }
@@ -794,7 +857,7 @@ export class BuffService {
             if (opponent) {
                 // 对方获得机械炸弹3层
                 opponent.buffs.push({
-                    id: 'machanical_bomb',
+                    id: 'mechanical_bomb',
                     duration: 3,
                     target: 'self'
                 });
@@ -824,36 +887,17 @@ export class BuffService {
     }
 
     // 处理机械哨兵效果
-    static processMachanicalSentry(player: Player, cardName: string): number {
-        if (cardName === "机械哨兵") {
-            // 查找机械哨兵buff
-            const sentryBuffs = player.buffs.filter(buff => buff.id === 'machanical_sentry');
-            let bonusDamage = 0;
+    static processmechanicalSentry(player: Player, cardName: string): number {
+        // 查找机械哨兵buff
+        const sentryBuffs = player.buffs.filter(buff => buff.id === 'mechanical_sentry');
+        let bonusDamage = 0;
 
-            // 计算总加成伤害
-            for (const buff of sentryBuffs) {
-                bonusDamage += buff.duration || 0;
-            }
-
-            // 移除所有机械哨兵buff
-            player.buffs = player.buffs.filter(buff => buff.id !== 'machanical_sentry');
-
-            return bonusDamage;
+        // 计算总加成伤害
+        for (const buff of sentryBuffs) {
+            bonusDamage += buff.duration || 0;
         }
-        return 0;
-    }
 
-    // 检查机械护卫队效果
-    static hasMachanicalGuard(player: Player): boolean {
-        return player.buffs.some(buff => buff.id === 'machanical_guard');
-    }
-
-    // 处理机械护卫队效果
-    static processMachanicalGuard(player: Player, cardName: string): number {
-        if (cardName === "机械护卫队" && this.hasMachanicalGuard(player)) {
-            return 1; // 减少1点行动消耗
-        }
-        return 0;
+        return bonusDamage;
     }
 
     // 处理影子效果

@@ -2,6 +2,7 @@ import { Player } from "../models/Player";
 import { Buff } from "../models/Buff";
 import { Card } from "../models/Card";
 import { CardService } from "./CardService";
+import { CARD_TEMPLATES } from "../data/CardData";
 
 export class PlayerService {
 
@@ -22,11 +23,12 @@ export class PlayerService {
                 case 'defence':
                 case 'true_defence':
                 case 'sharp':
-                case 'machanical_guard':
+                case 'mechanical_guard':
                 case 'fog':
                 case 'unreal_spell':
                 case 'erosive_heart':
                 case 'erosive':
+                case 'immunication':
                     // 不减少层数，保持buff
                     break;
                     
@@ -39,9 +41,7 @@ export class PlayerService {
                     
                 // 这些buff每回合减少层数
                 case 'incurable':
-                case 'immunication':
                 case 'transfer':
-                case 'machanical_sentry':
                     if (buff.duration !== undefined && buff.duration > 0) {
                         buff.duration--;
                         if (buff.duration <= 0) {
@@ -49,13 +49,17 @@ export class PlayerService {
                         }
                     }
                     break;
+                // 机械哨兵buff在回合开始时消失
+                case 'mechanical_sentry':
+                    player.buffs.splice(i, 1);
+                    break;
             }
         }
     }
     
-     // 抽牌
-     // 抽牌
-    static drawCards(player: Player, count: number, updateMessage?: (message: string) => void): void {
+
+    // 抽牌
+    static drawCards(player: Player, count: number, updateMessage?: (message: string) => void, forceDraw: boolean = false): void {
         console.log(`[DEBUG] ${player.name}抽${count}张牌`);
         let drawnCount = 0; // 记录实际抽到的牌数
         
@@ -75,11 +79,35 @@ export class PlayerService {
                 this.shuffleDeck(player);
             }
             
-            // 如果重新洗牌后仍然没有牌，停止抽牌
+            // 如果重新洗牌后仍然没有牌，且需要强制抽牌
+            if (player.deck.length === 0 && forceDraw) {
+                console.log(`[DEBUG] ${player.name}重新洗牌后仍无牌可抽，但强制抽牌中...`);
+                // 将弃牌堆洗牌后作为新的牌组（如果弃牌堆不为空）
+                if (player.discardPile.length > 0) {
+                    player.deck = [...player.discardPile];
+                    this.shuffleArray(player.deck);
+                    // 清空弃牌堆
+                    player.discardPile = [];
+                    console.log(`[DEBUG] ${player.name}将弃牌堆洗牌后作为新的牌组`);
+                } else {
+                    // 如果弃牌堆也为空，则从手牌中复制牌（如果手牌不为空）
+                    console.log(`[DEBUG] ${player.name}弃牌堆也为空，从手牌中复制牌`);
+                    if (player.hand.length > 0) {
+                        // 复制所有手牌到deck中
+                        for (const card of player.hand) {
+                            player.deck.push({ ...card });
+                        }
+                        this.shuffleArray(player.deck);
+                        console.log(`[DEBUG] ${player.name}从手牌复制了${player.hand.length}张牌到deck中`);
+                    }
+                }
+            }
+            
+            // 如果仍然没有牌可抽，停止抽牌
             if (player.deck.length === 0) {
-                console.log(`[DEBUG] ${player.name}重新洗牌后仍无牌可抽，停止抽牌`);
+                console.log(`[DEBUG] ${player.name}没有任何牌可抽，停止抽牌`);
                 if (updateMessage) {
-                    updateMessage(`${player.name}想要抽牌，但牌堆已空`);
+                    updateMessage(`${player.name}想要抽牌，但没有牌可抽`);
                 }
                 break;
             }

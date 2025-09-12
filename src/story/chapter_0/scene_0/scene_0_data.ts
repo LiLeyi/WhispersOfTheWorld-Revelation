@@ -72,14 +72,12 @@ const scene: Scene = {
                 config: {
                     player: {
                         actionPoints: 1,
-                        hp: 10,
-                        maxHp: 10,
+                        hp: 30,
+                        maxHp: 30,
                         // deck: () => CardManager.getInstance().getPlayerDeck(),
                         deck: {
-                            "little_stone": 1,
-                            "strange_stone": 1,
-                            "bedrock": 1,
-                            "crushed_stone": 5
+                            "mechanical_crushed_stone": 5,
+                            "expired_oil": 1,
                         },
                         drawCount: 2,           // 玩家每回合抽2张牌
                         initialDrawCount: 2,     // 玩家开始时抽4张牌
@@ -88,11 +86,11 @@ const scene: Scene = {
                     },
                     opponent: {
                         actionPoints: 3,
-                        hp: 2,
-                        maxHp: 2,
+                        hp: 20,
+                        maxHp: 20,
                         deck: {
                             "punch": 1,      // 拳击：1攻0行动
-                            "holiness": 1
+                            "mechanical_shield": 1
                         },
                         drawCount: 2,           // 对手每回合抽1张牌
                         initialDrawCount: 3,     // 对手开始时抽3张牌
@@ -100,11 +98,6 @@ const scene: Scene = {
                             {
                                 id: "the_king",
                                 duration: -1,
-                                target: "self"
-                            },
-                            {
-                                id: "defence",
-                                duration: 10,
                                 target: "self"
                             }
                         ],
