@@ -691,8 +691,8 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     priority: 1,
     effect: [
       {
-        id: "machanical_bomb",
-        duration: -1,
+        id: "do_mechanical_bomb_decrease",
+        duration: 1,
         target: "self"
       }
     ],

@@ -102,6 +102,7 @@ id；名称；描述（描述需写在程序中）；补充描述（对Buff作�
 * do_copy_self_card：复制自己手牌；无描述；立即复制target的duration张手牌给target
 * do_reflesh：刷新手牌；无描述；立即让target弃掉所有手牌，并获抽取同数量的新手牌
 * do_defence_switch：交换真防、防御；无描述；立即交换target的真防、防御数值
+* do_mechanical_bomb_decrease；机械炸弹减少；无描述；立即减少一点机械炸弹buff
 
 会保持的效果：
 
@@ -116,7 +117,7 @@ id；名称；描述（描述需写在程序中）；补充描述（对Buff作�
 * sharp；锋利；攻击永久增加duration，buff一直保持
 * transfer；转化；将攻击伤害转化为真防，buff每回合层数-1
 * battery_bomb：电池炸弹；每回合受到2真攻，获得1真防，当真防大于5时，9攻击，buff消失
-* the_king；国王；受到致命伤害时，血量上限+5，恢复所有血量，对方获得机械炸弹3层，机械炸弹卡牌3张，buff消失
+* the_king；国王；受到致命伤害时，血量上限+5，恢复所有血量，对方获得机械炸弹3层，机械炸弹卡牌3张，buff消失。自己手牌变为满蓄电池炸弹六张
 * machanical_sentry：机械哨兵；本回合“机械哨兵”卡片牌伤害+duration，下回合buff消失
 * machanical_bomb；机械炸弹；每回合受到duration点伤害，只能通过特定卡牌去消除buff
 * machanical_guard；机械护卫队；使用机械护卫队卡牌时，行动力消耗-1，buff一直保持

@@ -88,8 +88,8 @@ const scene: Scene = {
                     },
                     opponent: {
                         actionPoints: 3,
-                        hp: 15,
-                        maxHp: 15,
+                        hp: 2,
+                        maxHp: 2,
                         deck: {
                             "punch": 1,      // 拳击：1攻0行动
                             "holiness": 1
