@@ -1006,7 +1006,7 @@ sprite:{
     elements: {  
         
       name: "你",  
-        bgm:"bgm2.mp3",
+        bgm:"bgm23.MP3" ,
         text: "你说得对，这一切只能由我自己决定。" ,
         sprite:{
     left:null,
@@ -1089,7 +1089,8 @@ sprite:{
     id: "battle_shadow_28_2",  
     elements: {   
       name: "你",  
-        text: "谜题的答案，可不会主动送上门来啊。" ,
+      bgm:"bgm23.MP3",  
+      text: "谜题的答案，可不会主动送上门来啊。" ,
         sprite:{
     left:"null",
 }  
@@ -1165,7 +1166,7 @@ sprite:{
 {
     id: "ending_1_3",
     elements: {
-        
+       bgm:"bgm22.MP3" ,  
       name: "光泠",
         text: "人类......自己的力量？",
         sprite: {
@@ -1421,7 +1422,8 @@ sprite:{
 {
     id: "ending_19_3",
     elements: {
-        name: "？？？",
+       bgm:"bgm10.MP3" ,  
+      name: "？？？",
         text: "竟然追上来了么？不错。",
     },
 },
@@ -2383,7 +2385,8 @@ sprite:{
 {
     id: "ending_1_4",
     elements: {
-        name: "你",
+       bgm:"bgm10.MP3" ,  
+      name: "你",
         text: "世上没有谁是完美的，相互扶持着走下去，这就是名为人生的游戏。",
         sprite: {
             left: null,
@@ -2679,6 +2682,7 @@ sprite: {
 {
     "id": "ending_32_4",
     "elements": {
+       bgm:"bgm26.MP3" ,
       "name": "你",
       "text": "未集齐三样关键之物",
     },
@@ -2698,7 +2702,8 @@ sprite: {
     "id": "ending_33_4",
     "elements": {
        background:"sc4.1/4-1-10.jpg", 
-      "name": "旁白",
+      bgm:"bgm26.MP3" ,
+       "name": "旁白",
       "text": "漆黑的火焰燃烧在废墟之上，天地的裂痕不断扩大，宛如整个世界都在坠落。",
       sprite:{
         left:null,
@@ -3123,6 +3128,7 @@ sprite: {
   {
     "id": "ending_83_4",
     "elements": {
+      bgm:"bgm27.MP3" ,
       "name": "旁白",
       "text": "而当环顾四周之时，一切便如同帷幕拉开，",
       "sprite": {
@@ -3380,7 +3386,8 @@ sprite: {
     id: "ending_33_5",
     elements: {
        background:"sc4.1/4-1-20.jpg", 
-      name: "旁白",
+      bgm:"bgm27.MP3"  ,
+       name: "旁白",
       text: "天地颤动，废墟在末日的轰鸣中崩塌。",
       sprite: { 
         left: null,
@@ -3960,6 +3967,7 @@ sprite: {
 {
   id: "ending_33_6",
   elements: {
+    
     name: "旁白",
     text: "灾厄之主的怒啸消散在风暴与裂痕中，天地间只剩下一片死寂。",
     sprite:{
@@ -4147,6 +4155,7 @@ sprite: {
 {
   id: "ending_51_6_1",
   elements: {
+    bgm:"bgm22.MP3" ,
     name: "旁白",
     text: "喉咙收缩，发出无意义的呢喃。"
   }
@@ -4609,7 +4618,8 @@ sprite: {
   id: "ending_33_7",
   elements: {
    background:"sc4.1/4-1-10.jpg", 
-    name: "旁白",
+    bgm:"bgm17.MP3" , 
+   name: "旁白",
     text: "漆黑的火焰燃烧在废墟之上，天地的裂痕不断扩大，宛如整个世界都在坠落。",
     sprite:{
         left:null,
@@ -4880,6 +4890,7 @@ sprite: {
 {
   id: "ending_49_8",
   elements: {
+     bgm:"bgm21.MP3" ,
     name: "旁白",
     text: "天地间回荡着灾厄之主的嚎叫，似是在讥笑我们的意志孱弱不堪。",
   }
@@ -4929,6 +4940,7 @@ sprite: {
 {
   id: "ending_56_8",
   elements: {
+   
     name: "你",
     text: "为什么？"
   }
@@ -5083,6 +5095,7 @@ sprite:{
 {
   id: "ending_73_8",
   elements: {
+     bgm:"bgm24.MP3" ,
     name: "光泠",
     text: "在此被燃烧殆尽吧！世界的希望，将在灾厄的灰烬中重生！",
     sprite:{
@@ -5859,6 +5872,7 @@ background:"sc4.1/4-1-25.jpg",
   id: "ending_49_9",
   elements: {
     background:"sc4.1/4-1-10.jpg", 
+    bgm:"bgm25.MP3" ,
     name: "旁白",
     text: "天地间回荡着灾厄之主的嚎叫，似是在讥笑我们的意志孱弱不堪。",
     sprite:{
@@ -5919,6 +5933,7 @@ background:"sc4.1/4-1-25.jpg",
 {
   id: "ending_57_9",
   elements: {
+    bgm:"bgm21.MP3" ,
     name: "旁白",
     text: "为什么？"
   }
@@ -6148,6 +6163,7 @@ sprite:{
   id: "ending_83_9",
   elements: {
     background:"sc4.1/4-1-9.jpg", 
+     bgm:"bgm24.MP3" ,
     name: "光泠",
     text: "在曙光到来之前点燃篝火吧！",
     sprite:{
@@ -6831,6 +6847,7 @@ sprite:{
 {
   id: "ending_161_9",
   elements: {
+    bgm:"bgm25.MP3" ,
     name: "光泠",
     text: "既然这残忍的世界无法容纳我们，那就让永恒的幻梦成为归宿。"
   }
