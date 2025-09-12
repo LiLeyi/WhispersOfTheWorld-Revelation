@@ -258,7 +258,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       {
         id: "do_attack",
         duration: 2,
-        target: "self"
+        target: "other"
       }
     ],
     cost: {

@@ -1393,6 +1393,7 @@ const scene: Scene = {
                     end: [
                         {
                             condition: (score: number) => score >= 1,
+
                             next: "ask1"
                         },
                         {
@@ -1417,11 +1418,10 @@ const scene: Scene = {
                     next: "test_game2"
                 },
                 {
-                    text: "否",
-                    next: "test2"
+                    text: "是",
+                    next: "test_game2"
                 }
             ]
-        
             }, 
              {
                 id: "test2",

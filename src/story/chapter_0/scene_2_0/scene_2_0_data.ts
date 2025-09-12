@@ -2,6 +2,8 @@ import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 // 定义第2幕场景
 const scene: Scene = {
 id: "chapter_0_scene_2_0",
@@ -1263,6 +1265,7 @@ nodes: [
 {
   id: "altar_5",
   elements: {
+    background: "sc1.2/1-2-12.jpg",
     name: "你",
     text: "我们去看看。"
   }
@@ -1297,6 +1300,7 @@ nodes: [
 {
   id: "altar_9",
   elements: {
+    background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "话音未落，一丝黑烟从手中飘出——确切的说，是手中的黑石。",
     sprite: {
@@ -1380,6 +1384,7 @@ nodes: [
 {
   id: "altar_18",
   elements: {
+    background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "是你吗？来到这里的渡厄之人？",
     sprite: {
@@ -1390,6 +1395,7 @@ nodes: [
 {
   id: "altar_19",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "沙哑刺耳的声音从她的口中挣扎着挤出。",
     sprite: {
@@ -1400,6 +1406,7 @@ nodes: [
 {
   id: "altar_20",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "我知道是你，你终于还是来到了这里。",
     sprite: {
@@ -1410,6 +1417,7 @@ nodes: [
 {
   id: "altar_21",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "我等了很久，终于等到你了。",
   }
@@ -1417,6 +1425,7 @@ nodes: [
 {
   id: "altar_22",
   elements: {
+    background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "就连死亡也拦不住你的脚步。"
   }
@@ -1448,6 +1457,7 @@ nodes: [
 {
   id: "altar_25",
   elements: {
+    background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "我知道你们正是为此而来。"
   }
@@ -1485,6 +1495,7 @@ nodes: [
 {
   id: "altar_29",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "你们要的关键之物，正是名为“始源之心”之至宝。"
   }
@@ -1520,6 +1531,7 @@ nodes: [
 {
   id: "altar_33",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "巫婆",
     text: "我们的一切，你们的一切，他们的一切!所有的一切都在这里得到新生，也在这里埋葬！"
   }
@@ -1534,6 +1546,7 @@ nodes: [
 {
   id: "altar_34",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "你",
     text: "始源之心，在哪？",
     sprite: {
@@ -1544,6 +1557,7 @@ nodes: [
 {
   id: "altar_35",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "巫婆没有回答，而是径直走上了祭坛，来到了祭坛中央。"
   }
@@ -1551,6 +1565,7 @@ nodes: [
 {
   id: "altar_36",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "脚下的祭坛突然泛起微光，隐约传来震动。"
   }
@@ -1565,6 +1580,7 @@ nodes: [
 {
   id: "altar_38",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "我抱起光泠，远离了祭坛。"
   }
@@ -1572,6 +1588,7 @@ nodes: [
 {
   id: "altar_38_1",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "紧接着，祭坛之上被一股暗黑的旋风包裹。祭坛周围的烛光疯狂跳动，但没有熄灭。"
   }
@@ -1579,6 +1596,7 @@ nodes: [
 {
   id: "altar_39",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "片刻之间，黑风散去，烛光平静。"
   }
@@ -1586,6 +1604,7 @@ nodes: [
 {
   id: "altar_39_1",
   elements: {
+     background: "sc1.2/1-2-12.jpg",
     name: "旁白",
     text: "巫婆仍拄着权杖站在祭坛中央，只不过手中似乎多出了什么事物。"
   }
@@ -1599,7 +1618,132 @@ nodes: [
             left:null
         }
   }
-},//这里可以加几句台词，开始打斗（比如看看你配不配得到始源之心）//
+},
+{
+  id: "altar_40_1",
+  elements: {
+    name: "巫婆",
+    text: "你们所要之物现在就在我手中，不过在此之前，我要看看你们是否配得到始源之心。",
+    sprite: {
+            left:"NPC/old_woman.png"
+        }
+  },
+},
+{
+  id: "altar_40_2",
+  elements: {
+     background: "sc1.2/1-2-12.jpg",
+    name: "你",
+    text: "看来，我们必须先通过她的考验了",
+    sprite: {
+            left:"null"
+        }
+  },
+},
+{
+  id: "altar_40_3",
+  elements: {
+    name: "光泠",
+    text: "我想是这样的",
+    sprite: {
+            left:"guangling/smile1.png"
+        },
+        
+  },
+  choices: [
+            {
+                text: "接受巫婆的考验",
+                next: "test_game1"
+            },
+        ]
+},
+{
+                id: "test_game1",
+                elements: {
+                    name: "巫婆",
+                    text: "就让我看看你的觉悟吧！",
+                    sprite: {
+            left:"NPC/old_woman.png"
+        }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 1,
+                            hp: 25,
+                            maxHp: 25,
+                            deck:{
+                             "punch":3,
+                             "parry":3,
+                             "hook":3,
+                             "dodge":3,
+                              "combo":2,
+                              "holy_shield":2,
+                               "holiness":2,
+                               "enlightenment":1,
+                               "pebble":1,
+                               "strange_stone":1,
+                               "darkness":1,
+                               "tear_of_no_trace":1,
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 15,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 3,
+                            hp: 20,
+                            maxHp: 20,
+                            deck: {
+                                "ill_fitting_robe": 2,        
+                                "boring_staff": 2,         
+                                "eerie_candlelight": 2, 
+                                "faded_page": 2, 
+                                "useless_potion":1,
+                                "wise_hat":1,
+                                "annoying_clock":1,       
+                            },
+                            drawCount: 3,           // 对手每回合抽3张牌
+                            initialDrawCount: 4     // 对手开始时抽4张牌
+                        },
+                        backgroundImage:"sc1.1/1-1-0.jpg"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "altar_41",
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "repeat",
+                        }
+                    ]
+                }
+            },
+{
+  id: "repeat",
+  elements: {
+    name: "旁白",
+    text: "你失败了",
+    sprite: {
+            left:null,
+        }
+  },
+  choices: [
+    {
+      text: "请重新挑战",
+      next: "test_game1",
+    },
+    {
+      text: "继续前进",
+      next: "altar_41",
+    }
+  ]
+},            
 {
   id: "altar_41",
   elements: {
