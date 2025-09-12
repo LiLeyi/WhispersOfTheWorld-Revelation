@@ -72,11 +72,11 @@ const scene: Scene = {
                 config: {
                     player: {
                         actionPoints: 1,
-                        hp: 10,
-                        maxHp: 10,
+                        hp: 30,
+                        maxHp: 30,
                         // deck: () => CardManager.getInstance().getPlayerDeck(),
                         deck: {
-                            "mechanical_guard": 5,
+                            "mechanical_crushed_stone": 5,
                             "expired_oil": 1,
                         },
                         drawCount: 2,           // 玩家每回合抽2张牌
@@ -86,8 +86,8 @@ const scene: Scene = {
                     },
                     opponent: {
                         actionPoints: 3,
-                        hp: 2,
-                        maxHp: 2,
+                        hp: 20,
+                        maxHp: 20,
                         deck: {
                             "punch": 1,      // 拳击：1攻0行动
                             "mechanical_shield": 1

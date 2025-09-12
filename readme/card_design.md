@@ -45,10 +45,10 @@
 * 崭新齿轮（id：brand_new_gear）：2攻击
 * 没过期的机油（id：unexpired_oil）：增加2行动
 * 机械护卫队（id：mechanical_guard）：获得1真防，每使用一次该牌，行动力会增加用该牌的次数，消耗2行动
+* 机械碎石（id：mechanical_crushed_stone）：2攻击，下回合2攻击，消耗1行动
 
 ### 未测试
 
-* 机械碎石（id：mechanical_crushed_stone）：2攻击，下回合2攻击，消耗1行动
 * 机械陨石（id：mechanical_meteorite）：降低对方4层防御，4层真防，4攻击，消耗3行动
 * 死神低语（id：reapers_whisper）：15真攻，消耗3行动
 * 死神的呻吟（id：reapers_groan）：9真攻，消耗4行动

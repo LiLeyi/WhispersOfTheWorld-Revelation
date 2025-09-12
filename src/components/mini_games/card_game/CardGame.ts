@@ -992,6 +992,8 @@ class CardGame extends MiniGame {
                 PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 处理玩家的delay_attack buff
+                this.processDelayAttackBuff(this.state.player, this.state.opponent);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
@@ -1029,6 +1031,8 @@ class CardGame extends MiniGame {
                 PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 处理对方的delay_attack buff
+                this.processDelayAttackBuff(this.state.opponent, this.state.player);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
@@ -1243,6 +1247,28 @@ class CardGame extends MiniGame {
                 console.log('巨石没有可用卡牌，结束回合');
                 this.endTurn();
             }, 1500);
+        }
+    }
+    
+    // 处理delay_attack buff
+    private processDelayAttackBuff(player: Player, opponent: Player): void {
+        // 查找delay_attack buff
+        const delayAttackBuffs = player.buffs.filter(buff => buff.id === 'delay_attack');
+        if (delayAttackBuffs.length > 0) {
+            // 计算总伤害
+            let totalDamage = 0;
+            for (const buff of delayAttackBuffs) {
+                totalDamage += buff.duration || 0;
+            }
+            
+            // 应用总伤害
+            if (totalDamage > 0) {
+                CardService.applyDamage(opponent, totalDamage, false, player, opponent);
+                this.state.message += `\n${player.name}的延迟攻击造成${totalDamage}点伤害`;
+            }
+            
+            // 移除所有delay_attack buff
+            player.buffs = player.buffs.filter(buff => buff.id !== 'delay_attack');
         }
     }
 

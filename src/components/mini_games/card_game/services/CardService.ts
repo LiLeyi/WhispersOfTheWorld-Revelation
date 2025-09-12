@@ -264,7 +264,7 @@ export class CardService {
             default:                // 处理持续性buff效果
                 if (this.isBuffEffect(effect.id)) {
                     // 对于需要合并的buff类型，检查是否已经存在相同类型的buff
-                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard']; // 可以合并的buff类型
+                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack']; // 可以合并的buff类型
                     if (mergeableBuffs.includes(effect.id)) {
                         const existingBuff = target.buffs.find(buff => buff.id === effect.id);
                         if (existingBuff) {
@@ -473,10 +473,6 @@ export class CardService {
         lastPlayedCard: import("../models/Card").Card | null = null
     ): void {
         switch (buff.id) {
-            case 'delay_attack':
-                // 延迟攻击效果
-                this.applyDamage(opponent, buff.duration || 0, false, player, opponent);
-                break;
 
             case 'incurable':
                 // 不治状态，无法回血，这个效果在回血时检查
