@@ -16,10 +16,19 @@ export const DEFAULT_PLAYER_DECK: Record<string, number> = {
     "see_through": 1 // 识破：5防 3行动
 };
 
+// 玩家属性配置
+export interface PlayerStats {
+    maxHp: number;          // 最大生命值
+    drawCount: number;      // 每回合抽牌数
+    initialHandSize: number; // 初始手牌数
+    actions: number;        // 行动值
+}
+
 export class CardManager {
     private static instance: CardManager;
     private archiveManager: ArchiveManager;
     private readonly DECK_OBJECT_KEY = "card_game_player_deck";
+    private readonly STATS_OBJECT_KEY = "card_game_player_stats";
 
     private constructor() {
         this.archiveManager = ArchiveManager.getInstance();
@@ -143,5 +152,102 @@ export class CardManager {
     public clearDeck(): void {
         this.savePlayerDeck({});
         console.log("[CardManager] 清空玩家卡组");
+    }
+
+    /**
+     * 初始化玩家属性（在创建新存档时调用）
+     * @param stats 玩家属性
+     */
+    public initializePlayerStats(stats: PlayerStats): void {
+        console.log("[CardManager] 初始化玩家属性", stats);
+        this.savePlayerStats(stats);
+    }
+
+    /**
+     * 获取玩家属性
+     * @returns 玩家属性
+     */
+    public getPlayerStats(): PlayerStats | null {
+        const statsData = this.archiveManager.loadObject(this.STATS_OBJECT_KEY, null);
+        if (statsData) {
+            console.log("[CardManager] 从存档加载玩家属性:", statsData);
+            return statsData as PlayerStats;
+        }
+        
+        console.log("[CardManager] 无玩家属性数据");
+        return null;
+    }
+
+    /**
+     * 保存玩家属性到存档
+     * @param stats 玩家属性
+     */
+    public savePlayerStats(stats: PlayerStats): void {
+        console.log("[CardManager] 保存玩家属性到存档:", stats);
+        this.archiveManager.saveObject(this.STATS_OBJECT_KEY, stats);
+    }
+
+    /**
+     * 更新玩家最大生命值
+     * @param maxHp 最大生命值
+     */
+    public updatePlayerMaxHp(maxHp: number): void {
+        const stats = this.getPlayerStats() || {
+            maxHp: 20,        // 默认最大生命值
+            drawCount: 5,     // 默认抽牌数
+            initialHandSize: 5, // 默认初始手牌数
+            actions: 3        // 默认行动值
+        };
+        stats.maxHp = maxHp;
+        this.savePlayerStats(stats);
+        console.log(`[CardManager] 更新玩家最大生命值为: ${maxHp}`);
+    }
+
+    /**
+     * 更新玩家每回合抽牌数
+     * @param drawCount 抽牌数
+     */
+    public updatePlayerDrawCount(drawCount: number): void {
+        const stats = this.getPlayerStats() || {
+            maxHp: 20,
+            drawCount: 5,
+            initialHandSize: 5,
+            actions: 3
+        };
+        stats.drawCount = drawCount;
+        this.savePlayerStats(stats);
+        console.log(`[CardManager] 更新玩家抽牌数为: ${drawCount}`);
+    }
+
+    /**
+     * 更新玩家初始手牌数
+     * @param initialHandSize 初始手牌数
+     */
+    public updatePlayerInitialHandSize(initialHandSize: number): void {
+        const stats = this.getPlayerStats() || {
+            maxHp: 20,
+            drawCount: 5,
+            initialHandSize: 5,
+            actions: 3
+        };
+        stats.initialHandSize = initialHandSize;
+        this.savePlayerStats(stats);
+        console.log(`[CardManager] 更新玩家初始手牌数为: ${initialHandSize}`);
+    }
+
+    /**
+     * 更新玩家行动值
+     * @param actions 行动值
+     */
+    public updatePlayerActions(actions: number): void {
+        const stats = this.getPlayerStats() || {
+            maxHp: 20,
+            drawCount: 5,
+            initialHandSize: 5,
+            actions: 3
+        };
+        stats.actions = actions;
+        this.savePlayerStats(stats);
+        console.log(`[CardManager] 更新玩家行动值为: ${actions}`);
     }
 }
