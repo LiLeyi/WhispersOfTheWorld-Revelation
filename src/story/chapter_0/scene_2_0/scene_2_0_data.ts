@@ -1686,6 +1686,10 @@ nodes: [
                                "strange_stone":1,
                                "darkness":1,
                                "tear_of_no_trace":1,
+                               "eerie_candlelight":2,
+                               "useless_potion":2,
+                               "wise_hat":1,
+                               "巫婆的馈赠":1,
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3 ,    // 玩家开始时抽3张牌
@@ -1695,17 +1699,17 @@ nodes: [
                         maxDeckSize: 15,   // 设置最大选牌数量
                     },
                         opponent: {
-                            actionPoints: 3,
-                            hp: 20,
-                            maxHp: 20,
+                            actionPoints: 2,
+                            hp: 15,
+                            maxHp: 15,
                             deck: {
-                                "ill_fitting_robe": 2,        
-                                "boring_staff": 2,         
-                                "eerie_candlelight": 2, 
-                                "faded_page": 2, 
-                                "useless_potion":1,
-                                "wise_hat":1,
-                                "annoying_clock":1,       
+                                "mechanical_shield": 2,        
+                                "nano_armor": 2,         
+                                "mechanical_defense": 2, 
+                                "mechanical_arm_swing": 2, 
+                                "worn_gear":2,
+                                "expired_oil":2,
+                                "full_battery_bomb":1,       
                             },
                             drawCount: 3,           // 对手每回合抽3张牌
                             initialDrawCount: 4     // 对手开始时抽4张牌

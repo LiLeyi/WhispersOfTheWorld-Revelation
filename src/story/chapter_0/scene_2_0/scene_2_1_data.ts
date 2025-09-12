@@ -2,6 +2,8 @@ import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 // 定义第2章第1幕
 const scene: Scene = {
 id: "chapter_0_scene_2_1",
@@ -557,6 +559,84 @@ sprite: {
         text: "身上沾染着血迹的白发杀神以冷酷的眼神紧盯着我们，好似要把我们的一切看穿。"
     },
 },//这里触发剧情发生战斗//
+{
+    id: "darkblade_56_2",
+    elements: {
+        name: "你",
+        text: "看来一场战斗不可避免了",
+    },
+    choices: [
+        {
+            text: "与?进行战斗",
+            next: "test_game1",
+        },
+    ],
+},
+{
+                id: "test_game1",
+                elements: {
+                    name: "？",
+                    text: "你们肯定是“上面”派来追踪我的！",
+                    sprite: {
+            left:null
+        }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 2,
+                            hp: 35,
+                            maxHp: 35,
+                            deck:{
+                             "punch":3,
+                             "parry":3,
+                             "hook":3,
+                             "dodge":3,
+                              "combo":2,
+                              "holy_shield":2,
+                               "holiness":2,
+                               "enlightenment":1,
+                               "pebble":1,
+                               "strange_stone":1,
+                               "darkness":1,
+                               "tear_of_no_trace":1,
+                               
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3     // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 15,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 1,
+                            hp: 10,
+                            maxHp: 10,
+                            deck: {
+                                "little_stone": 2,        
+                                "strange_stone": 2,         
+                                "bedrock": 2, 
+                                "large_rock": 2,        
+                            },
+                            drawCount: 1,           // 对手每回合抽1张牌
+                            initialDrawCount: 3     // 对手开始时抽3张牌
+                        },
+                        backgroundImage:"sc1.1/1-1-0.jpg"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "ask1"
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "branch_1_20"
+                        }
+                    ]
+                }
+            },
 {
     id: "darkblade_57",
     elements: {
@@ -1963,76 +2043,14 @@ sprite: {
             left:null,
         }
   },
-  keyNode: true,//这里插入战斗，一共两管血//
   choices: [
     {
-      text: "赢了",
-      next: "battle_1_1",
-    },
-    {
-      text: "输了",
-      next: "battle_2_1",
+      text: "去击败国王吧",
+      next: "",
     },
   ],
 },
-        /*{
-            id: "test_game",
-            elements: {
-                name: "旁白",
-                text: "小游戏测试"
-            },
-            game: {
-                id: "card_game",
-                config: {
-                    player: {
-                        actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
-                        deck: () => CardManager.getInstance().getPlayerDeck(),
-                        drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 4     // 玩家开始时抽4张牌
-                    },
-                    opponent: {
-                        actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
-                        deck: {
-                            // 攻击卡牌
-                            'punch': 2,      // 拳击 x2
-                            'kick': 3,       // 踜击 x3
-                            'combo': 2,      // 连击 x2
-                            'hook_1': 1,     // 勾拳II x1
-                            'haymaker': 1,   // 重拳 x1
-
-                            // 防御卡牌
-                            'block': 2,      // 格挡 x2
-                            'dodge': 1,      // 闪避 x1
-                            'taunt': 1,      // 嘲讽 x1
-
-                            // 特殊卡牌
-                            'rest': 1,       // 休息 x1
-                            'berserk': 1,    // 狂暴 x1
-                            'stun': 1,       // 眩晕 x1
-                            'sacrifice': 1,  // 牺牲 x1
-                            'second_wind': 1 // 回光返照 x1
-                        },
-                        drawCount: 1,           // 对手每回合抽1张牌
-                        initialDrawCount: 3     // 对手开始时抽3张牌
-                    }
-                },
-                end: [
-                    {
-                        condition: (score: number) => score >= 1,
-                        next: "battle_1_1"
-                    },
-                    {
-                        condition: (score: number) => true, // 默认条件，总是为真
-                        next: "battle_1_2"
-                    }
-                ]
-            }
-        },*/
-        //分支3-1//
+        
         {
             id: "battle_1_1",
             elements: {
