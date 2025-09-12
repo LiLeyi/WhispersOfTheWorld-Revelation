@@ -988,12 +988,14 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('玩家抽牌阶段');
-                // 在抽牌阶段开始时处理对手的buff效果
-                PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
+                // 在抽牌阶段开始时处理玩家的buff效果
+                PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
                 // 处理玩家的delay_attack buff
                 this.processDelayAttackBuff(this.state.player, this.state.opponent);
+                // 处理玩家的conduction buff
+                this.processConductionBuff(this.state.player);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
@@ -1025,14 +1027,16 @@ class CardGame extends MiniGame {
 
         console.log('巨石游戏阶段:', this.state.gamePhase);
         switch (this.state.gamePhase) {
-            case 'draw':
+           case 'draw':
                 console.log('巨石抽牌阶段');
-                // 在抽牌阶段开始时处理玩家的buff效果
-                PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
+                // 在抽牌阶段开始时处理对手的buff效果
+                PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
                 // 处理对方的delay_attack buff
                 this.processDelayAttackBuff(this.state.opponent, this.state.player);
+                // 处理对方的conduction buff
+                this.processConductionBuff(this.state.opponent);
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
@@ -1063,6 +1067,17 @@ class CardGame extends MiniGame {
         console.log('巨石血量:', this.state.opponent.hp, '/', this.state.opponent.maxHp);
         console.log('玩家血量:', this.state.player.hp, '/', this.state.player.maxHp);
 
+        // 检查ban效果 - 如果对手被禁言，则不能出牌
+        if (BuffService.isBanned(this.state.opponent)) {
+            this.state.message = `${this.state.opponent.name} 被禁言，本回合无法出牌`;
+            this.updateUI();
+            // 直接结束对手回合
+            setTimeout(() => {
+                this.endTurn();
+            }, 1000);
+            return;
+        }
+
         // 更新调试信息
         this.updateDebugInfo();
 
@@ -1076,6 +1091,7 @@ class CardGame extends MiniGame {
                 `${card.name}(优先级:${card.priority},消耗:${card.cost?.action || 0})`
             ).join(', ') || '无';
             this.debugContentElement.innerHTML += `<div>巨石可用卡牌: ${playableCardsInfo}</div>`;
+            this.debugContentElement.innerHTML += `<div>巨石当前行动点: ${this.state.opponent.actionPoints}</div>`;
         }
 
         if (playableCards.length > 0) {
@@ -1161,6 +1177,17 @@ class CardGame extends MiniGame {
                 // 确保比较的卡牌有效
                 if (!a || !b) return 0;
 
+                // 如果手牌中有林鬼，则优先使用林鬼
+                const hasForestGhoulA = a.id === "forest_ghoul";
+                const hasForestGhoulB = b.id === "forest_ghoul";
+                
+                if (hasForestGhoulA && !hasForestGhoulB) {
+                    return -1; // a优先
+                }
+                if (hasForestGhoulB && !hasForestGhoulA) {
+                    return 1; // b优先
+                }
+
                 // 如果巨石血量较高(>70%)且玩家血量较低(<50%)，更倾向于使用攻击牌
                 if (opponentHpRatio > 0.7 && playerHpRatio < 0.5) {
                     // 计算攻击效果
@@ -1198,7 +1225,6 @@ class CardGame extends MiniGame {
                 // 优先级相同时随机排序
                 return Math.random() - 0.5;
             });
-
             // 选择第一张卡牌
             const card = playableCards[0];
 
@@ -1265,10 +1291,43 @@ class CardGame extends MiniGame {
             if (totalDamage > 0) {
                 CardService.applyDamage(opponent, totalDamage, false, player, opponent);
                 this.state.message += `\n${player.name}的延迟攻击造成${totalDamage}点伤害`;
+                // 检查游戏是否结束
+                this.checkGameOver();
             }
             
             // 移除所有delay_attack buff
             player.buffs = player.buffs.filter(buff => buff.id !== 'delay_attack');
+        }
+    }
+
+    // 处理conduction buff
+    private processConductionBuff(player: Player): void {
+        // 查找conduction buff
+        const conductionBuffs = player.buffs.filter(buff => buff.id === 'conduction');
+        if (conductionBuffs.length > 0) {
+            // conduction效果在回合结束时移除，不需要额外处理
+            // 只需移除所有conduction buff
+            player.buffs = player.buffs.filter(buff => buff.id !== 'conduction');
+            if (conductionBuffs.length > 0) {
+                console.log(`[DEBUG] 移除${player.name}的传导效果`);
+            }
+        }
+    }
+
+    // 处理真防效果：拥有真防时对对手造成1点伤害
+    private processTrueDefenseEffect(player: Player, opponent: Player): void {
+        // 检查玩家是否拥有真防
+        const trueDefense = CardService.getPlayerTrueDefense(player);
+        if (trueDefense > 0) {
+            // 对对手造成1点伤害
+            opponent.hp -= 1;
+            this.state.message += `\n${player.name}的真防对${opponent.name}造成1点伤害`;
+            console.log(`[DEBUG] ${player.name}拥有${trueDefense}点真防，对${opponent.name}造成1点伤害`);
+            
+            // 检查恶魂效果
+            BuffService.checkGhastEffect(opponent, player, opponent);
+            // 检查国王效果
+            BuffService.checkKingEffect(opponent, player);
         }
     }
 
@@ -1287,6 +1346,13 @@ class CardGame extends MiniGame {
         if (!card.id) {
             console.error('卡牌缺少ID:', card);
             this.state.message = `卡牌数据不完整`;
+            this.updateUI();
+            return;
+        }
+
+        // 检查ban效果 - 如果玩家被禁言，则不能出牌
+        if (player.id === 'player' && BuffService.isBanned(player)) {
+            this.state.message = `${player.name} 被禁言，本回合无法出牌`;
             this.updateUI();
             return;
         }
@@ -1315,18 +1381,26 @@ class CardGame extends MiniGame {
             }
         }
 
-        // 记录已出的牌（包含回合信息）到统一的已出牌记录中
-        this.playedCards.push({
-            card: {...card}, 
-            turn: this.state.turn,
-            player: player.id as 'player' | 'opponent'
-        });
-
         // 记录上一张使用的卡牌，用于shadow buff
         this.state.lastPlayedCard = {...card};
 
         // 保存卡牌索引用于后续处理
         const cardIndex = player.hand.findIndex(c => c && c.id === card.id);
+
+        // 检查是否为影子牌，如果是则创建替换后的卡牌用于使用
+        let actualCard = card; // 保存实际使用的卡牌
+        if (card.id === 'shadow_card') {
+            // 查找玩家上一张打出的手牌
+            const playerLastCard = this.playedCards
+                .filter(playedCard => playedCard.player === player.id)
+                .slice(-1)[0];
+                
+            if (playerLastCard) {
+                // 创建一个替换后的影子牌副本用于使用，不修改手牌中的原始卡牌
+                actualCard = {...playerLastCard.card, id: card.id};
+                console.log(`[DEBUG] 影子牌替换为玩家上一张打出的手牌: ${actualCard.name}`);
+            }
+        }
 
         // 在出牌动画结束后播放音效
         try {
@@ -1341,7 +1415,7 @@ class CardGame extends MiniGame {
         player.actionPoints -= (card.cost?.action || 0);
 
         // 执行卡牌效果
-        CardService.executeCardEffects(player, card, player.id === 'player' ? this.state.opponent : this.state.player, (message) => {
+        CardService.executeCardEffects(player, actualCard, player.id === 'player' ? this.state.opponent : this.state.player, (message) => {
             this.state.message = message;
         });
 
@@ -1349,6 +1423,12 @@ class CardGame extends MiniGame {
         if (cardIndex !== -1) {
             const [removedCard] = player.hand.splice(cardIndex, 1);
             player.discardPile.push(removedCard);
+            // 将实际使用的卡牌添加到已出牌区域
+            this.playedCards.push({
+                card: {...actualCard},
+                turn: this.state.turn,
+                player: player.id as 'player' | 'opponent'
+            });
         }
 
         // 触发所有符合条件的事件
@@ -1406,6 +1486,15 @@ class CardGame extends MiniGame {
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
         
+        // 在回合结束时处理真防效果
+        if (this.state.currentPlayer === 'player') {
+            // 玩家回合结束时检查玩家是否拥有真防，如果有则对巨石造成1点伤害
+            this.processTrueDefenseEffect(this.state.player, this.state.opponent);
+        } else {
+            // 巨石回合结束时检查巨石是否拥有真防，如果有则对玩家造成1点伤害
+            this.processTrueDefenseEffect(this.state.opponent, this.state.player);
+        }
+        
         // 触发所有符合条件的事件
         const gameData: CardGameEventData = this.getGameData();
         console.log('[CardGame] 回合结束，检查触发事件，当前游戏数据:', gameData);
@@ -1442,7 +1531,7 @@ class CardGame extends MiniGame {
         this.updateUI();
     }
 
-    // 清除临时防御（普通防御）
+     // 清除临时防御（普通防御）
     private clearTemporaryDefense(player: Player): void {
         console.log(`[DEBUG] 清除${player.name}的临时防御前:`, player.buffs.find(b => b.id === 'defence'));
         // 查找防御buff
@@ -1452,6 +1541,14 @@ class CardGame extends MiniGame {
             player.buffs.splice(defenceBuffIndex, 1);
         }
         console.log(`[DEBUG] 清除${player.name}的临时防御后:`, player.buffs.find(b => b.id === 'defence'));
+        
+        // 清除本回合的ban效果
+        const banBuffIndex = player.buffs.findIndex(buff => buff.id === 'ban');
+        if (banBuffIndex !== -1) {
+            // 移除ban buff
+            player.buffs.splice(banBuffIndex, 1);
+            console.log(`[DEBUG] 清除${player.name}的ban效果`);
+        }
     }
 
     // 检查游戏是否结束

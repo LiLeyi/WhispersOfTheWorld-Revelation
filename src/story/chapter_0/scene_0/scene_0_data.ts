@@ -76,8 +76,11 @@ const scene: Scene = {
                         maxHp: 30,
                         // deck: () => CardManager.getInstance().getPlayerDeck(),
                         deck: {
-                            "mechanical_crushed_stone": 5,
-                            "expired_oil": 1,
+                            "intelligence_reducing_hat": 5,      // 拳击：1攻0行动
+                            "diamond": 3,
+                            "darkness_shadow_form":3,
+                            "normal_candlelight":3,
+                            "wonderful_potion":3
                         },
                         drawCount: 2,           // 玩家每回合抽2张牌
                         initialDrawCount: 2,     // 玩家开始时抽4张牌
@@ -89,8 +92,11 @@ const scene: Scene = {
                         hp: 20,
                         maxHp: 20,
                         deck: {
-                            "punch": 1,      // 拳击：1攻0行动
-                            "mechanical_shield": 1
+                            "forest_ghoul": 5,
+                            "drowned_ghoul": 1,
+                            "hungry_ghoul":3,
+                            "lonely_ghoul":1,
+                            "stingy_ghoul":2,
                         },
                         drawCount: 2,           // 对手每回合抽1张牌
                         initialDrawCount: 3,     // 对手开始时抽3张牌

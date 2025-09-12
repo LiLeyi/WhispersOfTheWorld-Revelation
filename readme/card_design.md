@@ -46,9 +46,6 @@
 * 没过期的机油（id：unexpired_oil）：增加2行动
 * 机械护卫队（id：mechanical_guard）：获得1真防，每使用一次该牌，行动力会增加用该牌的次数，消耗2行动
 * 机械碎石（id：mechanical_crushed_stone）：2攻击，下回合2攻击，消耗1行动
-
-### 未测试
-
 * 机械陨石（id：mechanical_meteorite）：降低对方4层防御，4层真防，4攻击，消耗3行动
 * 死神低语（id：reapers_whisper）：15真攻，消耗3行动
 * 死神的呻吟（id：reapers_groan）：9真攻，消耗4行动
@@ -68,7 +65,7 @@
 * 暗寂强化（id：darkness_enhanced）：10攻击，恢复3血量，获得2真防
 * 暗寂（蚀心）（id：darkness_erosive_heart）：受到3攻击，进行18攻击，消耗1行动
 * 破碎蚀心刃（id：shattered_erosive_blade）：对方获得buff腐蚀（只能有一层）
-* 暗寂（破碎蚀心）（id：darkness_shattered_erosive）：受到攻击进行攻击，消耗行动
+* 暗寂（破碎蚀心）（id：darkness_shattered_erosive）：受到5攻击，进行15攻击，消耗1行动
 * 暗寂影化（id：darkness_shadow_form）：15攻击，恢复7血量，获得5防御，5真防
 * 暗寂（蚀心弱化）（id：darkness_erosive_weakened）：受到2攻击，进行5攻击，消耗2行动
 * 影子（id：shadow_card）：复制上一张牌的效果
@@ -76,7 +73,7 @@
 * 崭新书页（id：brand_new_page）：1攻击，获得1真防，消耗1行动
 * 正常烛光（id：normal_candlelight）：随机弃掉对方一张牌
 * 有趣法杖（id：interesting_staff）：2真攻
-* 妙用药瓶（id：wonderful_potion）：将当前的真防全部变为防御
+* 妙用药瓶（id：wonderful_potion）：将当前的防御全部变为真防
 * 降智帽子（id：intelligence_reducing_hat）：恢复5血量，复制一张对方卡牌给对方
 * 惹人喜爱的钟表（id：lovable_clock）：10攻击，消耗2行动
 
@@ -107,7 +104,7 @@ id；名称；描述（描述需写在程序中）；补充描述（对Buff作�
 会保持的效果：
 
 * defence；防御；抵挡对手的伤害，每抵挡一点防御减少一点，下次玩家出牌回合时消失。
-* true_defence；真防；抵挡对手的伤害，每抵挡一点防御减少一点，不会在下个玩家出牌回合消失，受到攻击时会先消耗防御，之后再消耗真防。
+* true_defence；真防：抵挡对手的伤害，每抵挡一点防御减少一点，不会在下个玩家出牌回合消失，受到攻击时会先消耗防御，之后再消耗真防；只要真防存在，则每回合扣除对方1滴血
 * attack_increase_once；单次攻击加成；下次攻击的伤害增加duration点，使用后buff消失。
 * combo；连击；下次伤害翻倍，作用后buff消失
 * immunication；免疫；免疫以后duration次伤害；每免疫一次减一层

@@ -864,8 +864,8 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   forest_ghoul: {
     id: "forest_ghoul",
     name: "林鬼",
-    description: "造成1点攻击，获得1回合“传导”效果，消耗2行动。",
-    priority: 11,
+    description: "造成1点攻击，获得1回合“传导”效果，消耗3行动。",
+    priority: 35,
     effect: [
       {
         id: "do_attack",
@@ -879,7 +879,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 3
     }
   },
   drowned_ghoul: {
@@ -1176,9 +1176,20 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_shattered_erosive: {
     id: "darkness_shattered_erosive",
     name: "暗寂（破碎蚀心）",
-    description: "受到攻击后进行攻击，消耗行动。",
+    description: "受到5攻击后，进行15攻击，消耗1行动。",
     priority: 18,
-    effect: [],
+    effect: [
+      {
+        id: "do_attack",
+        duration: 5,
+        target: "self"
+      },   
+      {
+        id: "do_attack",
+        duration: 15,
+        target: "other"
+      },
+    ],
     cost: {
       action: 1
     }
@@ -1236,15 +1247,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   shadow_card: {
     id: "shadow_card",
     name: "影子",
-    description: "复制上一张牌的效果。",
+    description: "使用时变为上一张打出的手牌。",
     priority: 2,
-    effect: [
-      {
-        id: "shadow",
-        duration: 1,
-        target: "self"
-      }
-    ],
+    effect: [],
     cost: {}
   },
   well_fitting_robe: {
@@ -1323,11 +1328,11 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   wonderful_potion: {
     id: "wonderful_potion",
     name: "妙用药瓶",
-    description: "将当前的真防全部变为防御。",
+    description: "将当前的防御全部变为真防。",
     priority: 3,
     effect: [
       {
-        id: "do_defence_switch",
+        id: "do_defence_add_to_true_defence",
         target: "self"
       }
     ],

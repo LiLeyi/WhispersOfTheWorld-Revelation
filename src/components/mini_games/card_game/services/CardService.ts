@@ -5,30 +5,28 @@ import { PlayerService } from "./PlayerService";
 import { CARD_TEMPLATES } from "../data/CardData";
 
 export class CardService {
-    // 执行卡牌效果
     static executeCardEffects(
         player: Player,
         card: Card,
         opponent: Player,
-        updateMessage: (message: string) => void
+        updateMessage: (message: string) => void,
+        lastPlayedCard: import("../models/Card").Card | null = null
     ): void {
         // 初始化消息
         let message = `${player.name} 使用 ${card.name}`;
 
-        // 执行所有效果
+        // 执行当前卡牌的所有效果
         for (const effect of card.effect) {
-            this.executeEffect(effect, player, opponent, updateMessage);
+            this.executeEffect(effect, player, opponent, updateMessage, card);
         }
 
         updateMessage(message);
-    }
-
-    // 执行单个效果
-    static executeEffect(
+    }      static executeEffect(
         effect: any,
         player: Player,
         opponent: Player,
-        updateMessage: (message: string) => void
+        updateMessage: (message: string) => void,
+        lastPlayedCard: import("../models/Card").Card | null = null
     ): void {
         const target = effect.target === 'self' ? player : effect.target === 'other' ? opponent : null;
         if (!target) return;
@@ -70,12 +68,43 @@ export class CardService {
 
             case 'do_defence_decrease':
                 // 减少防御值
-                target.buffs.push({
-                    id: 'defence_decrease',
-                    duration: effect.duration || 0,
-                    target: 'self'
-                });
-                console.log(`[DEBUG] ${target.name}减少${effect.duration || 0}点防御`);
+                // 直接减少目标的防御值，而不是添加buff
+                const defenceBuff = target.buffs.find(buff => buff.id === 'defence');
+                if (defenceBuff && defenceBuff.duration && defenceBuff.duration > 0) {
+                    const reduceAmount = Math.min(defenceBuff.duration, effect.duration || 0);
+                    defenceBuff.duration -= reduceAmount;
+                    // 如果防御值减到0，移除防御buff
+                    if (defenceBuff.duration <= 0) {
+                        target.buffs = target.buffs.filter(buff => buff.id !== 'defence');
+                    }
+                    console.log(`[DEBUG] ${target.name}减少${reduceAmount}点防御`);
+                } else {
+                    console.log(`[DEBUG] ${target.name}没有防御值，防御减少效果无效`);
+                }
+                break;
+
+                case 'do_defence_add_to_true_defence':
+                // 将当前防御数值加到真防上并清空当前防御（防御叠加到真防上）
+                const defenceValue = this.getPlayerDefense(target);
+                
+                if (defenceValue > 0) {
+                    // 清除防御
+                    this.clearDefense(target);
+                    
+                    // 将防御数值添加到真防上
+                    const existingTrueDefenceBuff = target.buffs.find(b => b.id === 'true_defence');
+                    if (existingTrueDefenceBuff) {
+                        existingTrueDefenceBuff.duration = (existingTrueDefenceBuff.duration || 0) + defenceValue;
+                    } else {
+                        target.buffs.push({
+                            id: 'true_defence',
+                            duration: defenceValue,
+                            target: 'self'
+                        });
+                    }
+                    
+                    console.log(`[DEBUG] ${target.name}将${defenceValue}点防御加到真防上并清空防御`);
+                }
                 break;
 
             case 'do_true_defence':
@@ -98,14 +127,20 @@ export class CardService {
 
             case 'do_true_defence_decrease':
                 // 减少真防值
-                target.buffs.push({
-                    id: 'true_defence_decrease',
-                    duration: effect.duration || 0,
-                    target: 'self'
-                });
-                console.log(`[DEBUG] ${target.name}减少${effect.duration || 0}点真防`);
+                // 检查目标是否拥有真防值
+                const trueDefenceBuff = target.buffs.find(buff => buff.id === 'true_defence');
+                if (trueDefenceBuff && trueDefenceBuff.duration && trueDefenceBuff.duration > 0) {
+                    const reduceAmount = Math.min(trueDefenceBuff.duration, effect.duration || 0);
+                    trueDefenceBuff.duration -= reduceAmount;
+                    // 如果真防值减到0，移除真防buff
+                    if (trueDefenceBuff.duration <= 0) {
+                        target.buffs = target.buffs.filter(buff => buff.id !== 'true_defence');
+                    }
+                    console.log(`[DEBUG] ${target.name}减少${reduceAmount}点真防`);
+                } else {
+                    console.log(`[DEBUG] ${target.name}没有真防值，真防减少效果无效`);
+                }
                 break;
-
             case 'do_action_add':
                 target.actionPoints += effect.duration || 0;
                 // 确保行动点不为负数
@@ -147,8 +182,16 @@ export class CardService {
                 if (opponentPlayer && opponentPlayer.hand.length > 0) {
                     const randomIndex = Math.floor(Math.random() * opponentPlayer.hand.length);
                     const cardToCopy = opponentPlayer.hand[randomIndex];
-                    player.hand.push({ ...cardToCopy });
-                    console.log(`[DEBUG] ${player.name}复制${opponentPlayer.name}的手牌: ${cardToCopy.name}`);
+                    // 根据效果目标决定将复制的卡牌给谁
+                    if (effect.target === 'other') {
+                        // 如果目标是other，将复制的卡牌给对手
+                        opponentPlayer.hand.push({ ...cardToCopy });
+                        console.log(`[DEBUG] ${player.name}复制${opponentPlayer.name}的手牌并给对方: ${cardToCopy.name}`);
+                    } else {
+                        // 如果目标是self，将复制的卡牌给自己
+                        player.hand.push({ ...cardToCopy });
+                        console.log(`[DEBUG] ${player.name}复制${opponentPlayer.name}的手牌: ${cardToCopy.name}`);
+                    }
                 } else {
                     console.log(`[DEBUG] ${player.name}尝试复制对方手牌，但对方没有手牌`);
                 }
@@ -261,11 +304,31 @@ export class CardService {
                 console.log(`[DEBUG] ${player.name}使用机械护卫队，基于现有${currentGuardLevel}层buff，行动力增加${currentGuardLevel}点，当前行动力: ${player.actionPoints}`);
                 break;
 
-            default:                // 处理持续性buff效果
+           default:                // 处理持续性buff效果
                 if (this.isBuffEffect(effect.id)) {
                     // 对于需要合并的buff类型，检查是否已经存在相同类型的buff
-                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack']; // 可以合并的buff类型
-                    if (mergeableBuffs.includes(effect.id)) {
+                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack', 'sharp']; // 可以合并的buff类型
+                    // 腐蚀效果只能叠加一层
+                    if (effect.id === 'erosive') {
+                        // 检查是否已经存在腐蚀效果
+                        const existingErosiveBuff = target.buffs.find(buff => buff.id === 'erosive');
+                        if (!existingErosiveBuff) {
+                            // 只有在不存在腐蚀效果时才添加
+                            const buff: Buff = {
+                                id: effect.id,
+                                duration: effect.duration,
+                                target: effect.target
+                            };
+                            target.buffs.push(buff);
+                            console.log(`[DEBUG] ${target.name}获得buff: ${effect.id}，持续时间: ${effect.duration}`);
+                        } else {
+                            console.log(`[DEBUG] ${target.name}已存在腐蚀效果，不重复添加`);
+                        }
+                    } else if (effect.id === 'shadow') {
+                        // 影子效果不应该作为buff处理，而应该在出牌时立即执行
+                        // 由于影子牌现在直接替换为上一张牌，这里不需要处理
+                        console.log(`[DEBUG] ${target.name}的影子效果已通过卡牌替换方式处理`);
+                    } else if (mergeableBuffs.includes(effect.id)) {
                         const existingBuff = target.buffs.find(buff => buff.id === effect.id);
                         if (existingBuff) {
                             // 如果已有相同buff，增加其持续时间
@@ -386,8 +449,8 @@ export class CardService {
             } else {
                 // 真防不足，减少所有真防并继续
                 console.log(`[DEBUG] 真防不足，减少所有${trueDefense}点真防，剩余伤害${damage - trueDefense}`);
+                this.reduceTrueDefense(player, trueDefense);
                 damage -= trueDefense;
-                this.clearTrueDefense(player);
             }
         }
 
@@ -517,7 +580,7 @@ export class CardService {
             case 'unreal_spell':
                 // 虚幻咒语：每回合进行1攻击，获得1行动
                 this.applyDamage(opponent, 1, false, player, opponent);
-                player.actionPoints += 1;
+                // 删除增加1行动点数的效果
                 break;
 
             case 'erosive':
@@ -617,14 +680,8 @@ export class CardService {
 
             case 'shadow':
                 // 影子：复制上一张牌效果
-                if (lastPlayedCard) {
-                    // 复制上一张牌的所有效果
-                    for (const effect of lastPlayedCard.effect) {
-                        this.executeEffect(effect, player, opponent, (message: string) => {
-                            // 这里可以处理消息，但在影子效果中我们不显示消息
-                        });
-                    }
-                }
+                // 由于影子机制已更改为在卡牌使用时直接替换，这里不再需要处理
+                console.log(`[DEBUG] 影子机制已更新为卡牌替换模式，不再通过buff处理`);
                 // 移除影子buff
                 player.buffs = player.buffs.filter(b => b.id !== 'shadow');
                 break;
@@ -664,7 +721,7 @@ export class CardService {
         damage += sentryBonus;
 
         // 处理传导效果
-        BuffService.processConduction(target, damage);
+        BuffService.processConduction(attacker, damage);
 
         // 应用伤害
         this.applyDamage(target, damage, false, attacker, opponent);
@@ -744,33 +801,24 @@ export class BuffService {
         return totalSharp;
     }
 
-    // 处理传导效果
     static processConduction(player: Player, damage: number): void {
         // 查找传导buff
         const hasConduction = player.buffs.some(buff => buff.id === 'conduction');
         if (hasConduction) {
-            // 减少自己的真防
-            const trueDefenseBuffs = player.buffs.filter(buff => buff.id === 'true_defence_add');
-            let remaining = damage;
-
-            for (const buff of trueDefenseBuffs) {
-                if (remaining <= 0) break;
-
-                if (buff.duration !== undefined) {
-                    if (buff.duration > remaining) {
-                        buff.duration -= remaining;
-                        remaining = 0;
-                    } else {
-                        remaining -= buff.duration;
-                        buff.duration = 0;
-                    }
-                }
+            // 将造成的伤害转化为自己的真防
+            const existingTrueDefenceBuff = player.buffs.find(buff => buff.id === 'true_defence');
+            if (existingTrueDefenceBuff) {
+                // 如果已有真防buff，增加其持续时间（在这里表示真防点数）
+                existingTrueDefenceBuff.duration = (existingTrueDefenceBuff.duration || 0) + damage;
+            } else {
+                // 如果没有真防buff，添加新的
+                player.buffs.push({
+                    id: 'true_defence',
+                    duration: damage,
+                    target: 'self'
+                });
             }
-
-            // 清理已耗尽的真防buff
-            player.buffs = player.buffs.filter(buff =>
-                !(buff.id === 'true_defence_add' && buff.duration === 0)
-            );
+            console.log(`[DEBUG] ${player.name}通过传导效果获得${damage}点真防`);
         }
     }
 
@@ -907,15 +955,8 @@ export class BuffService {
             // 移除影子buff
             player.buffs.splice(shadowIndex, 1);
 
-            // 如果有上一张使用的卡牌，则复制其效果
-            if (lastPlayedCard) {
-                // 复制上一张牌的所有效果
-                for (const effect of lastPlayedCard.effect) {
-                    CardService.executeEffect(effect, player, player, (message) => {
-                        // 这里可以处理消息，但在影子效果中我们不显示消息
-                    });
-                }
-            }
+            // 由于影子机制已更改为在卡牌使用时直接替换，这里不再需要处理
+            console.log(`[DEBUG] 影子机制已更新为卡牌替换模式，不再通过buff处理`);
         }
     }
 }
