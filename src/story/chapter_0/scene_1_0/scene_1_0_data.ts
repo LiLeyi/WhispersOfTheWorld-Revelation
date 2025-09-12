@@ -3,6 +3,7 @@ import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1_0",
@@ -917,7 +918,11 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "我已明白。"
-            }
+            },
+            action: () => {
+                    const bagManager = BagManager.getInstance();
+                    bagManager.addCardsToBag("enlightenment", 1);
+                    },
         },
         {
             id: "mysterious_person_11",
@@ -1356,16 +1361,9 @@ const scene: Scene = {
                             actionPoints: 1,
                             hp: 15,
                             maxHp: 15,
-                            deck:{
-                            "punch":3,
-                            "parry":3,
-                            "hook":3,
-                            "dodge":3,
-                            "combo":2,
-                            "holy_shield":2,
-                            "holiness":2,
-                            "darkness_initial":1,
-                            "enlightenment":1,
+                            deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3     // 玩家开始时抽3张牌
@@ -1398,7 +1396,7 @@ const scene: Scene = {
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真
-                            next: "branch_1_20"
+                            next: "ask2"
                         }
                     ]
                 }
@@ -1411,18 +1409,32 @@ const scene: Scene = {
             sprite: {
             left:null
         }
+        
         },
         choices: [
                 {
                     text: "是",
-                    next: "test_game2"
+                    next: "test2"
                 },
                 {
-                    text: "是",
-                    next: "test_game2"
+                    text: "否",
+                    next: "test1_1"
                 }
             ]
             }, 
+            {
+                id: "ask2",
+                elements: {
+                    name: "旁白",
+                    text: "很遗憾挑战失败，是否重试？"
+                },
+                choices: [
+                {
+                    text: "是",
+                    next: "test_game1"
+                },
+            ]
+            },    
              {
                 id: "test2",
                 elements: {
@@ -1449,16 +1461,9 @@ const scene: Scene = {
                             actionPoints: 1,
                             hp: 25,
                             maxHp: 25,
-                            deck:{
-                            "punch":3,
-                            "parry":3,
-                            "hook":3,
-                            "dodge":3,
-                            "combo":2,
-                            "holy_shield":2,
-                            "holiness":2,
-                            "darkness_initial":1,
-                            "enlightenment":1,
+                            deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3     // 玩家开始时抽3张牌
@@ -1509,6 +1514,9 @@ const scene: Scene = {
                 action: () => {
                 let am = AchievementManager.getInstance();
                 am.unlockAchievementWithAnimation("complete_stone_trials");
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("strange_stone", 2);
+                bagManager.addCardsToBag("pebble", 2);
             },
                 next:"test1_1",
             },

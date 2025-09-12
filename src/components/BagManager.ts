@@ -36,6 +36,43 @@ export class BagManager {
             this.showCardObtainedNotification(cardId);
         }
     }
+
+    // 新增支持指定数量的方法
+    public addCardsToBag(cardId: string, count: number): void {
+        const currentArchiveManager = ArchiveManager.getInstance();
+        const hadCard = currentArchiveManager.hasItem(cardId);
+        
+        // 添加指定数量的卡牌到存档
+        currentArchiveManager.addItem(cardId, count);
+        
+        // 只有在第一次获得卡牌时才显示提示
+        if (!hadCard) {
+            this.showCardObtainedNotification(cardId);
+        }
+    }
+    
+    /**
+     * 获取玩家背包中的所有卡牌，格式化为卡牌游戏所需的格式
+     * @returns 卡牌ID到数量的映射
+     */
+    public getCardDeckForGame(): Record<string, number> {
+        const archiveManager = ArchiveManager.getInstance();
+        const deck: Record<string, number> = {};
+        
+        // 遍历所有卡牌数据库中的卡牌
+        for (const cardId in CARD_DATABASE) {
+            // 检查玩家是否拥有该卡牌
+            if (archiveManager.hasItem(cardId)) {
+                // 获取卡牌数量
+                const count = archiveManager.getItemCount(cardId);
+                if (count > 0) {
+                    deck[cardId] = count;
+                }
+            }
+        }
+        
+        return deck;
+    }
     
     private showCardObtainedNotification(cardId: string): void {
         const card = CARD_DATABASE[cardId];
@@ -230,14 +267,14 @@ class BagPage {
             return;
         }
 
-        // 渲染每张卡牌
+        // 渲染每张卡牌（每种卡牌只显示一次，但显示数量）
         playerCards.forEach(({card, count}) => {
             const cardElement = this.createCardElement(card, count);
             bagGrid.appendChild(cardElement);
         });
     }
 
-    private createCardElement(card: Card, count: number): HTMLElement {
+        private createCardElement(card: Card, count: number): HTMLElement {
         const bagItemElement = document.createElement("div");
         bagItemElement.className = "bag-item";
 
@@ -251,8 +288,7 @@ class BagPage {
         
         const cardName = document.createElement("div");
         cardName.className = "card-name";
-        // 显示卡牌名称和数量
-        cardName.textContent = count > 1 ? `${card.name} x${count}` : card.name;
+        cardName.textContent = card.name;
         
         const cardDesc = document.createElement("div");
         cardDesc.className = "card-desc";
@@ -262,6 +298,12 @@ class BagPage {
         cardContent.appendChild(cardName);
         cardContent.appendChild(cardDesc);
         cardContainer.appendChild(cardContent);
+        
+        // 创建数量显示元素并直接添加到card容器中
+        const cardCount = document.createElement("div");
+        cardCount.className = "card-count";
+        cardCount.textContent = `x${count}`;
+        cardContainer.appendChild(cardCount);
         
         // 将卡片添加到背包项目中
         bagItemElement.appendChild(cardContainer);
@@ -273,7 +315,6 @@ class BagPage {
 
         return bagItemElement;
     }
-
     private showCardModal(card: Card): void {
         const modal = document.getElementById("item-modal");
         const itemName = document.getElementById("modal-item-name");
@@ -398,10 +439,8 @@ class BagPage {
                 color: #000;
                 padding: 10px;
                 overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                position: relative;
+                /* 移除transform属性，避免与父元素冲突 */
             }
             
             .card-content {
@@ -432,6 +471,19 @@ class BagPage {
                 display: -webkit-box;
                 -webkit-line-clamp: 4;
                 -webkit-box-orient: vertical;
+            }
+            
+            .card-count {
+                position: absolute;
+                bottom: 5px;
+                right: 5px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #000;
+                background: rgba(255, 255, 255, 0.6);
+                padding: 2px 6px;
+                border-radius: 10px;
+                z-index: 2;
             }
         `;
         
