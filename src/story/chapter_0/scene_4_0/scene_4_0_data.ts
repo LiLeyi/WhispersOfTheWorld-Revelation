@@ -3967,7 +3967,7 @@ sprite: {
 {
   id: "ending_33_6",
   elements: {
-    
+     bgm:"bgm27.MP3" ,
     name: "旁白",
     text: "灾厄之主的怒啸消散在风暴与裂痕中，天地间只剩下一片死寂。",
     sprite:{
