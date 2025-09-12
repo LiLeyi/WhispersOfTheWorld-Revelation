@@ -1141,240 +1141,6 @@ const scene: Scene = {
                 text: "是啊。"
             }
         },
-       /* {
-            id: "choice_1",
-            elements: {
-                name: "旁白",
-                text: "1尽管来吧。/2不，也许这是一个陷阱呢。"
-            }
-        },
-        {
-            id: "choice_1_1",
-            elements: {
-                name: "你",
-                text: "①"
-            }
-        },
-        {
-            id: "lightling_14_1",
-            elements: {
-                name: "光泠",
-                text: "您不会退缩的，我就知道。（笑）"
-            }
-        },
-        {
-            id: "lightling_15_1",
-            elements: {
-                name: "光泠",
-                text: "您不会让我失望，我一直相信您。（笑）"
-            }
-        },
-        {
-            id: "you_1",
-            elements: {
-                name: "你",
-                text: "看来我也不能辜负你的信任了。"
-            }
-        },
-        {
-            id: "lightling_16_1",
-            elements: {
-                name: "光泠",
-                text: "嗯，我很荣幸。（微笑）"
-            }
-        },
-        {
-            id: "lightling_17_1",
-            elements: {
-                name: "光泠",
-                text: "跟您在一起的时候，我总是会很安心。（笑）"
-            }
-        },
-        {
-            id: "you_2",
-            elements: {
-                name: "你",
-                text: "是吗？"
-            }
-        },
-        {
-            id: "lightling_18_1",
-            elements: {
-                name: "光泠",
-                text: "我们会一起走下去，对吧？（微笑）"
-            }
-        },
-        {
-            id: "you_3",
-            elements: {
-                name: "你",
-                text: "毫无疑问。"
-            }
-        },
-        {
-            id: "lightling_19_1",
-            elements: {
-                name: "光泠",
-                text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。（笑）"
-            }
-        },
-        {
-            id: "you_4",
-            elements: {
-                name: "你",
-                text: "第一眼看到你的时候，就觉得我们曾经在哪里相遇过。"
-            }
-        },
-        {
-            id: "you_5",
-            elements: {
-                name: "你",
-                text: "现在这股感觉更强烈了。"
-            }
-        },
-        {
-            id: "lightling_21_1",
-            elements: {
-                name: "光泠",
-                text: "也许是真的发生过呢？只可惜您已没有过往的记忆。（沮丧）"
-            }
-        },
-        {
-            id: "you_6",
-            elements: {
-                name: "你",
-                text: "但至少现在我们在一起。"
-            }
-        },
-        {
-            id: "you_7",
-            elements: {
-                name: "你",
-                text: "既然往昔不可追忆，那不妨好好把握当下。"
-            }
-        },
-        {
-            id: "lightling_22_1",
-            elements: {
-                name: "光泠",
-                text: "您还是很乐观呢。（微笑）"
-            }
-        },
-        {
-            id: "lightling_23_1",
-            elements: {
-                name: "光泠",
-                text: "世界本来就已糟糕至极，若还整日郁郁寡欢，那么就算幸福在身边驻足，也会遗憾地失之交臂。"
-            }
-        },
-        {
-            id: "lightling_24_1",
-            elements: {
-                name: "光泠",
-                text: "您说的对。（微笑）"
-            }
-        },
-        {
-            id: "lightling_25_1",
-            elements: {
-                name: "光泠",
-                text: "光泠拉起我的手，将我们两人的手轻按在巨石上。"
-            }
-        },
-        {
-            id: "lightling_26_1",
-            elements: {
-                name: "光泠",
-                text: "让我们开始吧。（笑）"
-            }
-        },
-        {
-            id: "lightling_27_1",
-            elements: {
-                name: "光泠",
-                text: "也许是吧。但我们似乎也别无他法。（沮丧）"
-            }
-        },
-        {
-            id: "lightling_28_1",
-            elements: {
-                name: "光泠",
-                text: "您打算放弃吗？（无表情）"
-            }
-        },
-        {
-            id: "you_8",
-            elements: {
-                name: "你",
-                text: "我想我们应该试试别的方法，或者到其他地方去。"
-            }
-        },
-        {
-            id: "you_9",
-            elements: {
-                name: "你",
-                text: "我可不敢冒这个风险。"
-            }
-        },
-        {
-            id: "lightling_29_1",
-            elements: {
-                name: "光泠",
-                text: "实在是遗憾。不过我尊重您的选择。（沮丧）"
-            }
-        },
-        {
-            id: "lightling_30_1",
-            elements: {
-                name: "光泠",
-                text: "将您带到这里，我的任务就完成了。（无表情）"
-            }
-        },
-        {
-            id: "you_10",
-            elements: {
-                name: "你",
-                text: "我知道。只是我实在不放心。"
-            }
-        },
-        {
-            id: "lightling_31_1",
-            elements: {
-                name: "光泠",
-                text: "没关系。（无表情）"
-            }
-        },
-        {
-            id: "lightling_32_1",
-            elements: {
-                name: "光泠",
-                text: "走吧。"
-            }
-        },
-        {
-            id: "you_11",
-            elements: {
-                name: "你",
-                text: "嗯。（无表情）"
-            }
-        },
-        {
-            id: "you_11",
-            elements: {
-                name: "旁白",
-                text: "前面是一片废墟，进入时要多加小心"
-            }
-        },
-        {
-            id: "test_end",
-            elements: {
-                name: "旁白",
-                text: "测试完成"
-            },
-            action: () => {
-                alert('测试完成')
-            }
-        }*/
     {
             id: "lightling_13_1",
             elements: {
@@ -1572,18 +1338,7 @@ const scene: Scene = {
             sprite: {
             left:"guangling/smile1.png"
         }
-        },
-        choices: [
-                {
-                    text: "简单",
-                    next: "test_game1"
-                },
-                {
-                    text: "困难",
-                    next: "test_game2"
-                }
-            ]
-        
+    }
     },
     {
                 id: "test_game1",
@@ -1598,29 +1353,36 @@ const scene: Scene = {
                     id: "card_game",
                     config: {
                         player: {
-                            actionPoints: 3,
-                            hp: 30,
-                            maxHp: 30,
-                            deck: () => CardManager.getInstance().getPlayerDeck(),
+                            actionPoints: 1,
+                            hp: 15,
+                            maxHp: 15,
+                            deck:{
+                             "punch":3,
+                             "parry":3,
+                             "hook":3,
+                             "dodge":3,
+                              "combo":2,
+                              "holy_shield":2,
+                               "holiness":2,
+                               "darkness_initial":1,
+                               "enlightenment":1,
+                            },
                             drawCount: 2,           // 玩家每回合抽2张牌
-                            initialDrawCount: 4     // 玩家开始时抽4张牌
+                            initialDrawCount: 3     // 玩家开始时抽3张牌
                         },
+                        deckSelection: {
+                        minDeckSize: 7,   // 设置最小选牌数量
+                        maxDeckSize: 10,   // 设置最大选牌数量
+                    },
                         opponent: {
-                            actionPoints: 3,
-                            hp: 30,
-                            maxHp: 30,
+                            actionPoints: 1,
+                            hp: 10,
+                            maxHp: 10,
                             deck: {
-                                // 攻击卡牌
-                                'punch': 2,          // 拳击 x2
-                                'kick_1': 2,         // 踢击I x2
-                                'straight_punch_2': 1, // 直拳II x1
-    
-                                // 防御卡牌
-                                'block_1': 2,        // 格挡I x2
-                                'dodge': 1,          // 闪避 x1
-    
-                                // 特殊卡牌
-                                'rest': 1,           // 休息 x1
+                                "little_stone": 2,        
+                                "strange_stone": 2,         
+                                "bedrock": 2, 
+                                "large_rock": 2,        
                             },
                             drawCount: 1,           // 对手每回合抽1张牌
                             initialDrawCount: 3     // 对手开始时抽3张牌
@@ -1671,8 +1433,8 @@ const scene: Scene = {
             {
                 id: "test_game2",
                 elements: {
-                    name: "旁白",
-                    text: "小游戏测试",
+                    name: "巨石",
+                    text: "迎接我的终极挑战吧",
                     sprite: {
             left:null
         },
@@ -1683,95 +1445,51 @@ const scene: Scene = {
                     id: "card_game",
                     config: {
                         player: {
-                            actionPoints: 6,
-                            hp: 40,
-                            maxHp: 40,
-                            deck: {
-                                // 基础攻击卡牌
-                                'straight_punch_1': 2,  // 直拳I x2
-                                'straight_punch_2': 2,  // 直拳II x2
-                                'straight_punch_3': 1,  // 直拳III x1
-                                
-                                // 高级攻击卡牌
-                                'uppercut_1': 1,        // 上勾拳I x1
-                                'uppercut_2': 1,        // 上勾拳II x1
-                                'hook_1': 1,            // 勾拳I x1
-                                'hook_2': 1,            // 勾拳II x1
-                                'kick_1': 2,            // 踢击I x2
-                                'kick_2': 1,            // 踢击II x1
-                                'kick_3': 1,            // 踢击III x1
-                                'punch': 2,             // 拳击 x2
-                                'combo': 1,             // 连击 x1
-                                'haymaker': 1,          // 重拳 x1
-                                'push_kick': 1,         // 推踢 x1
-                                
-                                // 防御卡牌
-                                'block_1': 2,           // 格挡I x2
-                                'block_2': 1,           // 格挡II x1
-                                'block_3': 1,           // 格挡III x1
-                                'dodge': 1,             // 闪避 x1
-                                'stance': 1,            // 架势 x1
-                                
-                                // 特殊卡牌
-                                'excite_1': 2,          // 兴奋I x2
-                                'rest': 1,              // 休息 x1
-                                'strategy_1': 1,        // 计谋I x1
-                                'adrenaline': 1,        // 肾上腺素 x1
-                                'swift': 1,             // 疾行 x1
-                                'power_up': 1,          // 蓄力 x1
-                                'second_wind': 1,       // 回光返照 x1
-                                'berserk': 1,           // 狂暴 x1
+                            actionPoints: 1,
+                            hp: 25,
+                            maxHp: 25,
+                            deck:{
+                             "punch":3,
+                             "parry":3,
+                             "hook":3,
+                             "dodge":3,
+                              "combo":2,
+                              "holy_shield":2,
+                               "holiness":2,
+                               "darkness_initial":1,
+                               "enlightenment":1,
                             },
-                            drawCount: 3,               // 玩家每回合抽3张牌
-                            initialDrawCount: 6         // 玩家开始时抽6张牌
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3     // 玩家开始时抽3张牌
                         },
+                        deckSelection: {
+                        minDeckSize: 7,   // 设置最小选牌数量
+                        maxDeckSize: 10,   // 设置最大选牌数量
+                    },
                         opponent: {
-                            actionPoints: 4,
-                            hp: 60,
-                            maxHp: 60,
+                            actionPoints: 1,
+                            hp: 20,
+                            maxHp: 20,
                             deck: {
-                                // 攻击卡牌
-                                'straight_punch_1': 2,  // 直拳I x2
-                                'straight_punch_2': 2,  // 直拳II x2
-                                'straight_punch_3': 1,  // 直拳III x1
-                                'uppercut_1': 1,        // 上勾拳I x1
-                                'uppercut_2': 1,        // 上勾拳II x1
-                                'hook_1': 1,            // 勾拳I x1
-                                'hook_2': 1,            // 勾拳II x1
-                                'kick_1': 2,            // 踢击I x2
-                                'kick_2': 1,            // 踢击II x1
-                                'kick_3': 1,            // 踢击III x1
-                                'punch': 2,             // 拳击 x2
-                                'combo': 1,             // 连击 x1
-                                'haymaker': 1,          // 重拳 x1
-                                'push_kick': 1,         // 推踢 x1
-    
-                                // 防御卡牌
-                                'block_1': 2,           // 格挡I x2
-                                'block_2': 1,           // 格挡II x1
-                                'block_3': 1,           // 格挡III x1
-                                'dodge': 1,             // 闪避 x1
-                                'stance': 1,            // 架势 x1
-    
-                                // 特殊卡牌
-                                'rest': 1,              // 休息 x1
-                                'strategy_1': 1,        // 计谋I x1
-                                'adrenaline': 1,        // 肾上腺素 x1
-                                'swift': 1,             // 疾行 x1
-                                'power_up': 1,          // 蓄力 x1
-                                'second_wind': 1,       // 回光返照 x1
-                                'berserk': 1,           // 狂暴 x1
+                                "little_stone": 1,        
+                                "strange_stone": 1,         
+                                "bedrock": 1, 
+                                "large_rock": 1,
+                                  "red_stone":2,
+                                  "diamond":2,
+                                  "crushed_stone":2,
+                                  "pebble":2,
+                                  "meteorite":1,      
                             },
-                            drawCount: 3,               // 对手每回合抽3张牌
-                            initialDrawCount: 6         // 对手开始时抽6张牌
+                            drawCount: 2,           // 对手每回合抽1张牌
+                            initialDrawCount: 3     // 对手开始时抽3张牌
                         },
-                        bgm: "bgm11",
                         backgroundImage:"sc1.1/1-1-0.jpg"
                     },
                     end: [
                         {
                             condition: (score: number) => score >= 1,
-                            next: "test1"
+                            next: "ask1"
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真

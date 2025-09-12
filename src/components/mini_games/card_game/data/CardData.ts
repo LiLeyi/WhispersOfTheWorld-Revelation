@@ -256,7 +256,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     priority: 11,
     effect: [
       {
-        id: "attack_increase_once",
+        id: "do_attack",
         duration: 2,
         target: "self"
       }
