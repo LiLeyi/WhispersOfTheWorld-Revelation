@@ -551,11 +551,12 @@ class CardGame extends MiniGame {
         selectedCard: null,
         message: '游戏开始！抽牌阶段。',
         lastPlayedCard: null,
-        playerWon: null
+        playerWon: null,
+        usedOnceCards: new Set<string>()
     };
     // 游戏配置
     private config: CardGameConfig;
-     // 音频管理器
+    // 音频管理器
     protected audioManager: any;
     // 原始背景音乐
     private originalBgm: string = "";
@@ -613,26 +614,27 @@ class CardGame extends MiniGame {
         };
 
         // 初始化游戏状态（但不设置初始化buff，不启动游戏循环）
+        // 初始化游戏状态（但不设置初始化buff，不启动游戏循环）
         this.state = {
             player: {
                 id: 'player',
                 name: this.gameConfig?.player?.name || '玩家',
-                hp: typeof this.config.player!.hp === 'function' 
-                    ? this.config.player!.hp()! 
+                hp: typeof this.config.player!.hp === 'function'
+                    ? this.config.player!.hp()!
                     : this.config.player!.hp!,
-                maxHp: typeof this.config.player!.maxHp === 'function' 
-                    ? this.config.player!.maxHp()! 
+                maxHp: typeof this.config.player!.maxHp === 'function'
+                    ? this.config.player!.maxHp()!
                     : this.config.player!.maxHp!,
-                actionPoints: typeof this.config.player!.actionPoints === 'function' 
-                    ? this.config.player!.actionPoints()! 
+                actionPoints: typeof this.config.player!.actionPoints === 'function'
+                    ? this.config.player!.actionPoints()!
                     : this.config.player!.actionPoints!,
-                maxActionPoints: typeof this.config.player!.actionPoints === 'function' 
-                    ? this.config.player!.actionPoints()! 
+                maxActionPoints: typeof this.config.player!.actionPoints === 'function'
+                    ? this.config.player!.actionPoints()!
                     : this.config.player!.actionPoints!,
                 deck: GameService.createInitialDeck(
-                    typeof this.config.player!.deck === 'function' 
-                        ? this.config.player!.deck() 
-                        : this.config.player!.deck, 
+                    typeof this.config.player!.deck === 'function'
+                        ? this.config.player!.deck()
+                        : this.config.player!.deck,
                     true
                 ),
                 hand: [],
@@ -642,22 +644,22 @@ class CardGame extends MiniGame {
             opponent: {
                 id: 'opponent',
                 name: this.gameConfig?.opponent?.name || '巨石',
-                hp: typeof this.config.opponent!.hp === 'function' 
-                    ? this.config.opponent!.hp()! 
+                hp: typeof this.config.opponent!.hp === 'function'
+                    ? this.config.opponent!.hp()!
                     : this.config.opponent!.hp!,
-                maxHp: typeof this.config.opponent!.maxHp === 'function' 
-                    ? this.config.opponent!.maxHp()! 
+                maxHp: typeof this.config.opponent!.maxHp === 'function'
+                    ? this.config.opponent!.maxHp()!
                     : this.config.opponent!.maxHp!,
-                actionPoints: typeof this.config.opponent!.actionPoints === 'function' 
-                    ? this.config.opponent!.actionPoints()! 
+                actionPoints: typeof this.config.opponent!.actionPoints === 'function'
+                    ? this.config.opponent!.actionPoints()!
                     : this.config.opponent!.actionPoints!,
-                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function' 
-                    ? this.config.opponent!.actionPoints()! 
+                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function'
+                    ? this.config.opponent!.actionPoints()!
                     : this.config.opponent!.actionPoints!,
                 deck: GameService.createInitialDeck(
-                    typeof this.config.opponent!.deck === 'function' 
-                        ? this.config.opponent!.deck() 
-                        : this.config.opponent!.deck, 
+                    typeof this.config.opponent!.deck === 'function'
+                        ? this.config.opponent!.deck()
+                        : this.config.opponent!.deck,
                     true
                 ),
                 hand: [],
@@ -670,7 +672,8 @@ class CardGame extends MiniGame {
             selectedCard: null,
             message: '游戏开始！抽牌阶段。',
             playerWon: null,
-            lastPlayedCard: null
+            lastPlayedCard: null,
+            usedOnceCards: new Set<string>() // 初始化已使用一次性卡牌集合
         };
 
         this.setUIElements('score', 'game-over');
@@ -689,7 +692,7 @@ class CardGame extends MiniGame {
             console.log('[CardGame] gameConfig内容:', gameConfig);
             console.log('[CardGame] gameEvents内容:', gameEvents);
         }
-        
+
         // 注意：不在构造函数中调用任何游戏逻辑
     }
 
@@ -764,10 +767,10 @@ class CardGame extends MiniGame {
         this.playerBuffsElement = document.getElementById('player-buffs'); // 获取玩家buff显示区域
         this.opponentBuffsElement = document.getElementById('opponent-buffs'); // 获取对手buff显示区域
         this.deckSelectionContainer = document.getElementById('deck-selection-container'); // 获取卡组选择容器
-        
+
         // 设置事件监听器
         this.setupEventListeners();
-        
+
         // 设置背景图片
         this.setBackgroundImage();
     }
@@ -789,7 +792,7 @@ class CardGame extends MiniGame {
             const playerTrueDefense = CardService.getPlayerTrueDefense(this.state.player);
             const opponentDefense = CardService.getPlayerDefense(this.state.opponent);
             const opponentTrueDefense = CardService.getPlayerTrueDefense(this.state.opponent);
-            
+
             this.debugContentElement.innerHTML = `
                 <div>当前回合: ${this.state.turn}</div>
                 <div>当前玩家: ${this.state.currentPlayer}</div>
@@ -895,10 +898,10 @@ class CardGame extends MiniGame {
         if (this.playedCardsElement) {
             // 清空当前显示的所有卡牌
             this.playedCardsElement.innerHTML = '';
-            
+
             // 显示所有当前在场上的卡牌（最多显示8张）
             const cardsToShow = this.playedCards.slice(-8); // 取最新的8张牌
-            
+
             // 如果总牌数超过8张，移除最早的牌
             while (this.playedCards.length > 8) {
                 this.playedCards.shift(); // 移除最早出的牌
@@ -911,23 +914,22 @@ class CardGame extends MiniGame {
             }
         }
     }
-    
-    // 开始游戏
+
     private startGame(): void {
         // 设置初始化buff（在游戏真正开始时设置）
         PlayerService.setInitialBuffs(this.state.player, this.gameConfig?.player?.initialBuffs);
         PlayerService.setInitialBuffs(this.state.opponent, this.gameConfig?.opponent?.initialBuffs);
-        
+
         // 播放背景音乐
         this.playBackgroundMusic();
 
         // 初始抽牌
-        PlayerService.drawCards(this.state.player, typeof this.config.player!.initialDrawCount === 'function' 
-            ? this.config.player!.initialDrawCount()! 
-            : this.config.player!.initialDrawCount!);
-        PlayerService.drawCards(this.state.opponent, typeof this.config.opponent!.initialDrawCount === 'function' 
-            ? this.config.opponent!.initialDrawCount()! 
-            : this.config.opponent!.initialDrawCount!);
+        PlayerService.drawCards(this.state.player, typeof this.config.player!.initialDrawCount === 'function'
+            ? this.config.player!.initialDrawCount()!
+            : this.config.player!.initialDrawCount!, undefined, false, this.state.usedOnceCards);
+        PlayerService.drawCards(this.state.opponent, typeof this.config.opponent!.initialDrawCount === 'function'
+            ? this.config.opponent!.initialDrawCount()!
+            : this.config.opponent!.initialDrawCount!, undefined, false, this.state.usedOnceCards);
 
         // 确保游戏阶段设置为draw
         this.state.gamePhase = 'draw';
@@ -1005,7 +1007,7 @@ class CardGame extends MiniGame {
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }
-    } 
+    }
     private stopBackgroundMusic(): void {
         try {
             if (this.audioManager) {
@@ -1042,9 +1044,9 @@ class CardGame extends MiniGame {
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
-                PlayerService.drawCards(this.state.player, typeof this.config.player!.drawCount === 'function' 
-                    ? this.config.player!.drawCount()! 
-                    : this.config.player!.drawCount!);
+                PlayerService.drawCards(this.state.player, typeof this.config.player!.drawCount === 'function'
+                    ? this.config.player!.drawCount()!
+                    : this.config.player!.drawCount!, undefined, false, this.state.usedOnceCards);
                 this.state.gamePhase = 'main';
                 this.state.message = '你的回合，选择一张卡牌使用';
                 this.updateUI();
@@ -1072,7 +1074,7 @@ class CardGame extends MiniGame {
 
         console.log('巨石游戏阶段:', this.state.gamePhase);
         switch (this.state.gamePhase) {
-           case 'draw':
+            case 'draw':
                 console.log('巨石抽牌阶段');
                 // 在抽牌阶段开始时处理对手的buff效果
                 PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
@@ -1085,9 +1087,9 @@ class CardGame extends MiniGame {
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
-                PlayerService.drawCards(this.state.player, typeof this.config.opponent!.drawCount === 'function' 
-                    ? this.config.opponent!.drawCount()! 
-                    : this.config.opponent!.drawCount!);
+                PlayerService.drawCards(this.state.opponent, typeof this.config.opponent!.drawCount === 'function'
+                    ? this.config.opponent!.drawCount()!
+                    : this.config.opponent!.drawCount!, undefined, false, this.state.usedOnceCards);
                 this.state.gamePhase = 'main';
                 this.state.message = '巨石回合';
                 this.updateUI();
@@ -1227,7 +1229,7 @@ class CardGame extends MiniGame {
                 // 如果手牌中有林鬼，则优先使用林鬼
                 const hasForestGhoulA = a.id === "forest_ghoul";
                 const hasForestGhoulB = b.id === "forest_ghoul";
-                
+
                 if (hasForestGhoulA && !hasForestGhoulB) {
                     return -1; // a优先
                 }
@@ -1322,7 +1324,7 @@ class CardGame extends MiniGame {
             }, 1500);
         }
     }
-    
+
     // 处理delay_attack buff
     private processDelayAttackBuff(player: Player, opponent: Player): void {
         // 查找delay_attack buff
@@ -1333,7 +1335,7 @@ class CardGame extends MiniGame {
             for (const buff of delayAttackBuffs) {
                 totalDamage += buff.duration || 0;
             }
-            
+
             // 应用总伤害
             if (totalDamage > 0) {
                 CardService.applyDamage(opponent, totalDamage, false, player, opponent);
@@ -1341,7 +1343,7 @@ class CardGame extends MiniGame {
                 // 检查游戏是否结束
                 this.checkGameOver();
             }
-            
+
             // 移除所有delay_attack buff
             player.buffs = player.buffs.filter(buff => buff.id !== 'delay_attack');
         }
@@ -1370,7 +1372,7 @@ class CardGame extends MiniGame {
             opponent.hp -= 1;
             this.state.message += `\n${player.name}的真防对${opponent.name}造成1点伤害`;
             console.log(`[DEBUG] ${player.name}拥有${trueDefense}点真防，对${opponent.name}造成1点伤害`);
-            
+
             // 检查恶魂效果
             BuffService.checkGhastEffect(opponent, player, opponent);
             // 检查国王效果
@@ -1429,7 +1431,12 @@ class CardGame extends MiniGame {
         }
 
         // 记录上一张使用的卡牌，用于shadow buff
-        this.state.lastPlayedCard = {...card};
+        this.state.lastPlayedCard = { ...card };
+
+        // 如果卡牌是一次性使用的，则将其添加到已使用集合中
+        if (card.useOnce) {
+            this.state.usedOnceCards.add(card.id);
+        }
 
         // 保存卡牌索引用于后续处理
         const cardIndex = player.hand.findIndex(c => c && c.id === card.id);
@@ -1441,10 +1448,10 @@ class CardGame extends MiniGame {
             const playerLastCard = this.playedCards
                 .filter(playedCard => playedCard.player === player.id)
                 .slice(-1)[0];
-                
+
             if (playerLastCard) {
                 // 创建一个替换后的影子牌副本用于使用，不修改手牌中的原始卡牌
-                actualCard = {...playerLastCard.card, id: card.id};
+                actualCard = { ...playerLastCard.card, id: card.id };
                 console.log(`[DEBUG] 影子牌替换为玩家上一张打出的手牌: ${actualCard.name}`);
             }
         }
@@ -1462,9 +1469,10 @@ class CardGame extends MiniGame {
         player.actionPoints -= (card.cost?.action || 0);
 
         // 执行卡牌效果
+        console.log(`[DEBUG] 执行卡牌效果前，已使用一次性卡牌:`, Array.from(this.state.usedOnceCards));
         CardService.executeCardEffects(player, actualCard, player.id === 'player' ? this.state.opponent : this.state.player, (message) => {
             this.state.message = message;
-        });
+        }, this.state.lastPlayedCard, this.state.usedOnceCards);
 
         // 从手牌中移除卡牌并放入弃牌堆
         if (cardIndex !== -1) {
@@ -1472,10 +1480,20 @@ class CardGame extends MiniGame {
             player.discardPile.push(removedCard);
             // 将实际使用的卡牌添加到已出牌区域
             this.playedCards.push({
-                card: {...actualCard},
+                card: { ...actualCard },
                 turn: this.state.turn,
                 player: player.id as 'player' | 'opponent'
             });
+            
+            // 如果卡牌是一次性使用的，则将其添加到已使用集合中
+            if (card.useOnce) {
+                console.log(`[DEBUG] 添加一次性卡牌到已使用集合: ${card.name}(${card.id})`);
+                console.log(`[DEBUG] 添加前已使用集合:`, Array.from(this.state.usedOnceCards));
+                this.state.usedOnceCards.add(card.id);
+                console.log(`[DEBUG] 添加后已使用集合:`, Array.from(this.state.usedOnceCards));
+            } else {
+                console.log(`[DEBUG] 使用的卡牌不是一次性卡牌: ${card.name}(${card.id})`);
+            }
         }
 
         // 触发所有符合条件的事件
@@ -1532,7 +1550,7 @@ class CardGame extends MiniGame {
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
-        
+
         // 在回合结束时处理真防效果
         if (this.state.currentPlayer === 'player') {
             // 玩家回合结束时检查玩家是否拥有真防，如果有则对巨石造成1点伤害
@@ -1541,12 +1559,12 @@ class CardGame extends MiniGame {
             // 巨石回合结束时检查巨石是否拥有真防，如果有则对玩家造成1点伤害
             this.processTrueDefenseEffect(this.state.opponent, this.state.player);
         }
-        
+
         // 触发所有符合条件的事件
         const gameData: CardGameEventData = this.getGameData();
         console.log('[CardGame] 回合结束，检查触发事件，当前游戏数据:', gameData);
         this.triggerEvents('turn_end', gameData);
-        
+
         if (this.state.currentPlayer === 'player') {
             // 玩家回合结束时增加玩家行动值
             this.state.player.actionPoints += 2;
@@ -1554,7 +1572,7 @@ class CardGame extends MiniGame {
             this.state.gamePhase = 'draw';
             this.state.message = '巨石回合';
             console.log('切换到巨石回合');
-            
+
             // 重启游戏循环以处理巨石回合
             this.gameLoop();
         } else {
@@ -1569,16 +1587,16 @@ class CardGame extends MiniGame {
             // 重启游戏循环以处理玩家回合
             this.gameLoop();
         }
-        
+
         // 在调试信息中显示回合切换
         if (this.debugContentElement) {
             this.debugContentElement.innerHTML += `<div>回合切换到: ${this.state.currentPlayer}</div>`;
         }
-        
+
         this.updateUI();
     }
 
-     // 清除临时防御（普通防御）
+    // 清除临时防御（普通防御）
     private clearTemporaryDefense(player: Player): void {
         console.log(`[DEBUG] 清除${player.name}的临时防御前:`, player.buffs.find(b => b.id === 'defence'));
         // 查找防御buff
@@ -1588,7 +1606,7 @@ class CardGame extends MiniGame {
             player.buffs.splice(defenceBuffIndex, 1);
         }
         console.log(`[DEBUG] 清除${player.name}的临时防御后:`, player.buffs.find(b => b.id === 'defence'));
-        
+
         // 清除本回合的ban效果
         const banBuffIndex = player.buffs.findIndex(buff => buff.id === 'ban');
         if (banBuffIndex !== -1) {
@@ -1754,7 +1772,7 @@ class CardGame extends MiniGame {
         this.draw();
 
         // 只有在非等待阶段才继续循环，并且确保游戏已经真正开始
-        if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' && 
+        if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' &&
             this.deckSelectionContainer?.style.display !== 'block') {
             requestAnimationFrame(() => this.gameLoop());
         } else {
@@ -1765,7 +1783,7 @@ class CardGame extends MiniGame {
     protected update(): void {
         console.log('更新游戏状态，当前阶段:', this.state.gamePhase, '当前玩家:', this.state.currentPlayer);
         // 更新游戏状态，但确保游戏已经真正开始
-        if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' && 
+        if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' &&
             this.deckSelectionContainer?.style.display !== 'block') {
             if (this.state.currentPlayer === 'player') {
                 this.playerTurn();
@@ -1785,11 +1803,11 @@ class CardGame extends MiniGame {
     // 更新UI
     private updateUI(): void {
         this.updateScoreDisplay();
-        UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function' 
-            ? this.config.player!.drawCount()! 
+        UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
+            ? this.config.player!.drawCount()!
             : this.config.player!.drawCount!);
-        UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, typeof this.config.opponent!.drawCount === 'function' 
-            ? this.config.opponent!.drawCount()! 
+        UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, typeof this.config.opponent!.drawCount === 'function'
+            ? this.config.opponent!.drawCount()!
             : this.config.opponent!.drawCount!);
         UIManager.updateHand(
             this.playerHandElement,
@@ -1812,7 +1830,7 @@ class CardGame extends MiniGame {
             () => { } // 对手手牌不需要点击事件
         );
         this.updatePlayedCards(); // 更新已出牌区域
-        
+
         // 更新buff显示
         UIManager.updatePlayerBuffs(this.playerBuffsElement, this.state.player.buffs);
         UIManager.updateOpponentBuffs(this.opponentBuffsElement, this.state.opponent.buffs);
@@ -1897,17 +1915,17 @@ class CardGame extends MiniGame {
             player: {
                 id: 'player',
                 name: '玩家',
-                hp: typeof this.config.player!.hp === 'function' 
-                    ? this.config.player!.hp()! 
+                hp: typeof this.config.player!.hp === 'function'
+                    ? this.config.player!.hp()!
                     : this.config.player!.hp!,
-                maxHp: typeof this.config.player!.maxHp === 'function' 
-                    ? this.config.player!.maxHp()! 
+                maxHp: typeof this.config.player!.maxHp === 'function'
+                    ? this.config.player!.maxHp()!
                     : this.config.player!.maxHp!,
-                actionPoints: typeof this.config.player!.actionPoints === 'function' 
-                    ? this.config.player!.actionPoints()! 
+                actionPoints: typeof this.config.player!.actionPoints === 'function'
+                    ? this.config.player!.actionPoints()!
                     : this.config.player!.actionPoints!,
-                maxActionPoints: typeof this.config.player!.actionPoints === 'function' 
-                    ? this.config.player!.actionPoints()! 
+                maxActionPoints: typeof this.config.player!.actionPoints === 'function'
+                    ? this.config.player!.actionPoints()!
                     : this.config.player!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.player!.deck === 'function'
@@ -1922,17 +1940,17 @@ class CardGame extends MiniGame {
             opponent: {
                 id: 'opponent',
                 name: '巨石',
-                hp: typeof this.config.opponent!.hp === 'function' 
-                    ? this.config.opponent!.hp()! 
+                hp: typeof this.config.opponent!.hp === 'function'
+                    ? this.config.opponent!.hp()!
                     : this.config.opponent!.hp!,
-                maxHp: typeof this.config.opponent!.maxHp === 'function' 
-                    ? this.config.opponent!.maxHp()! 
+                maxHp: typeof this.config.opponent!.maxHp === 'function'
+                    ? this.config.opponent!.maxHp()!
                     : this.config.opponent!.maxHp!,
-                actionPoints: typeof this.config.opponent!.actionPoints === 'function' 
-                    ? this.config.opponent!.actionPoints()! 
+                actionPoints: typeof this.config.opponent!.actionPoints === 'function'
+                    ? this.config.opponent!.actionPoints()!
                     : this.config.opponent!.actionPoints!,
-                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function' 
-                    ? this.config.opponent!.actionPoints()! 
+                maxActionPoints: typeof this.config.opponent!.actionPoints === 'function'
+                    ? this.config.opponent!.actionPoints()!
                     : this.config.opponent!.actionPoints!,
                 deck: GameService.createInitialDeck(
                     typeof this.config.opponent!.deck === 'function'
@@ -1950,7 +1968,8 @@ class CardGame extends MiniGame {
             selectedCard: null,
             message: '游戏开始！抽牌阶段。',
             lastPlayedCard: null,
-            playerWon: null
+            playerWon: null,
+            usedOnceCards: new Set<string>(),
         };
 
         // 清空已出牌记录
