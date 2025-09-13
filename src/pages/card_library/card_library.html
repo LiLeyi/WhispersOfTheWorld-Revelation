@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡牌收集 - 世界的低语 : 启示录</title>
+</head>
+<body>
+    <!-- 背景图片容器 -->
+    
+
+    <!-- 音频元素 -->
+    <audio id="music" loop></audio>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="page-title">卡牌收集</h1>
+                <div class="header-controls">
+                    <button class="back-button" id="backButton">
+                        <span class="back-icon">←</span>
+                        <span>返回主菜单</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 搜索和筛选区域 -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索卡牌名称或描述...">
+                    <button class="search-button" id="searchButton">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+                <div class="filter-controls">
+                    <select id="rarityFilter" class="filter-select">
+                        <option value="">所有稀有度</option>
+                        <option value="common">普通</option>
+                        <option value="rare">稀有</option>
+                        <option value="epic">史诗</option>
+                        <option value="legendary">传说</option>
+                    </select>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">所有类型</option>
+                        <option value="attack">攻击</option>
+                        <option value="defense">防御</option>
+                        <option value="heal">治疗</option>
+                        <option value="special">特殊</option>
+                    </select>
+                    <button class="filter-button" id="clearFilters">清除筛选</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计信息 -->
+        <div class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">总卡牌数</span>
+                    <span class="stat-value" id="totalCards">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">已收集</span>
+                    <span class="stat-value" id="collectedCards">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">收集率</span>
+                    <span class="stat-value" id="collectionRate">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡牌展示区域 -->
+        <div class="cards-section">
+            <div class="cards-container">
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- 卡牌将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡牌详情模态框 -->
+        <div class="modal-overlay" id="cardModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalCardName">卡牌名称</h2>
+                    <button class="close-button" id="closeModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-preview" id="modalCardPreview">
+                        <!-- 卡牌预览将通过JavaScript生成 -->
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-section">
+                            <h3>卡牌描述</h3>
+                            <p id="modalCardDescription">卡牌描述内容</p>
+                        </div>
+                        <div class="detail-section">
+                            <h3>卡牌效果</h3>
+                            <div id="modalCardEffects">卡牌效果详情</div>
+                        </div>
+                        <div class="detail-section">
+                            <h3>收集信息</h3>
+                            <div class="collection-info">
+                                <div class="collection-item">
+                                    <span class="collection-label">拥有数量:</span>
+                                    <span class="collection-value" id="modalCardCount">0</span>
+                                </div>
+                                <div class="collection-item">
+                                    <span class="collection-label">稀有度:</span>
+                                    <span class="collection-value" id="modalCardRarity">普通</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载提示 -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">加载卡牌数据中...</p>
+        </div>
+    </div>
+
+    <script src="card_library.bundle.js"></script>
+</body>
+</html>
