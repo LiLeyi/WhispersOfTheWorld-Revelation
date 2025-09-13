@@ -36,7 +36,27 @@ export class BagManager {
             this.showCardObtainedNotification(cardId);
         }
     }
-
+public removeCardFromBag(cardId: string, count: number = 1): boolean {
+    const currentArchiveManager = ArchiveManager.getInstance();
+    
+    // 检查是否拥有该卡牌
+    if (!currentArchiveManager.hasItem(cardId)) {
+        return false;
+    }
+    
+    // 获取当前卡牌数量
+    const currentCount = currentArchiveManager.getItemCount(cardId);
+    
+    // 如果要移除的数量大于等于当前数量，则完全移除该卡牌
+    if (count >= currentCount) {
+        currentArchiveManager.removeItem(cardId);
+    } else {
+        // 否则减少指定数量
+        currentArchiveManager.addItem(cardId, -count);
+    }
+    
+    return true;
+}
     // 新增支持指定数量的方法
     public addCardsToBag(cardId: string, count: number): void {
         const currentArchiveManager = ArchiveManager.getInstance();

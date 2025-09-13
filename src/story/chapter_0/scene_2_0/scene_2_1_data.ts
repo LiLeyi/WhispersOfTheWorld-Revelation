@@ -83,6 +83,11 @@ sprite: {
             left: "guangling/smile.png",
         }
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.removeCardFromBag("darkness_initial", 1);
+                bagManager.addCardsToBag("darkness", 1);
+  },
 },//这里触发暗寂强化的剧情//
 {
     id: "darkblade_9",
@@ -588,20 +593,9 @@ sprite: {
                             actionPoints: 2,
                             hp: 35,
                             maxHp: 35,
-                            deck:{
-                             "punch":3,
-                             "parry":3,
-                             "hook":3,
-                             "dodge":3,
-                              "combo":2,
-                              "holy_shield":2,
-                               "holiness":2,
-                               "enlightenment":1,
-                               "pebble":1,
-                               "strange_stone":1,
-                               "darkness":1,
-                               "tear_of_no_trace":1,
-                               
+                            deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3     // 玩家开始时抽3张牌
@@ -611,32 +605,52 @@ sprite: {
                         maxDeckSize: 15,   // 设置最大选牌数量
                     },
                         opponent: {
-                            actionPoints: 1,
-                            hp: 10,
-                            maxHp: 10,
+                            actionPoints: 2,
+                            hp: 20,
+                            maxHp: 20,
                             deck: {
-                                "little_stone": 2,        
-                                "strange_stone": 2,         
-                                "bedrock": 2, 
-                                "large_rock": 2,        
+                                "mechanical_shield": 2,        
+                                "nano_armor": 2,         
+                                "mechanical_defense": 2, 
+                                "mechanical_arm_swing": 2, 
+                                "worn_gear":2,
+                                "expired_oil":2,
+                                "full_battery_bomb":2      
                             },
-                            drawCount: 1,           // 对手每回合抽1张牌
-                            initialDrawCount: 3     // 对手开始时抽3张牌
+                            drawCount: 2,           // 对手每回合抽1张牌
+                            initialDrawCount: 4     // 对手开始时抽3张牌
                         },
                         backgroundImage:"sc1.1/1-1-0.jpg"
                     },
                     end: [
                         {
                             condition: (score: number) => score >= 1,
-                            next: "ask1"
+                            next: "darkblade_57"
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真
-                            next: "branch_1_20"
+                            next: "false_1"
                         }
                     ]
                 }
-            },
+            },//后面填event时把score得分补上就好了
+{
+    id: "false_1",
+    elements: {
+        name: "旁白",
+        text: "你失败了",
+    },
+    choices: [
+        {
+            text: "重新战斗",
+            next: "test_game1",
+        },
+        {
+            text: "继续前进",
+            next: "darkblade_57",
+        },
+    ],
+},
 {
     id: "darkblade_57",
     elements: {
@@ -1352,6 +1366,19 @@ sprite: {
     sprite: {
             left:null,
         }
+  },
+},
+{
+  id: "darkblade_136_1",
+  elements: { 
+    name: "虚樹", 
+    text: "等等，把这些带上吧，也许对你们有帮助。" ,
+  },
+  action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("full_battery_bomb", 1);
+                bagManager.addCardsToBag("nano_armor", 1);
+                  bagManager.addCardsToBag("swap_robot", 1);
   },
 },
 {

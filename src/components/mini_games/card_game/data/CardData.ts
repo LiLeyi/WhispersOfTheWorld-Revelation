@@ -627,16 +627,20 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   swap_robot: {
     id: "swap_robot",
     name: "交换机器人",
-    description: "交换自身真防和防御的数值，消耗2行动。",
+    description: "交换自身真防和防御的数值，回复2Hp",
     priority: 5,
     effect: [
       {
         id: "do_defence_switch",
         target: "self"
+      },
+      {
+        id: "do_health",
+        duration: 2,
+        target: "self",
       }
     ],
     cost: {
-      action: 2
     }
   },
   mechanical_sentry: {

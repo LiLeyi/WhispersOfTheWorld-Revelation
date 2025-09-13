@@ -1673,23 +1673,9 @@ nodes: [
                             actionPoints: 1,
                             hp: 25,
                             maxHp: 25,
-                            deck:{
-                             "punch":3,
-                             "parry":3,
-                             "hook":3,
-                             "dodge":3,
-                              "combo":2,
-                              "holy_shield":2,
-                               "holiness":2,
-                               "enlightenment":1,
-                               "pebble":1,
-                               "strange_stone":1,
-                               "darkness":1,
-                               "tear_of_no_trace":1,
-                               "eerie_candlelight":2,
-                               "useless_potion":2,
-                               "wise_hat":1,
-                               "巫婆的馈赠":1,
+                             deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
                             },
                             drawCount: 2,           // 玩家每回合抽2张牌
                             initialDrawCount: 3 ,    // 玩家开始时抽3张牌
@@ -1755,8 +1741,15 @@ nodes: [
     text: "收下吧。如今我将这始源之心交予你，就像是悲剧的开幕。",
     sprite: {
             left:"NPC/old_woman.png"
-        }
-  }
+        }},
+        action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("witchs_gift", 1);
+                bagManager.addCardsToBag("wise_hat", 1);
+                  bagManager.addCardsToBag("useless_potion", 1);
+                bagManager.addCardsToBag("eerie_candlelight", 1);
+  },
+
 },
 {
   id: "altar_42",
@@ -1803,7 +1796,7 @@ nodes: [
             center:null
         }
   }
-},//这里触发剧情，获得增益和卡牌//
+},
 {
   id: "altar_45",
   elements: {
