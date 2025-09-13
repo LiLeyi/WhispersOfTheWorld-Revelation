@@ -2073,20 +2073,114 @@ sprite: {
   choices: [
     {
       text: "去击败国王吧",
-      next: "",
+      next: "test_game3",
     },
   ],
 },
-        
+   {
+                id: "test_game3",
+                elements: {
+                    name: "国王",
+                    text: "成为我的奴隶吧！",
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 2,
+                            hp: 35,
+                            maxHp: 35,
+                             deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 20,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 4,
+                            hp: 15,
+                            maxHp: 15,
+                            deck: {
+                                "mechanical_sentry": 2,        
+                                "mechanical_factory": 2,         
+                                "full_battery_bomb": 2, 
+                                "mechanical_arm_swing": 2, 
+                                "mechanical_guard":2,
+                                "unexpired_oil":2,
+                                "brand_new_gear":1,
+                                "mechanical_crushed_stone":1,
+                                "mechanical_meteorite":1,       
+                            },
+                            drawCount: 3,           // 对手每回合抽3张牌
+                            initialDrawCount: 4 ,    // 对手开始时抽4张牌
+                        initialBuffs: [  // 设置初始buff
+                            {
+                                 id: "the_king",
+                                 duration: -1,
+                                 target: "self"
+                             }
+                         ],
+                          },
+                        backgroundImage:"sc1.1/1-1-0.jpg"
+                    },
+                    events: [
+                          {
+                         id: 'opponent_critical_health',
+                         condition: (gameData: CardGameEventData) => {
+                             return gameData.opponent.hp <= 5;
+                         },
+                         elements: {
+                             name: '国王',
+                             text: '有点意思，看来要有些强力的手牌才行。'
+                         },
+                         next: "player_first_attack_1",
+                         triggerConfig: {
+                             onlyOnce: true,
+                             conflict: true
+                         }
+                     },
+                    {
+                        id: 'player_first_attack_1',
+                         condition: () => false,
+                         elements: {
+                             name: '国王',
+                             text: '顺便送你些好东西，你会喜欢的。'
+                         },
+                         next: undefined
+                     }
+                    ],
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "battle_1_1",
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "battle_1_1",
+                        }
+                    ]
+                }
+            },     
         {
             id: "battle_1_1",
             elements: {
                 name: "旁白",
                 text: "你成功战胜了国王！",
                 sprite: {
-            left: null,
+            left:null,
         }
-            }
+            },
+            choices: [
+                {
+                    text: "重新挑战",
+                    next: "test_game3",
+                },
+            ],
         },
         {
   id: "battle_1_1_1",
@@ -2296,7 +2390,7 @@ next:"chapter_0_scene_3_0",
   choices: [
     {
       text: "死亡结局",
-      next: "chapter_0_scene_0"
+      next: "test_game_1",
     }
   ]
 },

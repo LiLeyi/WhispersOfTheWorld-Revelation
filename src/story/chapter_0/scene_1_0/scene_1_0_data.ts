@@ -1414,7 +1414,7 @@ const scene: Scene = {
         choices: [
                 {
                     text: "是",
-                    next: "test2"
+                    next: "test_game2",
                 },
                 {
                     text: "否",
