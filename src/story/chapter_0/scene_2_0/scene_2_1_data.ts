@@ -570,6 +570,7 @@ sprite: {
         name: "你",
         text: "看来一场战斗不可避免了",
     },
+    keyNode: true,
     choices: [
         {
             text: "与?进行战斗",
@@ -2126,7 +2127,8 @@ sprite: {
                              }
                          ],
                           },
-                        backgroundImage:"sc1.1/1-1-0.jpg"
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"guowang"
                     },
                     events: [
                           {
