@@ -259,7 +259,7 @@ export class ArchiveManager {
         };
     }
 
-    /**
+        /**
      * 从外部数据恢复存档
      * @param data 存档数据
      */

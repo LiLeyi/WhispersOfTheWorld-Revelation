@@ -291,8 +291,8 @@ button, .btn {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 20px;
+    justify-items: center;
 }
-
 .bag-item {
     background-color: #0f3460;
     border-radius: 8px;

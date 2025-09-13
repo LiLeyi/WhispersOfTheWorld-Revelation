@@ -327,7 +327,6 @@ function loadGame(index: number){
     window.location.href = url;
 }
 
-// 加载自动存档
 function loadAutoSave(saveId: string) {
     console.log(`[ArchivePage] 开始加载自动存档: ${saveId}`);
     
@@ -340,6 +339,9 @@ function loadAutoSave(saveId: string) {
             
             // 生成存档ID
             const archiveId = 'autosave_' + Date.now();
+            
+            // 保存存档ID到localStorage，确保游戏场景能使用正确的存档
+            localStorage.setItem('currentArchiveId', archiveId);
             
             const clickSound = document.getElementById('clickSound') as HTMLAudioElement | null;
             if (clickSound) clickSound.play();
@@ -354,7 +356,7 @@ function loadAutoSave(saveId: string) {
         }
     } catch (e) {
         console.error('加载自动存档时出错:', e);
-        alert('加载自动存档时发生错误');
+        alert('加载自动存档时出错');
     }
 }
 

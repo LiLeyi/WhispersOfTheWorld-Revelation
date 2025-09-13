@@ -11,19 +11,30 @@ export class BagManager {
         this.archiveManager = ArchiveManager.getInstance();
     }
 
-    public static getInstance(): BagManager {
+           public static getInstance(): BagManager {
         if (!BagManager.instance) {
             BagManager.instance = new BagManager();
         }
+        // 确保每次都使用最新的ArchiveManager实例
+        BagManager.instance.refreshArchiveManager();
         return BagManager.instance;
     }
 
+        // 添加一个方法来确保使用最新的ArchiveManager实例
+    private refreshArchiveManager(): void {
+        this.archiveManager = ArchiveManager.getInstance();
+        if (this.bagPage) {
+            (this.bagPage as any).archiveManager = this.archiveManager;
+        }
+    }
     public hasCard(cardId: string): boolean {
+        this.refreshArchiveManager(); // 确保使用最新的ArchiveManager
         const currentArchiveManager = ArchiveManager.getInstance();
         return currentArchiveManager.hasItem(cardId);
     }
 
     public addCardToBag(cardId: string): void {
+        this.refreshArchiveManager(); // 确保使用最新的ArchiveManager
         const currentArchiveManager = ArchiveManager.getInstance();
         // 检查是否已经拥有该卡牌
         const hasCard = currentArchiveManager.hasItem(cardId);
@@ -36,29 +47,33 @@ export class BagManager {
             this.showCardObtainedNotification(cardId);
         }
     }
-public removeCardFromBag(cardId: string, count: number = 1): boolean {
-    const currentArchiveManager = ArchiveManager.getInstance();
-    
-    // 检查是否拥有该卡牌
-    if (!currentArchiveManager.hasItem(cardId)) {
-        return false;
+
+    public removeCardFromBag(cardId: string, count: number = 1): boolean {
+        this.refreshArchiveManager(); // 确保使用最新的ArchiveManager
+        const currentArchiveManager = ArchiveManager.getInstance();
+        
+        // 检查是否拥有该卡牌
+        if (!currentArchiveManager.hasItem(cardId)) {
+            return false;
+        }
+        
+        // 获取当前卡牌数量
+        const currentCount = currentArchiveManager.getItemCount(cardId);
+        
+        // 如果要移除的数量大于等于当前数量，则完全移除该卡牌
+        if (count >= currentCount) {
+            currentArchiveManager.removeItem(cardId);
+        } else {
+            // 否则减少指定数量
+            currentArchiveManager.addItem(cardId, -count);
+        }
+        
+        return true;
     }
     
-    // 获取当前卡牌数量
-    const currentCount = currentArchiveManager.getItemCount(cardId);
-    
-    // 如果要移除的数量大于等于当前数量，则完全移除该卡牌
-    if (count >= currentCount) {
-        currentArchiveManager.removeItem(cardId);
-    } else {
-        // 否则减少指定数量
-        currentArchiveManager.addItem(cardId, -count);
-    }
-    
-    return true;
-}
     // 新增支持指定数量的方法
     public addCardsToBag(cardId: string, count: number): void {
+        this.refreshArchiveManager(); // 确保使用最新的ArchiveManager
         const currentArchiveManager = ArchiveManager.getInstance();
         const hadCard = currentArchiveManager.hasItem(cardId);
         
@@ -76,6 +91,7 @@ public removeCardFromBag(cardId: string, count: number = 1): boolean {
      * @returns 卡牌ID到数量的映射
      */
     public getCardDeckForGame(): Record<string, number> {
+        this.refreshArchiveManager(); // 确保使用最新的ArchiveManager
         const archiveManager = ArchiveManager.getInstance();
         const deck: Record<string, number> = {};
         
@@ -231,6 +247,8 @@ public removeCardFromBag(cardId: string, count: number = 1): boolean {
                 if (!this.bagPage) {
                     this.bagPage = new BagPage();
                 }
+                // 确保使用最新的ArchiveManager实例
+                this.refreshArchiveManager();
                 // 更新背包内容
                 this.bagPage.renderBag();
                 bagOverlay.style.display = "flex";
@@ -238,7 +256,6 @@ public removeCardFromBag(cardId: string, count: number = 1): boolean {
         }
     }
 }
-
 class BagPage {
     private archiveManager: ArchiveManager;
 
@@ -253,7 +270,15 @@ class BagPage {
         this.renderBag();
     }
     
+    // 添加一个方法来刷新ArchiveManager实例
+    public refreshArchiveManager(): void {
+        this.archiveManager = ArchiveManager.getInstance();
+    }
+    
     public renderBag(searchTerm: string = ''): void {
+        // 确保使用最新的ArchiveManager实例
+        this.refreshArchiveManager();
+        
         const bagGrid = document.getElementById('bag-grid');
         if (!bagGrid) {
             console.error('无法找到 bag-grid 元素');
@@ -460,7 +485,10 @@ class BagPage {
                 padding: 10px;
                 overflow: hidden;
                 position: relative;
-                /* 移除transform属性，避免与父元素冲突 */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
             
             .card-content {
@@ -479,6 +507,11 @@ class BagPage {
                 margin-bottom: 5px;
                 color: #000;
                 font-weight: bold;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
             }
             
             .card-desc {
@@ -491,6 +524,10 @@ class BagPage {
                 display: -webkit-box;
                 -webkit-line-clamp: 4;
                 -webkit-box-orient: vertical;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             .card-count {
