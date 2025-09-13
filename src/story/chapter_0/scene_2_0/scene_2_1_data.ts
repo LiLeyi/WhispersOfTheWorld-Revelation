@@ -621,7 +621,8 @@ sprite: {
                             drawCount: 2,           // 对手每回合抽1张牌
                             initialDrawCount: 4     // 对手开始时抽3张牌
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg"
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"xushu"
                     },
                     end: [
                         {
