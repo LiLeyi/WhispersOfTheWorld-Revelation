@@ -129,8 +129,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_initial: {
     id: "darkness_initial",
     name: "暗寂（初）",
-    description: "造成5点攻击，但自身受到1点伤害，消耗2行动。",
+    description: "造成5点攻击，但自身受到1点伤害，消耗2行动。一场战斗只能用一次。",
     priority: 20,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -150,8 +151,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness: {
     id: "darkness",
     name: "暗寂",
-    description: "造成5点攻击，消耗2行动。",
+    description: "造成5点攻击，消耗2行动。一场战斗只能用一次。",
     priority: 22,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -166,8 +168,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_final: {
     id: "darkness_final",
     name: "暗寂（终）",
-    description: "造成5点攻击，消耗1行动。",
+    description: "造成5点攻击，消耗1行动。一场战斗只能用一次。",
     priority: 25,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -1121,8 +1124,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_enhanced: {
     id: "darkness_enhanced",
     name: "暗寂强化",
-    description: "造成10点攻击，恢复3点血量，获得2点真防。",
+    description: "造成10点攻击，恢复3点血量，获得2点真防。一场战斗只能用一次。",
     priority: 28,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -1145,8 +1149,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_erosive_heart: {
     id: "darkness_erosive_heart",
     name: "暗寂（蚀心）",
-    description: "自身受到3点攻击，造成18点攻击，消耗1行动。",
+    description: "自身受到3点攻击，造成18点攻击，消耗1行动。一场战斗只能用一次。",
     priority: 32,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -1180,8 +1185,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_shattered_erosive: {
     id: "darkness_shattered_erosive",
     name: "暗寂（破碎蚀心）",
-    description: "受到5攻击后，进行15攻击，消耗1行动。",
+    description: "受到5攻击后，进行15攻击，消耗1行动。一场战斗只能用一次。",
     priority: 18,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -1201,8 +1207,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_shadow_form: {
     id: "darkness_shadow_form",
     name: "暗寂影化",
-    description: "造成15点攻击，恢复7点血量，获得5点防御和5点真防。",
+    description: "造成15点攻击，恢复7点血量，获得5点防御和5点真防。一场战斗只能用一次。",
     priority: 30,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",
@@ -1230,8 +1237,9 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_erosive_weakened: {
     id: "darkness_erosive_weakened",
     name: "暗寂（蚀心弱化）",
-    description: "自身受到2点攻击，造成5点攻击，消耗2行动。",
+    description: "自身受到2点攻击，造成5点攻击，消耗2行动。一场战斗只能用一次。",
     priority: 20,
+    useOnce: true,
     effect: [
       {
         id: "do_attack",

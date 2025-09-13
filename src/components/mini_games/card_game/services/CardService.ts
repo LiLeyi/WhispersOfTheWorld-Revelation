@@ -10,23 +10,26 @@ export class CardService {
         card: Card,
         opponent: Player,
         updateMessage: (message: string) => void,
-        lastPlayedCard: import("../models/Card").Card | null = null
+        lastPlayedCard: import("../models/Card").Card | null = null,
+        usedOnceCards?: Set<string> // 添加usedOnceCards参数
     ): void {
         // 初始化消息
         let message = `${player.name} 使用 ${card.name}`;
 
         // 执行当前卡牌的所有效果
         for (const effect of card.effect) {
-            this.executeEffect(effect, player, opponent, updateMessage, card);
+            this.executeEffect(effect, player, opponent, updateMessage, card, usedOnceCards);
         }
 
         updateMessage(message);
-    }      static executeEffect(
-        effect: any,
+    }
+    private static executeEffect(
+        effect: import("../models/Card").CardEffect,
         player: Player,
         opponent: Player,
         updateMessage: (message: string) => void,
-        lastPlayedCard: import("../models/Card").Card | null = null
+        sourceCard: Card,
+        usedOnceCards?: Set<string> // 添加usedOnceCards参数
     ): void {
         const target = effect.target === 'self' ? player : effect.target === 'other' ? opponent : null;
         if (!target) return;
@@ -162,7 +165,7 @@ export class CardService {
             case 'do_get_card':
                 // 抽牌逻辑
                 console.log(`[DEBUG] ${target.name}抽${effect.duration || 0}张牌`);
-                PlayerService.drawCards(target, effect.duration || 0, updateMessage);
+                PlayerService.drawCards(target, effect.duration || 0, updateMessage, false, usedOnceCards);
                 break;
 
             case 'do_drop_card':
@@ -215,7 +218,7 @@ export class CardService {
                 target.discardPile.push(...target.hand);
                 target.hand = [];
                 // 直接抽牌，强制抽牌以确保抽到牌
-                PlayerService.drawCards(target, cardCount, updateMessage, true);
+                PlayerService.drawCards(target, cardCount, updateMessage, true, usedOnceCards);
                 break;
 
             case 'do_defence_switch':

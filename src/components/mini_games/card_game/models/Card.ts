@@ -23,7 +23,6 @@ export interface Card {
         action?: number;
         health?: number;
     }
-    // 保留type和power以保持与现有代码的兼容性
     type?: CardType;
-    power?: number;
+    useOnce?: boolean;
 }
