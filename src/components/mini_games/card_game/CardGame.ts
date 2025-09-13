@@ -555,15 +555,15 @@ class CardGame extends MiniGame {
     };
     // 游戏配置
     private config: CardGameConfig;
-    // 音频管理器
-    private audioManager: any;
+     // 音频管理器
+    protected audioManager: any;
     // 原始背景音乐
     private originalBgm: string = "";
     // 玩家选择的卡组
     private selectedPlayerDeck: Record<string, number> | null = null;
 
     // 场景管理器实例
-    private sceneManager: any = null;
+    protected sceneManager: any = null;
 
     constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig, private gameEvents?: Array<any>) {
         super(onComplete);
@@ -1005,7 +1005,8 @@ class CardGame extends MiniGame {
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }
-    } private stopBackgroundMusic(): void {
+    } 
+    private stopBackgroundMusic(): void {
         try {
             if (this.audioManager) {
                 // 恢复原始背景音乐

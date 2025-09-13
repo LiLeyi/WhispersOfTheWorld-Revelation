@@ -11,7 +11,7 @@ const scene: Scene = {
     id: "chapter_0_scene_0",
     title: "第0章：开始",
     nodes: [
-        {
+    {
             id: "node1",
             elements: {
                 name: "旁白",
@@ -21,10 +21,41 @@ const scene: Scene = {
                 //     left: "guangling/down.png"
                 // }
             },
-            // action: () => {
-            //     let cm = CardManager.getInstance();
-            //     cm.updatePlayerMaxHp(cm.getPlayerMaxHp() + 1)
-            // }
+            action: () => {
+                // 添加初始卡牌
+                const bagManager = BagManager.getInstance();
+                const archiveManager = ArchiveManager.getInstance();
+                
+                console.log("[SceneAction] 开始添加初始卡牌...");
+                console.log("[SceneAction] 当前存档ID:", ArchiveManager.getCurrentArchiveId());
+                console.log("[SceneAction] 当前存档数据:", archiveManager.getAllData());
+                
+                // 检查是否已经添加过初始卡牌，避免重复添加
+                if (!bagManager.hasCard("punch")) {
+                    // 定义初始卡牌及数量
+                    const INITIAL_CARDS: Record<string, number> = {
+                        "punch": 3,      // 拳击 x3
+                        "dodge": 3,      // 闪避 x3
+                        "parry": 3,      // 招架 x3
+                        "hook": 3,       // 勾拳 x3
+                        "combo": 3       // 连击 x3
+                    };
+                    
+                    console.log("[SceneAction] 正在添加初始卡牌:", INITIAL_CARDS);
+                    
+                    // 添加每种卡牌指定数量
+                    for (const [cardId, count] of Object.entries(INITIAL_CARDS)) {
+                        console.log(`[SceneAction] 添加卡牌: ${cardId} x${count}`);
+                        for (let i = 0; i < count; i++) {
+                            bagManager.addCardToBag(cardId);
+                        }
+                    }
+                    
+                    console.log("[SceneAction] 初始卡牌已添加到背包");
+                } else {
+                    console.log("[SceneAction] 初始卡牌已存在，无需重复添加");
+                }
+            }
         },
         // {
         //     id: "choice_test",
@@ -59,142 +90,142 @@ const scene: Scene = {
         //         text: '否'
         //     }
         // },
-        {
-            id: "test_game",
-            elements: {
-                name: "旁白",
-                text: "小游戏测试",
-                sprite: {
-                    left: "guangling/smile.png"
-                }
-            },
-            game: {
-                id: "card_game",
-                config: {
-                    player: {
-                        actionPoints: CardManager.getInstance().getPlayerActions,
-                        hp: CardManager.getInstance().getPlayerMaxHp,
-                        maxHp: CardManager.getInstance().getPlayerMaxHp,
-                        drawCount: CardManager.getInstance().getPlayerDrawCount,           // 玩家每回合抽2张牌
-                        initialDrawCount: CardManager.getInstance().getPlayerInitialHandSize,     // 玩家开始时抽4张牌
-                        deck: CardManager.getInstance().getPlayerDeck,
-                        // deck: {
-                        //     "intelligence_reducing_hat": 5,      // 拳击：1攻0行动
-                        //     "diamond": 3,
-                        //     "darkness_shadow_form":3,
-                        //     "normal_candlelight":3,
-                        //     "wonderful_potion":3
-                        // },
-                        initialBuffs: [  // 设置初始buff
-                        ],
-                    },
-                    opponent: {
-                        actionPoints: 3,
-                        hp: 20,
-                        maxHp: 20,
-                        deck: {
-                            "forest_ghoul": 5,
-                            "drowned_ghoul": 1,
-                            "hungry_ghoul":3,
-                            "lonely_ghoul":1,
-                            "stingy_ghoul":2,
-                        },
-                        drawCount: 2,           // 对手每回合抽1张牌
-                        initialDrawCount: 3,     // 对手开始时抽3张牌
-                        initialBuffs: [  // 设置初始buff
-                            {
-                                id: "the_king",
-                                duration: -1,
-                                target: "self"
-                            }
-                        ],
-                    },
-                    deckSelection: {
-                        minDeckSize: 3,   // 设置最小选牌数量
-                        maxDeckSize: 5   // 设置最大选牌数量
-                    }
-                },
-                end: [
-                    {
-                        condition: (score: number) => score >= 1,
-                        next: "test1"
-                    },
-                    {
-                        condition: (score: number) => true, // 默认条件，总是为真
-                        next: "test2"
-                    }
-                ],
-                events: [
-                    {
-                        id: 'player_first_attack',
-                        condition: (gameData: CardGameEventData) => {
-                            return gameData.player.lastPlayedCard !== null &&
-                                gameData.opponent.hp < gameData.opponent.maxHp;
-                        },
-                        elements: {
-                            name: '对手',
-                            text: '哦？有点意思，竟然能伤到我'
-                        },
-                        next: "player_first_attack_1",
-                        triggerConfig: {
-                            onlyOnce: true,
-                            conflict: true
-                        }
-                    },
-                    {
-                        id: 'player_first_attack_1',
-                        condition: () => false,
-                        elements: {
-                            name: '你',
-                            text: '那肯定。'
-                        },
-                        next: undefined
-                    },
-                    {
-                        id: 'opponent_critical_health',
-                        condition: (gameData: CardGameEventData) => {
-                            return gameData.opponent.hp <= 10;
-                        },
-                        elements: {
-                            name: '对手',
-                            text: '可恶...不能再这样下去了'
-                        },
-                        triggerConfig: {
-                            onlyOnce: true,
-                            conflict: true
-                        }
-                    },
-                    {
-                        id: 'player_critical_health',
-                        condition: (gameData: CardGameEventData) => {
-                            return gameData.player.hp <= 10;
-                        },
-                        elements: {
-                            name: '旁白',
-                            text: '你感到体力不支，需要小心应对'
-                        },
-                        triggerConfig: {
-                            onlyOnce: true,
-                            conflict: true
-                        }
-                    },
-                    {
-                        id: 'turn_5_reached',
-                        condition: (gameData: CardGameEventData) => {
-                            return gameData.turn >= 5;
-                        },
-                        elements: {
-                            name: '神秘声音',
-                            text: '战斗已经持续很久了，是时候结束这一切'
-                        },
-                        triggerConfig: {
-                            onlyOnce: true,
-                            conflict: true
-                        }
-                    }
-                ]
-            }
-        },
+        // {
+        //     id: "test_game",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "小游戏测试",
+        //         sprite: {
+        //             left: "guangling/smile.png"
+        //         }
+        //     },
+        //     game: {
+        //         id: "card_game",
+        //         config: {
+        //             player: {
+        //                 actionPoints: 1,
+        //                 hp: 30,
+        //                 maxHp: 30,
+        //                 // deck: () => CardManager.getInstance().getPlayerDeck(),
+        //                 deck: {
+        //                     "intelligence_reducing_hat": 5,      // 拳击：1攻0行动
+        //                     "diamond": 3,
+        //                     "darkness_shadow_form":3,
+        //                     "normal_candlelight":3,
+        //                     "wonderful_potion":3
+        //                 },
+        //                 drawCount: 2,           // 玩家每回合抽2张牌
+        //                 initialDrawCount: 2,     // 玩家开始时抽4张牌
+        //                 initialBuffs: [  // 设置初始buff
+        //                 ],
+        //             },
+        //             opponent: {
+        //                 actionPoints: 3,
+        //                 hp: 20,
+        //                 maxHp: 20,
+        //                 deck: {
+        //                     "forest_ghoul": 5,
+        //                     "drowned_ghoul": 1,
+        //                     "hungry_ghoul":3,
+        //                     "lonely_ghoul":1,
+        //                     "stingy_ghoul":2,
+        //                 },
+        //                 drawCount: 2,           // 对手每回合抽1张牌
+        //                 initialDrawCount: 3,     // 对手开始时抽3张牌
+        //                 initialBuffs: [  // 设置初始buff
+        //                     {
+        //                         id: "the_king",
+        //                         duration: -1,
+        //                         target: "self"
+        //                     }
+        //                 ],
+        //             },
+        //             deckSelection: {
+        //                 minDeckSize: 3,   // 设置最小选牌数量
+        //                 maxDeckSize: 5   // 设置最大选牌数量
+        //             }
+        //         },
+        //         end: [
+        //             {
+        //                 condition: (score: number) => score >= 1,
+        //                 next: "test1"
+        //             },
+        //             {
+        //                 condition: (score: number) => true, // 默认条件，总是为真
+        //                 next: "test2"
+        //             }
+        //         ],
+        //         events: [
+        //             {
+        //                 id: 'player_first_attack',
+        //                 condition: (gameData: CardGameEventData) => {
+        //                     return gameData.player.lastPlayedCard !== null &&
+        //                         gameData.opponent.hp < gameData.opponent.maxHp;
+        //                 },
+        //                 elements: {
+        //                     name: '对手',
+        //                     text: '哦？有点意思，竟然能伤到我'
+        //                 },
+        //                 next: "player_first_attack_1",
+        //                 triggerConfig: {
+        //                     onlyOnce: true,
+        //                     conflict: true
+        //                 }
+        //             },
+        //             {
+        //                 id: 'player_first_attack_1',
+        //                 condition: () => false,
+        //                 elements: {
+        //                     name: '你',
+        //                     text: '那肯定。'
+        //                 },
+        //                 next: undefined
+        //             },
+        //             {
+        //                 id: 'opponent_critical_health',
+        //                 condition: (gameData: CardGameEventData) => {
+        //                     return gameData.opponent.hp <= 10;
+        //                 },
+        //                 elements: {
+        //                     name: '对手',
+        //                     text: '可恶...不能再这样下去了'
+        //                 },
+        //                 triggerConfig: {
+        //                     onlyOnce: true,
+        //                     conflict: true
+        //                 }
+        //             },
+        //             {
+        //                 id: 'player_critical_health',
+        //                 condition: (gameData: CardGameEventData) => {
+        //                     return gameData.player.hp <= 10;
+        //                 },
+        //                 elements: {
+        //                     name: '旁白',
+        //                     text: '你感到体力不支，需要小心应对'
+        //                 },
+        //                 triggerConfig: {
+        //                     onlyOnce: true,
+        //                     conflict: true
+        //                 }
+        //             },
+        //             {
+        //                 id: 'turn_5_reached',
+        //                 condition: (gameData: CardGameEventData) => {
+        //                     return gameData.turn >= 5;
+        //                 },
+        //                 elements: {
+        //                     name: '神秘声音',
+        //                     text: '战斗已经持续很久了，是时候结束这一切'
+        //                 },
+        //                 triggerConfig: {
+        //                     onlyOnce: true,
+        //                     conflict: true
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // },
         {
             id: "test1",
             elements: {
@@ -956,6 +987,12 @@ const scene: Scene = {
                     left: null
                 }
             },
+            action: () => {
+        const bagManager = BagManager.getInstance();
+        bagManager.addCardsToBag("holy_shield", 2);
+        bagManager.addCardsToBag("holiness", 2);
+        bagManager.addCardsToBag("darkness_initial", 1);
+        },
             next: "chapter_0_scene_1_0"
         },
 

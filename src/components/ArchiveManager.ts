@@ -9,7 +9,7 @@ export class ArchiveManager {
     private static instance: ArchiveManager;
     private static currentArchiveId: string = "default";
     private gameData: {
-        items: Record<string, boolean>;
+        items: Record<string, number>;  // 修改为number类型以支持数量
         characterAffection: Record<string, number>;
         flags: Record<string, any>;
         objects: Record<string, any>;
@@ -109,31 +109,48 @@ export class ArchiveManager {
      * @returns 是否拥有该物品
      */
     public hasItem(itemName: string): boolean {
-        const hasItem = this.gameData.items[itemName] || false;
+        const hasItem = (this.gameData.items[itemName] || 0) > 0;
         console.log(`[ArchiveManager] 检查物品 ${itemName}: ${hasItem}`);
         return hasItem;
     }
 
     /**
+     * 获取物品数量
+     * @param itemName 物品名称
+     * @returns 物品数量
+     */
+    public getItemCount(itemName: string): number {
+        const count = this.gameData.items[itemName] || 0;
+        console.log(`[ArchiveManager] 获取物品 ${itemName} 数量: ${count}`);
+        return count;
+    }
+
+    /**
      * 添加物品
      * @param itemName 物品名称
+     * @param count 添加的数量，默认为1
      */
-    public addItem(itemName: string): void {
-        console.log(`[ArchiveManager] 添加物品: ${itemName}`);
-        this.gameData.items[itemName] = true;
+    public addItem(itemName: string, count: number = 1): void {
+        console.log(`[ArchiveManager] 添加物品: ${itemName} x${count}`);
+        this.gameData.items[itemName] = (this.gameData.items[itemName] || 0) + count;
         this.saveToLocalStorage();
     }
 
     /**
      * 移除物品
      * @param itemName 物品名称
+     * @param count 移除的数量，默认为1
      */
-    public removeItem(itemName: string): void {
-        console.log(`[ArchiveManager] 移除物品: ${itemName}`);
-        delete this.gameData.items[itemName];
+    public removeItem(itemName: string, count: number = 1): void {
+        console.log(`[ArchiveManager] 移除物品: ${itemName} x${count}`);
+        const currentCount = this.gameData.items[itemName] || 0;
+        this.gameData.items[itemName] = Math.max(0, currentCount - count);
+        // 如果数量为0，完全移除该物品
+        if (this.gameData.items[itemName] === 0) {
+            delete this.gameData.items[itemName];
+        }
         this.saveToLocalStorage();
     }
-
     /**
      * 获取角色好感度
      * @param characterName 角色名称
@@ -242,7 +259,7 @@ export class ArchiveManager {
         };
     }
 
-    /**
+        /**
      * 从外部数据恢复存档
      * @param data 存档数据
      */

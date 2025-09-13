@@ -2,6 +2,8 @@ import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 // 定义第2章第1幕
 const scene: Scene = {
 id: "chapter_0_scene_2_1",
@@ -81,6 +83,11 @@ sprite: {
             left: "guangling/smile.png",
         }
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.removeCardFromBag("darkness_initial", 1);
+                bagManager.addCardsToBag("darkness", 1);
+  },
 },//这里触发暗寂强化的剧情//
 {
     id: "darkblade_9",
@@ -557,6 +564,94 @@ sprite: {
         text: "身上沾染着血迹的白发杀神以冷酷的眼神紧盯着我们，好似要把我们的一切看穿。"
     },
 },//这里触发剧情发生战斗//
+{
+    id: "darkblade_56_2",
+    elements: {
+        name: "你",
+        text: "看来一场战斗不可避免了",
+    },
+    keyNode: true,
+    choices: [
+        {
+            text: "与?进行战斗",
+            next: "test_game1",
+        },
+    ],
+},
+{
+                id: "test_game1",
+                elements: {
+                    name: "？",
+                    text: "你们肯定是“上面”派来追踪我的！",
+                    sprite: {
+            left:null
+        }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 2,
+                            hp: 35,
+                            maxHp: 35,
+                            deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3     // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 15,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 2,
+                            hp: 20,
+                            maxHp: 20,
+                            deck: {
+                                "mechanical_shield": 2,        
+                                "nano_armor": 2,         
+                                "mechanical_defense": 2, 
+                                "mechanical_arm_swing": 2, 
+                                "worn_gear":2,
+                                "expired_oil":2,
+                                "full_battery_bomb":2      
+                            },
+                            drawCount: 2,           // 对手每回合抽1张牌
+                            initialDrawCount: 4     // 对手开始时抽3张牌
+                        },
+                        backgroundImage:"sc1.1/1-1-0.jpg"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "darkblade_57"
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "false_1"
+                        }
+                    ]
+                }
+            },//后面填event时把score得分补上就好了
+{
+    id: "false_1",
+    elements: {
+        name: "旁白",
+        text: "你失败了",
+    },
+    choices: [
+        {
+            text: "重新战斗",
+            next: "test_game1",
+        },
+        {
+            text: "继续前进",
+            next: "darkblade_57",
+        },
+    ],
+},
 {
     id: "darkblade_57",
     elements: {
@@ -1275,6 +1370,19 @@ sprite: {
   },
 },
 {
+  id: "darkblade_136_1",
+  elements: { 
+    name: "虚樹", 
+    text: "等等，把这些带上吧，也许对你们有帮助。" ,
+  },
+  action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("full_battery_bomb", 1);
+                bagManager.addCardsToBag("nano_armor", 1);
+                  bagManager.addCardsToBag("swap_robot", 1);
+  },
+},
+{
   id: "darkblade_136",
   elements: { 
     name: "旁白", 
@@ -1963,85 +2071,118 @@ sprite: {
             left:null,
         }
   },
-  keyNode: true,//这里插入战斗，一共两管血//
   choices: [
     {
-      text: "赢了",
-      next: "battle_1_1",
-    },
-    {
-      text: "输了",
-      next: "battle_2_1",
+      text: "去击败国王吧",
+      next: "test_game3",
     },
   ],
 },
-        /*{
-            id: "test_game",
-            elements: {
-                name: "旁白",
-                text: "小游戏测试"
-            },
-            game: {
-                id: "card_game",
-                config: {
-                    player: {
-                        actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
-                        deck: () => CardManager.getInstance().getPlayerDeck(),
-                        drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 4     // 玩家开始时抽4张牌
-                    },
-                    opponent: {
-                        actionPoints: 3,
-                        hp: 30,
-                        maxHp: 30,
-                        deck: {
-                            // 攻击卡牌
-                            'punch': 2,      // 拳击 x2
-                            'kick': 3,       // 踜击 x3
-                            'combo': 2,      // 连击 x2
-                            'hook_1': 1,     // 勾拳II x1
-                            'haymaker': 1,   // 重拳 x1
-
-                            // 防御卡牌
-                            'block': 2,      // 格挡 x2
-                            'dodge': 1,      // 闪避 x1
-                            'taunt': 1,      // 嘲讽 x1
-
-                            // 特殊卡牌
-                            'rest': 1,       // 休息 x1
-                            'berserk': 1,    // 狂暴 x1
-                            'stun': 1,       // 眩晕 x1
-                            'sacrifice': 1,  // 牺牲 x1
-                            'second_wind': 1 // 回光返照 x1
-                        },
-                        drawCount: 1,           // 对手每回合抽1张牌
-                        initialDrawCount: 3     // 对手开始时抽3张牌
-                    }
+   {
+                id: "test_game3",
+                elements: {
+                    name: "国王",
+                    text: "成为我的奴隶吧！",
                 },
-                end: [
-                    {
-                        condition: (score: number) => score >= 1,
-                        next: "battle_1_1"
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 2,
+                            hp: 35,
+                            maxHp: 35,
+                             deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 20,   // 设置最大选牌数量
                     },
+                        opponent: {
+                            actionPoints: 4,
+                            hp: 15,
+                            maxHp: 15,
+                            deck: {
+                                "mechanical_sentry": 2,        
+                                "mechanical_factory": 2,         
+                                "full_battery_bomb": 2, 
+                                "mechanical_arm_swing": 2, 
+                                "mechanical_guard":2,
+                                "unexpired_oil":2,
+                                "brand_new_gear":1,
+                                "mechanical_crushed_stone":1,
+                                "mechanical_meteorite":1,       
+                            },
+                            drawCount: 3,           // 对手每回合抽3张牌
+                            initialDrawCount: 4 ,    // 对手开始时抽4张牌
+                        initialBuffs: [  // 设置初始buff
+                            {
+                                 id: "the_king",
+                                 duration: -1,
+                                 target: "self"
+                             }
+                         ],
+                          },
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"guowang"
+                    },
+                    events: [
+                          {
+                         id: 'opponent_critical_health',
+                         condition: (gameData: CardGameEventData) => {
+                             return gameData.opponent.hp <= 5;
+                         },
+                         elements: {
+                             name: '国王',
+                             text: '有点意思，看来要有些强力的手牌才行。'
+                         },
+                         next: "player_first_attack_1",
+                         triggerConfig: {
+                             onlyOnce: true,
+                             conflict: true
+                         }
+                     },
                     {
-                        condition: (score: number) => true, // 默认条件，总是为真
-                        next: "battle_1_2"
-                    }
-                ]
-            }
-        },*/
-        //分支3-1//
+                        id: 'player_first_attack_1',
+                         condition: () => false,
+                         elements: {
+                             name: '国王',
+                             text: '顺便送你些好东西，你会喜欢的。'
+                         },
+                         next: undefined
+                     }
+                    ],
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "battle_1_1",
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "battle_1_1",
+                        }
+                    ]
+                }
+            },     
         {
             id: "battle_1_1",
             elements: {
                 name: "旁白",
                 text: "你成功战胜了国王！",
                 sprite: {
-            left: null,
+            left:null,
         }
-            }
+            },
+            choices: [
+                {
+                    text: "重新挑战",
+                    next: "test_game3",
+                },
+            ],
         },
         {
   id: "battle_1_1_1",
@@ -2251,7 +2392,7 @@ next:"chapter_0_scene_3_0",
   choices: [
     {
       text: "死亡结局",
-      next: "chapter_0_scene_0"
+      next: "test_game_1",
     }
   ]
 },

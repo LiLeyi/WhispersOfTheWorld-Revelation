@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const exitButton = document.getElementById('exitButton');
     const musicButton = document.getElementById('MusicButton');
     const achievementButton = document.getElementById('achievementButton');
+    const LibraryButton = document.getElementById('LibraryButton');
 
     if (achievementButton) {
         achievementButton.addEventListener('click', function() {
@@ -151,6 +152,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (musicButton) {
         musicButton.addEventListener('click', function() {
             window.location.href='../music_library/music_library.html';
+        });
+    }
+
+    if (LibraryButton) {
+        LibraryButton.addEventListener('click', function() {
+            window.location.href='../card_library/card_library.html';
         });
     }
 

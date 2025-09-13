@@ -1,3 +1,6 @@
+import { ArchiveManager } from './ArchiveManager';
+
+
 /**
  * 自动存档管理器
  * 用于在关键节点自动保存游戏进度
@@ -8,7 +11,6 @@ export class AutoSaveManager {
     private static readonly AUTO_SAVE_KEY = 'autoSaveSlots';
 
     private constructor() {}
-
     /**
      * 获取 AutoSaveManager 的单例实例
      */
@@ -70,7 +72,7 @@ public createAutoSave(sceneId: string, nodeIndex: number, description: string): 
         console.error("[AutoSaveManager] 创建自动存档时出错:", e);
     }
 }
-   /**
+      /**
      * 恢复自动存档
      * @param saveId 要恢复的存档ID
      * @returns 是否成功恢复
@@ -92,9 +94,10 @@ public createAutoSave(sceneId: string, nodeIndex: number, description: string): 
             if (targetSave.gameData) {
                 // 恢复ArchiveManager数据
                 if (targetSave.gameData.archiveData) {
-                    const archiveManager = (window as any).archiveManagerInstance;
+                    const archiveManager = ArchiveManager.getInstance();
                     if (archiveManager && typeof archiveManager.restoreFromData === 'function') {
                         archiveManager.restoreFromData(targetSave.gameData.archiveData);
+                        // 删除对私有方法 saveToLocalStorage 的调用
                     }
                 }
                 

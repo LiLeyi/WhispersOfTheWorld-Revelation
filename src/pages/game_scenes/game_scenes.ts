@@ -24,7 +24,7 @@ class GameScene {
     private autoClickInterval: number | null = null;
     private sceneManager: SceneManager;
     private choiceManager: ChoiceManager;
-    private bagManager: BagManager;
+    private bagManager: BagManager = BagManager.getInstance();
     private autoSaveManager: AutoSaveManager; // 新增自动存档管理器
     private previousElements: SceneElement = {
         background: undefined,
@@ -40,7 +40,6 @@ class GameScene {
     constructor() {
     this.sceneManager = new SceneManager();
     this.choiceManager = new ChoiceManager();
-    this.bagManager = BagManager.getInstance();
     this.autoSaveManager = AutoSaveManager.getInstance(); // 确保正确初始化
     
     console.log("[GameScene] AutoSaveManager实例:", this.autoSaveManager);
@@ -56,78 +55,86 @@ class GameScene {
     }
 }
 
-    private init(): void {
-        console.log("[GameScene] 开始初始化游戏场景");      
-        // 初始化已读文本颜色设置
-        const changeReadTextColorSetting = localStorage.getItem("changeReadTextColor");
-        const changeReadTextColor = changeReadTextColorSetting === "true";
-        this.sceneManager.getTextManager().setChangeReadTextColor(changeReadTextColor);
-        console.log("[GameScene] 初始化已读文本颜色设置，changeReadTextColor:", changeReadTextColor);
-        // 初始化点击时停止自动播放设置
-        const stopAutoPlayOnClickSetting = localStorage.getItem("stopAutoPlayOnClick");
-        stopAutoPlayOnClick = stopAutoPlayOnClickSetting === "true";
-        console.log("[GameScene] 初始化点击时停止自动播放设置，stopAutoPlayOnClick:", stopAutoPlayOnClick);
-        // 创建小游戏容器
-        this.miniGameContainer.id = 'mini-game-container';
-        this.miniGameContainer.style.display = 'none';
-        document.body.appendChild(this.miniGameContainer);
-        console.log("[GameScene] 小游戏容器已创建");
+private init(): void {
+    console.log("[GameScene] 开始初始化游戏场景");      
+    // 初始化已读文本颜色设置
+    const changeReadTextColorSetting = localStorage.getItem("changeReadTextColor");
+    const changeReadTextColor = changeReadTextColorSetting === "true";
+    this.sceneManager.getTextManager().setChangeReadTextColor(changeReadTextColor);
+    console.log("[GameScene] 初始化已读文本颜色设置，changeReadTextColor:", changeReadTextColor);
+    // 初始化点击时停止自动播放设置
+    const stopAutoPlayOnClickSetting = localStorage.getItem("stopAutoPlayOnClick");
+    stopAutoPlayOnClick = stopAutoPlayOnClickSetting === "true";
+    console.log("[GameScene] 初始化点击时停止自动播放设置，stopAutoPlayOnClick:", stopAutoPlayOnClick);
+    // 创建小游戏容器
+    this.miniGameContainer.id = 'mini-game-container';
+    this.miniGameContainer.style.display = 'none';
+    document.body.appendChild(this.miniGameContainer);
+    console.log("[GameScene] 小游戏容器已创建");
 
-        // 添加键盘事件监听器，包括 ESC 键来触发暂停菜单
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                this.togglePauseMenu();
-            }
-        });
+    // 从URL参数获取存档ID
+    const urlParams = new URLSearchParams(window.location.search);
+    // 手动构建参数对象以避免使用不兼容的API
+    const paramsObj: Record<string, string> = {};
+    urlParams.forEach((value, key) => {
+        paramsObj[key] = value;
+    });
+    console.log("[GameScene] URL参数:", paramsObj);
 
-        // 监听页面可见性变化，当页面失去焦点时自动暂停
-        document.addEventListener('visibilitychange', () => {
-            console.log("[GameScene] visibilitychange event, hidden:", document.hidden);
-            if (document.hidden) {
-                this.handleAutoPause();
-            }
-        });
+    // 如果URL中没有存档ID，则尝试从localStorage获取，否则生成新的
+    let archiveId = urlParams.get('archiveId');
+    if (!archiveId) {
+        archiveId = localStorage.getItem('currentArchiveId') || 'default_' + Date.now();
+    }
 
-        // 监听窗口失去焦点事件，当打开其他窗口时自动暂停
-        window.addEventListener('blur', () => {
-            console.log("[GameScene] window blur event");
-            // 延迟执行，确保状态正确
-            setTimeout(() => {
-                this.handleAutoPause();
-            }, 100);
-        });
+    // 保存当前存档ID到localStorage
+    localStorage.setItem('currentArchiveId', archiveId);
 
-        // 监听窗口获得焦点事件
-        window.addEventListener('focus', () => {
-            console.log("[GameScene] window focus event");
-        });
-        // 从URL参数获取存档ID
-        const urlParams = new URLSearchParams(window.location.search);
-        // 手动构建参数对象以避免使用不兼容的API
-        const paramsObj: Record<string, string> = {};
-        urlParams.forEach((value, key) => {
-            paramsObj[key] = value;
-        });
-        console.log("[GameScene] URL参数:", paramsObj);
+    // 设置当前存档ID并刷新ArchiveManager实例
+    ArchiveManager.setCurrentArchiveId(archiveId);
 
-        // 如果URL中没有存档ID，则尝试从localStorage获取，否则生成新的
-        let archiveId = urlParams.get('archiveId');
-        if (!archiveId) {
-            archiveId = localStorage.getItem('currentArchiveId') || 'default_' + Date.now();
+    // 设置TextManager的存档ID
+    this.sceneManager.getTextManager().setCurrentArchiveId(archiveId);
+
+    // 检查是否需要从自动存档恢复
+    const isFromAutoSave = !!localStorage.getItem('restoreSceneId');
+    if (isFromAutoSave) {
+        this.restoreFromAutoSave();
+    }
+
+    // 在设置存档ID后初始化BagManager，确保它使用正确的ArchiveManager实例
+    this.bagManager = BagManager.getInstance();
+    // 添加键盘事件监听器，包括 ESC 键来触发暂停菜单
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            this.togglePauseMenu();
         }
+    });
+    // 监听页面可见性变化，当页面失去焦点时自动暂停
+    document.addEventListener('visibilitychange', () => {
+        console.log("[GameScene] visibilitychange event, hidden:", document.hidden);
+        if (document.hidden) {
+            this.handleAutoPause();
+        }
+    });
 
-        // 保存当前存档ID到localStorage
-        localStorage.setItem('currentArchiveId', archiveId);
+    // 监听窗口失去焦点事件，当打开其他窗口时自动暂停
+    window.addEventListener('blur', () => {
+        console.log("[GameScene] window blur event");
+        // 延迟执行，确保状态正确
+        setTimeout(() => {
+            this.handleAutoPause();
+        }, 100);
+    });
 
-        // 设置当前存档ID并刷新ArchiveManager实例
-        ArchiveManager.setCurrentArchiveId(archiveId);
+    // 监听窗口获得焦点事件
+    window.addEventListener('focus', () => {
+        console.log("[GameScene] window focus event");
+    });
+ // 移除了重复的URL参数获取和archiveId声明部分
+    console.log(`[GameScene] 使用存档ID: ${archiveId}`);
 
-        // 设置TextManager的存档ID
-        this.sceneManager.getTextManager().setCurrentArchiveId(archiveId);
-
-        console.log(`[GameScene] 使用存档ID: ${archiveId}`);
-
-        console.log("[GameScene] 开始绑定事件");
+    console.log("[GameScene] 开始绑定事件");
         this.sceneManager.bindSceneEvents(
             () => this.nextMove(),
             {
@@ -213,13 +220,18 @@ class GameScene {
                         bagOverlay.style.display = "none";
                     }
                 },
-                onShowItemModal: (item: any) => this.bagManager.showItemModal(item),
-                onCloseItemModal: () => {
+                onShowItemModal: (card: any) => {
                     const modal = document.getElementById("item-modal");
+                    const itemName = document.getElementById("modal-item-name");
+                    const itemDescription = document.getElementById("modal-item-description");
+                    
+                    if (itemName) itemName.textContent = card.name;
+                    if (itemDescription) itemDescription.textContent = card.description;
+                    
                     if (modal) {
-                        modal.style.display = "none";
+                        modal.style.display = "flex";
                     }
-                }
+                },
             }
         );
 
@@ -231,7 +243,7 @@ class GameScene {
             }
         });
 
-        // 从URL或localStorage中获取点击次数
+                // 从URL或localStorage中获取点击次数
         const sceneParam = urlParams.get('scene');
         const clickParam = urlParams.get('click');
 
@@ -243,13 +255,17 @@ class GameScene {
         // 检查是否是从存档页面进入（通过referrer参数判断）
         const referrer = urlParams.get("referrer");
         const isFromArchive = referrer && referrer.includes("archive_page");
+        
+        // 检查是否是从自动存档恢复（通过restoreSceneId参数判断）
+        const isFromAutoSaveCheck = !!localStorage.getItem('restoreSceneId');
 
         // 检查是否明确要开始新游戏（通过查询参数判断）
         const isNewGameParam = urlParams.get("newGame");
         const isNewGameRequested = isNewGameParam === "true";
 
         // 判断是否是新游戏：没有场景参数且点击次数为0，或者明确要求新游戏且不是从存档进入
-        const isNewGame = (!sceneParam && this.clickCount === 0) || (isNewGameRequested && !isFromArchive);
+        // 但排除从自动存档恢复的情况
+        const isNewGame = (!isFromAutoSaveCheck && !sceneParam && this.clickCount === 0) || (isNewGameRequested && !isFromArchive);
 
         console.log("游戏初始化参数:", {
             sceneParam,
@@ -257,6 +273,7 @@ class GameScene {
             thisClickCount: this.clickCount,
             referrer,
             isFromArchive,
+            isFromAutoSave,
             isNewGameParam,
             isNewGameRequested,
             isNewGame,
@@ -308,7 +325,46 @@ class GameScene {
             this.loadSceneByName('chapter_0_scene_0');
         }
     }
-
+    private restoreFromAutoSave(): void {
+        console.log("[GameScene] 开始从自动存档恢复数据");
+        try {
+            // 获取自动存档管理器
+            const autoSaveManager = AutoSaveManager.getInstance();
+            
+            // 获取最新的自动存档
+            const autoSaveSlots = autoSaveManager.getAutoSaveSlots();
+            if (autoSaveSlots.length > 0) {
+                const latestSave = autoSaveSlots[0]; // 最新的存档在数组开头
+                console.log("[GameScene] 找到自动存档:", latestSave);
+                
+                // 恢复ArchiveManager数据
+                if (latestSave.gameData && latestSave.gameData.archiveData) {
+                    const archiveManager = ArchiveManager.getInstance();
+                    archiveManager.restoreFromData(latestSave.gameData.archiveData);
+                    console.log("[GameScene] 已恢复ArchiveManager数据");
+                }
+                
+                // 恢复背景信息
+                if (latestSave.gameData && latestSave.gameData.background) {
+                    localStorage.setItem('MSYbackgroundIMG', latestSave.gameData.background);
+                    console.log("[GameScene] 已恢复背景信息");
+                }
+                
+                // 恢复文本历史记录
+                if (latestSave.gameData && latestSave.gameData.textHistory) {
+                    const textHistoryKey = `gameTextHistory_${localStorage.getItem('currentArchiveId') || 'default'}`;
+                    localStorage.setItem(textHistoryKey, latestSave.gameData.textHistory);
+                    console.log("[GameScene] 已恢复文本历史记录");
+                }
+            }
+        } catch (e) {
+            console.error("[GameScene] 从自动存档恢复数据时出错:", e);
+        }
+        
+        // 清除恢复标记，防止重复恢复
+        localStorage.removeItem('restoreSceneId');
+        localStorage.removeItem('restoreNodeIndex');
+    }
 
 private redirectToNewPage(nextpage: string): void {
     // 获取当前URL参数
@@ -353,7 +409,7 @@ private redirectToNewPage(nextpage: string): void {
 }
 
 
-    private async loadSceneByName(sceneName: string): Promise<void> {
+        private async loadSceneByName(sceneName: string): Promise<void> {
         console.log(`[GameScene] 开始加载场景: ${sceneName}`);
 
         let sceneModule: any;
@@ -371,6 +427,9 @@ private redirectToNewPage(nextpage: string): void {
         // 同时更新TextManager的存档ID
 
         this.sceneManager.getTextManager().setCurrentArchiveId(archiveId);
+        // 确保BagManager使用最新的ArchiveManager实例
+        this.bagManager = BagManager.getInstance();
+        
         // 从场景注册表中加载场景
         if (SceneRegistry[sceneName]) {
             try {
@@ -390,6 +449,7 @@ private redirectToNewPage(nextpage: string): void {
             sceneModule = await SceneRegistry['chapter_0_scene_0']();
             this.loadScene(sceneModule.default);
         }
+        return Promise.resolve();
     }
 
       public loadScene(scene: Scene): void {

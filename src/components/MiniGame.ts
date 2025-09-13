@@ -1,3 +1,5 @@
+import { SceneManager } from './SceneManager';
+
 /**
  * MiniGame基类，所有小游戏都应该继承此类
  */
@@ -11,6 +13,8 @@ abstract class MiniGame {
     protected score: number = 0;
     protected events: Array<any> = []; // 存储游戏事件
     protected triggeredEvents: Set<string> = new Set(); // 记录已触发的事件ID
+    protected audioManager: any; // 添加audioManager属性定义
+    protected sceneManager: any; // 添加sceneManager属性定义
     
     constructor(protected onComplete: (score: number) => void) {}
 
@@ -139,8 +143,81 @@ abstract class MiniGame {
      * @param event 事件对象
      */
     protected handleEvent(event: any): void {
-        // 这个方法应该在子类中被重写以处理具体事件
-        console.log('触发事件:', event.id);
+        console.log('[CardGame] 处理事件:', event);
+
+        // 创建场景管理器实例（如果还没有的话）
+        if (!this.sceneManager) {
+            // 尝试从全局获取场景管理器
+            this.sceneManager = (window as any).sceneManagerInstance;
+            console.log('[CardGame] 场景管理器实例:', this.sceneManager);
+        }
+
+        // 如果仍然无法获取场景管理器，尝试直接创建一个新的实例
+        if (!this.sceneManager) {
+            try {
+                this.sceneManager = new SceneManager();
+                console.log('[CardGame] 创建新的场景管理器实例:', this.sceneManager);
+            } catch (e) {
+                console.log('[CardGame] 无法创建场景管理器实例:', e);
+            }
+        }
+
+        if (this.sceneManager) {
+            // 使用场景管理器显示事件对话
+            const elementsContainer = document.getElementById('card-game-container');
+            if (elementsContainer) {
+                console.log('[CardGame] 创建事件对话框');
+
+                // 创建覆盖层以显示事件对话
+                const overlay = document.createElement('div');
+                overlay.id = 'minigame-event-overlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.zIndex = '2000';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                overlay.style.cursor = 'pointer';
+
+                // 保存当前背景音乐
+                const currentBgm = this.audioManager ? this.audioManager.getCurrentBgm() : "";
+
+                // 创建场景元素容器
+                const sceneElementsContainer = this.sceneManager.createSceneElementsContainer(
+                    overlay,
+                    event.elements
+                );
+
+                // 确保事件对话框不改变背景音乐
+                if (this.audioManager && currentBgm) {
+                    this.audioManager.updateBackgroundMusic(currentBgm);
+                }
+
+                console.log('[CardGame] 创建场景元素容器:', sceneElementsContainer);
+
+                // 添加点击事件以关闭对话框
+                const closeHandler = () => {
+                    console.log('[CardGame] 关闭事件对话框');
+                    if (overlay.parentNode) {
+                        overlay.parentNode.removeChild(overlay);
+                    }
+                    // 恢复背景音乐（如果需要）
+                    if (this.audioManager && currentBgm) {
+                        this.audioManager.updateBackgroundMusic(currentBgm);
+                    }
+                    // 移除事件监听器
+                    overlay.removeEventListener('click', closeHandler);
+                };
+
+                overlay.addEventListener('click', closeHandler);
+                elementsContainer.appendChild(overlay);
+            } else {
+                console.warn('[CardGame] 未找到card-game-container元素');
+            }
+        } else {
+            console.warn('[CardGame] 场景管理器未找到，无法显示事件对话');
+        }
     }
 
     /**
