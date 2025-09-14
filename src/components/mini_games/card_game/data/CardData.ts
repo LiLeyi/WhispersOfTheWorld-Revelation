@@ -502,13 +502,18 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   witchs_gift: {
     id: "witchs_gift",
     name: "巫婆的馈赠",
-    description: "重新抽取所有手牌。",
+    description: "重新抽取所有手牌。回复5Hp",
     priority: 1,
     effect: [
       {
         id: "do_reflesh",
         target: "self"
-      }
+      },
+      {
+        id: "do_health",
+        target: "self",
+        duration: 5,
+      },
     ],
     cost: {}
   },
@@ -815,23 +820,29 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   reapers_whisper: {
     id: "reapers_whisper",
     name: "死神低语",
-    description: "造成15点真攻，消耗3行动。",
+    description: "造成15点真攻，消耗3行动。获得3真防",
     priority: 30,
     effect: [
       {
         id: "do_true_attack",
         duration: 15,
         target: "other"
+      },
+      {
+      id:"do_true_defence",
+      duration:3,
+      target:"self",
       }
     ],
     cost: {
       action: 3
     }
+    
   },
   reapers_groan: {
     id: "reapers_groan",
     name: "死神的呻吟",
-    description: "造成9点真攻，消耗4行动。",
+    description: "造成9点真攻，消耗2行动。",
     priority: 28,
     effect: [
       {
@@ -841,7 +852,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 4
+      action: 2
     }
   },
   mountain_ghoul: {
@@ -868,7 +879,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   forest_ghoul: {
     id: "forest_ghoul",
     name: "林鬼",
-    description: "造成1点攻击，获得1回合“传导”效果，消耗3行动。",
+    description: "造成1点攻击，获得1回合“传导”效果，消耗2行动。",
     priority: 35,
     effect: [
       {
@@ -883,7 +894,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 3
+      action: 2
     }
   },
   drowned_ghoul: {
@@ -950,7 +961,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   stingy_ghoul: {
     id: "stingy_ghoul",
     name: "吝鬼",
-    description: "造成1点攻击，减少对方1点行动力和1点真防，消耗2行动。",
+    description: "造成1点攻击，减少对方1点行动力和1点真防，消耗1行动。",
     priority: 15,
     effect: [
       {
@@ -970,7 +981,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   ghostly_figures: {

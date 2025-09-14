@@ -2159,7 +2159,7 @@ sprite: {
                     end: [
                         {
                             condition: (score: number) => score >= 1,
-                            next: "battle_1_1",
+                            next: "battle_1_1_1",
                         },
                         {
                             condition: (score: number) => true, // 默认条件，总是为真
@@ -2181,6 +2181,10 @@ sprite: {
                 {
                     text: "重新挑战",
                     next: "test_game3",
+                },
+                 {
+                    text: "继续前进",
+                    next: "battle_1_1_1",
                 },
             ],
         },
