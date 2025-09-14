@@ -18,13 +18,13 @@ export class UIManager {
             }
             
             element.innerHTML = `
-                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#d4af37;text-align:center;text-shadow:0 0 3px rgba(255, 236, 143, 1);border-bottom:1px solid #d4af37;padding-bottom:5px;">${player.name}</div>
+                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#ffffff;text-align:center;text-shadow:0 0 3px rgba(255, 255, 255, 0.5);border-bottom:1px solid #cccccc;padding-bottom:5px;">${player.name}</div>
                 <div style="display:grid;grid-template-columns:1fr;gap:8px;font-size:14px;">
                     <!-- 血条 -->
                     <div>
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                            <span>生命:</span>
-                            <span style="color:${hpRatio <= 0.3 ? '#ff6347' : '#d4af37'}">${player.hp}/${player.maxHp}</span>
+                            <span style="color:#cccccc;">生命:</span>
+                            <span style="color:${hpRatio <= 0.3 ? '#ff6b6b' : '#ffffff'}">${player.hp}/${player.maxHp}</span>
                         </div>
                         <div style="width:100%;height:12px;background:#333;border:1px solid #555;border-radius:3px;overflow:hidden;">
                             <div style="width:${hpPercentage}%;height:100%;background:${hpBarColor};transition:width 0.3s ease;"></div>
@@ -32,16 +32,16 @@ export class UIManager {
                     </div>
                     
                     <div style="display:flex;justify-content:space-between;">
-                        <span>行动值:</span>
-                        <span style="color:#d4af37">${player.actionPoints}</span>
+                        <span style="color:#cccccc;">行动值:</span>
+                        <span style="color:#ffffff">${player.actionPoints}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        <span>手牌:</span>
-                        <span style="color:#d4af37">${player.hand.length}</span>
+                        <span style="color:#cccccc;">手牌:</span>
+                        <span style="color:#ffffff">${player.hand.length}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        <span>抽牌数:</span>
-                        <span style="color:#d4af37">${drawCount}</span>
+                        <span style="color:#cccccc;">抽牌数:</span>
+                        <span style="color:#ffffff">${drawCount}</span>
                     </div>
                 </div>
             `;
@@ -430,6 +430,7 @@ export class UIManager {
             borderColor = '#ff4a4a'; // 对手红色
         }
         
+        // 恢复原来的战场卡片样式
         cardElement.style.cssText = `
             width: 110px;
             height: 160px;
@@ -437,26 +438,25 @@ export class UIManager {
             border-radius: 10px;
             overflow: hidden;
             user-select: none;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
-            background: rgb(226, 218, 197);
-            background-image: url('../../assets/images/beijing.png');
-            background-size: cover;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+            background: linear-gradient(135deg, #e6e6e6, #cccccc);
             color: #000;
             border: 2px solid ${borderColor};
-            transition: all 0.3s ease;
-            margin: 0 5px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 10px;
+            margin: 0 8px;
         `;
         
-        // 添加卡牌内容（移除了纹理效果，文字居中显示）
         cardElement.innerHTML = `
-            <div class="played-card-content" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-                <div class="played-card-name" style="font-weight: bold; font-size: 14px; text-align: center; color:#000; margin-bottom: 8px;">${playedCard.card.name}</div>
-                <div class="played-card-desc" style="font-size: 10px; text-align: center; margin: 4px 0; color:#000;">${playedCard.card.description}</div>
-                <div style="position:absolute;top:4px;right:4px;font-size:8px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};">
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 3px,
+                rgba(212, 175, 55, 0.05) 3px,
+                rgba(212, 175, 55, 0.05) 6px
+            );pointer-events:none;z-index:0;border-radius:8px;"></div>
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:10px;">
+                <div style="font-weight:bold;font-size:14px;text-align:center;color:#000;margin-bottom:8px;">${playedCard.card.name}</div>
+                <div style="font-size:10px;text-align:center;margin:5px 0;color:#333;line-height:1.3;">${playedCard.card.description}</div>
+                <div style="position:absolute;top:5px;right:5px;font-size:10px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};font-weight:bold;">
                     ${playedCard.player === 'player' ? '我' : '敌'}
                 </div>
             </div>
@@ -467,8 +467,8 @@ export class UIManager {
         cardElement.dataset.hasPlayedHoverSound = "false";
 
         cardElement.addEventListener('mouseenter', () => {
-            cardElement.style.transform = 'scale(1.25) translateY(-12px)';
-            cardElement.style.boxShadow = '0 12px 25px rgba(212, 175, 55, 0.6)';
+            cardElement.style.transform = 'scale(1.15) translateY(-10px)';
+            cardElement.style.boxShadow = '0 15px 30px rgba(212, 175, 55, 0.6)';
             cardElement.style.zIndex = '5';
             
             // 只有当未播放过音效时才播放
@@ -486,7 +486,7 @@ export class UIManager {
 
         cardElement.addEventListener('mouseleave', () => {
             cardElement.style.transform = 'scale(1) translateY(0)';
-            cardElement.style.boxShadow = '0 0 8px rgba(212, 175, 55, 0.3)';
+            cardElement.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.5)';
             cardElement.style.zIndex = '1';
             // 重置标志位，允许下次悬停时再次播放音效
             cardElement.dataset.hasPlayedHoverSound = "false";
@@ -531,27 +531,27 @@ export class UIManager {
             
             if (nameElement) {
                 nameElement.style.fontWeight = 'bold';
-                nameElement.style.fontSize = '14px';
+                nameElement.style.fontSize = '15px';
                 nameElement.style.textAlign = 'center';
                 nameElement.style.color = '#000';
-                nameElement.style.marginBottom = '8px';
+                nameElement.style.marginBottom = '10px';
             }
             
             if (descElement) {
-                descElement.style.fontSize = '10px';
+                descElement.style.fontSize = '11px';
                 descElement.style.textAlign = 'center';
-                descElement.style.margin = '4px 0';
-                descElement.style.color = '#000';
+                descElement.style.margin = '6px 0';
+                descElement.style.color = '#333';
             }
             
             if (detailsElement) {
-                detailsElement.style.fontSize = '11px';
+                detailsElement.style.fontSize = '12px';
                 detailsElement.style.textAlign = 'center';
-                detailsElement.style.marginTop = '8px';
+                detailsElement.style.marginTop = '10px';
             }
             
             // 更新位置
-            card.style.margin = '0 5px';
+            card.style.margin = '0 8px';
         });
         
         // 重新布局容器
@@ -559,7 +559,7 @@ export class UIManager {
         playedCardsContainer.style.flexWrap = 'wrap';
         playedCardsContainer.style.justifyContent = 'center';
         playedCardsContainer.style.alignItems = 'center';
-        playedCardsContainer.style.gap = '16px';
+        playedCardsContainer.style.gap = '20px';
     }
     static async playCardAnimation(
         player: 'player' | 'opponent',
@@ -598,6 +598,7 @@ export class UIManager {
             clone.style.left = `${cardRect.left}px`;
             clone.style.top = `${cardRect.top}px`;
             clone.style.margin = '0';
+            clone.style.zIndex = '1000';
             clone.style.zIndex = '1000';
             clone.classList.add('playing');
             clone.style.visibility = 'visible';
