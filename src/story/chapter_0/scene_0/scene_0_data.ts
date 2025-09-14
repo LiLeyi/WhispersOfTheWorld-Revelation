@@ -4,6 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
 import { CardGameEventData } from '../../../types/MiniGameEvents';
+import { Card } from '../../../components/mini_games/card_game/models/Card';
 
 // 定义第0章场景
 const scene: Scene = {
@@ -49,6 +50,7 @@ const scene: Scene = {
                             bagManager.addCardToBag(cardId);
                         }
                     }
+        bagManager.addCardsToBag("darkness_initial", 1); // 记得后面删掉
                     
                     console.log("[SceneAction] 初始卡牌已添加到背包");
                 } else {
@@ -56,6 +58,62 @@ const scene: Scene = {
                 }
             }
         },
+            {
+                id: "test_game1",
+                elements: {
+                    name: "旁白",
+                    text: "小游戏测试",
+                    sprite: {
+            left:null
+        }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 1,
+                            hp: 15,
+                            maxHp: 15,
+                            deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3     // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 3,   // 设置最小选牌数量
+                        maxDeckSize: 10,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 1,
+                            hp: 10,
+                            maxHp: 10,
+                            deck: {
+                                "little_stone": 2,        
+                                "strange_stone": 2,         
+                                "bedrock": 2, 
+                                "large_rock": 2,        
+                            },
+                            drawCount: 1,           // 对手每回合抽1张牌
+                            initialDrawCount: 3     // 对手开始时抽3张牌
+                        },
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"bgm29"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+
+                            next: "ask1"
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "ask2"
+                        }
+                    ]
+                }
+            },
         // {
         //     id: "choice_test",
         //     elements: {

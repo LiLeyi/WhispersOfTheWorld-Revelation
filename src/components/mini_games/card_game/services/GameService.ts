@@ -22,7 +22,8 @@ export class GameService {
                             description: cardTemplate.description,
                             priority: cardTemplate.priority,
                             effect: cardTemplate.effect,
-                            cost: cardTemplate.cost
+                            cost: cardTemplate.cost,
+                            useOnce: cardTemplate.useOnce // 添加useOnce属性
                         };
                         deck.push(card);
                     }
@@ -34,5 +35,17 @@ export class GameService {
         
         // 如果没有配置，返回空牌组
         return [];
+    }
+    
+    // 从卡组中移除已使用的一次性卡牌
+    static filterUsedOnceCards(deck: Card[], usedOnceCards: Set<string>): Card[] {
+        return deck.filter(card => {
+            // 如果卡牌不是一次性卡牌，则保留
+            if (!card.useOnce) {
+                return true;
+            }
+            // 如果是一次性卡牌，且未被使用过，则保留
+            return !usedOnceCards.has(card.id);
+        });
     }
 }

@@ -250,4 +250,40 @@ export class CardManager {
         this.savePlayerStats(stats);
         console.log(`[CardManager] 更新玩家行动值为: ${actions}`);
     }
+
+    /**
+     * 获取玩家最大生命值的函数形式
+     * @returns 玩家最大生命值
+     */
+    public getPlayerMaxHp(): number {
+        const stats = this.getPlayerStats();
+        return stats ? stats.maxHp : 20; // 默认值为20
+    }
+
+    /**
+     * 获取玩家抽牌数的函数形式
+     * @returns 玩家每回合抽牌数
+     */
+    public getPlayerDrawCount(): number {
+        const stats = this.getPlayerStats();
+        return stats ? stats.drawCount : 5; // 默认值为5
+    }
+
+    /**
+     * 获取玩家初始手牌数的函数形式
+     * @returns 玩家初始手牌数
+     */
+    public getPlayerInitialHandSize(): number {
+        const stats = this.getPlayerStats();
+        return stats ? stats.initialHandSize : 5; // 默认值为5
+    }
+
+    /**
+     * 获取玩家行动值的函数形式
+     * @returns 玩家行动值
+     */
+    public getPlayerActions(): number {
+        const stats = this.getPlayerStats();
+        return stats ? stats.actions : 3; // 默认值为3
+    }
 }

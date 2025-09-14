@@ -59,8 +59,8 @@ export class PlayerService {
     
 
     // 抽牌
-    static drawCards(player: Player, count: number, updateMessage?: (message: string) => void, forceDraw: boolean = false): void {
-        console.log(`[DEBUG] ${player.name}抽${count}张牌`);
+    static drawCards(player: Player, count: number, updateMessage?: (message: string) => void, forceDraw: boolean = false, usedOnceCards?: Set<string>): void {
+        console.log(`[DEBUG] ${player.name}抽${count}张牌, usedOnceCards:`, usedOnceCards ? Array.from(usedOnceCards) : 'undefined');
         let drawnCount = 0; // 记录实际抽到的牌数
         
         for (let i = 0; i < count; i++) {
@@ -76,7 +76,7 @@ export class PlayerService {
             // 如果牌组为空，重新洗牌
             if (player.deck.length === 0) {
                 console.log(`[DEBUG] ${player.name}牌组为空，重新洗牌`);
-                this.shuffleDeck(player);
+                this.shuffleDeck(player, usedOnceCards);
             }
             
             // 如果重新洗牌后仍然没有牌，且需要强制抽牌
@@ -138,18 +138,48 @@ export class PlayerService {
     }
     
     // 洗牌
-    static shuffleDeck(player: Player): void {
+    static shuffleDeck(player: Player, usedOnceCards?: Set<string>): void {
+        console.log(`[DEBUG] ${player.name}开始洗牌，弃牌堆数量: ${player.discardPile.length}`);
         // 如果弃牌堆为空，无法洗牌
         if (player.discardPile.length === 0) {
+            console.log(`[DEBUG] ${player.name}弃牌堆为空，无法洗牌`);
             return;
         }
         
         // 将弃牌堆洗牌后作为新的牌组
         player.deck = [...player.discardPile];
+        console.log(`[DEBUG] ${player.name}将弃牌堆复制到牌组，当前牌组数量: ${player.deck.length}`);
+        
+        // 如果提供了已使用一次性卡牌列表，则过滤掉这些卡牌
+        if (usedOnceCards) {
+            console.log(`[DEBUG] ${player.name}当前已使用一次性卡牌:`, Array.from(usedOnceCards));
+            const beforeFilter = player.deck.length;
+            player.deck = player.deck.filter(card => {
+                // 如果卡牌不是一次性卡牌，则保留
+                if (!card.useOnce) {
+                    console.log(`[DEBUG] ${player.name}保留非一次性卡牌: ${card.name}(${card.id})`);
+                    return true;
+                }
+                // 如果是一次性卡牌，且未被使用过，则保留
+                const shouldKeep = !usedOnceCards.has(card.id);
+                if (!shouldKeep) {
+                    console.log(`[DEBUG] ${player.name}过滤掉已使用的一次性卡牌: ${card.name}(${card.id})`);
+                } else {
+                    console.log(`[DEBUG] ${player.name}保留未使用的一次性卡牌: ${card.name}(${card.id})`);
+                }
+                return shouldKeep;
+            });
+            console.log(`[DEBUG] ${player.name}过滤后牌组数量: ${player.deck.length} (过滤前: ${beforeFilter})`);
+        } else {
+            console.log(`[DEBUG] ${player.name}没有提供已使用一次性卡牌列表`);
+        }
+        
         this.shuffleArray(player.deck);
+        console.log(`[DEBUG] ${player.name}洗牌完成，牌组数量: ${player.deck.length}`);
         
         // 清空弃牌堆
         player.discardPile = [];
+        console.log(`[DEBUG] ${player.name}清空弃牌堆`);
     }
     
     // Fisher-Yates 洗牌算法

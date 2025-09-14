@@ -13,4 +13,6 @@ export interface CardGameState {
     playerWon: boolean | null; // 玩家是否获胜
     // 添加记录上一张使用卡牌的字段
     lastPlayedCard: Card | null; // 上一张使用的卡牌
+    // 添加已使用的一次性卡牌跟踪列表
+    usedOnceCards: Set<string>; // 本场战斗中已使用的一次性卡牌ID集合
 }
