@@ -1,7 +1,9 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
 // 定义第3章第1幕场景
 const scene: Scene = {
 id:"chapter_0_scene_3_0",
@@ -1247,6 +1249,7 @@ nodes: [
 {
     id: "mountain_112_2",
     elements: {
+        background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "就让我看看吧！信念的血肉能否抵御深渊的利齿！",
         sprite: {
@@ -1255,27 +1258,101 @@ nodes: [
     },
 },
 {
-    id: "mountain_113_2",
-    elements: {
-        background:"sc3.1/3-1-1.jpg",
-        name: "梅菲斯特",
-        text: "就让我亲手撕碎你那可笑的意志！",
-        sprite: {
+                id: "test_game4",
+                elements: {
+                    name: "梅菲斯特",
+                    text: "我将亲手撕碎你那可笑的意志！",
+                    sprite: {
             left:"NPC/dead_man.png"
         }
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 4,
+                            hp: 45,
+                            maxHp: 45,
+                             deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 10,   // 设置最小选牌数量
+                        maxDeckSize: 20,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 7,
+                            hp: 25,
+                            maxHp: 25,
+                            deck: {
+                                 "reapers_whisper":6,       
+                            },
+                            drawCount: 2,           // 对手每回合抽3张牌
+                            initialDrawCount: 4 ,    // 对手开始时抽4张牌
+                          },
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"guowang"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "victory",
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "fail",
+                        }
+                    ]
+                }
+            },     
+{
+    id: "fail",
+    elements: {
+        background:"sc3.1/3-1-11.jpg",
+        bgm: "bgm14.MP3",
+        name: "旁白",
+        text: "你失败了",
+        sprite: {
+            left:null,
+        }
     },
-    keyNode: true,
-    choices: [
+    choices:[
         {
-            text: "失败",
-            next: "mountain_114_2_1",
+            text:"请重新挑战",
+            next:"test_game4",
         },
         {
-             text: "胜利",
-            next: "mountain_114_2_2",
+            text:"安详离世",
+            next:"mountain_114_2_1",
         },
+        {
+            text:"继续前进",
+            next:"mountain_114_2_2",
+        }
     ]
-},
+},      
+            {
+    id: "victory",
+    elements: {
+       background:"sc3.1/3-1-1.jpg",
+        bgm: "bgm10.MP3",
+        name: "旁白",
+        text: "你成功战胜了死神",
+        sprite: {
+            left:null,
+        }
+    },
+    choices:[
+        {
+            text:"继续前进",
+            next:"mountain_114_2_2",
+        }
+    ]
+}, 
 //分支2-2-1//
 {
     id: "mountain_114_2_1",
@@ -1481,8 +1558,12 @@ nodes: [
         text: "唱完这最后一句，梅菲斯特的头颅彻底灰飞烟灭。",
         sprite: {
             left:null,
-        }
+        },
     },
+action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("reapers_groan", 1);
+}
 },
 {
     id: "mountain_132_2_2",
@@ -1750,7 +1831,84 @@ nodes: [
             left: "guangling/smile.png",
         }
     },
+choices: [
+        {
+            text: "与鬼怪发生战斗",
+            next: "test_game5",
+        },
+    ]
 },
+{
+                id: "test_game5",
+                elements: {
+                    name: "鬼怪",
+                    text: "鎴戜滑浼氬湪浣犱滑鐨勫潫澶翠笂韫﹁开銆�",//（我们会在你们的坟头蹦迪）
+                },
+                game: {
+                    id: "card_game",
+                    config: {
+                        player: {
+                            actionPoints: 4,
+                            hp: 45,
+                            maxHp: 45,
+                             deck: () => {
+                                const bagManager = BagManager.getInstance();
+                                return bagManager.getCardDeckForGame();
+                            },
+                            drawCount: 2,           // 玩家每回合抽2张牌
+                            initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                        },
+                        deckSelection: {
+                        minDeckSize: 15,   // 设置最小选牌数量
+                        maxDeckSize: 20,   // 设置最大选牌数量
+                    },
+                        opponent: {
+                            actionPoints: 7,
+                            hp: 35,
+                            maxHp: 35,
+                            deck: {
+                                 "mountain_ghoul":3,
+                                "forest_ghoul":2,
+                                 "drowned_ghoul":2,
+                                 "hungry_ghoul":2,
+                                 "lonely_ghoul":1,
+                                 "stingy_ghoul":2,
+                            },
+                            drawCount: 5,           // 对手每回合抽3张牌
+                            initialDrawCount: 6 ,    // 对手开始时抽4张牌
+                          },
+                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        bgm:"guowang"
+                    },
+                    end: [
+                        {
+                            condition: (score: number) => score >= 1,
+                            next: "victory_1",
+                        },
+                        {
+                            condition: (score: number) => true, // 默认条件，总是为真
+                            next: "fail_1",
+                        }
+                    ]
+                }
+            }, 
+            {
+                id: "victory_1",
+                elements: {
+                    name: "旁白",
+                    text: "你胜利了",
+                },
+                choices: [
+                        {
+                            text: "重新挑战",
+                            next: "test_game5",
+                        },
+                        {
+                            text: "继续前进",
+                            next: "mountain_150_2_2_2",
+                        },           
+],
+            },    
 {
     id: "mountain_150_2_2_2",
     elements: {
@@ -1760,6 +1918,10 @@ nodes: [
             left: null,
         }
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("ghostly_figures", 1);
+}
 },
 {
     id: "mountain_150_2_2_2_1",
