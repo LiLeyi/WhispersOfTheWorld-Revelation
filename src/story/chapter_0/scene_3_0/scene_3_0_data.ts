@@ -1295,7 +1295,7 @@ nodes: [
                             initialDrawCount: 4 ,    // 对手开始时抽4张牌
                           },
                         backgroundImage:"sc1.1/1-1-0.jpg",
-                        bgm:"guowang"
+                        bgm:"sishen"
                     },
                     end: [
                         {
@@ -1864,8 +1864,8 @@ choices: [
                     },
                         opponent: {
                             actionPoints: 7,
-                            hp: 35,
-                            maxHp: 35,
+                            hp: 25,
+                            maxHp: 25,
                             deck: {
                                  "mountain_ghoul":3,
                                 "forest_ghoul":2,
@@ -1878,7 +1878,7 @@ choices: [
                             initialDrawCount: 6 ,    // 对手开始时抽4张牌
                           },
                         backgroundImage:"sc1.1/1-1-0.jpg",
-                        bgm:"guowang"
+                        bgm:"guiguai"
                     },
                     end: [
                         {

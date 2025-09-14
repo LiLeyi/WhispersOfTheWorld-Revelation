@@ -882,7 +882,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   forest_ghoul: {
     id: "forest_ghoul",
     name: "林鬼",
-    description: "造成1点攻击，获得1回合“传导”效果，消耗2行动。",
+    description: "造成1点攻击，获得1回合“传导”效果，消耗1行动。",
     priority: 35,
     effect: [
       {
@@ -897,7 +897,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   drowned_ghoul: {
