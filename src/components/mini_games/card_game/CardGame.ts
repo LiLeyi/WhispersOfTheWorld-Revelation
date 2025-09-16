@@ -1579,7 +1579,7 @@ class CardGame extends MiniGame {
             console.log(`[DEBUG] ${player.name}拥有${trueDefense}点真防，对${opponent.name}造成1点伤害`);
 
             // 检查恶魂效果
-            BuffService.checkGhastEffect(opponent, player, opponent);
+            BuffService.checkGhastEffect(opponent, player);
             // 检查国王效果
             BuffService.checkKingEffect(opponent, player);
         }

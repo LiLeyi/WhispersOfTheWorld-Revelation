@@ -48,7 +48,7 @@ export class CardService {
                 target.hp -= effect.duration || 0;
                 // 检查国王和恶魂效果
                 BuffService.checkKingEffect(target, target === player ? opponent : player);
-                BuffService.checkGhastEffect(target, target === player ? opponent : player, target === player ? player : opponent);
+                BuffService.checkGhastEffect(target, target === player ? opponent : player);
                 break;
 
             case 'do_defence':
@@ -402,7 +402,7 @@ export class CardService {
             player.hp -= damage;
 
             // 检查恶魂效果
-            BuffService.checkGhastEffect(player, attacker, opponent);
+            BuffService.checkGhastEffect(player, attacker);
             // 检查国王效果
             BuffService.checkKingEffect(player, attacker);
             return;
@@ -462,7 +462,7 @@ export class CardService {
         player.hp -= damage;
 
         // 检查恶魂效果
-        BuffService.checkGhastEffect(player, attacker, opponent);
+        BuffService.checkGhastEffect(player, attacker);
         // 检查国王效果
         BuffService.checkKingEffect(player, attacker);
     }
@@ -860,7 +860,6 @@ export class BuffService {
     // 检查恶魂效果
     static checkGhastEffect(
         player: Player,
-        attacker: Player | null,
         opponent: Player | null
     ): void {
         // 检查是否有恶魂buff且血量降到0或以下
@@ -882,10 +881,12 @@ export class BuffService {
                 // 获得雾buff
                 opponent.buffs.push({
                     id: 'fog',
-                    duration: undefined,
+                    duration: 0, // 永久效果
                     target: 'self'
                 });
             }
+
+            console.log(`[DEBUG] ${player.name}触发恶魂效果`);
         }
     }
 

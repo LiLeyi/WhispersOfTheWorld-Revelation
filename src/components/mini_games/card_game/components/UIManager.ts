@@ -17,6 +17,9 @@ export class UIManager {
                 hpBarColor = '#FFC107'; // 黄色
             }
             
+            // 检查是否有fog buff
+            const hasFog = player.buffs.some(buff => buff.id === 'fog');
+            
             element.innerHTML = `
                 <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#ffffff;text-align:center;text-shadow:0 0 3px rgba(255, 255, 255, 0.5);border-bottom:1px solid #cccccc;padding-bottom:5px;">${player.name}</div>
                 <div style="display:grid;grid-template-columns:1fr;gap:8px;font-size:14px;">
@@ -24,24 +27,24 @@ export class UIManager {
                     <div>
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                             <span style="color:#cccccc;">生命:</span>
-                            <span style="color:${hpRatio <= 0.3 ? '#ff6b6b' : '#ffffff'}">${player.hp}/${player.maxHp}</span>
+                            <span style="color:${hpRatio <= 0.3 ? '#ff6b6b' : '#ffffff'}">${hasFog ? '??/??' : `${player.hp}/${player.maxHp}`}</span>
                         </div>
                         <div style="width:100%;height:12px;background:#333;border:1px solid #555;border-radius:3px;overflow:hidden;">
-                            <div style="width:${hpPercentage}%;height:100%;background:${hpBarColor};transition:width 0.3s ease;"></div>
+                            <div style="width:${hasFog ? '50' : hpPercentage}%;height:100%;background:${hasFog ? '#888888' : hpBarColor};transition:width 0.3s ease;"></div>
                         </div>
                     </div>
                     
                     <div style="display:flex;justify-content:space-between;">
                         <span style="color:#cccccc;">行动值:</span>
-                        <span style="color:#ffffff">${player.actionPoints}</span>
+                        <span style="color:#ffffff">${hasFog ? '?' : player.actionPoints}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
                         <span style="color:#cccccc;">手牌:</span>
-                        <span style="color:#ffffff">${player.hand.length}</span>
+                        <span style="color:#ffffff">${hasFog ? '?' : player.hand.length}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
                         <span style="color:#cccccc;">抽牌数:</span>
-                        <span style="color:#ffffff">${drawCount}</span>
+                        <span style="color:#ffffff">${hasFog ? '?' : drawCount}</span>
                     </div>
                 </div>
             `;
