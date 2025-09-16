@@ -706,7 +706,8 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_bomb: {
     id: "mechanical_bomb",
     name: "机械炸弹",
-    description: "自身的“机械炸弹”buff减少一层，消耗1行动。",
+    description: "自身的“机械炸弹”buff减少一层，消耗1行动。一场战斗只能使用一次。",
+    useOnce: true,
     priority: 1,
     effect: [
       {
@@ -1073,7 +1074,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     effect: [
       {
         id: "unreal_spell",
-        duration: 999,
+        duration: 1,
         target: "self"
       }
     ],

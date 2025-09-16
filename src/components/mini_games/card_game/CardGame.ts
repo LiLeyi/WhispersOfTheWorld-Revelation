@@ -16,13 +16,14 @@ import { SceneManager } from "../../SceneManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
-    static readonly HTML_TEMPLATE = `
+     static readonly HTML_TEMPLATE = `
         <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#ffffff;font-family:'Courier New', monospace;overflow:hidden;">
           <!-- 背景图片层 -->
-            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#38383a;"></div>
+            <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#38383a;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
             
             <!-- 末日风格背景纹理 -->
-            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>  <div id="game-ui" style="position:absolute;top:2%;left:2%;z-index:10;display:none;"> <!-- 使用百分比替代固定像素 -->
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 20%),radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 20%);z-index:1;"></div>  
+            <div id="game-ui" style="position:absolute;top:2%;left:2%;z-index:10;display:none;"> <!-- 使用百分比替代固定像素 -->
                 <div id="score" style="font-size:1.5em;margin-bottom:0.5em;background:rgba(0,0,0,0.7);padding:0.5em 1em;border-radius:0.3em;border:1px solid #5f5f5fff;box-shadow:0 0 0.6em rgba(212, 175, 55, 0.3);">分数: 0</div>
                 <div id="game-over" class="hidden" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:2em;border-radius:0.6em;text-align:center;display:none;z-index:20;border:0.1em solid #a7a7a7ff;box-shadow:0 0 1.2em rgba(164, 164, 164, 0.5);">
                     <h2 style="color:#ffffff;margin-top:0;margin-bottom:1.2em;text-transform:uppercase;letter-spacing:0.1em;">游戏结束</h2>
@@ -31,13 +32,38 @@ class CardGame extends MiniGame {
                 </div>
             </div>
             
+            <!-- 音量控制区域 -->
+            <div id="volume-control-container" style="position:absolute;top:0;left:0;z-index:999;height:100%;width:30px;">
+                <!-- 音量控制切换按钮 -->
+                <div id="volume-toggle" style="position:fixed;top:50%;left:0;width:30px;height:60px;background:rgba(0,0,0,0.7);border-top-right-radius:10px;border-bottom-right-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid #8B7D6B;border-left:none;box-shadow:2px 0 5px rgba(0,0,0,0.5);transform:translateY(-50%);z-index:101;">
+                    <span id="volume-icon" style="color:#d4af37;font-size:18px;">🔊</span>
+                </div>
+                
+                <!-- 音量控制面板 -->
+                <div id="volume-panel" style="position:fixed;top:0;left:0;height:100%;width:250px;background:rgba(0,0,0,0.95);padding:20px;box-sizing:border-box;border-right:1px solid #8B7D6B;transform:translateX(-100%);transition:transform 0.3s ease;z-index:100;">
+                    <div style="display:flex;flex-direction:column;gap:20px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:16px;color:#d4af37;">背景音乐</span>
+                            <span id="bgm-volume-value" style="font-size:16px;color:#d4af37;">100%</span>
+                        </div>
+                        <input type="range" id="bgm-volume-slider" min="0" max="100" value="100" style="width:100%;height:10px;background:#333;border-radius:5px;outline:none;-webkit-appearance:none;">
+                        
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:16px;color:#d4af37;">游戏音效</span>
+                            <span id="sfx-volume-value" style="font-size:16px;color:#d4af37;">100%</span>
+                        </div>
+                        <input type="range" id="sfx-volume-slider" min="0" max="100" value="100" style="width:100%;height:10px;background:#333;border-radius:5px;outline:none;-webkit-appearance:none;">
+                    </div>
+                </div>
+            </div>
+            
             <!-- 对手信息区域 (右上角) -->
-            <div id="opponent-info-container" style="position:absolute;top:1%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="opponent-info-container" style="position:absolute;top:1%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="opponent-info" style="text-align:center;"></div>
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:rgba(111, 111, 111, 1);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
@@ -494,9 +520,9 @@ class CardGame extends MiniGame {
                 <div id="player-hand" class="deck player-hand" style="position:relative;width:100%;height:30vh;display:flex;align-items:flex-end;justify-content:center;pointer-events:auto;margin-top:1vh;transform:translateX(var(--player-hand-offset));--card-w:var(--player-card-w);--card-h:var(--player-card-h);"></div>
             </div>
             
-            <!-- 卡组选择区域 -->
+           <!-- 卡组选择区域 -->
             <div id="deck-selection-container" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;display:none;"></div>
-            
+
             <!-- 末日风格装饰元素 -->
             <div style="position:absolute;top:20%;left:5%;width:3%;height:0.15em;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;z-index:1;"></div>
             <div style="position:absolute;top:70%;right:7%;width:2%;height:0.15em;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;z-index:1;"></div>
@@ -702,7 +728,6 @@ class CardGame extends MiniGame {
         this.showDeckSelection();
         // 不要在这里调用gameLoop或任何游戏逻辑
     }
-
     public start(): void {
         // 调用父类的start方法
         super.start();
@@ -754,7 +779,7 @@ class CardGame extends MiniGame {
         }
     }
 
-    private setupUIElements(): void {
+        private setupUIElements(): void {
         this.restartButton = document.getElementById('restart-button') as HTMLButtonElement;
         this.endTurnButton = document.getElementById('end-turn-button') as HTMLButtonElement;
         this.playerHandElement = document.getElementById('player-hand');
@@ -772,16 +797,125 @@ class CardGame extends MiniGame {
         this.setupEventListeners();
 
         // 设置背景图片
-        this.setBackgroundImage();
+        this.setupBackgroundImage();
+        
+        // 设置音量控制
+        this.setupVolumeControl();
     }
 
+    // 设置音量控制
+    private setupVolumeControl(): void {
+        const volumeToggle = document.getElementById('volume-toggle');
+        const volumePanel = document.getElementById('volume-panel');
+        const bgmVolumeSlider = document.getElementById('bgm-volume-slider') as HTMLInputElement;
+        const sfxVolumeSlider = document.getElementById('sfx-volume-slider') as HTMLInputElement;
+        const bgmVolumeValue = document.getElementById('bgm-volume-value');
+        const sfxVolumeValue = document.getElementById('sfx-volume-value');
+        
+        if (volumeToggle && volumePanel && bgmVolumeSlider && sfxVolumeSlider && bgmVolumeValue && sfxVolumeValue) {
+            let isPanelOpen = false;
+            
+            // 切换音量控制面板显示/隐藏
+            volumeToggle.addEventListener('click', () => {
+                isPanelOpen = !isPanelOpen;
+                volumePanel.style.transform = isPanelOpen ? 'translateX(0)' : 'translateX(-100%)';
+            });
+            
+            // 设置背景音乐音量控制
+            bgmVolumeSlider.addEventListener('input', () => {
+                const volume = parseInt(bgmVolumeSlider.value);
+                bgmVolumeValue.textContent = `${volume}%`;
+                
+                // 直接控制当前游戏中正在播放的背景音乐
+                const bgmElement = document.getElementById('music') as HTMLAudioElement;
+                if (bgmElement) {
+                    bgmElement.volume = volume / 100;
+                }
+                
+                // 保存到localStorage
+                try {
+                    localStorage.setItem('bgmVolume', volume.toString());
+                } catch (e) {
+                    console.warn('无法保存背景音乐音量设置:', e);
+                }
+            });
+            
+            // 设置音效音量控制
+            sfxVolumeSlider.addEventListener('input', () => {
+                const volume = parseInt(sfxVolumeSlider.value);
+                sfxVolumeValue.textContent = `${volume}%`;
+                
+                // 保存音效音量设置
+                try {
+                    localStorage.setItem('sfxVolume', volume.toString());
+                    
+                    // 直接设置音频管理器的音效音量
+                    if (this.audioManager && this.audioManager.setSoundEffectVolume) {
+                        this.audioManager.setSoundEffectVolume(volume / 100);
+                    }
+                } catch (e) {
+                    console.warn('无法保存音效音量设置:', e);
+                }
+            });
+            
+            // 恢复保存的音量设置
+            try {
+                const savedBgmVolume = localStorage.getItem('bgmVolume');
+                const savedSfxVolume = localStorage.getItem('sfxVolume');
+                
+                if (savedBgmVolume !== null) {
+                    const volume = parseInt(savedBgmVolume);
+                    if (!isNaN(volume)) {
+                        const clampedVolume = Math.max(0, Math.min(100, volume));
+                        bgmVolumeSlider.value = clampedVolume.toString();
+                        bgmVolumeValue.textContent = `${clampedVolume}%`;
+                        
+                        // 应用到当前游戏中正在播放的背景音乐
+                        const bgmElement = document.getElementById('music') as HTMLAudioElement;
+                        if (bgmElement) {
+                            bgmElement.volume = clampedVolume / 100;
+                        }
+                    }
+                }
+                
+                if (savedSfxVolume !== null) {
+                    const volume = parseInt(savedSfxVolume);
+                    if (!isNaN(volume)) {
+                        const clampedVolume = Math.max(0, Math.min(100, volume));
+                        sfxVolumeSlider.value = clampedVolume.toString();
+                        sfxVolumeValue.textContent = `${clampedVolume}%`;
+                        
+                        // 直接设置音频管理器的音效音量
+                        if (this.audioManager && this.audioManager.setSoundEffectVolume) {
+                            this.audioManager.setSoundEffectVolume(clampedVolume / 100);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('无法恢复保存的音量设置:', e);
+            }
+        }
+    }
     // 设置背景图片
-    private setBackgroundImage(): void {
+    private setupBackgroundImage(): void {
         const backgroundElement = document.getElementById('card-game-background');
         if (backgroundElement) {
-            // 使用原来的深灰色背景
-            backgroundElement.style.backgroundColor = '#1a1a1a';
-            backgroundElement.style.backgroundImage = 'none';
+            // 检查游戏配置中是否指定了背景图片
+            if (this.gameConfig?.backgroundImage) {
+                // 使用配置中指定的背景图片
+                this.setBackgroundImage(`../../assets/images/background/${this.gameConfig.backgroundImage}`);
+            } else {
+                // 使用默认背景图片
+                this.setBackgroundImage('../../assets/images/background/sc1.1/1-1-0.jpg');
+            }
+        }
+    }
+
+    // 设置游戏背景图片
+    public setBackgroundImage(imageUrl: string): void {
+        const backgroundElement = document.getElementById('card-game-background');
+        if (backgroundElement) {
+            backgroundElement.style.backgroundImage = `url('${imageUrl}')`;
         }
     }
 
@@ -855,41 +989,64 @@ class CardGame extends MiniGame {
             });
         }
 
-        // 为玩家手牌区域添加事件监听器
-        const playerHandElement = document.getElementById('player-hand');
-        if (playerHandElement) {
-            // 鼠标进入时展开手牌
-            playerHandElement.addEventListener('mouseenter', () => {
-                playerHandElement.classList.add('open');
+      // 为玩家手牌区域添加事件监听器
+        if (this.playerHandElement) {
+            // 鼠标进入时展开手牌并播放悬停音效
+            this.playerHandElement.addEventListener('mouseenter', () => {
+                this.playerHandElement!.classList.add('open');
+                
+                // 播放悬停音效
+                try {
+                    if (this.audioManager) {
+                        this.audioManager.playSoundEffect("hover");
+                    }
+                } catch (e) {
+                    console.log("无法播放悬停音效:", e);
+                }
             });
 
             // 鼠标离开时收拢手牌
-            playerHandElement.addEventListener('mouseleave', () => {
-                playerHandElement.classList.remove('open');
+            this.playerHandElement.addEventListener('mouseleave', () => {
+                this.playerHandElement!.classList.remove('open');
                 // 清除所有悬停效果
-                const peekedCards = playerHandElement.querySelectorAll('.card.peek');
+                const peekedCards = this.playerHandElement!.querySelectorAll('.card.peek');
                 peekedCards.forEach(card => {
                     card.classList.remove('peek');
                 });
-                playerHandElement.classList.remove('dim');
-            });
-
-            // 点击空白处取消选中
-            document.body.addEventListener('click', (e) => {
-                if (!playerHandElement.contains(e.target as Node)) {
-                    const selectedCards = playerHandElement.querySelectorAll('.card.selected');
-                    selectedCards.forEach(card => {
-                        card.classList.remove('selected');
-                    });
-                    playerHandElement.classList.remove('dim');
-                }
+                this.playerHandElement!.classList.remove('dim');
             });
         }
 
-        // 为对手手牌区域添加事件监听器（如果需要）
-        const opponentHandElement = document.getElementById('opponent-hand');
-        if (opponentHandElement) {
-            // 可以根据需要添加对手手牌的交互逻辑
+        // 点击空白处取消选中
+        document.body.addEventListener('click', (e) => {
+            if (this.playerHandElement && !this.playerHandElement.contains(e.target as Node)) {
+                const selectedCards = this.playerHandElement.querySelectorAll('.card.selected');
+                selectedCards.forEach(card => {
+                    card.classList.remove('selected');
+                });
+                if (this.playerHandElement) {
+                    this.playerHandElement.classList.remove('dim');
+                }
+            }
+        });
+    }
+    // 更新音频管理器的音效音量
+    private updateAudioManagerSfxVolume(): void {
+        try {
+            const savedSfxVolume = localStorage.getItem('sfxVolume');
+            if (savedSfxVolume !== null) {
+                const volume = parseInt(savedSfxVolume);
+                if (!isNaN(volume)) {
+                    const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                    
+                    // 设置音频管理器的音效音量
+                    if (this.audioManager && this.audioManager.setSoundEffectVolume) {
+                        this.audioManager.setSoundEffectVolume(clampedVolume);
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('更新音频管理器音效音量时出错:', e);
         }
     }
     // 更新已出牌区域
@@ -916,12 +1073,20 @@ class CardGame extends MiniGame {
     }
 
     private startGame(): void {
+        // 确保选卡界面已隐藏
+        if (this.deckSelectionContainer) {
+            this.deckSelectionContainer.style.display = 'none';
+        }
+        
         // 设置初始化buff（在游戏真正开始时设置）
         PlayerService.setInitialBuffs(this.state.player, this.gameConfig?.player?.initialBuffs);
         PlayerService.setInitialBuffs(this.state.opponent, this.gameConfig?.opponent?.initialBuffs);
 
         // 播放背景音乐
         this.playBackgroundMusic();
+
+        // 更新音频管理器的音效音量
+        this.updateAudioManagerSfxVolume();
 
         // 初始抽牌
         PlayerService.drawCards(this.state.player, typeof this.config.player!.initialDrawCount === 'function'
@@ -939,6 +1104,27 @@ class CardGame extends MiniGame {
 
         // 启动游戏循环
         this.gameLoop();
+    }
+    // 应用保存的音量设置
+    private applySavedVolumeSettings(): void {
+        try {
+            // 应用背景音乐音量
+            const savedBgmVolume = localStorage.getItem('bgmVolume');
+            if (savedBgmVolume !== null) {
+                const volume = parseInt(savedBgmVolume);
+                if (!isNaN(volume)) {
+                    const clampedVolume = Math.max(0, Math.min(100, volume));
+                    
+                    // 应用到当前游戏中正在播放的背景音乐
+                    const bgmElement = document.getElementById('music') as HTMLAudioElement;
+                    if (bgmElement) {
+                        bgmElement.volume = clampedVolume / 100;
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('应用保存的音量设置时出错:', e);
+        }
     }
 
     // 播放背景音乐
@@ -962,15 +1148,24 @@ class CardGame extends MiniGame {
                 this.audioManager = {
                     updateBackgroundMusic: (bgm: string) => {
                         console.log("模拟播放背景音乐:", bgm);
-                        // 尝试直接操作DOM中的audio元素
+                        // 直接操作游戏中的audio元素
                         const musicElement = document.getElementById("music") as HTMLAudioElement | null;
                         if (musicElement) {
                             const audioPath = `../../assets/bgm/${bgm}.mp3`;
                             musicElement.src = audioPath;
                             musicElement.loop = true;
-                            musicElement.volume = 1.0;
+                            
+                            // 应用保存的音量设置
+                            const savedVolume = localStorage.getItem('bgmVolume');
+                            if (savedVolume) {
+                                let volume = parseInt(savedVolume);
+                                volume = Math.max(0, Math.min(100, volume));
+                                musicElement.volume = volume / 100;
+                            } else {
+                                musicElement.volume = 1.0; // 默认100%
+                            }
+                            
                             musicElement.play().catch(e => console.error("播放失败:", e));
-                            // 更新localStorage
                             localStorage.setItem("nowbgm", bgm);
                             console.log("已直接播放音乐:", audioPath);
                         }
@@ -995,15 +1190,25 @@ class CardGame extends MiniGame {
             this.originalBgm = this.audioManager.getCurrentBgm();
             console.log("保存当前背景音乐:", this.originalBgm);
 
-            // 保存当前播放的背景音乐
-            this.originalBgm = this.audioManager.getCurrentBgm();
-            console.log("保存当前背景音乐:", this.originalBgm);
-
             // 播放卡牌游戏专用背景音乐
-            // 如果游戏配置中指定了背景音乐，则使用指定的，否则使用默认的 bgm9
             const gameBgm = this.gameConfig?.bgm || "bgm9";
             console.log("播放卡牌游戏背景音乐:", gameBgm);
             this.audioManager.updateBackgroundMusic(gameBgm);
+            
+            // 确保应用保存的音量设置到当前播放的音乐
+            const savedBgmVolume = localStorage.getItem('bgmVolume');
+            if (savedBgmVolume !== null) {
+                let volume = parseInt(savedBgmVolume);
+                if (!isNaN(volume)) {
+                    volume = Math.max(0, Math.min(100, volume));
+                    
+                    // 应用到当前播放的背景音乐
+                    const musicElement = document.getElementById("music") as HTMLAudioElement | null;
+                    if (musicElement) {
+                        musicElement.volume = volume / 100;
+                    }
+                }
+            }
         } catch (error) {
             console.error("播放背景音乐时出错:", error);
         }
@@ -1033,14 +1238,20 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('玩家抽牌阶段');
+                // 处理灾厄之主的牌组轮换
+                BuffService.processDisasterLordTurnStart(this.state.opponent, this.state.turn);
                 // 在抽牌阶段开始时处理玩家的buff效果
                 PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 处理玩家的delay_attack buff
                 this.processDelayAttackBuff(this.state.player, this.state.opponent);
                 // 处理玩家的conduction buff
                 this.processConductionBuff(this.state.player);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
@@ -1076,14 +1287,20 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('巨石抽牌阶段');
+                console.log('[DEBUG] 调用处理灾厄之主牌组轮换');
+                BuffService.processDisasterLordTurnStart(this.state.opponent, this.state.turn);
                 // 在抽牌阶段开始时处理对手的buff效果
                 PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 处理对方的delay_attack buff
                 this.processDelayAttackBuff(this.state.opponent, this.state.player);
                 // 处理对方的conduction buff
                 this.processConductionBuff(this.state.opponent);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
@@ -1374,9 +1591,11 @@ class CardGame extends MiniGame {
             console.log(`[DEBUG] ${player.name}拥有${trueDefense}点真防，对${opponent.name}造成1点伤害`);
 
             // 检查恶魂效果
-            BuffService.checkGhastEffect(opponent, player, opponent);
+            BuffService.checkGhastEffect(opponent, player);
             // 检查国王效果
             BuffService.checkKingEffect(opponent, player);
+            // 检查灾厄之主阶段转换
+            BuffService.checkDisasterLordPhase(opponent, player);
         }
     }
 
@@ -1458,6 +1677,9 @@ class CardGame extends MiniGame {
 
         // 在出牌动画结束后播放音效
         try {
+            // 更新音效音量
+            this.updateAudioManagerSfxVolume();
+            
             if (this.audioManager) {
                 this.audioManager.playSoundEffect("card_play");
             }
@@ -1465,6 +1687,7 @@ class CardGame extends MiniGame {
             console.log("无法播放出牌音效:", e);
         }
 
+        
         // 消耗行动值
         player.actionPoints -= (card.cost?.action || 0);
 
@@ -1547,9 +1770,46 @@ class CardGame extends MiniGame {
             }
         }
     }
+
+    // 通用音效播放方法
+    private playSoundEffect(soundName: string, volume: number = 1.0): void {
+        // 如果有音频管理器，使用它来播放音效
+        if (this.audioManager && this.audioManager.playSoundEffect) {
+            try {
+                // 如果音频管理器支持设置音效音量，则设置
+                if (this.audioManager.setSoundEffectVolume) {
+                    this.audioManager.setSoundEffectVolume(volume);
+                }
+                this.audioManager.playSoundEffect(soundName);
+                return;
+            } catch (e) {
+                console.warn('使用音频管理器播放音效失败:', e);
+            }
+        }
+        
+        // 如果没有音频管理器或调用失败，尝试直接播放
+        console.log(`播放音效: ${soundName} (音量: ${volume})`);
+        
+        // 这里可以添加直接播放音频文件的代码
+        // 例如创建一个新的Audio对象并播放
+        /*
+        try {
+            const sound = new Audio(`../../assets/sfx/${soundName}.mp3`);
+            sound.volume = volume;
+            sound.play().catch(e => console.warn('播放音效失败:', e));
+        } catch (e) {
+            console.warn('直接播放音效失败:', e);
+        }
+        */
+    }
+
     // 结束回合
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
+
+        // 在回合结束时处理灾厄之主效果
+        BuffService.processDisasterLordEndTurn(this.state.player);
+        BuffService.processDisasterLordEndTurn(this.state.opponent);
 
         // 在回合结束时处理真防效果
         if (this.state.currentPlayer === 'player') {
@@ -1566,8 +1826,12 @@ class CardGame extends MiniGame {
         this.triggerEvents('turn_end', gameData);
 
         if (this.state.currentPlayer === 'player') {
+            // 在增加行动点之前，检查是否需要清零（灾厄之主第二、三阶段）
+            if (BuffService.isDisasterLordPhase2(this.state.opponent) || BuffService.isDisasterLordPhase3(this.state.opponent)) {
+                this.state.player.actionPoints = 0;
+            }
             // 玩家回合结束时增加玩家行动值
-            this.state.player.actionPoints += 2;
+            this.state.player.actionPoints += typeof this.config.player?.actionPoints == 'function' ? this.config.player.actionPoints() : this.config.player?.actionPoints!;
             this.state.currentPlayer = 'opponent';
             this.state.gamePhase = 'draw';
             this.state.message = '巨石回合';
@@ -1577,7 +1841,7 @@ class CardGame extends MiniGame {
             this.gameLoop();
         } else {
             // 巨石回合结束时增加巨石行动值
-            this.state.opponent.actionPoints += 2;
+            this.state.opponent.actionPoints += typeof this.config.opponent?.actionPoints == 'function' ? this.config.opponent.actionPoints() : this.config.opponent?.actionPoints!;
             this.state.currentPlayer = 'player';
             this.state.gamePhase = 'draw';
             this.state.turn++;
@@ -1771,9 +2035,9 @@ class CardGame extends MiniGame {
         this.update();
         this.draw();
 
-        // 只有在非等待阶段才继续循环，并且确保游戏已经真正开始
+        // 只有在非等待阶段才继续循环，并且确保游戏已经真正开始（选卡界面已隐藏）
         if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' &&
-            this.deckSelectionContainer?.style.display !== 'block') {
+            (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer)) {
             requestAnimationFrame(() => this.gameLoop());
         } else {
             console.log('暂停游戏循环，等待用户输入');
@@ -1782,9 +2046,9 @@ class CardGame extends MiniGame {
 
     protected update(): void {
         console.log('更新游戏状态，当前阶段:', this.state.gamePhase, '当前玩家:', this.state.currentPlayer);
-        // 更新游戏状态，但确保游戏已经真正开始
+        // 更新游戏状态，但确保游戏已经真正开始（选卡界面已隐藏）
         if (this.state.gamePhase !== 'gameover' && this.state.gamePhase !== 'main' &&
-            this.deckSelectionContainer?.style.display !== 'block') {
+            (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer)) {
             if (this.state.currentPlayer === 'player') {
                 this.playerTurn();
             } else {
@@ -1802,70 +2066,73 @@ class CardGame extends MiniGame {
 
     // 更新UI
     private updateUI(): void {
-        this.updateScoreDisplay();
-        UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
-            ? this.config.player!.drawCount()!
-            : this.config.player!.drawCount!);
-        UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, typeof this.config.opponent!.drawCount === 'function'
-            ? this.config.opponent!.drawCount()!
-            : this.config.opponent!.drawCount!);
-        UIManager.updateHand(
-            this.playerHandElement,
-            this.state.player.hand,
-            this.state.player.id === this.state.currentPlayer,
-            this.state.gamePhase,
-            this.state.currentPlayer,
-            (card) => {
+        // 只有在选卡界面隐藏时才更新游戏UI
+        if (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer) {
+            this.updateScoreDisplay();
+            UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
+                ? this.config.player!.drawCount()!
+                : this.config.player!.drawCount!);
+            UIManager.updatePlayerInfo(this.opponentInfoElement, this.state.opponent, typeof this.config.opponent!.drawCount === 'function'
+                ? this.config.opponent!.drawCount()!
+                : this.config.opponent!.drawCount!);
+            UIManager.updateHand(
+                this.playerHandElement,
+                this.state.player.hand,
+                this.state.player.id === this.state.currentPlayer,
+                this.state.gamePhase,
+                this.state.currentPlayer,
+                (card) => {
+                    if (this.state.currentPlayer === 'player' && this.state.gamePhase === 'main') {
+                        this.playCard(this.state.player, card);
+                    }
+                }
+            );
+            UIManager.updateHand(
+                this.opponentHandElement,
+                this.state.opponent.hand,
+                false,
+                this.state.gamePhase,
+                this.state.currentPlayer,
+                () => { } // 对手手牌不需要点击事件
+            );
+            this.updatePlayedCards(); // 更新已出牌区域
+
+            // 更新buff显示
+            UIManager.updatePlayerBuffs(this.playerBuffsElement, this.state.player.buffs);
+            UIManager.updateOpponentBuffs(this.opponentBuffsElement, this.state.opponent.buffs);
+
+            // 更新结束回合按钮状态
+            if (this.endTurnButton) {
+                // 只有在玩家回合且不是抽牌阶段时才启用按钮
                 if (this.state.currentPlayer === 'player' && this.state.gamePhase === 'main') {
-                    this.playCard(this.state.player, card);
+                    this.endTurnButton.disabled = false;
+                    this.endTurnButton.style.opacity = '1';
+                    this.endTurnButton.style.cursor = 'pointer';
+                    console.log('结束回合按钮已启用');
+                } else {
+                    this.endTurnButton.disabled = true;
+                    this.endTurnButton.style.opacity = '0.5';
+                    this.endTurnButton.style.cursor = 'not-allowed';
+                    console.log('结束回合按钮已禁用', '当前玩家:', this.state.currentPlayer, '游戏阶段:', this.state.gamePhase);
                 }
             }
-        );
-        UIManager.updateHand(
-            this.opponentHandElement,
-            this.state.opponent.hand,
-            false,
-            this.state.gamePhase,
-            this.state.currentPlayer,
-            () => { } // 对手手牌不需要点击事件
-        );
-        this.updatePlayedCards(); // 更新已出牌区域
 
-        // 更新buff显示
-        UIManager.updatePlayerBuffs(this.playerBuffsElement, this.state.player.buffs);
-        UIManager.updateOpponentBuffs(this.opponentBuffsElement, this.state.opponent.buffs);
+            if (this.gameMessageElement) {
+                // 添加消息变化的动画效果
+                this.gameMessageElement.style.opacity = '0';
+                this.gameMessageElement.style.transition = 'opacity 0.3s';
 
-        // 更新结束回合按钮状态
-        if (this.endTurnButton) {
-            // 只有在玩家回合且不是抽牌阶段时才启用按钮
-            if (this.state.currentPlayer === 'player' && this.state.gamePhase === 'main') {
-                this.endTurnButton.disabled = false;
-                this.endTurnButton.style.opacity = '1';
-                this.endTurnButton.style.cursor = 'pointer';
-                console.log('结束回合按钮已启用');
-            } else {
-                this.endTurnButton.disabled = true;
-                this.endTurnButton.style.opacity = '0.5';
-                this.endTurnButton.style.cursor = 'not-allowed';
-                console.log('结束回合按钮已禁用', '当前玩家:', this.state.currentPlayer, '游戏阶段:', this.state.gamePhase);
+                setTimeout(() => {
+                    if (this.gameMessageElement) {
+                        this.gameMessageElement.textContent = this.state.message;
+                        this.gameMessageElement.style.opacity = '1';
+                    }
+                }, 300);
             }
+
+            // 更新调试信息
+            this.updateDebugInfo();
         }
-
-        if (this.gameMessageElement) {
-            // 添加消息变化的动画效果
-            this.gameMessageElement.style.opacity = '0';
-            this.gameMessageElement.style.transition = 'opacity 0.3s';
-
-            setTimeout(() => {
-                if (this.gameMessageElement) {
-                    this.gameMessageElement.textContent = this.state.message;
-                    this.gameMessageElement.style.opacity = '1';
-                }
-            }, 300);
-        }
-
-        // 更新调试信息
-        this.updateDebugInfo();
     }
 
     // 更新已出牌区域卡牌的视觉状态

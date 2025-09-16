@@ -11,7 +11,7 @@ const scene: Scene = {
     id: "chapter_0_scene_0",
     title: "第0章：开始",
     nodes: [
-    {
+        {
             id: "node1",
             elements: {
                 name: "旁白",
@@ -25,11 +25,11 @@ const scene: Scene = {
                 // 添加初始卡牌
                 const bagManager = BagManager.getInstance();
                 const archiveManager = ArchiveManager.getInstance();
-                
+
                 console.log("[SceneAction] 开始添加初始卡牌...");
                 console.log("[SceneAction] 当前存档ID:", ArchiveManager.getCurrentArchiveId());
                 console.log("[SceneAction] 当前存档数据:", archiveManager.getAllData());
-                
+
                 // 检查是否已经添加过初始卡牌，避免重复添加
                 if (!bagManager.hasCard("punch")) {
                     // 定义初始卡牌及数量
@@ -40,9 +40,9 @@ const scene: Scene = {
                         "hook": 3,       // 勾拳 x3
                         "combo": 3       // 连击 x3
                     };
-                    
+
                     console.log("[SceneAction] 正在添加初始卡牌:", INITIAL_CARDS);
-                    
+
                     // 添加每种卡牌指定数量
                     for (const [cardId, count] of Object.entries(INITIAL_CARDS)) {
                         console.log(`[SceneAction] 添加卡牌: ${cardId} x${count}`);
@@ -50,70 +50,77 @@ const scene: Scene = {
                             bagManager.addCardToBag(cardId);
                         }
                     }
-        bagManager.addCardsToBag("darkness_initial", 1); // 记得后面删掉
-                    
+                    bagManager.addCardsToBag("darkness_initial", 1); // 记得后面删掉
+
                     console.log("[SceneAction] 初始卡牌已添加到背包");
                 } else {
                     console.log("[SceneAction] 初始卡牌已存在，无需重复添加");
                 }
             }
         },
-            {
-                id: "test_game1",
-                elements: {
-                    name: "旁白",
-                    text: "小游戏测试",
-                    sprite: {
-            left:null
-        }
-                },
-                game: {
-                    id: "card_game",
-                    config: {
-                        player: {
-                            actionPoints: 1,
-                            hp: 15,
-                            maxHp: 15,
-                            deck: () => {
-                                const bagManager = BagManager.getInstance();
-                                return bagManager.getCardDeckForGame();
-                            },
-                            drawCount: 2,           // 玩家每回合抽2张牌
-                            initialDrawCount: 3     // 玩家开始时抽3张牌
+        {
+            id: "test_game1",
+            elements: {
+                name: "旁白",
+                text: "小游戏测试",
+                sprite: {
+                    left: null
+                }
+            },
+            game: {
+                id: "card_game",
+                config: {
+                    player: {
+                        actionPoints: 10,
+                        hp: 1000,
+                        maxHp: 1000,
+                        deck: () => {
+                            const bagManager = BagManager.getInstance();
+                            return bagManager.getCardDeckForGame();
                         },
-                        deckSelection: {
+                        drawCount: 2,           // 玩家每回合抽2张牌
+                        initialDrawCount: 3,     // 玩家开始时抽3张牌
+                    },
+                    deckSelection: {
                         minDeckSize: 3,   // 设置最小选牌数量
                         maxDeckSize: 10,   // 设置最大选牌数量
                     },
-                        opponent: {
-                            actionPoints: 1,
-                            hp: 10,
-                            maxHp: 10,
-                            deck: {
-                                "little_stone": 2,        
-                                "strange_stone": 2,         
-                                "bedrock": 2, 
-                                "large_rock": 2,        
-                            },
-                            drawCount: 1,           // 对手每回合抽1张牌
-                            initialDrawCount: 3     // 对手开始时抽3张牌
+                    opponent: {
+                        actionPoints: 8,
+                        hp: 3,
+                        maxHp: 11,
+                        deck: {
+                            "little_stone": 2,
+                            "strange_stone": 2,
+                            "bedrock": 2,
+                            "large_rock": 2,
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
-                        bgm:"bgm29"
+                        drawCount: 4,           // 对手每回合抽1张牌
+                        initialDrawCount: 3,     // 对手开始时抽3张牌
+                        initialBuffs: [
+                            {
+                                id: 'disaster_lord_phase1',
+                                duration: 0,
+                                target: 'self'
+                            }
+                        ]
                     },
-                    end: [
-                        {
-                            condition: (score: number) => score >= 1,
+                    backgroundImage: "sc1.1/1-1-0.jpg",
+                    bgm: "bgm29"
+                },
+                end: [
+                    {
+                        condition: (score: number) => score >= 1,
 
-                            next: "ask1"
-                        },
-                        {
-                            condition: (score: number) => true, // 默认条件，总是为真
-                            next: "ask2"
-                        }
-                    ]
-                }
-            },
+                        next: "ask1"
+                    },
+                    {
+                        condition: (score: number) => true, // 默认条件，总是为真
+                        next: "ask2"
+                    }
+                ]
+            }
+        },
         // {
         //     id: "choice_test",
         //     elements: {
@@ -1045,11 +1052,11 @@ const scene: Scene = {
                 }
             },
             action: () => {
-        const bagManager = BagManager.getInstance();
-        bagManager.addCardsToBag("holy_shield", 2);
-        bagManager.addCardsToBag("holiness", 2);
-        bagManager.addCardsToBag("darkness_initial", 1);
-        },
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("holy_shield", 2);
+                bagManager.addCardsToBag("holiness", 2);
+                bagManager.addCardsToBag("darkness_initial", 1);
+            },
             next: "chapter_0_scene_1_0"
         },
 
