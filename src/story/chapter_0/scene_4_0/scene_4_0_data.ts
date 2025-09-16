@@ -1,7 +1,9 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
 import { CardManager } from '../../../components/mini_games/card_game';
+import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
+import { BagManager } from '../../../components/BagManager';
 //终章第1幕//
 const scene: Scene = {
 id:"chapter_0_scene_4_0",
@@ -2680,6 +2682,70 @@ sprite: {
   },//进行最后的战斗//
 //结局4//
 {
+                    id: "test_game8",
+                    elements: {
+                        name: "灾厄之主",
+                        text: "我将亲手毁掉你的意志",
+                    },
+                    game: {
+                        id: "card_game",
+                        config: {
+                            player: {
+                                actionPoints: 5,
+                                hp: 60,
+                                maxHp: 60,
+                                 deck: () => {
+                                    const bagManager = BagManager.getInstance();
+                                    return bagManager.getCardDeckForGame();
+                                },
+                                drawCount: 3,           // 玩家每回合抽2张牌
+                                initialDrawCount: 5 ,    // 玩家开始时抽3张牌
+                            },
+                            deckSelection: {
+                            minDeckSize: 15,   // 设置最小选牌数量
+                            maxDeckSize: 20,   // 设置最大选牌数量
+                        },
+                            opponent: {
+                                actionPoints: 6,
+                                hp:30 ,
+                                maxHp: 30,
+                                deck: {
+                                    "little_stone": 1,        
+                                "strange_stone": 1,         
+                                "bedrock": 1, 
+                                "large_rock": 1,
+                                "red_stone":2,
+                                "diamond":2,
+                                "crushed_stone":2,
+                                "pebble":2,
+                                "meteorite":1,        
+                                },
+                                drawCount: 6,           // 对手每回合抽3张牌
+                                initialDrawCount: 6 ,    // 对手开始时抽6张牌
+                            initialBuffs: [  // 设置初始buff
+                                {
+                                     id: "disaster_lord_phase1",
+                                     duration: -1,
+                                     target: "self"
+                                 }
+                             ],
+                              },
+                            backgroundImage:"sc1.1/1-1-0.jpg",
+                            bgm:"guowang"
+                        },
+                        end: [
+                            {
+                                condition: (score: number) => score >= 1,
+                                next: "battle_1_1_1",
+                            },
+                            {
+                                condition: (score: number) => true, // 默认条件，总是为真
+                                next: "battle_1_1",
+                            }
+                        ]
+                    }
+                },     
+{
     "id": "ending_32_4",
     "elements": {
        bgm:"bgm26.MP3" ,
@@ -3353,10 +3419,74 @@ sprite: {
     ]
   },
 {
-    id: "ending_32_5",
+                    id: "ending_32_5",
+                    elements: {
+                        name: "灾厄之主",
+                        text: "我将亲手毁掉你的意志",
+                    },
+                    game: {
+                        id: "card_game",
+                        config: {
+                            player: {
+                                actionPoints: 5,
+                                hp: 60,
+                                maxHp: 60,
+                                 deck: () => {
+                                    const bagManager = BagManager.getInstance();
+                                    return bagManager.getCardDeckForGame();
+                                },
+                                drawCount: 6,           // 玩家每回合抽6张牌
+                                initialDrawCount: 5 ,    // 玩家开始时抽5张牌
+                            },
+                            deckSelection: {
+                            minDeckSize: 15,   // 设置最小选牌数量
+                            maxDeckSize: 20,   // 设置最大选牌数量
+                        },
+                            opponent: {
+                                actionPoints: 6,
+                                hp:30 ,
+                                maxHp: 30,
+                                deck: {
+                                    "little_stone": 1,        
+                                "strange_stone": 1,         
+                                "bedrock": 1, 
+                                "large_rock": 1,
+                                "red_stone":2,
+                                "diamond":2,
+                                "crushed_stone":2,
+                                "pebble":2,
+                                "meteorite":1,        
+                                },
+                                drawCount: 6,           // 对手每回合抽3张牌
+                                initialDrawCount: 6 ,    // 对手开始时抽6张牌
+                            initialBuffs: [  // 设置初始buff
+                                {
+                                     id: "disaster_lord_phase1",
+                                     duration: -1,
+                                     target: "self"
+                                 }
+                             ],
+                              },
+                            backgroundImage:"sc1.1/1-1-0.jpg",
+                            bgm:"guowang"
+                        },
+                        end: [
+                            {
+                                condition: (score: number) => score >= 1,
+                                next: "battle_1_1_1",
+                            },
+                            {
+                                condition: (score: number) => true, // 默认条件，总是为真
+                                next: "battle_1_1",
+                            }
+                        ]
+                    }
+                },   
+  {
+    id: "ending_32_5_1",
     elements: {
     name: "旁白",
-    text: "即将进入战斗",
+    text: "战斗结束",
       sprite: { 
         left: null
      }

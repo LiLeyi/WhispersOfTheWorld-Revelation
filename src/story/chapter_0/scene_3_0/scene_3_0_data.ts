@@ -3896,6 +3896,12 @@ choices: [
             left:null,
         }
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.removeCardFromBag("darkness", 1);
+                bagManager.addCardsToBag("darkness_shadow_form", 1);
+                bagManager.addCardsToBag("end_tears", 1);
+  },
 },
 {
     id: "mountain_251_2_3_1",
