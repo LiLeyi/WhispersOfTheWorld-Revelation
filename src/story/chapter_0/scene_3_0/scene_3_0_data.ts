@@ -2767,7 +2767,7 @@ choices: [
                              ],
                               },
                             backgroundImage:"sc1.1/1-1-0.jpg",
-                            bgm:"guowang"
+                            bgm:"ehun"
                         },
                         end: [
                             {
