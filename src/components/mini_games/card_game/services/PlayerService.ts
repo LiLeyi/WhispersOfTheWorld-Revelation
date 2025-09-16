@@ -112,6 +112,9 @@ export class PlayerService {
                 break;
             }
             
+            // 在抽牌前打乱牌组
+            this.shuffleArray(player.deck);
+            
             // 从牌组中抽取一张牌（从顶部抽取）
             const card = player.deck.pop();
             

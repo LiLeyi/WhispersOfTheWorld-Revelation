@@ -47,8 +47,9 @@ export class CardService {
                 console.log(`[DEBUG] 真攻直接扣血: ${target.name}血量${target.hp} -> ${target.hp - (effect.duration || 0)}`);
                 target.hp -= effect.duration || 0;
                 // 检查国王和恶魂效果
-                BuffService.checkKingEffect(target, target === player ? opponent : player);
-                BuffService.checkGhastEffect(target, target === player ? opponent : player);
+                BuffService.checkKingEffect(target, player);
+                BuffService.checkGhastEffect(target, player);
+                BuffService.checkDisasterLordPhase(target, player);
                 break;
 
             case 'do_defence':
@@ -86,14 +87,14 @@ export class CardService {
                 }
                 break;
 
-                case 'do_defence_add_to_true_defence':
+            case 'do_defence_add_to_true_defence':
                 // 将当前防御数值加到真防上并清空当前防御（防御叠加到真防上）
                 const defenceValue = this.getPlayerDefense(target);
-                
+
                 if (defenceValue > 0) {
                     // 清除防御
                     this.clearDefense(target);
-                    
+
                     // 将防御数值添加到真防上
                     const existingTrueDefenceBuff = target.buffs.find(b => b.id === 'true_defence');
                     if (existingTrueDefenceBuff) {
@@ -105,7 +106,7 @@ export class CardService {
                             target: 'self'
                         });
                     }
-                    
+
                     console.log(`[DEBUG] ${target.name}将${defenceValue}点防御加到真防上并清空防御`);
                 }
                 break;
@@ -302,15 +303,17 @@ export class CardService {
                 for (const buff of currentGuardBuffs) {
                     currentGuardLevel += buff.duration || 0;
                 }
-                
+
                 player.actionPoints += currentGuardLevel;
                 console.log(`[DEBUG] ${player.name}使用机械护卫队，基于现有${currentGuardLevel}层buff，行动力增加${currentGuardLevel}点，当前行动力: ${player.actionPoints}`);
                 break;
 
-           default:                // 处理持续性buff效果
+            default:                // 处理持续性buff效果
                 if (this.isBuffEffect(effect.id)) {
                     // 对于需要合并的buff类型，检查是否已经存在相同类型的buff
-                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack', 'sharp']; // 可以合并的buff类型
+                    const mergeableBuffs = ['incurable', 'mechanical_sentry', 'mechanical_guard', 'delay_attack', 'sharp',
+                        'unreal_spell'
+                    ]; // 可以合并的buff类型
                     // 腐蚀效果只能叠加一层
                     if (effect.id === 'erosive') {
                         // 检查是否已经存在腐蚀效果
@@ -405,6 +408,8 @@ export class CardService {
             BuffService.checkGhastEffect(player, attacker);
             // 检查国王效果
             BuffService.checkKingEffect(player, attacker);
+            // 检查灾厄之主阶段转换
+            BuffService.checkDisasterLordPhase(player, attacker);
             return;
         }
 
@@ -461,10 +466,13 @@ export class CardService {
         console.log(`[DEBUG] 扣除生命值: ${player.name}血量${player.hp} -> ${player.hp - damage}`);
         player.hp -= damage;
 
+
         // 检查恶魂效果
         BuffService.checkGhastEffect(player, attacker);
         // 检查国王效果
         BuffService.checkKingEffect(player, attacker);
+        // 检查灾厄之主阶段转换
+        BuffService.checkDisasterLordPhase(player, attacker);
     }
 
     // 减少防御值
@@ -583,7 +591,7 @@ export class CardService {
             case 'unreal_spell':
                 // 虚幻咒语：每回合进行1攻击，获得1行动
                 this.applyDamage(opponent, 1, false, player, opponent);
-                // 删除增加1行动点数的效果
+                player.actionPoints += 1;
                 break;
 
             case 'erosive':
@@ -694,6 +702,25 @@ export class CardService {
                 drawCardsCallback(player, buff.duration || 0);
                 // 移除buff
                 player.buffs = player.buffs.filter(b => b.id !== 'draw_card_pending');
+                break;
+            case 'disaster_lord_phase1':
+                // 灾厄之主第一阶段
+                // 每回合手牌上限10，每回合8行动点
+                // player.maxHandSize = 10;
+                break;
+
+            case 'disaster_lord_phase2':
+                // 灾厄之主第二阶段
+                // 每回合结束清除玩家剩余行动点
+                // 注意：不要在这里给灾厄之主添加机械炸弹牌，因为这是给玩家的惩罚
+                break;
+
+            case 'disaster_lord_phase3':
+                // 灾厄之主第三阶段
+                // 每回合结束清除玩家剩余行动点
+                // 血量回复至满，但上限减为6
+                // player.maxHp = 6;
+                // player.hp = 6;
                 break;
         }
     }
@@ -933,9 +960,282 @@ export class BuffService {
         }
     }
 
+
+    // 检查灾厄之主阶段转换
+    static checkDisasterLordPhase(
+        player1: Player,  // 可能是灾厄之主或玩家
+        player2: Player | null  // 另一个玩家或null
+    ): void {
+        console.log(`[DEBUG] checkDisasterLordPhase called with player1: ${player1.name}, player2: ${player2?.name}`);
+
+        // 确定哪个是灾厄之主，哪个是玩家
+        let disasterLord: Player | null = null;
+        let player: Player | null = null;
+
+        // 检查player1是否是灾厄之主
+        if (player1.buffs.some(buff => buff.id === 'disaster_lord_phase1' ||
+            buff.id === 'disaster_lord_phase2' ||
+            buff.id === 'disaster_lord_phase3')) {
+            disasterLord = player1;
+            player = player2;
+            console.log(`[DEBUG] player1 (${player1.name}) is disaster lord`);
+        }
+        // 检查player2是否是灾厄之主
+        else if (player2 && player2.buffs.some(buff => buff.id === 'disaster_lord_phase1' ||
+            buff.id === 'disaster_lord_phase2' ||
+            buff.id === 'disaster_lord_phase3')) {
+            disasterLord = player2;
+            player = player1;
+            console.log(`[DEBUG] player2 (${player2.name}) is disaster lord`);
+        } else {
+            console.log(`[DEBUG] No disaster lord found`);
+        }
+
+        // 如果没有找到灾厄之主，直接返回
+        if (!disasterLord || disasterLord.hp > 0) {
+            console.log(`[DEBUG] No disaster lord or disaster lord hp > 0, returning`);
+            return;
+        }
+
+        // 检查是否有灾厄之主第一阶段buff且血量降到0或以下
+        if (disasterLord.hp <= 0 && disasterLord.buffs.some(buff => buff.id === 'disaster_lord_phase1')) {
+            console.log(`[DEBUG] ${disasterLord.name}触发灾厄之主第二阶段效果`);
+            // 移除第一阶段buff
+            disasterLord.buffs = disasterLord.buffs.filter(buff => buff.id !== 'disaster_lord_phase1');
+
+            // 进入第二阶段
+            disasterLord.buffs.push({
+                id: 'disaster_lord_phase2',
+                duration: 0,
+                target: 'self'
+            });
+
+            // 设置第二管血的血量
+            disasterLord.hp = 30;
+            disasterLord.maxHp = 30;
+
+            // 如果有玩家，给玩家添加10张机械炸弹卡牌和10层机械炸弹buff（参考the_king效果）
+            if (player) {
+                // 玩家获得机械炸弹10层
+                player.buffs.push({
+                    id: 'mechanical_bomb',
+                    duration: 10,
+                    target: 'self'
+                });
+                // 添加10张机械炸弹卡牌到玩家牌组
+                for (let i = 0; i < 10; i++) {
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_bomb });
+                }
+            }
+        }
+        // 检查是否有灾厄之主第二阶段buff且血量降到0或以下
+        else if (disasterLord.hp <= 0 && disasterLord.buffs.some(buff => buff.id === 'disaster_lord_phase2')) {
+            console.log(`[DEBUG] ${disasterLord.name}触发灾厄之主第三阶段效果`);
+            // 移除第二阶段buff
+            disasterLord.buffs = disasterLord.buffs.filter(buff => buff.id !== 'disaster_lord_phase2');
+
+            // 进入第三阶段
+            disasterLord.buffs.push({
+                id: 'disaster_lord_phase3',
+                duration: 0,
+                target: 'self'
+            });
+            disasterLord.buffs.push({
+                id: 'true_defence',
+                duration: 140,
+                target: 'self'
+            });
+
+            // 设置第三管血的血量
+            disasterLord.hp = 1;
+            disasterLord.maxHp = 1;
+
+            // 如果有玩家，给玩家添加终焉之泪和影子卡牌
+            if (player) {
+                // 玩家血量回复至满，但上限减为6
+                player.hp = 6;
+                player.maxHp = 6;
+
+                // 添加终焉之泪和影子手牌到玩家手中（如果有的话）
+                const endTearsCard = CARD_TEMPLATES.end_tears;
+                if (endTearsCard) {
+                    player.hand.push({ ...endTearsCard });
+                }
+
+                const shadowCard = CARD_TEMPLATES.shadow_card;
+                if (shadowCard) {
+                    player.hand.push({ ...shadowCard });
+                }
+            }
+        }
+    }
+
     // 检查是否有雾效果
     static hasFog(player: Player): boolean {
         return player.buffs.some(buff => buff.id === 'fog');
+    }
+
+    // 检查是否为灾厄之主第一阶段
+    static isDisasterLordPhase1(player: Player): boolean {
+        return player.buffs.some(buff => buff.id === 'disaster_lord_phase1');
+    }
+
+    // 检查是否为灾厄之主第二阶段
+    static isDisasterLordPhase2(player: Player): boolean {
+        return player.buffs.some(buff => buff.id === 'disaster_lord_phase2');
+    }
+
+    // 检查是否为灾厄之主第三阶段
+    static isDisasterLordPhase3(player: Player): boolean {
+        return player.buffs.some(buff => buff.id === 'disaster_lord_phase3');
+    }
+
+    // 处理灾厄之主的牌组轮换
+    static processDisasterLordDeckRotation(player: Player, turn: number): void {
+        console.log(`[DEBUG] 开始处理灾厄之主牌组轮换 - 玩家: ${player.name}, 回合: ${turn}`);
+        console.log(`[DEBUG] 玩家当前buff:`, player.buffs);
+
+        // 确定当前阶段
+        if (this.isDisasterLordPhase1(player)) {
+            console.log(`[DEBUG] 灾厄之主第一阶段`);
+            // 第一阶段：每4回合为一个循环
+            // 第1回合：巨石卡组
+            // 第2回合：虚樹卡组
+            // 第3回合：梅菲斯特卡组
+            // 第4回合：山鬼卡组
+            const phase = ((turn - 1) % 4) + 1;
+            console.log(`[DEBUG] 第一阶段 - 当前阶段: ${phase}`);
+
+            // 清空当前牌组
+            player.deck = [];
+
+            switch (phase) {
+                case 1: // 巨石卡组
+                    console.log(`[DEBUG] 添加巨石卡组`);
+                    // 添加巨石卡组卡牌
+                    for (let i = 0; i < 3; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.little_stone });
+                    }
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.strange_stone });
+                    }
+                    for (let i = 0; i < 3; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.bedrock });
+                    }
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.large_rock });
+                    }
+                    break;
+
+                case 2: // 虚樹卡组
+                    console.log(`[DEBUG] 添加虚樹卡组`);
+                    // 添加虚樹卡组卡牌
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.mechanical_shield });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.nano_armor });
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.mechanical_defense });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_arm_swing });
+                    player.deck.push({ ...CARD_TEMPLATES.battery_bomb });
+                    player.deck.push({ ...CARD_TEMPLATES.full_battery_bomb });
+                    player.deck.push({ ...CARD_TEMPLATES.worn_gear });
+                    player.deck.push({ ...CARD_TEMPLATES.expired_oil });
+                    break;
+
+                case 3: // 梅菲斯特卡组
+                    console.log(`[DEBUG] 添加梅菲斯特卡组`);
+                    // 添加梅菲斯特卡组卡牌
+                    player.deck.push({ ...CARD_TEMPLATES.reapers_whisper });
+                    for (let i = 0; i < 3; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.reapers_groan });
+                    }
+                    break;
+
+                case 4: // 山鬼卡组
+                    console.log(`[DEBUG] 添加山鬼卡组`);
+                    // 添加山鬼卡组卡牌
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.mountain_ghoul });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.forest_ghoul });
+                    player.deck.push({ ...CARD_TEMPLATES.drowned_ghoul });
+                    player.deck.push({ ...CARD_TEMPLATES.hungry_ghoul });
+                    player.deck.push({ ...CARD_TEMPLATES.lonely_ghoul });
+                    player.deck.push({ ...CARD_TEMPLATES.stingy_ghoul });
+                    player.deck.push({ ...CARD_TEMPLATES.ghostly_figures });
+                    break;
+            }
+            console.log(`[DEBUG] 第一阶段牌组轮换完成，当前牌组数量: ${player.deck.length}`);
+        } else if (this.isDisasterLordPhase2(player)) {
+            console.log(`[DEBUG] 灾厄之主第二阶段`);
+            // 第二阶段：每3回合为一个循环
+            // 第1回合：巫婆卡组（强化版）
+            // 第2回合：国王卡组
+            // 第3回合：恶魂卡组
+            const phase = ((turn - 1) % 3) + 1;
+            console.log(`[DEBUG] 第二阶段 - 当前阶段: ${phase}`);
+
+            // 清空当前牌组
+            player.deck = [];
+
+            switch (phase) {
+                case 1: // 巫婆卡组（强化版）
+                    console.log(`[DEBUG] 添加巫婆卡组（强化版）`);
+                    // 添加巫婆强化卡组卡牌
+                    player.deck.push({ ...CARD_TEMPLATES.well_fitting_robe });
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.brand_new_page });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.normal_candlelight });
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.interesting_staff });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.wonderful_potion });
+                    player.deck.push({ ...CARD_TEMPLATES.intelligence_reducing_hat });
+                    player.deck.push({ ...CARD_TEMPLATES.lovable_clock });
+                    break;
+
+                case 2: // 国王卡组
+                    console.log(`[DEBUG] 添加国王卡组`);
+                    // 添加国王卡组卡牌
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.mechanical_sentry });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_factory });
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.full_battery_bomb });
+                    }
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.brand_new_gear });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.unexpired_oil });
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_guard });
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_crushed_stone });
+                    player.deck.push({ ...CARD_TEMPLATES.mechanical_meteorite });
+                    break;
+
+                case 3: // 恶魂卡组
+                    console.log(`[DEBUG] 添加恶魂卡组`);
+                    // 添加恶魂卡组卡牌
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.yin_spirit });
+                    }
+                    for (let i = 0; i < 2; i++) {
+                        player.deck.push({ ...CARD_TEMPLATES.yang_spirit });
+                    }
+                    player.deck.push({ ...CARD_TEMPLATES.curse });
+                    player.deck.push({ ...CARD_TEMPLATES.devour });
+                    player.deck.push({ ...CARD_TEMPLATES.will_o_wisp });
+                    break;
+            }
+            console.log(`[DEBUG] 第二阶段牌组轮换完成，当前牌组数量: ${player.deck.length}`);
+        } else {
+            console.log(`[DEBUG] 不是灾厄之主阶段，跳过牌组轮换`);
+        }
+        // 第三阶段不需要牌组，因为灾厄之主没有手牌
+        // 在第三阶段，我们保持player.deck为空数组
     }
 
     // 处理机械哨兵效果
@@ -961,6 +1261,36 @@ export class BuffService {
 
             // 由于影子机制已更改为在卡牌使用时直接替换，这里不再需要处理
             console.log(`[DEBUG] 影子机制已更新为卡牌替换模式，不再通过buff处理`);
+        }
+    }
+
+    // 在回合结束时处理灾厄之主效果
+    static processDisasterLordEndTurn(player: Player): void {
+        // 检查是否为灾厄之主的第二或第三阶段
+        if (this.isDisasterLordPhase2(player) || this.isDisasterLordPhase3(player)) {
+            // 清除玩家剩余行动点（但不清除灾厄之主自己的行动点）
+            // 只有当玩家不是灾厄之主时才清除行动点
+            if (!this.isDisasterLordPhase1(player) &&
+                !this.isDisasterLordPhase2(player) &&
+                !this.isDisasterLordPhase3(player)) {
+                player.actionPoints = 0;
+            }
+        }
+    }
+
+    // 在回合开始时处理灾厄之主牌组轮换
+    static processDisasterLordTurnStart(player: Player, turn: number): void {
+        // 检查是否为灾厄之主
+        const isPhase1 = this.isDisasterLordPhase1(player);
+        const isPhase2 = this.isDisasterLordPhase2(player);
+        const isPhase3 = this.isDisasterLordPhase3(player);
+
+        console.log(`[DEBUG] 检查灾厄之主阶段 - Phase1: ${isPhase1}, Phase2: ${isPhase2}, Phase3: ${isPhase3}`);
+
+        if (isPhase1 || isPhase2 || isPhase3) {
+            console.log(`[DEBUG] 处理灾厄之主牌组轮换 - 回合: ${turn}`);
+            // 处理牌组轮换
+            this.processDisasterLordDeckRotation(player, turn);
         }
     }
 }

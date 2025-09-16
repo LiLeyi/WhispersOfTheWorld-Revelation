@@ -1238,14 +1238,20 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('玩家抽牌阶段');
+                // 处理灾厄之主的牌组轮换
+                BuffService.processDisasterLordTurnStart(this.state.opponent, this.state.turn);
                 // 在抽牌阶段开始时处理玩家的buff效果
                 PlayerService.processBuffs(this.state.player, this.state.opponent, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 处理玩家的delay_attack buff
                 this.processDelayAttackBuff(this.state.player, this.state.opponent);
                 // 处理玩家的conduction buff
                 this.processConductionBuff(this.state.player);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 玩家抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.player);
@@ -1281,14 +1287,20 @@ class CardGame extends MiniGame {
         switch (this.state.gamePhase) {
             case 'draw':
                 console.log('巨石抽牌阶段');
+                console.log('[DEBUG] 调用处理灾厄之主牌组轮换');
+                BuffService.processDisasterLordTurnStart(this.state.opponent, this.state.turn);
                 // 在抽牌阶段开始时处理对手的buff效果
                 PlayerService.processBuffs(this.state.opponent, this.state.player, (message) => {
                     this.state.message += message;
                 }, this.state.lastPlayedCard);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 处理对方的delay_attack buff
                 this.processDelayAttackBuff(this.state.opponent, this.state.player);
                 // 处理对方的conduction buff
                 this.processConductionBuff(this.state.opponent);
+                // 检查游戏是否结束
+                this.checkGameOver();
                 // 在抽牌阶段开始时清除上一回合的防御
                 console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
                 this.clearTemporaryDefense(this.state.opponent);
@@ -1582,6 +1594,8 @@ class CardGame extends MiniGame {
             BuffService.checkGhastEffect(opponent, player);
             // 检查国王效果
             BuffService.checkKingEffect(opponent, player);
+            // 检查灾厄之主阶段转换
+            BuffService.checkDisasterLordPhase(opponent, player);
         }
     }
 
@@ -1793,6 +1807,10 @@ class CardGame extends MiniGame {
     private endTurn(): void {
         console.log('结束回合，当前玩家:', this.state.currentPlayer);
 
+        // 在回合结束时处理灾厄之主效果
+        BuffService.processDisasterLordEndTurn(this.state.player);
+        BuffService.processDisasterLordEndTurn(this.state.opponent);
+
         // 在回合结束时处理真防效果
         if (this.state.currentPlayer === 'player') {
             // 玩家回合结束时检查玩家是否拥有真防，如果有则对巨石造成1点伤害
@@ -1808,8 +1826,12 @@ class CardGame extends MiniGame {
         this.triggerEvents('turn_end', gameData);
 
         if (this.state.currentPlayer === 'player') {
+            // 在增加行动点之前，检查是否需要清零（灾厄之主第二、三阶段）
+            if (BuffService.isDisasterLordPhase2(this.state.opponent) || BuffService.isDisasterLordPhase3(this.state.opponent)) {
+                this.state.player.actionPoints = 0;
+            }
             // 玩家回合结束时增加玩家行动值
-            this.state.player.actionPoints += 2;
+            this.state.player.actionPoints += typeof this.config.player?.actionPoints == 'function' ? this.config.player.actionPoints() : this.config.player?.actionPoints!;
             this.state.currentPlayer = 'opponent';
             this.state.gamePhase = 'draw';
             this.state.message = '巨石回合';
@@ -1819,7 +1841,7 @@ class CardGame extends MiniGame {
             this.gameLoop();
         } else {
             // 巨石回合结束时增加巨石行动值
-            this.state.opponent.actionPoints += 2;
+            this.state.opponent.actionPoints += typeof this.config.opponent?.actionPoints == 'function' ? this.config.opponent.actionPoints() : this.config.opponent?.actionPoints!;
             this.state.currentPlayer = 'player';
             this.state.gamePhase = 'draw';
             this.state.turn++;

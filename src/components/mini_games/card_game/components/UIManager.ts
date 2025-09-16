@@ -368,10 +368,13 @@ export class UIManager {
                     'ban': '禁言：本回合无法再出牌',
                     'fog': '雾：无法看见血量、行动值等数值',
                     'ghast': '恶魂：受到致命伤害时，血量上限-10，恢复所有血量，对方血量上限减少一半，恢复所有血量，获得雾buff',
-                    'unreal_spell': '虚幻咒语：每回合进行1攻击，buff一直保持且可叠加',
+                    'unreal_spell': '虚幻咒语：每回合进行1攻击，增加1行动，buff一直保持且可叠加',
                     'erosive_heart': '蚀心：所有攻击变为真攻，buff一直保持',
                     'erosive': '腐蚀：每回合受到攻击',
-                    'shadow': '影子：复制上一张牌效果，作用后消失'
+                    'shadow': '影子：复制上一张牌效果，作用后消失',
+                    'disaster_lord_phase1': '灾厄之主第一阶段：每回合10手牌上限，每回合8行动点',
+                    'disaster_lord_phase2': '灾厄之主第二阶段：每回合结束清除玩家剩余行动点，手牌中添加10张机械炸弹',
+                    'disaster_lord_phase3': '灾厄之主第三阶段：每回合结束清除玩家剩余行动点，血量上限减为6'
                 };
                 
                 buffElement.title = buffDescriptions[buff.id] || buff.id;
