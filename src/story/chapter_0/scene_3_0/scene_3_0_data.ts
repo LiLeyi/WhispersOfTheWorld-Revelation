@@ -1962,7 +1962,7 @@ choices: [
     },
 },
 {
-    id: "mountain_153_2_2_2",
+    id: "mountain_153_2_2_2_1",
     elements: {
         background:"sc3.1/3-1-1.jpg",
         bgm: "bgm16.MP3",
@@ -2720,7 +2720,75 @@ choices: [
         text: "来吧，你这家伙。",
         background:"sc3.1/3-1-13.jpg",
     },
-    keyNode: true,//进入与恶魂之间的战斗//
+    keyNode: true,},//进入与恶魂之间的战斗//
+    {
+                    id: "test_game6",
+                    elements: {
+                        name: "恶魂",
+                        text: "楦′綘澶編",//鸡你太美
+                    },
+                    game: {
+                        id: "card_game",
+                        config: {
+                            player: {
+                                actionPoints: 3,
+                                hp: 35,
+                                maxHp: 35,
+                                 deck: () => {
+                                    const bagManager = BagManager.getInstance();
+                                    return bagManager.getCardDeckForGame();
+                                },
+                                drawCount: 2,           // 玩家每回合抽2张牌
+                                initialDrawCount: 3 ,    // 玩家开始时抽3张牌
+                            },
+                            deckSelection: {
+                            minDeckSize: 15,   // 设置最小选牌数量
+                            maxDeckSize: 20,   // 设置最大选牌数量
+                        },
+                            opponent: {
+                                actionPoints: 6,
+                                hp: 30,
+                                maxHp: 30,
+                                deck: {
+                                    "yin_spirit": 2,        
+                                    "yang_spirit": 2,         
+                                    "curse": 2, 
+                                    "devour": 2, 
+                                    "will_o_wisp":2,      
+                                },
+                                drawCount: 3,           // 对手每回合抽3张牌
+                                initialDrawCount: 6 ,    // 对手开始时抽6张牌
+                            initialBuffs: [  // 设置初始buff
+                                {
+                                     id: "ghast",
+                                     duration: -1,
+                                     target: "self"
+                                 }
+                             ],
+                              },
+                            backgroundImage:"sc1.1/1-1-0.jpg",
+                            bgm:"ehun"
+                        },
+                        end: [
+                            {
+                                condition: (score: number) => score >= 1,
+                                next: "battle_1_1_1",
+                            },
+                            {
+                                condition: (score: number) => true, // 默认条件，总是为真
+                                next: "battle_1_1",
+                            }
+                        ]
+                    }
+                },     
+    
+    {
+    id: "battle_1_1_1",
+    elements: {
+        name: "旁白",
+        text: "你战胜了恶魂",
+        background:"sc3.1/3-1-13.jpg",
+    },
     choices: [
         {
             text: "大获全胜。",
@@ -2733,6 +2801,10 @@ choices: [
         {
             text: "你和恶魂不相上下。",
             next: "mountain_197_2_2",
+        },
+        {
+            text: "重新挑战",
+            next: "test_game6",
         },
     ]
 },
@@ -3824,6 +3896,12 @@ choices: [
             left:null,
         }
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.removeCardFromBag("darkness", 1);
+                bagManager.addCardsToBag("darkness_shadow_form", 1);
+                bagManager.addCardsToBag("end_tears", 1);
+  },
 },
 {
     id: "mountain_251_2_3_1",
