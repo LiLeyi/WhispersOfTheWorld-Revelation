@@ -228,6 +228,15 @@ export class UIManager {
                                 // 播放悬停音效
                                 try {
                                     const audioManager = AudioManager.getInstance();
+                                    // 获取当前保存的音效音量并应用
+                                    const savedSfxVolume = localStorage.getItem('sfxVolume');
+                                    if (savedSfxVolume !== null) {
+                                        const volume = parseInt(savedSfxVolume);
+                                        if (!isNaN(volume)) {
+                                            const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                                            audioManager.setGameVolume(clampedVolume);
+                                        }
+                                    }
                                     audioManager.playSoundEffect("card_hover");
                                     cardElement.dataset.hasPlayedHoverSound = "true";
                                 } catch (e) {
@@ -482,6 +491,15 @@ export class UIManager {
                 // 播放悬停音效
                 try {
                     const audioManager = AudioManager.getInstance();
+                    // 获取当前保存的音效音量并应用
+                    const savedSfxVolume = localStorage.getItem('sfxVolume');
+                    if (savedSfxVolume !== null) {
+                        const volume = parseInt(savedSfxVolume);
+                        if (!isNaN(volume)) {
+                            const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                            audioManager.setGameVolume(clampedVolume);
+                        }
+                    }
                     audioManager.playSoundEffect("card_hover");
                     cardElement.dataset.hasPlayedHoverSound = "true";
                 } catch (e) {

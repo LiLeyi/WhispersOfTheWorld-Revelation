@@ -848,11 +848,6 @@ class CardGame extends MiniGame {
                 // 保存音效音量设置
                 try {
                     localStorage.setItem('sfxVolume', volume.toString());
-                    
-                    // 直接设置音频管理器的音效音量
-                    if (this.audioManager && this.audioManager.setSoundEffectVolume) {
-                        this.audioManager.setSoundEffectVolume(volume / 100);
-                    }
                 } catch (e) {
                     console.warn('无法保存音效音量设置:', e);
                 }
@@ -884,11 +879,6 @@ class CardGame extends MiniGame {
                         const clampedVolume = Math.max(0, Math.min(100, volume));
                         sfxVolumeSlider.value = clampedVolume.toString();
                         sfxVolumeValue.textContent = `${clampedVolume}%`;
-                        
-                        // 直接设置音频管理器的音效音量
-                        if (this.audioManager && this.audioManager.setSoundEffectVolume) {
-                            this.audioManager.setSoundEffectVolume(clampedVolume / 100);
-                        }
                     }
                 }
             } catch (e) {
@@ -896,6 +886,7 @@ class CardGame extends MiniGame {
             }
         }
     }
+
     // 设置背景图片
     private setupBackgroundImage(): void {
         const backgroundElement = document.getElementById('card-game-background');
@@ -998,6 +989,15 @@ class CardGame extends MiniGame {
                 // 播放悬停音效
                 try {
                     if (this.audioManager) {
+                        // 获取当前保存的音效音量并应用
+                        const savedSfxVolume = localStorage.getItem('sfxVolume');
+                        if (savedSfxVolume !== null) {
+                            const volume = parseInt(savedSfxVolume);
+                            if (!isNaN(volume)) {
+                                const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                                this.audioManager.setGameVolume(clampedVolume);
+                            }
+                        }
                         this.audioManager.playSoundEffect("hover");
                     }
                 } catch (e) {
@@ -1513,34 +1513,34 @@ class CardGame extends MiniGame {
             }
 
             // 为对手卡牌添加sourceElement属性，确保动画能正常工作
-            if (this.opponentHandElement) {
-                const allCards = this.opponentHandElement.querySelectorAll('.card');
-                // 查找匹配的卡牌元素
-                for (let i = 0; i < allCards.length; i++) {
-                    const cardElement = allCards[i] as HTMLElement;
-                    if (cardElement.dataset.cardName === card.name) {
-                        // 添加sourceElement属性
-                        const cardWithElement = card as Card & { sourceElement: HTMLElement };
-                        cardWithElement.sourceElement = cardElement;
-                        break;
-                    }
+        if (this.opponentHandElement) {
+            const allCards = this.opponentHandElement.querySelectorAll('.card');
+            // 查找匹配的卡牌元素
+            for (let i = 0; i < allCards.length; i++) {
+                const cardElement = allCards[i] as HTMLElement;
+                if (cardElement.dataset.cardName === card.name) {
+                    // 添加sourceElement属性
+                    const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                    cardWithElement.sourceElement = cardElement;
+                    break;
                 }
             }
-
-            this.playCard(this.state.opponent, card);
-        } else {
-            console.log('巨石没有可用卡牌');
-            // 在调试信息中显示没有可用卡牌
-            if (this.debugContentElement) {
-                this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
-            }
-            // 没有可用卡牌，直接结束回合
-            setTimeout(() => {
-                console.log('巨石没有可用卡牌，结束回合');
-                this.endTurn();
-            }, 1500);
         }
+
+        this.playCard(this.state.opponent, card);
+    } else {
+        console.log('巨石没有可用卡牌');
+        // 在调试信息中显示没有可用卡牌
+        if (this.debugContentElement) {
+            this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
+        }
+        // 没有可用卡牌，直接结束回合
+        setTimeout(() => {
+            console.log('巨石没有可用卡牌，结束回合');
+            this.endTurn();
+        }, 1500);
     }
+}
 
     // 处理delay_attack buff
     private processDelayAttackBuff(player: Player, opponent: Player): void {
@@ -1677,8 +1677,17 @@ class CardGame extends MiniGame {
 
         // 在出牌动画结束后播放音效
         try {
-            // 更新音效音量
-            this.updateAudioManagerSfxVolume();
+            // 获取当前保存的音效音量并应用
+            const savedSfxVolume = localStorage.getItem('sfxVolume');
+            if (savedSfxVolume !== null) {
+                const volume = parseInt(savedSfxVolume);
+                if (!isNaN(volume)) {
+                    const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                    if (this.audioManager) {
+                        this.audioManager.setGameVolume(clampedVolume);
+                    }
+                }
+            }
             
             if (this.audioManager) {
                 this.audioManager.playSoundEffect("card_play");
