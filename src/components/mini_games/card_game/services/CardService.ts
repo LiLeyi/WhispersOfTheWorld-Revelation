@@ -1014,6 +1014,8 @@ export class BuffService {
             disasterLord.hp = 30;
             disasterLord.maxHp = 30;
 
+            disasterLord.hand = [];
+
             // 如果有玩家，给玩家添加10张机械炸弹卡牌和10层机械炸弹buff（参考the_king效果）
             if (player) {
                 // 玩家获得机械炸弹10层
@@ -1046,15 +1048,17 @@ export class BuffService {
                 target: 'self'
             });
 
+            disasterLord.hand = [];
+
             // 设置第三管血的血量
             disasterLord.hp = 1;
             disasterLord.maxHp = 1;
 
             // 如果有玩家，给玩家添加终焉之泪和影子卡牌
             if (player) {
-                // 玩家血量回复至满，但上限减为6
-                player.hp = 6;
-                player.maxHp = 6;
+                // 玩家血量回复至满，但上限减为4
+                player.hp = 4;
+                player.maxHp = 4;
 
                 // 添加终焉之泪和影子手牌到玩家手中（如果有的话）
                 const endTearsCard = CARD_TEMPLATES.end_tears;
