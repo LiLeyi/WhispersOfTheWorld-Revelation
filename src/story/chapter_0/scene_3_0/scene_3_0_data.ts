@@ -9,7 +9,16 @@ const scene: Scene = {
 id:"chapter_0_scene_3_0",
 title:"第三章第1幕:",
 nodes: [
-{
+ {
+            id: "video_node",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "3.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next: "mountain_1" // 可选，视频播放完成后跳转到的节点
+        },    
+    {
     id: "mountain_1",
     elements: {
         background:"sc3.1/3-1-3.jpg",

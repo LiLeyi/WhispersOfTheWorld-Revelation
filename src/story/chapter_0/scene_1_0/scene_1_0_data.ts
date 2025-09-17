@@ -9,6 +9,15 @@ const scene: Scene = {
     id: "chapter_0_scene_1_0",
     title: "第一章第1幕：斑牛镇",
     nodes: [
+         {
+            id: "video_node",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "1.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next: "intro_black_screen_1" // 可选，视频播放完成后跳转到的节点
+        },
         {
             id: "intro_black_screen_1",
             elements: {
