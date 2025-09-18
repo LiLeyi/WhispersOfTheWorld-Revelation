@@ -9,6 +9,7 @@ export const CARD_DATABASE: Record<string, Card> =  {
         name: "拳击",
         description: "造成1点攻击。",
         priority: 1,
+        
         effect: []
     },
     "parry": {
