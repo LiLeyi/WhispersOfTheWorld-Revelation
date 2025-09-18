@@ -56,14 +56,6 @@ export class UIManager {
                         <span style="color:#cccccc;">真防:</span>
                         <span style="color:#ffffff">${hasFog ? '?' : trueDefense}</span>
                     </div>
-                    <div style="display:flex;justify-content:space-between;">
-                        <span style="color:#cccccc;">手牌:</span>
-                        <span style="color:#ffffff">${hasFog ? '?' : player.hand.length}</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;">
-                        <span style="color:#cccccc;">抽牌数:</span>
-                        <span style="color:#ffffff">${hasFog ? '?' : drawCount}</span>
-                    </div>
                 </div>
             `;
         }
@@ -270,7 +262,7 @@ if (isCurrentPlayer && gamePhase === 'main' && currentPlayer === 'player') {
             // 重置标志位，允许下次悬停时再次播放音效
             cardElement.dataset.hasPlayedHoverSound = "false";
             hoverTimeout = null;
-        }, 30);
+        }, 50);
     });
                         
                        // 直接传递卡牌元素给点击回调
@@ -357,8 +349,8 @@ static reindexCards(deck: HTMLElement): void {
             persistentBuffs.forEach(buff => {
                 const buffElement = document.createElement('div');
                 buffElement.className = 'buff-icon';
-                buffElement.style.width = '40px';
-                buffElement.style.height = '40px';
+                buffElement.style.width = '50px';
+                buffElement.style.height = '50px';
                 buffElement.style.borderRadius = '8px';
                 buffElement.style.backgroundColor = '#4a4a4a';
                 buffElement.style.display = 'flex';
@@ -369,12 +361,67 @@ static reindexCards(deck: HTMLElement): void {
                 buffElement.style.boxShadow = '0 2px 5px rgba(0,0,0,0.3)';
                 buffElement.style.position = 'relative';
                 buffElement.style.cursor = 'pointer';
+                buffElement.style.flexDirection = 'column';
+                buffElement.style.fontSize = '12px';
+                
+                // 定义buff名称映射
+                const buffNames: Record<string, string> = {
+                    'defence': '防御',
+                    'true_defence': '真防',
+                    'attack_increase_once': '攻击+',
+                    'combo': '连击',
+                    'immunication': '免疫',
+                    'incurable': '不治',
+                    'hard': '坚硬',
+                    'true_hard': '真坚',
+                    'sharp': '锋利',
+                    'transfer': '转化',
+                    'battery_bomb': '电池',
+                    'the_king': '国王',
+                    'mechanical_sentry': '哨兵',
+                    'mechanical_bomb': '炸弹',
+                    'mechanical_guard': '护卫',
+                    'delay_attack': '延迟',
+                    'conduction': '传导',
+                    'ban': '禁言',
+                    'fog': '迷雾',
+                    'ghast': '恶魂',
+                    'unreal_spell': '虚幻',
+                    'erosive_heart': '蚀心',
+                    'erosive': '腐蚀',
+                    'shadow': '影子',
+                    'disaster_lord_phase1': '灾厄1',
+                    'disaster_lord_phase2': '灾厄2',
+                    'disaster_lord_phase3': '灾厄3'
+                };
+                
+                // 显示buff简短名称
+                const buffName = buffNames[buff.id] || buff.id.substring(0, 4);
+                const nameElement = document.createElement('div');
+                nameElement.textContent = buffName;
+                nameElement.style.fontSize = '12px';
+                nameElement.style.whiteSpace = 'nowrap';
+                nameElement.style.overflow = 'hidden';
+                nameElement.style.textOverflow = 'ellipsis';
+                nameElement.style.width = '100%';
+                nameElement.style.textAlign = 'center';
+                nameElement.style.padding = '0 2px';
                 
                 // 显示剩余持续时间（如果大于0）
                 // 不再显示永久buff的数字（duration为-1）
+                const durationElement = document.createElement('div');
+                durationElement.style.fontSize = '14px';
+                durationElement.style.fontWeight = 'bold';
                 if (buff.duration !== undefined && buff.duration > 0) {
-                    buffElement.textContent = buff.duration.toString();
+                    durationElement.textContent = buff.duration.toString();
+                } else if (buff.duration === -1) {
+                    // 对于永久buff，显示∞符号
+                    durationElement.textContent = '∞';
+                    durationElement.style.color = '#FFD700';
                 }
+                
+                buffElement.appendChild(nameElement);
+                buffElement.appendChild(durationElement);
                 
                 // 添加描述作为title属性，鼠标悬停时显示
                 const buffDescriptions: Record<string, string> = {
@@ -454,10 +501,6 @@ static reindexCards(deck: HTMLElement): void {
         const cardElement = document.createElement('div');
         cardElement.className = 'played-card';
         
-        // 判断是否是当前回合出的牌
-        const isCurrentTurnCard = playedCard.turn === currentTurn;
-        const isPreviousTurnCard = playedCard.turn === currentTurn - 1;
-        
         // 根据玩家设置不同的边框颜色
         let borderColor = '#888';
         if (playedCard.player === 'player') {
@@ -466,7 +509,7 @@ static reindexCards(deck: HTMLElement): void {
             borderColor = '#ff4a4a'; // 对手红色
         }
         
-        // 恢复原来的战场卡片样式
+        // 使用相对单位设置基础样式，便于响应式缩放
         cardElement.style.cssText = `
             width: 110px;
             height: 160px;
@@ -489,10 +532,10 @@ static reindexCards(deck: HTMLElement): void {
                 rgba(212, 175, 55, 0.05) 3px,
                 rgba(212, 175, 55, 0.05) 6px
             );pointer-events:none;z-index:0;border-radius:8px;"></div>
-            <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:10px;">
-                <div style="font-weight:bold;font-size:14px;text-align:center;color:#000;margin-bottom:8px;">${playedCard.card.name}</div>
-                <div style="font-size:10px;text-align:center;margin:5px 0;color:#333;line-height:1.3;">${playedCard.card.description}</div>
-                <div style="position:absolute;top:5px;right:5px;font-size:10px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};font-weight:bold;">
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:8px;box-sizing:border-box;">
+                <div class="card-name" style="font-weight:bold;font-size:14px;text-align:center;color:#000;margin-bottom:6px;">${playedCard.card.name}</div>
+                <div class="card-desc" style="font-size:10px;text-align:center;margin:4px 0;color:#333;line-height:1.2;">${playedCard.card.description}</div>
+                <div style="position:absolute;top:4px;right:4px;font-size:10px;color:${playedCard.player === 'player' ? '#4a9dff' : '#ff4a4a'};font-weight:bold;">
                     ${playedCard.player === 'player' ? '我' : '敌'}
                 </div>
             </div>
@@ -550,88 +593,85 @@ static reindexCards(deck: HTMLElement): void {
         // 如果没有卡牌，直接返回
         if (playedCards.length === 0) return;
         
-        // 计算容器尺寸
+        // 获取容器尺寸
         const containerWidth = playedCardsContainer.clientWidth;
         const containerHeight = playedCardsContainer.clientHeight;
         
+        // 定义基础卡片尺寸和比例
+        const baseCardWidth = 110;
+        const baseCardHeight = 160;
+        const cardAspectRatio = baseCardWidth / baseCardHeight; // 11:16比例
+        
         // 计算每张卡片的理想尺寸，确保所有卡片能在一行内显示
         const cardCount = playedCards.length;
-        const gap = 20; // 卡片之间的间隙
+        const gap = 15; // 卡片之间的间隙
         
-        // 计算理想卡片宽度（考虑间隙）
-        let idealCardWidth = (containerWidth - (cardCount + 1) * gap) / cardCount;
+        // 计算基于宽度的卡片尺寸
+        let cardWidth = (containerWidth - (cardCount + 1) * gap) / cardCount;
+        let cardHeight = cardWidth / cardAspectRatio;
+        
+        // 检查基于高度的限制
+        const maxCardHeight = containerHeight * 0.8; // 卡片最大高度为容器高度的80%
+        if (cardHeight > maxCardHeight) {
+            cardHeight = maxCardHeight;
+            cardWidth = cardHeight * cardAspectRatio;
+        }
         
         // 设置最大和最小宽度以保证可读性
         const maxCardWidth = 110;
-        const minCardWidth = 60;
-        idealCardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, idealCardWidth));
+        const minCardWidth = 50;
+        cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, cardWidth));
+        cardHeight = cardWidth / cardAspectRatio;
         
-        // 根据宽度按比例计算高度（保持原始比例 110:160 = 11:16）
-        const cardWidth = Math.floor(idealCardWidth);
-        const cardHeight = Math.floor((cardWidth * 160) / 110);
+        // 向下取整确保整数像素值
+        cardWidth = Math.floor(cardWidth);
+        cardHeight = Math.floor(cardHeight);
         
         // 根据新的尺寸调整所有卡牌
         playedCards.forEach(card => {
-            // 更新样式
+            // 更新样式 - 保持等比例缩放
             card.style.width = `${cardWidth}px`;
             card.style.height = `${cardHeight}px`;
             card.style.minWidth = `${cardWidth}px`;
             card.style.minHeight = `${cardHeight}px`;
             
             // 计算字体大小比例
-            const scaleFactor = cardWidth / 110;
-            const baseFontSize = 15;
-            const baseDescFontSize = 11;
-            const baseDetailsFontSize = 12;
-            const fontSize = Math.max(8, Math.floor(baseFontSize * scaleFactor));
-            const descFontSize = Math.max(6, Math.floor(baseDescFontSize * scaleFactor));
-            const detailsFontSize = Math.max(7, Math.floor(baseDetailsFontSize * scaleFactor));
+            const scaleFactor = cardWidth / baseCardWidth;
+            const baseFontSize = 14;
+            const baseDescFontSize = 10;
+            const fontSize = Math.max(7, Math.floor(baseFontSize * scaleFactor));
+            const descFontSize = Math.max(5, Math.floor(baseDescFontSize * scaleFactor));
             
-            // 更新内部内容的样式，确保文字居中
-            const contentDiv = card.querySelector('.played-card-content') as HTMLElement;
-            const nameElement = card.querySelector('.played-card-name') as HTMLElement;
-            const descElement = card.querySelector('.played-card-desc') as HTMLElement;
-            const detailsElement = card.querySelector('.played-card-details') as HTMLElement;
-            
-            if (contentDiv) {
-                contentDiv.style.display = 'flex';
-                contentDiv.style.flexDirection = 'column';
-                contentDiv.style.justifyContent = 'center';
-                contentDiv.style.alignItems = 'center';
-                contentDiv.style.height = '100%';
-            }
+            // 更新内部内容的样式，确保文字居中并等比例缩放
+            const nameElement = card.querySelector('.card-name') as HTMLElement;
+            const descElement = card.querySelector('.card-desc') as HTMLElement;
             
             if (nameElement) {
                 nameElement.style.fontWeight = 'bold';
                 nameElement.style.fontSize = `${fontSize}px`;
                 nameElement.style.textAlign = 'center';
                 nameElement.style.color = '#000';
-                nameElement.style.marginBottom = `${Math.max(4, Math.floor(10 * scaleFactor))}px`;
+                nameElement.style.marginBottom = `${Math.max(3, Math.floor(8 * scaleFactor))}px`;
             }
             
             if (descElement) {
                 descElement.style.fontSize = `${descFontSize}px`;
                 descElement.style.textAlign = 'center';
-                descElement.style.margin = `${Math.max(2, Math.floor(6 * scaleFactor))}px 0`;
+                descElement.style.margin = `${Math.max(2, Math.floor(5 * scaleFactor))}px 0`;
                 descElement.style.color = '#333';
-            }
-            
-            if (detailsElement) {
-                detailsElement.style.fontSize = `${detailsFontSize}px`;
-                detailsElement.style.textAlign = 'center';
-                detailsElement.style.marginTop = `${Math.max(4, Math.floor(10 * scaleFactor))}px`;
+                descElement.style.lineHeight = '1.2';
             }
             
             // 更新位置
             card.style.margin = `0 ${Math.max(2, Math.floor(gap / 2))}px`;
         });
         
-        // 重新布局容器，确保不换行
+        // 重新布局容器，确保不换行并居中显示
         playedCardsContainer.style.display = 'flex';
         playedCardsContainer.style.flexWrap = 'nowrap';
         playedCardsContainer.style.justifyContent = 'center';
         playedCardsContainer.style.alignItems = 'center';
-        playedCardsContainer.style.overflowX = 'auto';
+        playedCardsContainer.style.overflowX = 'hidden';
         playedCardsContainer.style.gap = `${gap}px`;
     }
     static async playCardAnimation(
