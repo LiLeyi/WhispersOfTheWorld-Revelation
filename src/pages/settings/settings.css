@@ -1,93 +1,142 @@
 body {
   font-family: Arial, sans-serif;
-  background: #000;
   margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
+  background: radial-gradient(1200px 800px at 20% 10%, rgba(120, 120, 255, 0.25), transparent 60%),
+              radial-gradient(1000px 800px at 80% 90%, rgba(255, 120, 180, 0.25), transparent 60%),
+              linear-gradient(135deg, #0e0e12 0%, #14161d 50%, #0e1016 100%);
+  overflow: hidden;
 }
 
 .settings-container {
-  background: #222;
-  padding: 30px;
-  border-radius: 12px;
-  width: 400px;
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-  border: 2px solid #fff;
+  width: 420px;
+  padding: 28px 28px 24px;
+  border-radius: 18px;
+  background: rgba(30, 32, 42, 0.6);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin: 0 0 16px;
   text-align: center;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #e9ecf1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .lang-btn {
   display: inline-block;
-  margin: 8px auto 20px;
+  margin: 6px auto 18px;
   font-size: 12px;
-  padding: 4px 10px;
-  border: 1px solid #fff;
-  border-radius: 6px;
-  background-color: #444;
-  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3a3f56, #2f3347);
+  color: #e9ecf1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .lang-btn:hover {
-  background-color: #666;
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #474d68, #353a52);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(134, 160, 255, 0.2);
 }
 
 .setting-item {
-  margin: 20px 0;
+  margin: 18px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .setting-item label {
-  width: 120px;
-  font-size: 16px;
+  width: 140px;
+  font-size: 14px;
+  color: #cfd5df;
 }
 
 .setting-item input[type="range"] {
-  width: 150px;
-  height: 8px;
-  background: #555;
-  border-radius: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 170px;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(110, 132, 255, 0.6), rgba(255, 147, 193, 0.6));
+  border-radius: 999px;
   outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #cdd6ff);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 8px rgba(110, 132, 255, 0.55);
+  transition: transform 0.15s ease;
+}
+
+.setting-item input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+
+.setting-item input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #cdd6ff);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 8px rgba(110, 132, 255, 0.55);
 }
 
 .volume-value {
-  width: 50px;
-  text-align: right;
+  min-width: 56px;
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .button-group {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  gap: 10px;
+  margin-top: 26px;
 }
 
 button {
-  padding: 12px 20px;
-  border: 2px solid #fff;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #4e5a89, #394165);
+  color: #eef2ff;
+  font-weight: 700;
+  font-size: 15px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.12s ease, box-shadow 0.3s ease, background 0.3s ease;
   flex: 1;
-  margin: 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 button:hover {
-  background: #555;
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #5b69a1, #424a77);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.55), 0 0 0 3px rgba(147, 172, 255, 0.18);
 }
 
 /* 开关样式 */
@@ -111,9 +160,10 @@ button:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #555;
+  background-color: #3b3f53;
   transition: .4s;
   border-radius: 24px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .slider:before {
@@ -123,13 +173,14 @@ button:hover {
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #e7ecff);
   transition: .4s;
   border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(110, 132, 255, 0.45);
 }
 
 input:checked + .slider {
-  background-color: #4CAF50;
+  background: linear-gradient(90deg, #6e84ff, #ff93c1);
 }
 
 input:checked + .slider:before {
@@ -137,14 +188,28 @@ input:checked + .slider:before {
 }
 
 .setting-item input[type="range"] {
-  width: 150px;
-  height: 8px;
-  background: #555;
-  border-radius: 5px;
+  width: 170px;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(110, 132, 255, 0.6), rgba(255, 147, 193, 0.6));
+  border-radius: 999px;
   outline: none;
 }
 
 .volume-value {
-  width: 50px;
-  text-align: right;
+  min-width: 56px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .settings-container {
+    width: calc(100% - 32px);
+    padding: 22px 18px 18px;
+    border-radius: 14px;
+  }
+  .setting-item label {
+    width: 120px;
+  }
+  .setting-item input[type="range"] {
+    width: 140px;
+  }
 }
