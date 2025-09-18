@@ -361,7 +361,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   tear_of_no_trace: {
     id: "tear_of_no_trace",
     name: "无痕之“泪”",
-    description: "造成2点真攻，消耗2行动。",
+    description: "无视任何效果造成2伤害，消耗2行动。",
     priority: 17,
     effect: [
       {
@@ -441,7 +441,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   boring_staff: {
     id: "boring_staff",
     name: "无趣法杖",
-    description: "造成2点真攻，消耗1行动。",
+    description: "无视任何效果造成2点伤害，消耗1行动。",
     priority: 16,
     effect: [
       {
@@ -635,7 +635,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   swap_robot: {
     id: "swap_robot",
     name: "交换机器人",
-    description: "交换自身真防和防御的数值，回复2Hp",
+    description: "交换自身真防和防御的数值，回复3Hp",
     priority: 5,
     effect: [
       {
@@ -644,7 +644,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       },
       {
         id: "do_health",
-        duration: 2,
+        duration: 3,
         target: "self",
       }
     ],
@@ -824,7 +824,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   reapers_whisper: {
     id: "reapers_whisper",
     name: "死神低语",
-    description: "造成15点真攻，消耗3行动。获得3真防",
+    description: "无视任何效果造成15点伤害，消耗3行动。获得3真防",
     priority: 30,
     effect: [
       {
@@ -846,7 +846,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   reapers_groan: {
     id: "reapers_groan",
     name: "死神的呻吟",
-    description: "造成9点真攻，消耗2行动。",
+    description: "无视任何效果造成9点伤害，消耗2行动。",
     priority: 28,
     effect: [
       {
@@ -1303,7 +1303,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   brand_new_page: {
     id: "brand_new_page",
     name: "崭新书页",
-    description: "造成1点攻击，获得1点真防，消耗1行动。",
+    description: "造成1点攻击，获得1点真防。",
     priority: 10,
     effect: [
       {
@@ -1318,7 +1318,6 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 1
     }
   },
   normal_candlelight: {
@@ -1338,7 +1337,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   interesting_staff: {
     id: "interesting_staff",
     name: "有趣法杖",
-    description: "造成2点真攻。",
+    description: "无视任何效果造成2点伤害。",
     priority: 16,
     effect: [
       {
@@ -1352,11 +1351,16 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   wonderful_potion: {
     id: "wonderful_potion",
     name: "妙用药瓶",
-    description: "将当前的防御全部变为真防。",
+    description: "将当前的防御全部变为真防，回复3Hp。",
     priority: 3,
     effect: [
       {
         id: "do_defence_add_to_true_defence",
+        target: "self"
+      },
+      {
+        id: "do_health",
+        duration: 3,
         target: "self"
       }
     ],

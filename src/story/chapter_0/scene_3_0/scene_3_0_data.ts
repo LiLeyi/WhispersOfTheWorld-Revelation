@@ -16,25 +16,17 @@ nodes: [
                 text: "播放视频"
             },
             video: "3.mp4", // 视频文件应放在 src/assets/video/ 目录下
-            next: "mountain_1" // 可选，视频播放完成后跳转到的节点
         },    
-    {
-    id: "mountain_1",
+{
+    id: "mountain_2",
     elements: {
         background:"sc3.1/3-1-3.jpg",
         bgm:"bgm3.mp3",
         name: "旁白",
-        text: "有两个灵魂居住在我心胸，一个想从另一个挣脱掉。",
+        text: "一个在粗鄙的爱欲中以固执的器官附着于世界。",
         sprite: {
             left: null,
         }
-    },
-},
-{
-    id: "mountain_2",
-    elements: {
-        name: "旁白",
-        text: "一个在粗鄙的爱欲中以固执的器官附着于世界。"
     },
 },
 {
@@ -650,7 +642,9 @@ nodes: [
     elements: {
         name: "梅菲斯特",
         text: "我并非恶魔，而是答案。",
-
+         sprite: {
+            left: "NPC/deadman.png",
+        }
     },
 },
 {
@@ -698,7 +692,7 @@ nodes: [
         name: "梅菲斯特",
         text: "旅人啊，你们为何如此匆忙地奔向痛苦？",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -746,7 +740,7 @@ nodes: [
         name: "梅菲斯特",
         text: "正如我曾对那位博学的博士所言：",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -869,7 +863,7 @@ nodes: [
         name: "梅菲斯特",
         text: "那疲惫，那怀疑，那对意义的诘问......便是你迈向真理的第一步。",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1211,7 +1205,7 @@ nodes: [
         name: "梅菲斯特",
         text: "呵呵。",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1231,7 +1225,7 @@ nodes: [
         name: "梅菲斯特",
         text: "竟敢在那永恒的织机前，妄谈选择？",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1262,7 +1256,7 @@ nodes: [
         name: "梅菲斯特",
         text: "就让我看看吧！信念的血肉能否抵御深渊的利齿！",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1272,7 +1266,7 @@ nodes: [
                     name: "梅菲斯特",
                     text: "我将亲手撕碎你那可笑的意志！",
                     sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
                 },
                 game: {
@@ -1399,7 +1393,7 @@ nodes: [
         name: "梅菲斯特",
         text: "就此安眠......无梦地安眠......",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
     action: () => {
@@ -1453,7 +1447,7 @@ nodes: [
         name: "梅菲斯特",
         text: "怀疑已在心中扎根，虚无将会张开怀抱。",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1474,7 +1468,7 @@ nodes: [
         name: "梅菲斯特",
         text: "我是杀不死的，我是永恒的。",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -1501,7 +1495,7 @@ nodes: [
         name: "梅菲斯特",
         text: "攀登者啊，请聆听我最后的献词：",
         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/deadman.png"
         }
     },
 },
@@ -3838,6 +3832,9 @@ choices: [
     elements: {
         name: "旁白",
         text: "将那个东西捡起来，却发现正是自己要寻求的关键之物——代表牺牲与救赎的暗紫色泪滴——",
+        sprite: {
+            center: "NPC/zhongyantear.png",
+        }
     },
     action: () => {
                 let am = AchievementManager.getInstance();
@@ -3847,6 +3844,7 @@ choices: [
         {
             text: "终焉之泪（Tear of Terminus）！",
             next: "mountain_246_2_3_1",
+            
         },
     ]
 },

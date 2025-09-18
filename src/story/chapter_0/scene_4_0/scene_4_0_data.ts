@@ -34,14 +34,20 @@ nodes:[
     id: "spirit_camel_1_1",  
     elements: {  
         name: "旁白",  
-        text: "人类之所以可爱，正在于他是一个跨越的过程而非结果。"  
+        text: "人类之所以可爱，正在于他是一个跨越的过程而非结果。",
+        sprite: {
+            left: null,
+        }  
     }  
 },  
 {  
     id: "spirit_camel_2",  
     elements: {  
         name: "？",  
-        text: "你可曾听闻过，精神的三种变形？"  
+        text: "你可曾听闻过，精神的三种变形？",
+        sprite: {
+            left: "NPC/questionman.png",
+        }  
     }  
 },  
 {  
@@ -76,14 +82,20 @@ nodes:[
     id: "spirit_camel_7",  
     elements: {  
         name: "？",  
-        text: "因为再怎么重的负荷都需要强壮的精神来承接。"  
+        text: "因为再怎么重的负荷都需要强壮的精神来承接。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }  
     }  
 },  
 {  
     id: "spirit_camel_8",  
     elements: {  
         name: "旁白",  
-        text: "有担当的精神如骆驼般地屈膝承受一切："  
+        text: "有担当的精神如骆驼般地屈膝承受一切：",
+        sprite: {
+            left: null,
+        }  
     }  
 },  
 {  
@@ -132,7 +144,10 @@ nodes:[
     id: "spirit_camel_12",  
     elements: {  
         name: "？",  
-        text: "唯谦卑自抑以克制高傲；唯敛巧若愚以玩弄智慧。是否并非这个意思呢？"  
+        text: "唯谦卑自抑以克制高傲；唯敛巧若愚以玩弄智慧。是否并非这个意思呢？",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
@@ -167,7 +182,10 @@ nodes:[
     id: "spirit_lion_1",  
     elements: {  
         name: "旁白",  
-        text: "就在这最寂寥的荒漠中，第二种变形产生了："  
+        text: "就在这最寂寥的荒漠中，第二种变形产生了：" ,
+        sprite: {
+            left: null,
+        }   
     }  
 },  
 {  
@@ -189,7 +207,10 @@ nodes:[
     id: "spirit_lion_2_1",  
     elements: {  
         name: "旁白",  
-        text: "烈焰如意志般喷薄而出，击碎旧秩序的残骸。"  
+        text: "烈焰如意志般喷薄而出，击碎旧秩序的残骸。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -197,7 +218,10 @@ nodes:[
     elements: {  
         name: "？",
         background:"sc4.1/3-1-3.jpg",  
-        text: "狮子要与主人及其最后的上帝为敌，它要与巨龙争强斗胜。"  
+        text: "狮子要与主人及其最后的上帝为敌，它要与巨龙争强斗胜。",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
@@ -219,7 +243,10 @@ nodes:[
     elements: {  
         background:"sc3.1/3-1-11.jpg",
         name: "旁白",  
-        text: "这是反叛的阶段：精神学会拒绝，学会说“不”，学会直面虚无的空洞。"  
+        text: "这是反叛的阶段：精神学会拒绝，学会说“不”，学会直面虚无的空洞。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -233,14 +260,20 @@ nodes:[
     id: "spirit_lion_5_2",  
     elements: {  
         name: "旁白",  
-        text: "在峭壁之上，精神是狮子——破坏、反抗，却仍被愤怒与孤独所牵绊。"  
+        text: "在峭壁之上，精神是狮子——破坏、反抗，却仍被愤怒与孤独所牵绊。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
     id: "spirit_lion_6",  
     elements: {  
         name: "？",  
-        text: "至高无上的龙说：“一切价值都已创造，而所有已被创造的价值就是我自身。”"  
+        text: "至高无上的龙说：“一切价值都已创造，而所有已被创造的价值就是我自身。”",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
@@ -254,14 +287,20 @@ nodes:[
     id: "spirit_lion_7",  
     elements: {  
         name: "旁白",  
-        text: "精神还要狮子何用？光是谦逊崇敬而能负重致远的骆驼不就够了吗？"  
+        text: "精神还要狮子何用？光是谦逊崇敬而能负重致远的骆驼不就够了吗？",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
     id: "spirit_lion_8",  
     elements: {  
         name: "？",  
-        text: "要创造新的价值，那是狮子也无法做到的。"  
+        text: "要创造新的价值，那是狮子也无法做到的。",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
@@ -296,7 +335,10 @@ nodes:[
     id: "spirit_child_1",  
     elements: {  
         name: "旁白",  
-        text: "烈焰熄灭，荒漠与峭壁的残影消散，精神像初生的孩童般轻盈而清澈。"  
+        text: "烈焰熄灭，荒漠与峭壁的残影消散，精神像初生的孩童般轻盈而清澈。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -317,7 +359,10 @@ nodes:[
     id: "spirit_child_2_1",  
     elements: {  
         name: "旁白",  
-        text: "它明白，人生或许永恒重复，或许无尽荒凉，但即便如此，它仍要为自己点亮火焰。"  
+        text: "它明白，人生或许永恒重复，或许无尽荒凉，但即便如此，它仍要为自己点亮火焰。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -325,7 +370,10 @@ nodes:[
     elements: {  
         background:"sc4.1/4-1-5.jpg",
         name: "？",  
-        text: "孩童是天真而健忘的，一个新的开始，一个游戏，一个自转的旋轮，一个原始的动作，一个神圣的肯定。"  
+        text: "孩童是天真而健忘的，一个新的开始，一个游戏，一个自转的旋轮，一个原始的动作，一个神圣的肯定。",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
@@ -346,7 +394,10 @@ nodes:[
     id: "spirit_child_5",  
     elements: {  
         name: "旁白",  
-        text: "然而，绝大多数人止步于荒漠，或在峭壁之上被怒火吞没。"  
+        text: "然而，绝大多数人止步于荒漠，或在峭壁之上被怒火吞没。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -360,21 +411,30 @@ nodes:[
     id: "spirit_child_5_1",  
     elements: {  
         name: "旁白",  
-        text: "它们是桥梁，通向未知，却必然指向未来——那个无人抵达，却等待被创造的境地。"  
+        text: "它们是桥梁，通向未知，却必然指向未来——那个无人抵达，却等待被创造的境地。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
     id: "spirit_child_6",  
     elements: {  
         name: "？",  
-        text: "我已向你们阐明有关精神的三种变形：精神如何变成骆驼，骆驼如何变成狮子，最后狮子又如何变成孩童。"  
+        text: "我已向你们阐明有关精神的三种变形：精神如何变成骆驼，骆驼如何变成狮子，最后狮子又如何变成孩童。",
+        sprite: {
+            left: "NPC/questionman.png",
+        }    
     }  
 },  
 {  
     id: "battle_shadow_1",  
     elements: {  
         name: "旁白",  
-        text: "——这是离开青铜门，重回斑牛镇后，遇到当初那位说出“上帝已死”之人时，与之展开的交谈。"  
+        text: "——这是离开青铜门，重回斑牛镇后，遇到当初那位说出“上帝已死”之人时，与之展开的交谈。",
+        sprite: {
+            left: null,
+        }    
     }  
 },  
 {  
@@ -472,14 +532,20 @@ nodes:[
     id: "battle_shadow_10",  
     elements: {  
         name: "旁白",  
-        text: "短暂交手之后，谁也奈何不了谁。"  
+        text: "短暂交手之后，谁也奈何不了谁。",
+        sprite: {
+            left: null,
+        }  
     }  
 },  
 {  
     id: "battle_shadow_11",  
     elements: {  
         name: "？？？",  
-        text: "你，只是那个被命运玩弄的骆驼！"  
+        text: "你，只是那个被命运玩弄的骆驼！",
+       sprite: {
+            left: "NPC/zaie.png",
+        }  
     }  
 },  
 {  
@@ -535,7 +601,10 @@ nodes:[
     id: "battle_shadow_18",  
     elements: {  
         name: "？？？",  
-        text: "你所追求的创造与超越，真的存在吗——还是,"  
+        text: "你所追求的创造与超越，真的存在吗——还是," ,
+        sprite: {
+            left: "NPC/zaie.png",
+        }  
     }  ,
     choices: [
         {
@@ -548,7 +617,10 @@ nodes:[
     id: "battle_shadow_19",  
     elements: {  
         name: "？？？",  
-        text: "你所托付信任的人，真的值得信赖吗——还是说，"  
+        text: "你所托付信任的人，真的值得信赖吗——还是说，"  ,
+        sprite: {
+            left: "NPC/zaie.png",
+        }  
     }  ,
     choices: [
         {
@@ -561,14 +633,20 @@ nodes:[
     id: "battle_shadow_20",  
     elements: {  
         name: "你",  
-        text: "你到底是谁？你的目的究竟是什么？"  
+        text: "你到底是谁？你的目的究竟是什么？" ,
+        sprite: {
+            left: null,
+        } 
     }  
 },  
 {  
     id: "battle_shadow_21",  
     elements: {  
         name: "？？？",  
-        text: "想要拨开迷雾窥见真相，那就随我而来吧！"  
+        text: "想要拨开迷雾窥见真相，那就随我而来吧！" ,
+        sprite: {
+            left: "NPC/zaie.png",
+        }  
     }  
 },  
 {  
@@ -1436,6 +1514,9 @@ sprite:{
        bgm:"bgm10.MP3" ,  
       name: "？？？",
         text: "竟然追上来了么？不错。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1451,6 +1532,9 @@ sprite:{
     elements: {
         name: "你",
         text: "你已经准备好受死了吧。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1458,6 +1542,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "呵，大言不惭！你的生命，你的愿望，你的力量，都是如此的微不足道。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1479,6 +1566,9 @@ sprite:{
     elements: {
         name: "旁白",
         text: "话音未落，无脸人身后猛地冒出一团黑雾，瞬间化作一条条锁链，缠绕而来。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1500,6 +1590,9 @@ sprite:{
     elements: {
         name: "你",
         text: "对付你，我一人足矣！",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1507,6 +1600,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "哦？你难道不渴求真相么？你就不想知道，我是谁吗？",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1514,6 +1610,9 @@ sprite:{
     elements: {
         name: "你",
         text: "我只知道，我会粉碎你的阴谋，然后拯救这个世界。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1521,6 +1620,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "哈哈！可笑至极。告诉你真相吧！",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1549,6 +1651,9 @@ sprite:{
     elements: {
         name: "你",
         text: "我怎么会，像你一样黑暗腐朽？",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1556,6 +1661,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "呵！既然你已经是孤身一人，不如和我一起掌控这个世界吧。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1584,6 +1692,9 @@ sprite:{
     elements: {
         name: "你",
         text: "你的话语，就像你自身现在一样软弱无力。与你同行？你还不配！",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1592,6 +1703,9 @@ sprite:{
         
       name: "？？？",
         text: "这个世界，充斥着阴谋，卑鄙，丑陋，肮脏，腐朽。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1606,6 +1720,9 @@ sprite:{
     elements: {
         name: "你",
         text: "每个时代都会有阴谋家的身影，但同样不会缺少团结与勇气。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1620,6 +1737,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "你以为你能做的了什么呢？",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1634,6 +1754,9 @@ sprite:{
     elements: {
         name: "你",
         text: "太阳之所以伟大，是因为连尘埃都能照亮。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1648,6 +1771,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "不成熟的果实会很酸，不成熟的人会打架。",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1669,6 +1795,9 @@ sprite:{
     elements: {
         name: "你",
         text: "我是为了那些无法战斗的人而战斗！为了这个地方，不想再看到有人流泪",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1683,6 +1812,9 @@ sprite:{
     elements: {
         name: "旁白",
         text: "不再多言，握紧手中暗寂，向无脸人发起进攻。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1690,6 +1822,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "冥顽不灵！",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1697,6 +1832,9 @@ sprite:{
     elements: {
         name: "你",
         text: "什么！？",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1704,6 +1842,9 @@ sprite:{
     elements: {
         name: "旁白",
         text: "意外的是，暗寂竟直接穿过了无脸人的躯体，如所经之处空无一物一般。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -1711,6 +1852,9 @@ sprite:{
     elements: {
         name: "？？？",
         text: "来吧，我会带你见证，真正的毁灭！",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     },
 },
 {
@@ -1718,6 +1862,9 @@ sprite:{
     elements: {
         name: "旁白",
         text: "话音未落，无脸人逐渐消散，化作一团黑烟，径直冲入废墟地底。",
+        sprite: {
+            left: null,
+        }
     },
 },
 {
@@ -2505,7 +2652,10 @@ sprite: {
     elements: {
        background:"sc4.1/4-1-12.jpg",   
       name: "？？？",
-        text: "竟然追上来了么？"
+        text: "竟然追上来了么？",
+        sprite: {
+            left: "NPC/zaie.png",
+        }
     }
 },
 {
@@ -2519,14 +2669,20 @@ sprite: {
     id: "ending_14_4",
     elements: {
         name: "旁白",
-        text: "无脸人站立在废墟中央，发出毫无生机的声音。"
+        text: "无脸人站立在废墟中央，发出毫无生机的声音。",
+         sprite: {
+            left: null,
+        }
     }
 },
 {
     id: "ending_15_4",
     elements: {
         name: "？？？",
-        text: "做好受死的准备了么？"
+        text: "做好受死的准备了么？",
+         sprite: {
+            left: "NPC/zaie.png",
+        }
     }
 },
 {
@@ -4344,14 +4500,20 @@ sprite: {
   id: "ending_57_6",
   elements: {
     name: "你",
-    text: "等等......发生了什么？"
+    text: "等等......发生了什么？",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
   id: "ending_58_6",
   elements: {
     name: "医护人员",
-    text: "怎么了？难道你想不起来你是谁了？"
+    text: "怎么了？难道你想不起来你是谁了？",
+    sprite: {
+            left: "NPC/doctor.png",
+        }
   }
 },
 {
@@ -4372,7 +4534,10 @@ sprite: {
   id: "ending_61_6",
   elements: {
     name: "你",
-    text: "病毒？"
+    text: "病毒？",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
@@ -4386,14 +4551,20 @@ sprite: {
   id: "ending_63_6",
   elements: {
     name: "你",
-    text: "我是......感染了病毒？"
+    text: "我是......感染了病毒？",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
   id: "ending_64_6",
   elements: {
     name: "医护人员",
-    text: "哦？看来回过神来了？"
+    text: "哦？看来回过神来了？",
+    sprite: {
+            left: "NPC/doctor.png",
+        }
   }
 },
 {
@@ -4414,7 +4585,10 @@ sprite: {
   id: "ending_67_6",
   elements: {
     name: "旁白",
-    text: "医护人员说完，便离开了。"
+    text: "医护人员说完，便离开了。",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
@@ -4575,21 +4749,30 @@ sprite: {
   id: "ending_87_6",
   elements: {
     name: "旁白",
-    text: "之前交谈过的医护人员正好折返回来，注意到了自己的恍惚。"
+    text: "之前交谈过的医护人员正好折返回来，注意到了自己的恍惚。",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
   id: "ending_88_6",
   elements: {
     name: "医护人员",
-    text: "是不是太久没摄取营养了？你等着，我去看看还有没有没用完的葡萄糖，可以给你吊一小瓶。"
+    text: "是不是太久没摄取营养了？你等着，我去看看还有没有没用完的葡萄糖，可以给你吊一小瓶。",
+    sprite: {
+            left: "NPC/doctor.png",
+        }
   }
 },
 {
   id: "ending_89_6",
   elements: {
     name: "你",
-    text: "不用了，我没......"
+    text: "不用了，我没......",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
@@ -4968,14 +5151,20 @@ sprite: {
   id: "ending_41_8",
   elements: {
     name: "旁白",
-    text: "现在正是一夜中最阴森的时刻，鬼魂都在此刻从坟墓里出来，地狱也要向人世吐放疠气。"
+    text: "现在正是一夜中最阴森的时刻，鬼魂都在此刻从坟墓里出来，地狱也要向人世吐放疠气。",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
   id: "ending_42_8",
   elements: {
     name: "？？？",
-    text: "你的人生就是一台戏剧，现在正是终幕的时刻了。"
+    text: "你的人生就是一台戏剧，现在正是终幕的时刻了。",
+    sprite: {
+            left: "NPC/zaie.png",
+        }
   }
 },
 {
@@ -4989,7 +5178,10 @@ sprite: {
   id: "ending_44_8",
   elements: {
     name: "旁白",
-    text: "熟悉的声音回荡在耳边，那正是无脸人毫无生机的刺耳之声。"
+    text: "熟悉的声音回荡在耳边，那正是无脸人毫无生机的刺耳之声。",
+    sprite: {
+            left: null,
+        }
   }
 },
 {
@@ -6088,7 +6280,7 @@ background:"sc4.1/4-1-25.jpg",
   id: "ending_57_9",
   elements: {
     bgm:"bgm21.MP3" ,
-    name: "旁白",
+    name: "你",
     text: "为什么？"
   }
 },

@@ -16,17 +16,6 @@ const scene: Scene = {
                 text: "播放视频"
             },
             video: "1.mp4", // 视频文件应放在 src/assets/video/ 目录下
-            next: "intro_black_screen_1" // 可选，视频播放完成后跳转到的节点
-        },
-        {
-            id: "intro_black_screen_1",
-            elements: {
-                background:null,
-                name: "旁白",
-                text: "Listen, my heart, to the whispers of the world with which it makes love to you.",
-                bgm: null
-                
-            }
         },
         {
             id: "intro_quote_1",
@@ -754,7 +743,7 @@ const scene: Scene = {
                 name: "隐者",
                 text: "你为何要下山？在林中你是纯净的，可以与上帝同在。",
                         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/yingzhe.png"
         }
             }
         },
@@ -779,7 +768,7 @@ const scene: Scene = {
                 name: "？",
                 text: "我爱人类，不是因为他们与上帝同在，而是因为他们需要超越。",
                 sprite: {
-            left:"NPC/jixie_man.png"
+            left:"NPC/questionman.png"
         }
             }
         },
@@ -788,9 +777,6 @@ const scene: Scene = {
             elements: {
                 name: "？",
                 text: "上帝已死。人类必须学会创造新的意义，否则他们将沉沦。",
-                sprite: {
-            left:"NPC/jixie_man.png"
-        }
             }
         },
         {
@@ -799,7 +785,7 @@ const scene: Scene = {
                 name: "隐者",
                 text: "你太年轻，还不懂。人类需要上帝来安慰他们的痛苦。",
                         sprite: {
-            left:"NPC/dead_man.png"
+            left:"NPC/yingzhe.png"
         }
             }
         },
@@ -830,7 +816,7 @@ const scene: Scene = {
                 bgm: "bgm6.mp3",
                 background: "sc1.1/1-1-4.png",
                 sprite: {
-            left:"NPC/jixie_man.png"
+            left:"NPC/questionman.png"
         }
             }
         },
@@ -838,8 +824,11 @@ const scene: Scene = {
             id: "mysterious_person_4",
             elements: {
                 name: "你",
-                text: "你好。"
-            }
+                text: "你好。",
+                sprite: {
+            left:null,
+        }
+            },
         },
         {
             id: "mysterious_person_5",
@@ -847,7 +836,7 @@ const scene: Scene = {
                 name: "？",
                 text: "我看见你了，行走在深渊之索上的人。",
                 sprite: {
-            left:"NPC/jixie_man.png"
+            left:"NPC/questionman.png"
         }
             },
         },
@@ -870,14 +859,20 @@ const scene: Scene = {
             id: "mysterious_person_6",
             elements: {
                 name: "你",
-                text: "你在说我？"
+                text: "你在说我？",
+                sprite: {
+            left:null,
+        }
             }
         },
         {
             id: "mysterious_person_7",
             elements: {
                 name: "？",
-                text: "我见过上帝的坟墓，也听见了人群的笑声。"
+                text: "我见过上帝的坟墓，也听见了人群的笑声。",
+                sprite: {
+            left:"NPC/questionman.png"
+        }
             }
         },
         {
@@ -898,14 +893,20 @@ const scene: Scene = {
             id: "mysterious_person_7_3",
             elements: {
                 name: "光泠",
-                text: "我们该去往何方？"
+                text: "我们该去往何方？",
+                sprite: {
+            left:"guangling/wubiaoqing.png"
+        }
             }
         },
         {
             id: "mysterious_person_8",
             elements: {
                 name: "？",
-                text: "去那座荒废的村庄吧。那是灵魂的镜子，也是门槛。"
+                text: "去那座荒废的村庄吧。那是灵魂的镜子，也是门槛。",
+                sprite: {
+            left:"NPC/questionman.png"
+        }
             }
         },
         {
@@ -926,7 +927,10 @@ const scene: Scene = {
             id: "mysterious_person_10",
             elements: {
                 name: "你",
-                text: "我已明白。"
+                text: "我已明白。",
+                sprite: {
+            left:null,
+        }
             },
             action: () => {
                     const bagManager = BagManager.getInstance();
