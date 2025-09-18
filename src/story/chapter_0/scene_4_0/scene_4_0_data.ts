@@ -84,7 +84,7 @@ nodes:[
         name: "？",  
         text: "因为再怎么重的负荷都需要强壮的精神来承接。",
         sprite: {
-            left: "NPC/zaie.png",
+            left: "NPC/questionman.png",
         }  
     }  
 },  
