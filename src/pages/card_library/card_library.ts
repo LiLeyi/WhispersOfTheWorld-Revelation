@@ -3,7 +3,7 @@ import { BagManager } from '../../components/BagManager';
 import { ArchiveManager } from '../../components/ArchiveManager';
 import { CARD_DATABASE } from '../../components/CardDatabase';
 import { Card, CardEffect } from '../../components/mini_games/card_game';
-import { getUnlockedCards } from '../../components/CardUnlockConfig';
+import { getUnlockedCards, CARD_UNLOCK_RULES } from '../../components/CardUnlockConfig';
 import { 
     CardRarity, 
     CardType, 
@@ -209,10 +209,10 @@ class CardLibraryManager {
                 if (cardRarity !== this.currentFilter.rarity) return false;
             }
 
-            // 类型筛选
+            // 类型筛选（支持重叠类别，只要包含所选类型即可）
             if (this.currentFilter.type) {
-                const cardType = this.getCardType(card);
-                if (cardType !== this.currentFilter.type) return false;
+                const types = this.getCardTypes(card);
+                if (!types.includes(this.currentFilter.type as CardType)) return false;
             }
 
             return true;
@@ -230,10 +230,10 @@ class CardLibraryManager {
                 if (cardRarity !== this.currentFilter.rarity) return false;
             }
 
-            // 类型筛选
+            // 类型筛选（支持重叠类别）
             if (this.currentFilter.type) {
-                const cardType = this.getCardType(card);
-                if (cardType !== this.currentFilter.type) return false;
+                const types = this.getCardTypes(card);
+                if (!types.includes(this.currentFilter.type as CardType)) return false;
             }
 
             return true;
@@ -241,7 +241,16 @@ class CardLibraryManager {
     }
 
     private getCardRarity(card: Card): CardRarity {
-        // 直接计算卡牌稀有度
+        // 优先按 priority 动态判断稀有度：越小越普通，越大越稀有
+        // 阈值：<=2 普通, 3 稀有, 4 史诗, >=5 传说
+        if (typeof card.priority === 'number') {
+            if (card.priority <= 2) return 'common';
+            if (card.priority === 3) return 'rare';
+            if (card.priority === 4) return 'epic';
+            return 'legendary';
+        }
+
+        // 兼容回退：若无 priority，则使用旧映射
         const rarityMap: {[key: string]: string} = {
             'punch': 'common',
             'parry': 'common',
@@ -258,20 +267,42 @@ class CardLibraryManager {
             'reapers_groan': 'legendary',
             'end_tears': 'legendary'
         };
-        
         return (rarityMap[card.id] || 'common') as CardRarity;
     }
 
     private getCardType(card: Card): CardType {
-        // 直接计算卡牌类型
-        const hasAttack = card.effect.some((e: any) => e.id === 'do_attack' || e.id === 'do_true_attack');
-        const hasDefense = card.effect.some((e: any) => e.id === 'do_defence' || e.id === 'do_true_defence');
-        const hasHeal = card.effect.some((e: any) => e.id === 'do_health');
+        // 兼容旧接口：返回一个主类型（用于 badge 显示）
+        const types = this.getCardTypes(card);
+        return types[0] || 'special';
+    }
 
-        if (hasAttack) return 'attack';
-        if (hasDefense) return 'defense';
-        if (hasHeal) return 'heal';
-        return 'special';
+    private getCardTypes(card: Card): CardType[] {
+        const types: Set<CardType> = new Set();
+        const desc = (card.description || '').toString();
+
+        // 文本规则（可重叠）：
+        const hasAttackText = desc.includes('攻击') || desc.includes('真攻');
+        const hasDefenseText = desc.includes('防御') || desc.includes('真防');
+        const hasHealText = desc.includes('恢复');
+        const hasDebuffText = desc.includes('对方');
+
+        if (hasAttackText) types.add('attack');
+        if (hasDefenseText) types.add('defense');
+        if (hasHealText) types.add('heal');
+        if (hasDebuffText) types.add('special');
+
+        // 回退到 effect 规则，保持兼容
+        if (types.size === 0 && Array.isArray(card.effect)) {
+            const hasAttack = card.effect.some((e: any) => e.id === 'do_attack' || e.id === 'do_true_attack');
+            const hasDefense = card.effect.some((e: any) => e.id === 'do_defence' || e.id === 'do_true_defence');
+            const hasHeal = card.effect.some((e: any) => e.id === 'do_health');
+            if (hasAttack) types.add('attack');
+            if (hasDefense) types.add('defense');
+            if (hasHeal) types.add('heal');
+            if (!hasAttack && !hasDefense && !hasHeal) types.add('special');
+        }
+
+        return Array.from(types);
     }
 
     private createCardElement(card: Card, isOwned: boolean = true, count: number = 1): HTMLElement {
@@ -284,6 +315,7 @@ class CardLibraryManager {
         
         const rarity = this.getCardRarity(card);
         const type = this.getCardType(card);
+        const types = this.getCardTypes(card);
         const hasCard = this.isCardOwned(card.id);
 
         if (isOwned) {
@@ -301,7 +333,7 @@ class CardLibraryManager {
                     <div class="card-description">${card.description}</div>
                     <div class="card-meta">
                         <span class="card-rarity rarity-${rarity}">${this.getRarityText(rarity)}</span>
-                        <span class="card-type">${this.getTypeText(type)}</span>
+                        <span class="card-type">${types.map(t => this.getTypeText(t)).join('/')}</span>
                     </div>
                 </div>
             `;
@@ -552,10 +584,18 @@ class CardLibraryManager {
     }
 
     private calculateStats(): CardStats {
-        // 基于游戏进度计算统计信息
-        const totalCards = Object.keys(CARD_DATABASE).length;
+        // 基于解锁配置计算总数（以 CardUnlockConfig 中出现过的卡牌去重统计）
+        const totalCards = (() => {
+            const set = new Set<string>();
+            CARD_UNLOCK_RULES.forEach(rule => set.add(rule.cardId));
+            return set.size;
+        })();
         const unlockedCards = getUnlockedCards();
-        const ownedCards = Object.keys(unlockedCards).length;
+        
+        // 统计“在解锁配置中且已解锁”的卡牌数量
+        const setUnlockPool = new Set<string>();
+        CARD_UNLOCK_RULES.forEach(rule => setUnlockPool.add(rule.cardId));
+        const ownedCards = Object.keys(unlockedCards).filter(id => setUnlockPool.has(id)).length;
         const collectionRate = totalCards > 0 ? Math.round((ownedCards / totalCards) * 100) : 0;
         
         return {
