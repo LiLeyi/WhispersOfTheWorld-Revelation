@@ -1695,6 +1695,7 @@ nodes: [
                         maxDeckSize: 15,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"巫婆",
                             actionPoints: 2,
                             hp: 15,
                             maxHp: 15,

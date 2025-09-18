@@ -59,12 +59,12 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 对手信息区域 (右上角) -->
-            <div id="opponent-info-container" style="position:absolute;top:1%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="opponent-info-container" style="position:absolute;top:0%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="opponent-info" style="text-align:center;"></div>
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="player-info-container" style="position:absolute;bottom:4%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
@@ -797,7 +797,7 @@ class CardGame extends MiniGame {
             },
             opponent: {
                 id: 'opponent',
-                name: this.gameConfig?.opponent?.name || '巨石',
+                name: this.gameConfig?.opponent?.name || '对手',
                 hp: typeof this.config.opponent!.hp === 'function'
                     ? this.config.opponent!.hp()!
                     : this.config.opponent!.hp!,
@@ -1475,16 +1475,16 @@ class CardGame extends MiniGame {
 
     // 巨石回合
     private opponentTurn(): void {
-        console.log('巨石回合开始:', this.state.currentPlayer);
+        console.log(`${this.state.opponent.name}回合开始:`, this.state.currentPlayer);
         if (this.state.currentPlayer !== 'opponent') {
-            console.log('当前不是巨石回合，返回');
+            console.log(`当前不是${this.state.opponent.name}回合，返回`);
             return;
         }
 
-        console.log('巨石游戏阶段:', this.state.gamePhase);
+        console.log(`${this.state.opponent.name}游戏阶段:`, this.state.gamePhase);
         switch (this.state.gamePhase) {
             case 'draw':
-                console.log('巨石抽牌阶段');
+                console.log(`${this.state.opponent.name}抽牌阶段`);
                 console.log('[DEBUG] 调用处理灾厄之主牌组轮换');
                 BuffService.processDisasterLordTurnStart(this.state.opponent, this.state.turn);
                 // 在抽牌阶段开始时处理对手的buff效果
@@ -1500,23 +1500,23 @@ class CardGame extends MiniGame {
                 // 检查游戏是否结束
                 this.checkGameOver();
                 // 在抽牌阶段开始时清除上一回合的防御
-                console.log('[DEBUG] 巨石抽牌阶段开始，清除上一回合的防御');
+                console.log(`[DEBUG] ${this.state.opponent.name}抽牌阶段开始，清除上一回合的防御`);
                 this.clearTemporaryDefense(this.state.opponent);
                 PlayerService.drawCards(this.state.opponent, typeof this.config.opponent!.drawCount === 'function'
                     ? this.config.opponent!.drawCount()!
                     : this.config.opponent!.drawCount!, undefined, false, this.state.usedOnceCards);
                 this.state.gamePhase = 'main';
-                this.state.message = '巨石回合';
+                this.state.message = `${this.state.opponent.name}回合`;
                 this.updateUI();
                 // 继续处理main阶段
                 this.opponentTurn();
                 break;
             case 'main':
-                console.log('巨石主要阶段，准备出牌');
+                                console.log(`${this.state.opponent.name}主要阶段，准备出牌`);
                 this.updateUI();
                 // 添加一个小延迟，让玩家看到消息变化
                 setTimeout(() => {
-                    console.log('调用巨石出牌逻辑');
+                    console.log(`调用${this.state.opponent.name}出牌逻辑`);
                     this.opponentPlayCard();
                 }, 1000);
                 break;
@@ -1525,10 +1525,10 @@ class CardGame extends MiniGame {
 
     // 巨石出牌逻辑
     private opponentPlayCard(): void {
-        console.log('巨石尝试出牌');
-        console.log('巨石手牌:', this.state.opponent.hand);
-        console.log('巨石行动值:', this.state.opponent.actionPoints);
-        console.log('巨石血量:', this.state.opponent.hp, '/', this.state.opponent.maxHp);
+        console.log(`${this.state.opponent.name}尝试出牌`);
+        console.log(`${this.state.opponent.name}手牌:`, this.state.opponent.hand);
+        console.log(`${this.state.opponent.name}行动值:`, this.state.opponent.actionPoints);
+        console.log(`${this.state.opponent.name}血量:`, this.state.opponent.hp, '/', this.state.opponent.maxHp);
         console.log('玩家血量:', this.state.player.hp, '/', this.state.player.maxHp);
 
         // 检查ban效果 - 如果对手被禁言，则不能出牌
@@ -1607,16 +1607,16 @@ class CardGame extends MiniGame {
                     const selfDamage = selfDamageEffects.reduce((sum, effect) => sum + (effect.duration || 0), 0);
 
                     // 检查是否能一次性击败玩家
-                    const totalPlayerDamage = this.state.player.hp;
+                const totalPlayerDamage = this.state.player.hp;
 
-                    // 如果巨石当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
-                    if (this.state.opponent.hp - selfDamage > 0 &&
-                        card.effect.some(effect =>
-                            effect.id === 'do_attack' &&
-                            effect.target === 'other' &&
-                            (effect.duration || 0) >= totalPlayerDamage)) {
-                        return true;
-                    }
+                // 如果对手当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
+                if (this.state.opponent.hp - selfDamage > 0 &&
+                    card.effect.some(effect =>
+                        effect.id === 'do_attack' &&
+                        effect.target === 'other' &&
+                        (effect.duration || 0) >= totalPlayerDamage)) {
+                    return true;
+                }
 
                     // 如果会造成自伤且不能一次性击败玩家，则过滤掉这张卡牌
                     return false;
@@ -2041,8 +2041,8 @@ class CardGame extends MiniGame {
             this.state.player.actionPoints += typeof this.config.player?.actionPoints == 'function' ? this.config.player.actionPoints() : this.config.player?.actionPoints!;
             this.state.currentPlayer = 'opponent';
             this.state.gamePhase = 'draw';
-            this.state.message = '巨石回合';
-            console.log('切换到巨石回合');
+            this.state.message = `${this.state.opponent.name}回合`;
+            console.log(`切换到${this.state.opponent.name}回合`);
 
             // 重启游戏循环以处理巨石回合
             this.gameLoop();

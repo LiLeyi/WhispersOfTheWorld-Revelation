@@ -606,6 +606,7 @@ sprite: {
                         maxDeckSize: 15,   // 设置最大选牌数量
                     },
                         opponent: {
+                          name:"虚樹",
                             actionPoints: 2,
                             hp: 20,
                             maxHp: 20,
@@ -2104,6 +2105,7 @@ sprite: {
                         maxDeckSize: 20,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"国王",
                             actionPoints: 4,
                             hp: 15,
                             maxHp: 15,

@@ -20,16 +20,26 @@ export class UIManager {
             // 检查是否有fog buff
             const hasFog = player.buffs.some(buff => buff.id === 'fog');
             
+            // 获取防御和真防值
+            const defense = player.buffs.find(buff => buff.id === 'defence')?.duration || 0;
+            const trueDefense = player.buffs.find(buff => buff.id === 'true_defence')?.duration || 0;
+            
+            // 根据屏幕宽度调整字体大小
+            const baseFontSize = window.innerWidth < 480 ? 12 : window.innerWidth < 768 ? 13 : 14;
+            const nameFontSize = window.innerWidth < 480 ? 16 : window.innerWidth < 768 ? 17 : 18;
+            const gapSize = window.innerWidth < 480 ? 6 : window.innerWidth < 768 ? 7 : 8;
+            const marginBottom = window.innerWidth < 480 ? 8 : window.innerWidth < 768 ? 9 : 10;
+            
             element.innerHTML = `
-                <div style="font-weight:bold;font-size:18px;margin-bottom:10px;color:#ffffff;text-align:center;text-shadow:0 0 3px rgba(255, 255, 255, 0.5);border-bottom:1px solid #cccccc;padding-bottom:5px;">${player.name}</div>
-                <div style="display:grid;grid-template-columns:1fr;gap:8px;font-size:14px;">
+                <div style="font-weight:bold;font-size:${nameFontSize}px;margin-bottom:${marginBottom}px;color:#ffffff;text-align:center;text-shadow:0 0 3px rgba(255, 255, 255, 0.5);border-bottom:1px solid #cccccc;padding-bottom:5px;">${player.name}</div>
+                <div style="display:grid;grid-template-columns:1fr;gap:${gapSize}px;font-size:${baseFontSize}px;">
                     <!-- 血条 -->
                     <div>
                         <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                             <span style="color:#cccccc;">生命:</span>
                             <span style="color:${hpRatio <= 0.3 ? '#ff6b6b' : '#ffffff'}">${hasFog ? '??/??' : `${player.hp}/${player.maxHp}`}</span>
                         </div>
-                        <div style="width:100%;height:12px;background:#333;border:1px solid #555;border-radius:3px;overflow:hidden;">
+                        <div style="width:100%;height:${window.innerWidth < 480 ? 10 : 12}px;background:#333;border:1px solid #555;border-radius:3px;overflow:hidden;">
                             <div style="width:${hasFog ? '50' : hpPercentage}%;height:100%;background:${hasFog ? '#888888' : hpBarColor};transition:width 0.3s ease;"></div>
                         </div>
                     </div>
@@ -37,6 +47,14 @@ export class UIManager {
                     <div style="display:flex;justify-content:space-between;">
                         <span style="color:#cccccc;">行动值:</span>
                         <span style="color:#ffffff">${hasFog ? '?' : player.actionPoints}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="color:#cccccc;">防御:</span>
+                        <span style="color:#ffffff">${hasFog ? '?' : defense}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="color:#cccccc;">真防:</span>
+                        <span style="color:#ffffff">${hasFog ? '?' : trueDefense}</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
                         <span style="color:#cccccc;">手牌:</span>
@@ -532,15 +550,42 @@ static reindexCards(deck: HTMLElement): void {
         // 如果没有卡牌，直接返回
         if (playedCards.length === 0) return;
         
-        // 使用与手牌相同的固定尺寸
-        const cardWidth = 110;   // 与手牌宽度相同
-        const cardHeight = 160;  // 保持相同比例
+        // 计算容器尺寸
+        const containerWidth = playedCardsContainer.clientWidth;
+        const containerHeight = playedCardsContainer.clientHeight;
+        
+        // 计算每张卡片的理想尺寸，确保所有卡片能在一行内显示
+        const cardCount = playedCards.length;
+        const gap = 20; // 卡片之间的间隙
+        
+        // 计算理想卡片宽度（考虑间隙）
+        let idealCardWidth = (containerWidth - (cardCount + 1) * gap) / cardCount;
+        
+        // 设置最大和最小宽度以保证可读性
+        const maxCardWidth = 110;
+        const minCardWidth = 60;
+        idealCardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, idealCardWidth));
+        
+        // 根据宽度按比例计算高度（保持原始比例 110:160 = 11:16）
+        const cardWidth = Math.floor(idealCardWidth);
+        const cardHeight = Math.floor((cardWidth * 160) / 110);
         
         // 根据新的尺寸调整所有卡牌
         playedCards.forEach(card => {
             // 更新样式
             card.style.width = `${cardWidth}px`;
             card.style.height = `${cardHeight}px`;
+            card.style.minWidth = `${cardWidth}px`;
+            card.style.minHeight = `${cardHeight}px`;
+            
+            // 计算字体大小比例
+            const scaleFactor = cardWidth / 110;
+            const baseFontSize = 15;
+            const baseDescFontSize = 11;
+            const baseDetailsFontSize = 12;
+            const fontSize = Math.max(8, Math.floor(baseFontSize * scaleFactor));
+            const descFontSize = Math.max(6, Math.floor(baseDescFontSize * scaleFactor));
+            const detailsFontSize = Math.max(7, Math.floor(baseDetailsFontSize * scaleFactor));
             
             // 更新内部内容的样式，确保文字居中
             const contentDiv = card.querySelector('.played-card-content') as HTMLElement;
@@ -558,35 +603,36 @@ static reindexCards(deck: HTMLElement): void {
             
             if (nameElement) {
                 nameElement.style.fontWeight = 'bold';
-                nameElement.style.fontSize = '15px';
+                nameElement.style.fontSize = `${fontSize}px`;
                 nameElement.style.textAlign = 'center';
                 nameElement.style.color = '#000';
-                nameElement.style.marginBottom = '10px';
+                nameElement.style.marginBottom = `${Math.max(4, Math.floor(10 * scaleFactor))}px`;
             }
             
             if (descElement) {
-                descElement.style.fontSize = '11px';
+                descElement.style.fontSize = `${descFontSize}px`;
                 descElement.style.textAlign = 'center';
-                descElement.style.margin = '6px 0';
+                descElement.style.margin = `${Math.max(2, Math.floor(6 * scaleFactor))}px 0`;
                 descElement.style.color = '#333';
             }
             
             if (detailsElement) {
-                detailsElement.style.fontSize = '12px';
+                detailsElement.style.fontSize = `${detailsFontSize}px`;
                 detailsElement.style.textAlign = 'center';
-                detailsElement.style.marginTop = '10px';
+                detailsElement.style.marginTop = `${Math.max(4, Math.floor(10 * scaleFactor))}px`;
             }
             
             // 更新位置
-            card.style.margin = '0 8px';
+            card.style.margin = `0 ${Math.max(2, Math.floor(gap / 2))}px`;
         });
         
-        // 重新布局容器
+        // 重新布局容器，确保不换行
         playedCardsContainer.style.display = 'flex';
-        playedCardsContainer.style.flexWrap = 'wrap';
+        playedCardsContainer.style.flexWrap = 'nowrap';
         playedCardsContainer.style.justifyContent = 'center';
         playedCardsContainer.style.alignItems = 'center';
-        playedCardsContainer.style.gap = '20px';
+        playedCardsContainer.style.overflowX = 'auto';
+        playedCardsContainer.style.gap = `${gap}px`;
     }
     static async playCardAnimation(
         player: 'player' | 'opponent',

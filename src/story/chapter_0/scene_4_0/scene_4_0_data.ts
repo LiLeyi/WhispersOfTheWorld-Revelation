@@ -2715,6 +2715,7 @@ sprite: {
                             maxDeckSize: 20,   // 设置最大选牌数量
                         },
                             opponent: {
+                              name:"灾厄之主",
                                 actionPoints: 6,
                                 hp:30 ,
                                 maxHp: 30,
@@ -3452,6 +3453,7 @@ sprite: {
                             maxDeckSize: 20,   // 设置最大选牌数量
                         },
                             opponent: {
+                              name:"灾厄之主",
                                 actionPoints: 6,
                                 hp:30 ,
                                 maxHp: 30,

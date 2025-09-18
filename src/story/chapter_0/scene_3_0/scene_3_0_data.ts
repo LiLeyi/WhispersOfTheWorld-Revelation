@@ -1294,6 +1294,7 @@ nodes: [
                         maxDeckSize: 20,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"梅菲斯特",
                             actionPoints: 7,
                             hp: 25,
                             maxHp: 25,
@@ -1872,6 +1873,7 @@ choices: [
                         maxDeckSize: 20,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"鬼怪",
                             actionPoints: 7,
                             hp: 25,
                             maxHp: 25,
@@ -2755,6 +2757,7 @@ choices: [
                             maxDeckSize: 20,   // 设置最大选牌数量
                         },
                             opponent: {
+                                name:"恶魂",
                                 actionPoints: 6,
                                 hp: 30,
                                 maxHp: 30,
