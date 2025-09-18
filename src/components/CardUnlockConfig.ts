@@ -69,35 +69,38 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "punch",        // 拳击卡片
         unlockConditions: {
-            minNodeIndex: 0     // 游戏开始即可解锁
+           
+            nodeId: "node1" 
         },
         count: 3                // 给予3张
     },
     {
         cardId: "dodge",        // 闪避卡片
         unlockConditions: {
-            minNodeIndex: 0     // 游戏开始即可解锁
+            nodeId: "node1" 
         },
         count: 3                // 给予3张
     },
     {
         cardId: "parry",        // 格挡卡片
         unlockConditions: {
-            minNodeIndex: 0     // 游戏开始即可解锁
+            nodeId: "node1" 
         },
         count: 3                // 给予3张
     },
     {
         cardId: "hook",         // 钩拳卡片
         unlockConditions: {
-            minNodeIndex: 0     // 游戏开始即可解锁
+            
+            nodeId: "node1" 
         },
         count: 3                // 给予3张
     },
     {
         cardId: "combo",        // 连击卡片
         unlockConditions: {
-            minNodeIndex: 0     // 游戏开始即可解锁
+            nodeId: "node1" 
+            // 游戏开始即可解锁
         },
         count: 3                // 给予3张
     },
@@ -108,8 +111,10 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "enlightenment",    // 觉悟卡片 - 第一章节的重要卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_1_0",  // 必须在第一章节的第一个场景
-            minNodeIndex: 10                 // 必须推进到节点10或以上
+            nodeId:"mysterious_person_10"
+
+            // 必须在第一章节的第一个场景
+                    // 必须推进到节点10或以上
         },
         count: 1                    // 给予1张
     },
@@ -120,24 +125,23 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "holy_shield",      // 神圣护盾卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 5                  // 必须推进到节点5或以上
+            nodeId: "node70"//过node3节点才能解锁
         },
         count: 2                    // 给予2张
     },
     {
         cardId: "holiness",         // 神圣卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 5                  // 必须推进到节点5或以上
+            nodeId: "node70"// 必须在第二章节的第一个场景
+                       
         },
         count: 2                    // 给予2张
     },
     {
         cardId: "darkness_initial", // 暗寂初始卡片（后续会被升级为darkness）
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-                        // 必须推进到节点5或以上
+            nodeId: "node70" // 必须在第二章节的第一个场景
+                 
         },
         count: 1                    // 给予1张
     },
@@ -148,8 +152,7 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "darkness",         // 暗寂卡片（升级版）
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_1",  // 必须在第二章节的第二个场景
-            minNodeIndex: 5                  // 必须推进到节点5或以上
+           nodeId: "darkblade_8"                // 必须推进到节点5或以上
         },
         count: 1,                   // 给予1张
         replace: true,              // 启用替换机制
@@ -162,16 +165,16 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "strange_stone",    // 奇异石头卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_1_0",  // 必须在第一章节的第一个场景
-            minNodeIndex: 20                 // 必须推进到节点20或以上（石头试炼完成）
+         nodeId: "lightling_13_1"
+                         // 必须推进到节点20或以上（石头试炼完成）
         },
         count: 2                    // 给予2张
     },
     {
         cardId: "pebble",           // 鹅卵石卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_1_0",  // 必须在第一章节的第一个场景
-            minNodeIndex: 20                 // 必须推进到节点20或以上（石头试炼完成）
+            nodeId:"lightling_13_1"
+                         // 必须ter_0_scene_1_0"推进到节点20或以上（石头试炼完成）
         },
         count: 2                    // 给予2张
     },
@@ -182,8 +185,8 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "meteorite",        // 陨石卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_3_0",  // 必须在第三章节的第一个场景
-            minNodeIndex: 10                 // 必须推进到节点10或以上
+            nodeId:"mountain_1" // 必须在第三章节的第一个场景
+                         // 必须推进到节点10或以上
         },
         count: 1                    // 给予1张
     },
@@ -191,15 +194,15 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
         cardId: "reapers_whisper",  // 死神低语卡片
         unlockConditions: {
             sceneId: "chapter_0_scene_3_0",  // 必须在第三章节的第一个场景
-            minNodeIndex: 15                 // 必须推进到节点15或以上
+                         // 必须推进到节点15或以上
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "reapers_groan",    // 死神呻吟卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_3_0",  // 必须在第三章节的第一个场景
-            minNodeIndex: 20                 // 必须推进到节点20或以上
+            nodeId: "mountain_131_2_2",  // 必须在第三章节的第一个场景
+                           // 必须推进到节点20或以上
         },
         count: 1                    // 给予1张
     },
@@ -223,24 +226,24 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "full_battery_bomb",    // 满电炸弹卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_1",  // 必须在第二章节的第二个场景
-            minNodeIndex: 30                 // 必须推进到节点30或以上（深入剧情）
+            // 必须在第二章节的第二个场景
+            nodeId: "darkblade_56_2",     
+                        // 必须推进到节点30或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "nano_armor",        // 纳米装甲卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_1",  // 必须在第二章节的第二个场景
-            minNodeIndex: 30                 // 必须推进到节点30或以上（深入剧情）
+            nodeId: "darkblade_56_2",  // 必须在第二章节的第二个场景
+                           // 必须推进到节点30或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "swap_robot",        // 交换机器人卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_1",  // 必须在第二章节的第二个场景
-            minNodeIndex: 30                 // 必须推进到节点30或以上（深入剧情）
+            nodeId: "darkblade_56_2",                  // 必须推进到节点30或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
@@ -249,35 +252,42 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
     {
         cardId: "witchs_gift",       // 巫婆的礼物卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 25                 // 必须推进到节点25或以上（深入剧情）
+            nodeId: "altar_42"                // 必须推进到节点25或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "wise_hat",          // 智慧帽子卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 25                 // 必须推进到节点25或以上（深入剧情）
+            nodeId: "altar_42"          // 必须推进到节点25或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "useless_potion",    // 无用药水卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 25                 // 必须推进到节点25或以上（深入剧情）
+            nodeId: "altar_42"          // 必须推进到节点25或以上（深入剧情）
         },
         count: 1                    // 给予1张
     },
     {
         cardId: "eerie_candlelight", // 诡异烛光卡片
         unlockConditions: {
-            sceneId: "chapter_0_scene_2_0",  // 必须在第二章节的第一个场景
-            minNodeIndex: 25                 // 必须推进到节点25或以上（深入剧情）
+            nodeId: "altar_42"          // 必须推进到节点25或以上（深入剧情）
         },
         count: 1                    // 给予1张
-    }
+    },
+
+    // ==================== 测试 nodeId 功能的卡片 ====================
+    // 这些卡片用于测试和演示 nodeId 解锁条件
+    {
+        cardId: "ghostly_figures", // 诡异烛光卡片
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2"          // 必须推进到节点25或以上（深入剧情）
+        },
+        count: 1                    // 给予1张
+    },
+   
 ];
 
 /**
@@ -287,16 +297,19 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
  * - 当前场景ID：玩家所在的游戏场景
  * - 当前节点索引：玩家在场景中的进度位置
  * - 当前存档ID：玩家使用的存档标识
+ * - 当前节点ID：玩家当前所在节点的ID
  * 
  * @returns {Object} 包含当前游戏进度信息的对象
  * @returns {string} returns.currentSceneId - 当前场景ID
  * @returns {number} returns.currentNodeIndex - 当前节点索引
  * @returns {string} returns.currentArchiveId - 当前存档ID
+ * @returns {string | null} returns.currentNodeId - 当前节点ID
  */
 export function getCurrentGameProgress(): {
     currentSceneId: string;
     currentNodeIndex: number;
     currentArchiveId: string;
+    currentNodeId: string | null;
 } {
     // 从localStorage获取当前场景ID，默认为游戏开始场景
     const currentSceneId = localStorage.getItem('currentSceneId') || 'chapter_0_scene_0';
@@ -307,11 +320,182 @@ export function getCurrentGameProgress(): {
     // 从localStorage获取当前存档ID，默认为'default'
     const currentArchiveId = localStorage.getItem('currentArchiveId') || 'default';
     
+    // 获取当前节点ID（使用同步方法）
+    const currentNodeId = getCurrentNodeIdSync(currentSceneId, currentNodeIndex);
+    
     return {
         currentSceneId,
         currentNodeIndex,
-        currentArchiveId
+        currentArchiveId,
+        currentNodeId
     };
+}
+
+/**
+ * 获取指定场景和节点索引对应的节点ID
+ * 
+ * @param {string} sceneId - 场景ID
+ * @param {number} nodeIndex - 节点索引
+ * @returns {string | null} 节点ID，如果找不到则返回null
+ */
+async function getCurrentNodeId(sceneId: string, nodeIndex: number): Promise<string | null> {
+    try {
+        // 动态导入场景数据
+        const { SceneRegistry } = await import('../story/SceneRegistry');
+        const sceneLoader = SceneRegistry[sceneId];
+        
+        if (!sceneLoader) {
+            console.warn(`[CardUnlockConfig] 场景 ${sceneId} 未在注册表中找到`);
+            return null;
+        }
+        
+        const sceneModule = await sceneLoader();
+        const scene = sceneModule.default;
+        
+        if (!scene || !scene.nodes || !Array.isArray(scene.nodes)) {
+            console.warn(`[CardUnlockConfig] 场景 ${sceneId} 数据格式错误`);
+            return null;
+        }
+        
+        const node = scene.nodes[nodeIndex];
+        return node ? node.id : null;
+        
+    } catch (error) {
+        console.error(`[CardUnlockConfig] 获取节点ID时出错:`, error);
+        return null;
+    }
+}
+
+/**
+ * 同步获取当前节点ID（用于兼容性）
+ * 
+ * @param {string} sceneId - 场景ID
+ * @param {number} nodeIndex - 节点索引
+ * @returns {string | null} 节点ID，如果找不到则返回null
+ */
+function getCurrentNodeIdSync(sceneId: string, nodeIndex: number): string | null {
+    // 由于动态导入是异步的，这里提供一个同步的备用方案
+    // 通过localStorage存储的额外信息来获取节点ID
+    const nodeIdKey = `currentNodeId_${sceneId}_${nodeIndex}`;
+    return localStorage.getItem(nodeIdKey);
+}
+
+/**
+ * 检查玩家是否已经经过指定的节点
+ * 
+ * @param {string} sceneId - 当前场景ID
+ * @param {string} targetNodeId - 目标节点ID
+ * @param {number} currentNodeIndex - 当前节点索引
+ * @returns {boolean} 如果已经经过目标节点返回true，否则返回false
+ */
+function hasPassedNode(sceneId: string, targetNodeId: string, currentNodeIndex: number): boolean {
+    try {
+        // 优先检查全局已访问集合（跨场景持久）
+        const visitedAll = JSON.parse(localStorage.getItem('visitedNodes_all') || '[]');
+        if (Array.isArray(visitedAll) && visitedAll.includes(targetNodeId)) {
+            return true;
+        }
+
+        // 其次检查当前场景内的已访问集合
+        const visitedNodesKey = `visitedNodes_${sceneId}`;
+        const visitedNodes = JSON.parse(localStorage.getItem(visitedNodesKey) || '[]');
+        if (visitedNodes.includes(targetNodeId)) {
+            return true;
+        }
+
+        // 备用：若有索引映射，则用索引粗略判断（仅限当前场景）
+        const targetNodeIndex = getNodeIndexByNodeId(sceneId, targetNodeId);
+        if (targetNodeIndex !== -1 && currentNodeIndex >= targetNodeIndex) {
+            return true;
+        }
+
+        return false;
+        
+    } catch (error) {
+        console.error(`[CardUnlockConfig] 检查节点访问状态时出错:`, error);
+        return false;
+    }
+}
+
+/**
+ * 根据节点ID获取节点索引
+ * 
+ * @param {string} sceneId - 场景ID
+ * @param {string} nodeId - 节点ID
+ * @returns {number} 节点索引，如果找不到返回-1
+ */
+function getNodeIndexByNodeId(sceneId: string, nodeId: string): number {
+    try {
+        // 从localStorage中获取节点索引映射
+        const nodeIndexMapKey = `nodeIndexMap_${sceneId}`;
+        const nodeIndexMap = JSON.parse(localStorage.getItem(nodeIndexMapKey) || '{}');
+        
+        return nodeIndexMap[nodeId] || -1;
+        
+    } catch (error) {
+        console.error(`[CardUnlockConfig] 获取节点索引时出错:`, error);
+        return -1;
+    }
+}
+
+/**
+ * 初始化场景的节点索引映射
+ * 这个函数应该在场景加载时调用，用于建立节点ID到索引的映射关系
+ * 
+ * @param {string} sceneId - 场景ID
+ * @param {Array} nodes - 场景节点数组
+ */
+export function initializeNodeIndexMap(sceneId: string, nodes: any[]): void {
+    try {
+        const nodeIndexMap: { [nodeId: string]: number } = {};
+        
+        // 建立节点ID到索引的映射
+        nodes.forEach((node, index) => {
+            if (node && node.id) {
+                nodeIndexMap[node.id] = index;
+            }
+        });
+        
+        // 保存到localStorage
+        const nodeIndexMapKey = `nodeIndexMap_${sceneId}`;
+        localStorage.setItem(nodeIndexMapKey, JSON.stringify(nodeIndexMap));
+        
+        console.log(`[CardUnlockConfig] 已初始化场景 ${sceneId} 的节点索引映射:`, nodeIndexMap);
+        
+    } catch (error) {
+        console.error(`[CardUnlockConfig] 初始化节点索引映射时出错:`, error);
+    }
+}
+
+/**
+ * 记录玩家访问过的节点
+ * 这个函数应该在玩家到达新节点时调用
+ * 
+ * @param {string} sceneId - 场景ID
+ * @param {string} nodeId - 节点ID
+ */
+export function recordVisitedNode(sceneId: string, nodeId: string): void {
+    try {
+        const visitedNodesKey = `visitedNodes_${sceneId}`;
+        const visitedNodes = JSON.parse(localStorage.getItem(visitedNodesKey) || '[]');
+        
+        // 如果节点还没有被记录，则添加到列表中
+        if (!visitedNodes.includes(nodeId)) {
+            visitedNodes.push(nodeId);
+            localStorage.setItem(visitedNodesKey, JSON.stringify(visitedNodes));
+            console.log(`[CardUnlockConfig] 已记录访问节点: ${sceneId} - ${nodeId}`);
+        }
+        // 同步全局集合，支持跨场景识别
+        const allKey = 'visitedNodes_all';
+        const visitedAll = JSON.parse(localStorage.getItem(allKey) || '[]');
+        if (!visitedAll.includes(nodeId)) {
+            visitedAll.push(nodeId);
+            localStorage.setItem(allKey, JSON.stringify(visitedAll));
+        }
+        
+    } catch (error) {
+        console.error(`[CardUnlockConfig] 记录访问节点时出错:`, error);
+    }
 }
 
 /**
@@ -355,8 +539,11 @@ export function checkCardUnlockCondition(rule: CardUnlockRule): boolean {
     
     // 条件3：检查节点ID（如果指定了具体的节点ID）
     // 如果规则指定了具体的节点ID，玩家必须到达那个节点
-    if (conditions.nodeId && progress.currentSceneId !== conditions.nodeId) {
-        return false;
+    if (conditions.nodeId) {
+        // 检查玩家是否已经经过指定的节点
+        if (!hasPassedNode(progress.currentSceneId, conditions.nodeId, progress.currentNodeIndex)) {
+            return false;
+        }
     }
     
     // 条件4：检查前置卡片（预留功能）
@@ -405,25 +592,50 @@ export function checkCardUnlockCondition(rule: CardUnlockRule): boolean {
  * }
  */
 export function getUnlockedCards(): { [cardId: string]: number } {
-    // 初始化解锁卡片对象
-    const unlockedCards: { [cardId: string]: number } = {};
-    
-    // 遍历所有卡片解锁规则
+    const archiveId = localStorage.getItem('currentArchiveId') || 'default';
+    const key = `unlockedCards_${archiveId}`;
+    const persisted = JSON.parse(localStorage.getItem(key) || '{}');
+
+    // 评估当前进度可能新增的卡
+    const merged: { [cardId: string]: number } = { ...persisted };
     for (const rule of CARD_UNLOCK_RULES) {
-        // 检查当前规则是否满足解锁条件
         if (checkCardUnlockCondition(rule)) {
-            // 处理卡片替换机制
             if (rule.replace && rule.replaceCardId) {
-                // 如果是要替换的卡片，先移除被替换的卡片
-                // 例如：darkness替换darkness_initial
-                delete unlockedCards[rule.replaceCardId];
+                delete merged[rule.replaceCardId];
             }
-            
-            // 将满足条件的卡片添加到解锁列表中
-            unlockedCards[rule.cardId] = rule.count;
+            merged[rule.cardId] = rule.count;
         }
     }
-    
-    // 返回当前应该解锁的卡片列表
-    return unlockedCards;
+
+    try {
+        localStorage.setItem(key, JSON.stringify(merged));
+    } catch (e) {
+        console.error('[CardUnlockConfig] 持久化unlockedCards失败:', e);
+    }
+
+    return merged;
+}
+
+/**
+ * 主动评估并将满足条件的卡牌写入持久化集合（按当前存档隔离）。
+ */
+export function evaluateAndPersistUnlocks(): void {
+    const archiveId = localStorage.getItem('currentArchiveId') || 'default';
+    const key = `unlockedCards_${archiveId}`;
+    const base = JSON.parse(localStorage.getItem(key) || '{}');
+    const unlocked: { [cardId: string]: number } = { ...base };
+
+    for (const rule of CARD_UNLOCK_RULES) {
+        if (checkCardUnlockCondition(rule)) {
+            if (rule.replace && rule.replaceCardId) {
+                delete unlocked[rule.replaceCardId];
+            }
+            unlocked[rule.cardId] = rule.count;
+        }
+    }
+    try {
+        localStorage.setItem(key, JSON.stringify(unlocked));
+    } catch (e) {
+        console.error('[CardUnlockConfig] evaluateAndPersistUnlocks写入失败:', e);
+    }
 }
