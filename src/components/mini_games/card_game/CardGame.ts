@@ -64,7 +64,7 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 玩家信息区域 (右下角) -->
-            <div id="player-info-container" style="position:absolute;bottom:4%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
+            <div id="player-info-container" style="position:absolute;bottom:8%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
@@ -1116,8 +1116,25 @@ class CardGame extends MiniGame {
 
       // 为玩家手牌区域添加事件监听器
         if (this.playerHandElement) {
+            // 添加防抖变量来处理快速鼠标移动
+            let handAreaTimeout: number | null = null;
+            let isHandOpen = false;
+
             // 鼠标进入时展开手牌并播放悬停音效
             this.playerHandElement.addEventListener('mouseenter', () => {
+                // 清除之前的定时器
+                if (handAreaTimeout) {
+                    clearTimeout(handAreaTimeout);
+                    handAreaTimeout = null;
+                }
+
+                // 如果手牌已经展开，则直接返回
+                if (isHandOpen) return;
+
+                // 标记手牌为展开状态
+                isHandOpen = true;
+                
+                // 立即展开手牌
                 this.playerHandElement!.classList.add('open');
                 
                 // 播放悬停音效
@@ -1141,16 +1158,27 @@ class CardGame extends MiniGame {
 
             // 鼠标离开时收拢手牌
             this.playerHandElement.addEventListener('mouseleave', () => {
-                this.playerHandElement!.classList.remove('open');
-                // 清除所有悬停效果
-                const peekedCards = this.playerHandElement!.querySelectorAll('.card.peek');
-                peekedCards.forEach(card => {
-                    card.classList.remove('peek');
-                });
-                this.playerHandElement!.classList.remove('dim');
-            });
-        }
+                // 清除之前的定时器
+                if (handAreaTimeout) {
+                    clearTimeout(handAreaTimeout);
+                }
 
+                // 设置延迟，让手牌在鼠标离开后稍等一会再收起
+                handAreaTimeout = window.setTimeout(() => {
+                    // 标记手牌为收起状态
+                    isHandOpen = false;
+                    
+                    this.playerHandElement!.classList.remove('open');
+                    // 清除所有悬停效果
+                    const peekedCards = this.playerHandElement!.querySelectorAll('.card.peek');
+                    peekedCards.forEach(card => {
+                        card.classList.remove('peek');
+                    });
+                    this.playerHandElement!.classList.remove('dim');
+                    
+                    handAreaTimeout = null;
+                }, 300); // 减少延迟到300毫秒以提高响应性
+            });
         // 点击空白处取消选中
         document.body.addEventListener('click', (e) => {
             if (this.playerHandElement && !this.playerHandElement.contains(e.target as Node)) {
@@ -1228,6 +1256,7 @@ class CardGame extends MiniGame {
             }
         }
     }
+}
     // 更新音频管理器的音效音量
     private updateAudioManagerSfxVolume(): void {
         try {
