@@ -265,21 +265,37 @@ if (isCurrentPlayer && gamePhase === 'main' && currentPlayer === 'player') {
         }, 50);
     });
                         
-                       // 直接传递卡牌元素给点击回调
-                        cardElement.addEventListener('click', () => {
-                            // 添加sourceElement属性但不改变类型
-                            const cardWithElement = card as Card & { sourceElement: HTMLElement };
-                            cardWithElement.sourceElement = cardElement;
-                            // 直接调用点击回调函数，传递卡牌和元素引用
-                            onCardClick(cardWithElement);
-                        });
-                    }
+    // 直接传递卡牌元素给点击回调
+    cardElement.addEventListener('click', () => {
+        // 检查手牌是否已经展开完成
+        if (element.classList.contains('open')) {
+            // 添加sourceElement属性但不改变类型
+            const cardWithElement = card as Card & { sourceElement: HTMLElement };
+            cardWithElement.sourceElement = cardElement;
+            // 直接调用点击回调函数，传递卡牌和元素引用
+            onCardClick(cardWithElement);
+        }
+    });
+}
 
                     element.appendChild(cardElement);
                 });
                 
                 // 重新索引卡牌
                 UIManager.reindexCards(element);
+                
+                // 确保手牌展开完成后再启用点击
+                if (element.id === 'player-hand') {
+                    // 在下一帧添加open类以触发展开动画
+                    requestAnimationFrame(() => {
+                        element.classList.add('open');
+                        
+                        // 在动画完成后启用点击事件
+                        setTimeout(() => {
+                            // 动画完成，可以安全点击卡牌
+                        }, 300); // 与CSS动画时间保持一致
+                    });
+                }
             }
         }
     }
@@ -674,7 +690,7 @@ static reindexCards(deck: HTMLElement): void {
         playedCardsContainer.style.overflowX = 'hidden';
         playedCardsContainer.style.gap = `${gap}px`;
     }
-    static async playCardAnimation(
+        static async playCardAnimation(
         player: 'player' | 'opponent',
         cardData: any,
         cardId: string
@@ -700,6 +716,11 @@ static reindexCards(deck: HTMLElement): void {
                 return;
             }
             
+            // 禁用手牌的点击事件，防止在动画过程中再次点击
+            if (handElement) {
+                handElement.style.pointerEvents = 'none';
+            }
+            
              // 获取原始卡牌的位置和尺寸
             const cardRect = sourceCardElement.getBoundingClientRect();
             
@@ -711,7 +732,6 @@ static reindexCards(deck: HTMLElement): void {
             clone.style.left = `${cardRect.left}px`;
             clone.style.top = `${cardRect.top}px`;
             clone.style.margin = '0';
-            clone.style.zIndex = '1000';
             clone.style.zIndex = '1000';
             clone.classList.add('playing');
             clone.style.visibility = 'visible';
@@ -729,12 +749,27 @@ static reindexCards(deck: HTMLElement): void {
             // 隐藏原牌
             sourceCardElement.style.visibility = 'hidden';
             
-            // 计算目标位置（出牌区域中央）
+            // 计算目标位置（出牌区域中卡牌的最终位置）
             const playedCardsRect = playedCardsElement.getBoundingClientRect();
-            const targetX = playedCardsRect.left + playedCardsRect.width / 2 - cardRect.width / 2;
-            const targetY = playedCardsRect.top + playedCardsRect.height / 2 - cardRect.height / 2;
             
-            // 计算位移量而不是直接设置left和top
+            // 计算出牌区域中卡牌的目标位置
+            const existingCards = Array.from(playedCardsElement.querySelectorAll('.played-card')) as HTMLElement[];
+            const cardCount = existingCards.length + 1; // 加上即将添加的这张牌
+            
+            // 出牌区域卡牌的标准尺寸
+            const targetCardWidth = 110;
+            const targetCardHeight = 160;
+            const gap = 15;
+            
+            // 计算所有卡牌的总宽度
+            const totalCardsWidth = cardCount * targetCardWidth + (cardCount - 1) * gap;
+            // 第一张卡牌的起始位置（居中）
+            const startX = playedCardsRect.left + (playedCardsRect.width - totalCardsWidth) / 2;
+            // 当前卡牌是最后一张（即将添加的那张）的位置
+            const targetX = startX + (cardCount - 1) * (targetCardWidth + gap);
+            const targetY = playedCardsRect.top + (playedCardsRect.height - targetCardHeight) / 2;
+            
+            // 计算位移量（保持原有尺寸）
             const translateX = targetX - cardRect.left;
             const translateY = targetY - cardRect.top;
             
@@ -742,6 +777,7 @@ static reindexCards(deck: HTMLElement): void {
             requestAnimationFrame(() => {
                 clone.style.transform = `scale(1) translate(${translateX}px, ${translateY}px)`;
             });
+            
             // 动画完成后处理
             setTimeout(() => {
                 try {
@@ -750,7 +786,7 @@ static reindexCards(deck: HTMLElement): void {
                     finalClone.style.position = 'relative';
                     finalClone.style.left = '0';
                     finalClone.style.top = '0';
-                    finalClone.style.margin = '0 8px';
+                    finalClone.style.margin = `0 ${Math.max(2, Math.floor(gap / 2))}px`;
                     finalClone.classList.remove('playing');
                     finalClone.classList.add('placed');
                     finalClone.style.transform = 'scale(1)';
@@ -780,8 +816,12 @@ static reindexCards(deck: HTMLElement): void {
                             // 确保玩家手牌保持展开状态
                             handElement.classList.add('open');
                             UIManager.reindexCards(handElement);
+                            // 重新启用手牌的点击事件
+                            handElement.style.pointerEvents = 'auto';
                         } else if (handElement) {
                             UIManager.reindexCards(handElement);
+                            // 重新启用手牌的点击事件
+                            handElement.style.pointerEvents = 'auto';
                         }
                     });
                     
