@@ -217,39 +217,43 @@ export class UIManager {
                     `;
 
                     // 添加悬停效果
-                    if (isCurrentPlayer && gamePhase === 'main' && currentPlayer === 'player') {
-                        // 使用dataset存储音效播放状态，确保每张卡牌独立控制
-                        cardElement.dataset.hasPlayedHoverSound = "false";
-                        
-                        cardElement.addEventListener('mouseenter', () => {
-                            cardElement.classList.add('peek');
-                            // 只有当未播放过音效时才播放
-                            if (cardElement.dataset.hasPlayedHoverSound === "false") {
-                                // 播放悬停音效
-                                try {
-                                    const audioManager = AudioManager.getInstance();
-                                    // 获取当前保存的音效音量并应用
-                                    const savedSfxVolume = localStorage.getItem('sfxVolume');
-                                    if (savedSfxVolume !== null) {
-                                        const volume = parseInt(savedSfxVolume);
-                                        if (!isNaN(volume)) {
-                                            const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
-                                            audioManager.setGameVolume(clampedVolume);
-                                        }
-                                    }
-                                    audioManager.playSoundEffect("card_hover");
-                                    cardElement.dataset.hasPlayedHoverSound = "true";
-                                } catch (e) {
-                                    console.log("无法播放悬停音效:", e);
-                                }
-                            }
-                        });
-                        
-                        cardElement.addEventListener('mouseleave', () => {
-                            cardElement.classList.remove('peek');
-                            // 重置标志位，允许下次悬停时再次播放音效
-                            cardElement.dataset.hasPlayedHoverSound = "false";
-                        });
+if (isCurrentPlayer && gamePhase === 'main' && currentPlayer === 'player') {
+    // 使用dataset存储音效播放状态，确保每张卡牌独立控制
+    cardElement.dataset.hasPlayedHoverSound = "false";
+    
+    // 使用较小的延迟来平衡防抖和响应性
+    let hoverTimeout: number | null = null;
+    
+    cardElement.addEventListener('mouseenter', () => {
+        // 清除之前的定时器
+        if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+        }
+        
+        cardElement.classList.add('peek');
+        // 只有当未播放过音效时才播放
+        if (cardElement.dataset.hasPlayedHoverSound === "false") {
+            // 播放悬停音效
+            try {
+                const audioManager = AudioManager.getInstance();
+                audioManager.playSoundEffect("card_hover");
+                cardElement.dataset.hasPlayedHoverSound = "true";
+            } catch (e) {
+                console.log("无法播放悬停音效:", e);
+            }
+        }
+    });
+    
+    cardElement.addEventListener('mouseleave', () => {
+        // 使用较小的延迟(30ms)来防止在卡牌边缘快速移动时的抽搐
+        hoverTimeout = window.setTimeout(() => {
+            cardElement.classList.remove('peek');
+            // 重置标志位，允许下次悬停时再次播放音效
+            cardElement.dataset.hasPlayedHoverSound = "false";
+            hoverTimeout = null;
+        }, 30);
+    });
                         
                        // 直接传递卡牌元素给点击回调
                         cardElement.addEventListener('click', () => {
@@ -270,60 +274,59 @@ export class UIManager {
         }
     }
     // 重新索引卡牌（设置位置）
-    static reindexCards(deck: HTMLElement): void {
-        const cards = Array.from(deck.querySelectorAll('.card')) as HTMLElement[];
-        const total = cards.length;
-        const mid = (total - 1) / 2;
+static reindexCards(deck: HTMLElement): void {
+    const cards = Array.from(deck.querySelectorAll('.card')) as HTMLElement[];
+    const total = cards.length;
+    const mid = (total - 1) / 2;
+    
+    // 获取容器宽度以动态调整布局参数
+    const containerWidth = deck.clientWidth;
+    const cardWidth = 110; // 标准卡牌宽度
+    
+    // 根据卡牌数量动态调整展开距离和最大角度
+    let spreadDistance = 80;
+    let maxAngle = 25;
+    
+    // 如果卡牌数量较多，需要调整参数以适应容器
+    if (total > 0) {
+        // 计算理想情况下所有卡牌所需的总宽度
+        const totalCardsWidth = total * cardWidth;
         
-        // 获取容器宽度以动态调整布局参数
-        const containerWidth = deck.clientWidth;
-        const cardWidth = 110; // 标准卡牌宽度
-        
-        // 根据卡牌数量动态调整展开距离和最大角度
-        let spreadDistance = 80;
-        let maxAngle = 25;
-        
-        // 如果卡牌数量较多，需要调整参数以适应容器
-        if (total > 0) {
-            // 计算理想情况下所有卡牌所需的总宽度
-            const totalCardsWidth = total * cardWidth;
+        // 如果总宽度超过容器宽度，则需要调整
+        if (totalCardsWidth > containerWidth) {
+            // 减小卡牌间距以适应容器
+            const availableSpacePerCard = containerWidth / total;
+            spreadDistance = Math.max(30, availableSpacePerCard * 0.7); // 确保最小间距为30
             
-            // 如果总宽度超过容器宽度，则需要调整
-            if (totalCardsWidth > containerWidth) {
-                // 减小卡牌间距以适应容器
-                const availableSpacePerCard = containerWidth / total;
-                spreadDistance = Math.max(30, availableSpacePerCard * 0.7); // 确保最小间距为30
-                
-                // 根据卡牌密度调整展开角度
-                maxAngle = Math.max(10, 25 - (total * 0.8));
-            }
+            // 根据卡牌密度调整展开角度
+            maxAngle = Math.max(10, 25 - (total * 0.8));
         }
-        
-        // 设置deck的变量
-        deck.style.setProperty('--total', total.toString());
-        deck.style.setProperty('--mid', mid.toString());
-        
-        // 计算基础偏移量
-        const totalWidth = (total - 1) * 12; // 收起时的总宽度
-        const centerOffset = -totalWidth / 2; // 居中偏移量
-        
-        // 为每张卡牌计算位置和旋转
-        cards.forEach((htmlCard, i) => {
-            // 应用居中偏移
-            const indexOffset = i * 12;
-            const centeredOffset = centerOffset + indexOffset;
-            htmlCard.style.setProperty('--centered-offset', centeredOffset.toString());
-            
-            // 计算展开状态下的位置偏移
-            const spreadOffset = (i - mid) * spreadDistance;
-            htmlCard.style.setProperty('--offset', spreadOffset.toString());
-            
-            // 计算旋转角度，形成标准扇形
-            const rotation = (i - mid) * (maxAngle / Math.max(1, mid));
-            htmlCard.style.setProperty('--rotation', rotation.toString());
-        });
     }
-    // 更新玩家buff显示
+    
+    // 设置deck的变量
+    deck.style.setProperty('--total', total.toString());
+    deck.style.setProperty('--mid', mid.toString());
+    
+    // 计算基础偏移量
+    const totalWidth = (total - 1) * 12; // 收起时的总宽度
+    const centerOffset = -totalWidth / 2; // 居中偏移量
+    
+    // 为每张卡牌计算位置和旋转
+    cards.forEach((htmlCard, i) => {
+        // 应用居中偏移
+        const indexOffset = i * 12;
+        const centeredOffset = centerOffset + indexOffset;
+        htmlCard.style.setProperty('--centered-offset', centeredOffset.toString());
+        
+        // 计算展开状态下的位置偏移
+        const spreadOffset = (i - mid) * spreadDistance;
+        htmlCard.style.setProperty('--offset', spreadOffset.toString());
+        
+        // 计算旋转角度，形成标准扇形
+        const rotation = (i - mid) * (maxAngle / Math.max(1, mid));
+        htmlCard.style.setProperty('--rotation', rotation.toString());
+    });
+}   // 更新玩家buff显示
     static updatePlayerBuffs(element: HTMLElement | null, buffs: import("../models/Buff").Buff[]): void {
         if (element) {
             element.innerHTML = '';
