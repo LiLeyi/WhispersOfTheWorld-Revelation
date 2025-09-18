@@ -477,7 +477,10 @@ sprite: {
     id: "darkblade_47_1",
     elements: {
         name: "光泠",
-        text: "机械体的领头者似乎已被击败，它们也快丧失战斗力了。"
+        text: "机械体的领头者似乎已被击败，它们也快丧失战斗力了。",
+        sprite: {
+            left: "guangling/smile.png",
+        }
     },
 },
 {
@@ -792,6 +795,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "我的确，从你们身上感受不到敌意。" ,
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -861,7 +867,10 @@ sprite: {
     id: "darkblade_85",
     elements: { 
       name: "虚樹", 
-      text: "提出你们的疑问吧......外来者。" ,
+      text: "提出你们的疑问吧......外来者。",
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -896,6 +905,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "“齿轮”，是由觉醒机械统治的城市。" ,
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
 
     },
   },
@@ -903,7 +915,10 @@ sprite: {
     id: "darkblade_90",
     elements: { 
       name: "虚樹", 
-      text: "而人类，在这里，是被觉醒机械们所主宰的对象。" 
+      text: "而人类，在这里，是被觉醒机械们所主宰的对象。" ,
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -921,7 +936,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "一些不甘被觉醒机械掌控和奴役的人类，向觉醒机械发起了反抗与斗争......" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -946,7 +963,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "觉醒机械......最开始的时候，它们只是人类的造物。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1027,7 +1046,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "虽然原本的人类拥有各种威力强大的武器，但那些大规模杀伤性武器都被觉醒机械们掌控。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1085,7 +1106,10 @@ sprite: {
     id: "darkblade_105_2",
     elements: { 
       name: "虚樹", 
-      text: "也因为人类能直接成为那些机械体的能量来源——也可以叫做食物。" 
+      text: "也因为人类能直接成为那些机械体的能量来源——也可以叫做食物。",
+      sprite: {
+            left:"NPC/jixieman.png"
+        } 
     },
   },
   {
@@ -1103,7 +1127,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "这就是可怕的事情......被病毒感染后的机械体们已经不再是原本纯粹的机械体了。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1128,7 +1154,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "目前为止，我们还无法确切解释这种变化产生的原因，只知道是那种神秘的病毒引起的。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1163,7 +1191,10 @@ sprite: {
     id: "darkblade_113",
     elements: { 
       name: "虚樹", 
-      text: "那里耸立着一座齿轮之塔。这座塔能够源源不断地释放能量供机械体远程使用，覆盖整个“齿轮”。" 
+      text: "那里耸立着一座齿轮之塔。这座塔能够源源不断地释放能量供机械体远程使用，覆盖整个“齿轮”。",
+      sprite: {
+            left:"NPC/jixieman.png"
+        } 
     },
   },
   {
@@ -1181,7 +1212,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "听上去很不可思议吧，我也是这么想的。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1202,7 +1235,10 @@ sprite: {
     id: "darkblade_117",
     elements: { 
       name: "虚樹", 
-      text: "没错。塔通过吸收永昼之瞳中蕴藏的能量，才能源源不断为“齿轮”内的机械体供能。" 
+      text: "没错。塔通过吸收永昼之瞳中蕴藏的能量，才能源源不断为“齿轮”内的机械体供能。",
+      sprite: {
+            left:"NPC/jixieman.png"
+        } 
     },
   },
   {
@@ -1210,7 +1246,7 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "至于“永昼之瞳”来自何方，也无人知晓。只能推测出是与病毒同时期出现的。",
-
+      
     },
   },
   {
@@ -1228,7 +1264,9 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "人类的科技并没有断绝，武器也在不断地更新迭代。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
   {
@@ -1277,14 +1315,16 @@ sprite: {
     elements: { 
       name: "虚樹", 
       text: "干部往往会拥有一片自己管辖的地盘，并且还拥有随意掌控、支配一部分人类奴隶的权力。" ,
-
+      sprite: {
+            left:"NPC/jixieman.png"
+        }
     },
   },
 {
   id: "darkblade_125",
   elements: { 
     name: "虚樹", 
-    text: "还有问题吗......二位？" 
+    text: "还有问题吗......二位?" 
   },
 },
 {
@@ -1326,7 +1366,9 @@ sprite: {
   elements: { 
     name: "虚樹", 
     text: "......" ,
-
+    sprite: {
+            left:"NPC/jixieman.png"
+        }
   },
 },
 {
@@ -1340,7 +1382,10 @@ sprite: {
   id: "darkblade_132",
   elements: { 
     name: "虚樹", 
-    text: "我已经回答得足够多了。" 
+    text: "我已经回答得足够多了。",
+    sprite: {
+            left:"NPC/jixieman.png"
+        } 
   },
 },
 {
@@ -1357,8 +1402,10 @@ sprite: {
   id: "darkblade_134",
   elements: { 
     name: "虚樹", 
-    text: "请吧。" ,
-
+    text: "请吧." ,
+    sprite: {
+            left:"NPC/jixieman.png"
+        }
   },
 },
 {
@@ -1376,6 +1423,9 @@ sprite: {
   elements: { 
     name: "虚樹", 
     text: "等等，把这些带上吧，也许对你们有帮助。" ,
+    sprite: {
+            left:"NPC/jixieman.png"
+        }
   },
   action: () => {
                 const bagManager = BagManager.getInstance();
@@ -1388,7 +1438,10 @@ sprite: {
   id: "darkblade_136",
   elements: { 
     name: "旁白", 
-    text: "最后看了他一眼，便和光泠一起离开了这栋废弃的大楼。" 
+    text: "最后看了他一眼，便和光泠一起离开了这栋废弃的大楼。",
+    sprite: {
+            left:null,
+        } 
   },
 },
 {
@@ -1525,7 +1578,7 @@ sprite: {
   id: "darkblade_149_1",
   elements: { 
     name: "你", 
-    text: "得不偿失啊！我们很可能直接灰飞烟灭了！" ,
+    text: "得不偿失啊！我们很可能直接灰飞烟灭了！",
   },
 },
 {
@@ -2205,11 +2258,17 @@ sprite: {
   id: "battle_1_2",
   elements: {
     name: "旁白",
-    text: "获得最终胜利的我们来到了塔的最中心，取得了被放在这里吸取能量的永昼之瞳。",
+    text: "获得最终胜利的我们来到了塔的最中心，取得了被放在这里吸取能量的。",
     sprite: {
-            left:null,
-        }
-  }
+            left:"NPC/foreverlight.png",
+        },
+  },
+  choices: [
+            {
+                text: "永昼之瞳",
+                next: "battle_1_3",
+            },
+        ],
 },
 {
   id: "battle_1_3",

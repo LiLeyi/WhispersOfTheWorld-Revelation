@@ -113,14 +113,20 @@ nodes: [
         elements: {
             background: "sc1.2/1-2-3.png",
             name: "旁白",
-            text: "院长每天都有很多事务需要处理，我不得不在一旁耐心等待。直到院长从办公室里探出身子示意。"
+            text: "院长每天都有很多事务需要处理，我不得不在一旁耐心等待。直到院长从办公室里探出身子示意。",
+            sprite: {
+            left:null,
+        }
         }
     },
     {
         id: "nursing_home_2",
         elements: {
             name: "院长",
-            text: "您母亲在这里过得不错，还交了朋友。"
+            text: "您母亲在这里过得不错，还交了朋友。",
+            sprite: {
+            left:"NPC/law_man.png"
+        }
         }
     },
     {
@@ -1077,21 +1083,30 @@ nodes: [
   id: "reborn_8",
   elements: {
     name: "你",
-    text: "你也成功了。"
+    text: "你也成功了。",
+    sprite: {
+            left:null,
+        }
   }
 },
 {
   id: "reborn_9",
   elements: {
     name: "光泠",
-    text: "有您在，失败的事就不会发生。"
+    text: "有您在，失败的事就不会发生。",
+    sprite: {
+            left:"guangling/smile1.png"
+        }
   }
 },
 {
   id: "reborn_10",
   elements: {
     name: "你",
-    text: "我们可以进去了。"
+    text: "我们可以进去了。",
+    sprite: {
+            left:null,
+        }
   }
 },
 {
