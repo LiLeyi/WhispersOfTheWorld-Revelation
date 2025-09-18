@@ -1690,13 +1690,13 @@ nodes: [
                             hp: 15,
                             maxHp: 15,
                             deck: {
-                                "mechanical_shield": 2,        
-                                "nano_armor": 2,         
-                                "mechanical_defense": 2, 
-                                "mechanical_arm_swing": 2, 
-                                "worn_gear":2,
-                                "expired_oil":2,
-                                "full_battery_bomb":1,       
+                                "ill_fitting_robe": 1,        
+                                "faded_page": 2,         
+                                "eerie_candlelight": 2, 
+                                "boring_staff": 2, 
+                                "useless_potion":2,
+                                "wise_hat":2,
+                                "annoying_clock":2,       
                             },
                             drawCount: 3,           // 对手每回合抽3张牌
                             initialDrawCount: 4     // 对手开始时抽4张牌
