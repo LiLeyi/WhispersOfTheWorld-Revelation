@@ -7,6 +7,7 @@ import { MiniGameFactory } from '../../components/MiniGameFactory';
 import { SceneManager } from '../../components/SceneManager';
 import { BagManager } from '../../components/BagManager';
 import { AutoSaveManager } from '../../components/AutoSaveManager'; 
+import { initializeNodeIndexMap, recordVisitedNode, evaluateAndPersistUnlocks } from '../../components/CardUnlockConfig';
 
 // 导入场景相关CSS样式
 import '../../components/dialog-box/scene-sprite.css';
@@ -462,6 +463,12 @@ private redirectToNewPage(nextpage: string): void {
         if (scene.id) {
             localStorage.setItem('currentSceneId', scene.id);
         }
+        // 初始化节点索引映射，供基于 nodeId 的解锁逻辑使用
+        try {
+            initializeNodeIndexMap(scene.id, scene.nodes as any[]);
+        } catch (e) {
+            console.error('[GameScene] 初始化节点索引映射失败:', e);
+        }
         // 如果是新游戏，确保清除所有立绘
         if ((this as any)._isNewGame) {
             console.log("新游戏，清除所有立绘");
@@ -601,6 +608,21 @@ private renderCurrentNode(): void {
     const node = this.getCurrentNode();
     console.log("[GameScene] 渲染节点:", node);
     if (!node) return;
+
+    // 记录经过的节点，支持基于 nodeId 的卡牌解锁
+    try {
+        const sceneId = this.currentScene?.id || 'unknown_scene';
+        if (node.id) {
+            recordVisitedNode(sceneId, node.id);
+        }
+        // 同步缓存当前节点ID，供兼容型读取
+        const currentNodeKey = `currentNodeId_${sceneId}_${this.currentNodeIndex}`;
+        localStorage.setItem(currentNodeKey, node.id);
+        // 每次到达节点后评估并持久化解锁，确保换幕也不丢失
+        evaluateAndPersistUnlocks();
+    } catch (e) {
+        console.error('[GameScene] 记录节点访问或写入当前节点ID失败:', e);
+    }
 
     // 检查是否为关键节点并触发自动存档
     console.log("[GameScene] 检查自动存档条件，node.keyNode:", node.keyNode);
