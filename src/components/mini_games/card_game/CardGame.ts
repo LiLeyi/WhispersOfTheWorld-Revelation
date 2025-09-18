@@ -33,15 +33,16 @@ class CardGame extends MiniGame {
             </div>
             
             <!-- 音量控制区域 -->
-            <div id="volume-control-container" style="position:absolute;top:0;left:0;z-index:999;height:100%;width:30px;">
+            <div id="volume-control-container" style="position:absolute;top:0;left:0;z-index:999;height:30%;width:30px;">
                 <!-- 音量控制切换按钮 -->
-                <div id="volume-toggle" style="position:fixed;top:50%;left:0;width:30px;height:60px;background:rgba(0,0,0,0.7);border-top-right-radius:10px;border-bottom-right-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid #8B7D6B;border-left:none;box-shadow:2px 0 5px rgba(0,0,0,0.5);transform:translateY(-50%);z-index:101;">
+                <div id="volume-toggle" style="position:fixed;top:30%;left:0;width:30px;height:60px;background:rgba(0,0,0,0.7);border-top-right-radius:10px;border-bottom-right-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid #8B7D6B;border-left:none;box-shadow:2px 0 5px rgba(0,0,0,0.5);transform:translateY(-50%);z-index:101;">
                     <span id="volume-icon" style="color:#d4af37;font-size:18px;">🔊</span>
                 </div>
                 
                 <!-- 音量控制面板 -->
-                <div id="volume-panel" style="position:fixed;top:0;left:0;height:100%;width:250px;background:rgba(0,0,0,0.95);padding:20px;box-sizing:border-box;border-right:1px solid #8B7D6B;transform:translateX(-100%);transition:transform 0.3s ease;z-index:100;">
-                    <div style="display:flex;flex-direction:column;gap:20px;">
+                <div id="volume-panel" style="position:fixed;top:0;left:0;height:30%;width:250px;background:rgba(0,0,0,0.95);padding:20px;box-sizing:border-box;border:2px solid #d4af37;border-left:none;border-top-right-radius:10px;border-bottom-right-radius:10px;box-shadow: 5px 0 15px rgba(0,0,0,0.5);transform:translateX(-100%);transition:transform 0.3s ease;z-index:100;">
+                    <button id="close-volume-panel" style="position:absolute;top:10px;right:10px;background:#d4af37;color:#000;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-weight:bold;">&times;</button>
+                    <div style="display:flex;flex-direction:column;gap:20px;margin-top:30px;">
                         <div style="display:flex;justify-content:space-between;align-items:center;">
                             <span style="font-size:16px;color:#d4af37;">背景音乐</span>
                             <span id="bgm-volume-value" style="font-size:16px;color:#d4af37;">100%</span>
@@ -67,10 +68,134 @@ class CardGame extends MiniGame {
                 <div id="player-info" style="text-align:center;"></div>
             </div>
             
-            <!-- 调试信息区域 -->
+                        <!-- 调试信息区域 -->
             <div id="debug-info" style="position:absolute;bottom:1%;left:1%;background:rgba(0,0,0,0.8);padding:1%;border-radius:0.3em;z-index:1000;width:20%;border:1px solid #8B7D6B;box-shadow:0 0 0.6em rgba(139, 125, 107, 0.5);display:none;">
                 <h3 style="margin-top:0;color:#ffffff;border-bottom:1px solid #7d7c7aff;padding-bottom:0.3em;">调试信息</h3>
                 <div id="debug-content" style="font-size:0.75em;"></div>
+            </div>
+                    
+                <!-- Buff说明控制区域 -->
+            <div id="buff-info-control-container" style="position:absolute;bottom:0;left:0;z-index:999;height:70%;width:30px;">
+                <!-- Buff说明切换按钮 -->
+                <div id="buff-info-toggle" style="position:fixed;top:70%;left:0;width:30px;height:60px;background:rgba(0,0,0,0.7);border-top-right-radius:10px;border-bottom-right-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1px solid #8B7D6B;border-left:none;box-shadow:2px 0 5px rgba(0,0,0,0.5);transform:translateY(-50%);z-index:101;">
+                    <span id="buff-info-icon" style="color:#d4af37;font-size:18px;">ⓘ</span>
+                </div>
+                
+                <!-- Buff说明面板 -->
+                <div id="buff-info-panel" style="position:fixed;bottom:0;left:0;height:70%;width:250px;background:rgba(0,0,0,0.95);padding:20px;box-sizing:border-box;border:2px solid #d4af37;border-left:none;border-top-right-radius:10px;border-bottom-right-radius:10px;box-shadow: 5px 0 15px rgba(0,0,0,0.5);transform:translateX(-100%);transition:transform 0.3s ease;z-index:100;">
+                    <button id="close-buff-panel" style="position:absolute;top:10px;right:10px;background:#d4af37;color:#000;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-weight:bold;">&times;</button>
+                    <h3 style="color:#d4af37;margin-top:30px;margin-bottom:15px;text-align:center;border-bottom:1px solid #7d7c7aff;padding-bottom:10px;">Buff说明</h3>
+                    <div id="buff-info-content" style="overflow-y:auto;height:calc(100% - 80px);">
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">防御(defence)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">抵挡对手的伤害，每抵挡一点防御减少一点，下次玩家出牌回合时消失。</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">真防(true_defence)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">抵挡对手的伤害，每抵挡一点防御减少一点，不会在下个玩家出牌回合消失，受到攻击时会先消耗防御，之后再消耗真防；只要真防存在，则每回合扣除对方1滴血</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">单次攻击加成(attack_increase_once)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">下次攻击的伤害增加指定点数，使用后buff消失。</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">连击(combo)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">下次伤害翻倍，作用后buff消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">免疫(immunication)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">免疫以后指定次数伤害；每免疫一次减一层</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">不治(incurable)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">无法回血</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">坚硬(hard)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">回合开始获得5点防御，buff消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">真坚(true_hard)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">回合开始获得5真防，buff消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">锋利(sharp)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">攻击永久增加指定数值，buff一直保持</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">转化(transfer)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">将攻击伤害转化为真防，buff每回合层数-1</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">电池炸弹(battery_bomb)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合受到2真攻，获得1真防，当真防大于5时，9攻击，buff消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">国王(the_king)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">受到致命伤害时，血量上限+5，恢复所有血量，对方获得机械炸弹3层，机械炸弹卡牌3张，buff消失。自己手牌变为满蓄电池炸弹六张</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">机械哨兵(mechanical_sentry)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">本回合"机械哨兵"卡片牌伤害增加指定数值，下回合buff消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">机械炸弹(mechanical_bomb)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合受到指定点数伤害，只能通过特定卡牌去消除buff</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">机械护卫队(mechanical_guard)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">使用机械护卫队卡牌时，行动力增加指定数值，buff一直保持</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">延迟攻击(delay_attack)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">下回合进行指定点数攻击</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">传导(conduction)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">本回合造成的攻击，会等量转换为真防</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">禁言(ban)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">本回合无法再出牌</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">雾(fog)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">无法看见血量、行动值等数值</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">恶魂(ghast)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">受到致命伤害时，血量上限-10，恢复所有血量，对方血量上限减少一半，恢复所有血量，获得雾buff</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">虚幻咒语(unreal_spell)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合进行1攻击，增加1行动，buff一直保持且可叠加</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">蚀心(erosive_heart)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">所有攻击变为真攻，buff一直保持</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">腐蚀(erosive)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合受到攻击</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">影子(shadow)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">复制上一张牌效果，作用后消失</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">灾厄之主第一阶段(disaster_lord_phase1)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合10手牌上限，每回合8行动点</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #555;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">灾厄之主第二阶段(disaster_lord_phase2)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合结束清除玩家剩余行动点，手牌中添加10张机械炸弹</p>
+                        </div>
+                        <div class="buff-info-item" style="margin-bottom:15px;padding-bottom:10px;">
+                            <h4 style="color:#4CAF50;margin:0 0 5px 0;">灾厄之主第三阶段(disaster_lord_phase3)</h4>
+                            <p style="margin:0;font-size:14px;color:#ccc;">每回合结束清除玩家剩余行动点，血量上限减为6</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <style>
@@ -541,7 +666,10 @@ class CardGame extends MiniGame {
     private deckSelectionContainer: HTMLElement | null = null; // 卡组选择容器
     private endTurnButton: HTMLButtonElement | null = null; // 结束回合按钮
     private restartButton: HTMLButtonElement | null = null; // 重启游戏按钮
-
+    private buffInfoToggle: HTMLElement | null = null; // Buff说明切换按钮
+    private buffInfoPanel: HTMLElement | null = null; // Buff说明面板
+    private volumeToggle: HTMLElement | null = null; // 音量控制切换按钮
+    private volumePanel: HTMLElement | null = null; // 音量控制面板
     // 已出牌记录（包含回合信息）
     private playedCards: Array<{ card: Card, turn: number, player: 'player' | 'opponent' }> = []; // 统一的已出牌记录
 
@@ -792,6 +920,12 @@ class CardGame extends MiniGame {
         this.playerBuffsElement = document.getElementById('player-buffs'); // 获取玩家buff显示区域
         this.opponentBuffsElement = document.getElementById('opponent-buffs'); // 获取对手buff显示区域
         this.deckSelectionContainer = document.getElementById('deck-selection-container'); // 获取卡组选择容器
+        // 获取buff说明面板相关元素
+        this.buffInfoToggle = document.getElementById('buff-info-toggle');
+        this.buffInfoPanel = document.getElementById('buff-info-panel');
+        // 获取音量控制面板相关元素
+        this.volumeToggle = document.getElementById('volume-toggle');
+        this.volumePanel = document.getElementById('volume-panel');
 
         // 设置事件监听器
         this.setupEventListeners();
@@ -848,11 +982,6 @@ class CardGame extends MiniGame {
                 // 保存音效音量设置
                 try {
                     localStorage.setItem('sfxVolume', volume.toString());
-                    
-                    // 直接设置音频管理器的音效音量
-                    if (this.audioManager && this.audioManager.setSoundEffectVolume) {
-                        this.audioManager.setSoundEffectVolume(volume / 100);
-                    }
                 } catch (e) {
                     console.warn('无法保存音效音量设置:', e);
                 }
@@ -884,11 +1013,6 @@ class CardGame extends MiniGame {
                         const clampedVolume = Math.max(0, Math.min(100, volume));
                         sfxVolumeSlider.value = clampedVolume.toString();
                         sfxVolumeValue.textContent = `${clampedVolume}%`;
-                        
-                        // 直接设置音频管理器的音效音量
-                        if (this.audioManager && this.audioManager.setSoundEffectVolume) {
-                            this.audioManager.setSoundEffectVolume(clampedVolume / 100);
-                        }
                     }
                 }
             } catch (e) {
@@ -896,6 +1020,7 @@ class CardGame extends MiniGame {
             }
         }
     }
+
     // 设置背景图片
     private setupBackgroundImage(): void {
         const backgroundElement = document.getElementById('card-game-background');
@@ -998,6 +1123,15 @@ class CardGame extends MiniGame {
                 // 播放悬停音效
                 try {
                     if (this.audioManager) {
+                        // 获取当前保存的音效音量并应用
+                        const savedSfxVolume = localStorage.getItem('sfxVolume');
+                        if (savedSfxVolume !== null) {
+                            const volume = parseInt(savedSfxVolume);
+                            if (!isNaN(volume)) {
+                                const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                                this.audioManager.setGameVolume(clampedVolume);
+                            }
+                        }
                         this.audioManager.playSoundEffect("hover");
                     }
                 } catch (e) {
@@ -1029,6 +1163,70 @@ class CardGame extends MiniGame {
                 }
             }
         });
+        
+        // 为buff说明面板添加事件监听器
+        if (this.buffInfoToggle && this.buffInfoPanel) {
+            // 确保只添加一次事件监听器
+            if (!this.buffInfoToggle.hasAttribute('data-listener-added')) {
+                this.buffInfoToggle.setAttribute('data-listener-added', 'true');
+                
+                // 切换buff说明面板显示/隐藏
+                this.buffInfoToggle.addEventListener('click', () => {
+                    const isPanelOpen = this.buffInfoPanel!.style.transform === 'translateX(0px)' || 
+                                      this.buffInfoPanel!.style.transform === 'translateX(0)';
+                    if (isPanelOpen) {
+                        // 面板已打开，关闭面板
+                        this.buffInfoPanel!.style.transform = 'translateX(-100%)';
+                    } else {
+                        // 面板已关闭，打开面板
+                        this.buffInfoPanel!.style.transform = 'translateX(0)';
+                    }
+                });
+            }
+            
+            // 为buff面板添加关闭按钮事件监听器
+            const closeBuffPanelButton = document.getElementById('close-buff-panel');
+            if (closeBuffPanelButton && !closeBuffPanelButton.hasAttribute('data-listener-added')) {
+                closeBuffPanelButton.setAttribute('data-listener-added', 'true');
+                
+                closeBuffPanelButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    this.buffInfoPanel!.style.transform = 'translateX(-100%)';
+                });
+            }
+        }
+        
+        // 获取音量控制相关元素
+        if (this.volumeToggle && this.volumePanel) {
+            // 确保只添加一次事件监听器
+            if (!this.volumeToggle.hasAttribute('data-listener-added')) {
+                this.volumeToggle.setAttribute('data-listener-added', 'true');
+                
+                // 切换音量控制面板显示/隐藏
+                this.volumeToggle.addEventListener('click', () => {
+                    const isPanelOpen = this.volumePanel!.style.transform === 'translateX(0px)' || 
+                                      this.volumePanel!.style.transform === 'translateX(0)';
+                    if (isPanelOpen) {
+                        // 面板已打开，关闭面板
+                        this.volumePanel!.style.transform = 'translateX(-100%)';
+                    } else {
+                        // 面板已关闭，打开面板
+                        this.volumePanel!.style.transform = 'translateX(0)';
+                    }
+                });
+            }
+            
+            // 为音量面板添加关闭按钮事件监听器
+            const closeVolumePanelButton = document.getElementById('close-volume-panel');
+            if (closeVolumePanelButton && !closeVolumePanelButton.hasAttribute('data-listener-added')) {
+                closeVolumePanelButton.setAttribute('data-listener-added', 'true');
+                
+                closeVolumePanelButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    this.volumePanel!.style.transform = 'translateX(-100%)';
+                });
+            }
+        }
     }
     // 更新音频管理器的音效音量
     private updateAudioManagerSfxVolume(): void {
@@ -1513,34 +1711,34 @@ class CardGame extends MiniGame {
             }
 
             // 为对手卡牌添加sourceElement属性，确保动画能正常工作
-            if (this.opponentHandElement) {
-                const allCards = this.opponentHandElement.querySelectorAll('.card');
-                // 查找匹配的卡牌元素
-                for (let i = 0; i < allCards.length; i++) {
-                    const cardElement = allCards[i] as HTMLElement;
-                    if (cardElement.dataset.cardName === card.name) {
-                        // 添加sourceElement属性
-                        const cardWithElement = card as Card & { sourceElement: HTMLElement };
-                        cardWithElement.sourceElement = cardElement;
-                        break;
-                    }
+        if (this.opponentHandElement) {
+            const allCards = this.opponentHandElement.querySelectorAll('.card');
+            // 查找匹配的卡牌元素
+            for (let i = 0; i < allCards.length; i++) {
+                const cardElement = allCards[i] as HTMLElement;
+                if (cardElement.dataset.cardName === card.name) {
+                    // 添加sourceElement属性
+                    const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                    cardWithElement.sourceElement = cardElement;
+                    break;
                 }
             }
-
-            this.playCard(this.state.opponent, card);
-        } else {
-            console.log('巨石没有可用卡牌');
-            // 在调试信息中显示没有可用卡牌
-            if (this.debugContentElement) {
-                this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
-            }
-            // 没有可用卡牌，直接结束回合
-            setTimeout(() => {
-                console.log('巨石没有可用卡牌，结束回合');
-                this.endTurn();
-            }, 1500);
         }
+
+        this.playCard(this.state.opponent, card);
+    } else {
+        console.log('巨石没有可用卡牌');
+        // 在调试信息中显示没有可用卡牌
+        if (this.debugContentElement) {
+            this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
+        }
+        // 没有可用卡牌，直接结束回合
+        setTimeout(() => {
+            console.log('巨石没有可用卡牌，结束回合');
+            this.endTurn();
+        }, 1500);
     }
+}
 
     // 处理delay_attack buff
     private processDelayAttackBuff(player: Player, opponent: Player): void {
@@ -1677,8 +1875,17 @@ class CardGame extends MiniGame {
 
         // 在出牌动画结束后播放音效
         try {
-            // 更新音效音量
-            this.updateAudioManagerSfxVolume();
+            // 获取当前保存的音效音量并应用
+            const savedSfxVolume = localStorage.getItem('sfxVolume');
+            if (savedSfxVolume !== null) {
+                const volume = parseInt(savedSfxVolume);
+                if (!isNaN(volume)) {
+                    const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
+                    if (this.audioManager) {
+                        this.audioManager.setGameVolume(clampedVolume);
+                    }
+                }
+            }
             
             if (this.audioManager) {
                 this.audioManager.playSoundEffect("card_play");

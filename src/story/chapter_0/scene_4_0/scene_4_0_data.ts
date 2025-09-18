@@ -9,7 +9,16 @@ const scene: Scene = {
 id:"chapter_0_scene_4_0",
 title:"终章第1幕",
 nodes:[
-{  
+ {
+            id: "video_node",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "4.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next: "spirit_camel_1" // 可选，视频播放完成后跳转到的节点
+        },   
+  {  
     id: "spirit_camel_1",  
     elements: {  
         background:"sc4.1/1-1-3.jpg",
@@ -5848,6 +5857,15 @@ background:"sc4.1/4-1-25.jpg",
   }
 },
 //这里插入一个诗篇的视频//
+ {
+            id: "video_node",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "poem.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next: "ending_147_8" // 可选，视频播放完成后跳转到的节点
+        }, 
 {
   id: "ending_147_8",
   elements: {

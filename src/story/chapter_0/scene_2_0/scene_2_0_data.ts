@@ -9,7 +9,16 @@ const scene: Scene = {
 id: "chapter_0_scene_2_0",
     title: "第1章第2幕:村庄",
 nodes: [
-        {
+           {
+            id: "video_node",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "2.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next: "mother_1" // 可选，视频播放完成后跳转到的节点
+        },      
+  {
             id: "mother_1",
             elements: {
                 background: "sc1.2/1-2-1.png",
