@@ -7,7 +7,11 @@ export class AchievementManager {
     private userId: string;
 
     private constructor() {
-        this.userId = AchievementManager.currentUser;
+        // 统一用户标识：优先 currentUser，其次使用当前存档ID，最后回退 default
+        const archiveId = localStorage.getItem('currentArchiveId') || '';
+        const effectiveUser = AchievementManager.currentUser || localStorage.getItem('currentUser') || archiveId || 'default';
+        AchievementManager.currentUser = effectiveUser;
+        this.userId = effectiveUser;
         this.achievements = {};
         console.log(`[AchievementManager] 创建新实例，用户: ${this.userId}`);
         this.loadFromLocalStorage();
@@ -19,7 +23,8 @@ export class AchievementManager {
     public static getInstance(): AchievementManager {
         // 如果当前用户为空，尝试从localStorage获取
         if (!AchievementManager.currentUser) {
-            AchievementManager.currentUser = localStorage.getItem("currentUser") || "";
+            const archiveId = localStorage.getItem('currentArchiveId') || '';
+            AchievementManager.currentUser = localStorage.getItem("currentUser") || archiveId || 'default';
             console.log(`[AchievementManager] 自动初始化当前用户: ${AchievementManager.currentUser}`);
         }
         
@@ -38,6 +43,9 @@ export class AchievementManager {
     public static setCurrentUser(userId: string): void {
         console.log(`[AchievementManager] 设置用户从 ${AchievementManager.currentUser} 到 ${userId}`);
         AchievementManager.currentUser = userId;
+        try {
+            localStorage.setItem('currentUser', userId);
+        } catch {}
         // 不再立即刷新实例，而是在下次获取实例时按需刷新
     }
 
@@ -54,12 +62,8 @@ export class AchievementManager {
      */
     private loadFromLocalStorage(): void {
         try {
-            if (!this.userId) {
-                console.log("[AchievementManager] 未登录用户，使用默认成就数据");
-                return;
-            }
-            
-            const storageKey = `userAchievements_${this.userId}`;
+            const keyUser = this.userId || 'default';
+            const storageKey = `userAchievements_${keyUser}`;
             console.log(`[AchievementManager] 尝试从localStorage加载数据，键: ${storageKey}`);
             const savedData = localStorage.getItem(storageKey);
             if (savedData) {
@@ -80,12 +84,8 @@ export class AchievementManager {
      */
     private saveToLocalStorage(): void {
         try {
-            if (!this.userId) {
-                console.log("[AchievementManager] 未登录用户，不保存成就数据");
-                return;
-            }
-            
-            const storageKey = `userAchievements_${this.userId}`;
+            const keyUser = this.userId || 'default';
+            const storageKey = `userAchievements_${keyUser}`;
             console.log(`[AchievementManager] 保存数据到localStorage，键: ${storageKey}`);
             localStorage.setItem(storageKey, JSON.stringify({
                 achievements: this.achievements
