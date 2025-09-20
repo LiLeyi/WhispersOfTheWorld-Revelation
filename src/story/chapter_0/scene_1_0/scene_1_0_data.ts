@@ -1386,6 +1386,7 @@ const scene: Scene = {
                         maxDeckSize: 10,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"巨石",
                             actionPoints: 1,
                             hp: 10,
                             maxHp: 10,
@@ -1486,6 +1487,7 @@ const scene: Scene = {
                         maxDeckSize: 10,   // 设置最大选牌数量
                     },
                         opponent: {
+                            name:"巨石",
                             actionPoints: 1,
                             hp: 20,
                             maxHp: 20,
