@@ -992,8 +992,8 @@ export class BuffService {
         }
 
         // 如果没有找到灾厄之主，直接返回
-        if (!disasterLord || disasterLord.hp > 0) {
-            console.log(`[DEBUG] No disaster lord or disaster lord hp > 0, returning`);
+        if (!disasterLord) {
+            console.log(`[DEBUG] No disaster lord found, returning`);
             return;
         }
 

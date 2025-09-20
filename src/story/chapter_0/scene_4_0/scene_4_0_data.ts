@@ -2897,7 +2897,12 @@ sprite: {
                              ],
                               },
                             backgroundImage:"sc1.1/1-1-0.jpg",
-                            bgm:"zaiezhizhu"
+                            bgm:"zaiezhizhu",
+                            disasterLordBgm: {
+                                phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐
+                                phase2: "zaiezhizhu",             // 灾厄之主第二阶段使用原来第一阶段的音乐
+                                phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
+                            }
                         },
                         end: [
                             {
@@ -3635,7 +3640,12 @@ sprite: {
                              ],
                               },
                             backgroundImage:"sc1.1/1-1-0.jpg",
-                            bgm:"zaiezhizhu"
+                            bgm:"zaiezhizhu",
+                            disasterLordBgm: {
+                                phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐
+                                phase2: "zaiezhizhu",             // 灾厄之主第二阶段使用原来第一阶段的音乐
+                                phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
+                            }
                         },
                         end: [
                             {

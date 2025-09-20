@@ -484,11 +484,22 @@ export class SceneManager {
             console.log("[SceneManager] 所有DOM元素已找到，开始绑定事件");
             console.log("[SceneManager] moveElement:", moveElement, "dialogElement:", dialogElement, "textBoxElement:", textBoxElement);
 
-            // 绑定点击事件
             const nextMoveHandler = (event: Event) => {
                 console.log("[SceneManager] 点击事件触发", event.target);
                 // 阻止事件冒泡
                 event.stopPropagation();
+
+                // 检查是否在小游戏或视频播放中
+                const miniGameContainer = document.getElementById("mini-game-container");
+                const videoContainer = document.getElementById("video-container");
+                const isInMiniGame = miniGameContainer && miniGameContainer.style.display !== 'none';
+                const isPlayingVideo = videoContainer && videoContainer.style.display !== 'none';
+
+                // 如果在小游戏或视频播放中，则不处理点击事件
+                if (isInMiniGame || isPlayingVideo) {
+                    console.log("[SceneManager] 在小游戏或视频播放中，忽略点击事件");
+                    return;
+                }
                 
                 // 检查是否显示了选项，如果显示了选项则不执行下一步
                 const selectionBox = document.getElementById("selection_box");
@@ -510,7 +521,6 @@ export class SceneManager {
                 console.log("[SceneManager] 调用nextMoveCallback");
                 nextMoveCallback();
             };
-
             // 保存之前事件处理函数的引用，以便后续移除
             const previousMoveHandler = (moveElement as any)._nextMoveHandler;
             const previousDialogHandler = (dialogElement as any)._nextMoveHandler;
@@ -552,6 +562,18 @@ export class SceneManager {
                     // 阻止默认的空格键行为（页面滚动）
                     event.preventDefault();
 
+                    // 检查是否在小游戏或视频播放中
+                    const miniGameContainer = document.getElementById("mini-game-container");
+                    const videoContainer = document.getElementById("video-container");
+                    const isInMiniGame = miniGameContainer && miniGameContainer.style.display !== 'none';
+                    const isPlayingVideo = videoContainer && videoContainer.style.display !== 'none';
+
+                    // 如果在小游戏或视频播放中，则不处理空格键
+                    if (isInMiniGame || isPlayingVideo) {
+                        console.log("[SceneManager] 在小游戏或视频播放中，忽略空格键");
+                        return;
+                    }
+
                     // 检查是否有弹窗或菜单打开，如果有则不执行跳过
                     const skipElement = document.getElementById("skip");
                     const returnElement = document.getElementById("return");
@@ -589,7 +611,6 @@ export class SceneManager {
                     }
                 }
             };
-
             // 移除可能存在的旧事件监听器，避免重复绑定
             document.removeEventListener('keydown', handleKeyDown as EventListener);
             document.addEventListener('keydown', handleKeyDown as EventListener);

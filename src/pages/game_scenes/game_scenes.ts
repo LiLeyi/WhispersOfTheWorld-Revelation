@@ -171,7 +171,7 @@ private init(): void {
                         returnElement.classList.remove("active");
                     }
                 },
-          onSkipYes: () => {
+                   onSkipYes: () => {
             // 简单直接的跳过实现
             const skipUnread = localStorage.getItem("skipUnreadText") === "true";
             
@@ -181,6 +181,49 @@ private init(): void {
                 if (this.currentScene) {
                     for (let i = this.currentNodeIndex + 1; i < this.currentScene.nodes.length; i++) {
                         const node = this.currentScene.nodes[i];
+                        // 记录经过的节点，支持基于 nodeId 的卡牌解锁
+                        try {
+                            const sceneId = this.currentScene?.id || 'unknown_scene';
+                            if (node.id) {
+                                recordVisitedNode(sceneId, node.id);
+                            }
+                            // 同步缓存当前节点ID，供兼容型读取
+                            const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
+                            localStorage.setItem(currentNodeKey, node.id);
+                            
+                            // 处理非选项节点的视觉和音频元素
+                            if (!(node.choices && node.choices.length > 0) && node.elements) {
+                                // 合并当前节点元素与前一个节点元素
+                                const mergedElements = this.mergeElements(this.previousElements, node.elements);
+                                this.previousElements = mergedElements;
+                                
+                                // 更新场景元素（背景、立绘、音频等）
+                                this.sceneManager.updateSceneElements(mergedElements);
+                                this.sceneManager.updateBackground(mergedElements);
+                                this.sceneManager.updateAudio(mergedElements);
+                                
+                                // 保存当前的previousElements状态到localStorage
+                                try {
+                                    localStorage.setItem("previousElements", JSON.stringify(this.previousElements));
+                                    
+                                    // 确保背景信息也保存到localStorage中，供自动存档使用
+                                    if (mergedElements.background) {
+                                        localStorage.setItem("MSYbackgroundIMG", mergedElements.background);
+                                    }
+                                } catch (e) {
+                                    console.error("无法保存previousElements到localStorage", e);
+                                }
+                            }
+                            
+                            // 执行节点动作（仅在动作条件满足时执行）
+                            if (node.action && (!node.actionCondition || node.actionCondition())) {
+                                node.action();
+                            }
+                        } catch (e) {
+                            console.error('[GameScene] 处理节点访问失败:', e);
+                        }
+                        
+                        // 如果是选项节点，则停止并跳转到该节点
                         if (node.choices && node.choices.length > 0) {
                             this.currentNodeIndex = i;
                             foundChoiceNode = true;
@@ -193,6 +236,8 @@ private init(): void {
                     }
                     this.clickCount = this.currentNodeIndex;
                     localStorage.setItem("nowclick", String(this.clickCount));
+                    // 评估并持久化解锁，确保换幕也不丢失
+                    evaluateAndPersistUnlocks();
                     this.renderCurrentNode();
                 }
             } else {

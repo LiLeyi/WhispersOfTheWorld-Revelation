@@ -14,6 +14,7 @@ import { DeckSelection } from "./DeckSelection";
 import { CardGameEventData } from "../../../types/MiniGameEvents";
 import { SceneManager } from "../../SceneManager";
 
+
 // 卡牌游戏类
 class CardGame extends MiniGame {
      static readonly HTML_TEMPLATE = `
@@ -32,6 +33,7 @@ class CardGame extends MiniGame {
                 </div>
             </div>
             
+
             <!-- 音量控制区域 -->
             <div id="volume-control-container" style="position:absolute;top:0;left:0;z-index:999;height:30%;width:30px;">
                 <!-- 音量控制切换按钮 -->
@@ -57,6 +59,42 @@ class CardGame extends MiniGame {
                     </div>
                 </div>
             </div>
+            
+            <div id="music-visualizer" style="position:absolute;top:50vh;left:0;width:30px;height:30vh;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:99;transform:translateY(-50%);">
+            </div>
+            
+            <style>
+                /* 灾厄之主阶段转换动画 */
+                @keyframes disasterLordPhaseTransition {
+                    0% { opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0; }
+                }
+                
+                .disaster-lord-phase-text {
+                    animation: disasterLordPhaseTransition 3s ease-in-out;
+                }
+                
+                /* 音乐可视化条响应式设计 */
+                @media (max-width: 768px) {
+                    #music-visualizer div {
+                        height: 2vh;
+                        margin: 0.4vh 0;
+                        border-radius: 0.6vh;
+                        min-height: 5px;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    #music-visualizer div {
+                        height: 1.8vh;
+                        margin: 0.3vh 0;
+                        border-radius: 0.4vh;
+                        min-height: 4px;
+                    }
+                }
+                }
+            </style>
             
             <!-- 对手信息区域 (右上角) -->
             <div id="opponent-info-container" style="position:absolute;top:0%;right:0%;z-index:10;background:linear-gradient(145deg, #2c2c2c, #1a1a1a);padding:1%;border-radius:0.5em;border:1px solid #8B7D6B;min-width:15%;box-shadow:0 0 1em rgba(139, 125, 107, 0.6);">
@@ -613,6 +651,11 @@ class CardGame extends MiniGame {
                 <div style="position:absolute;top:70%;left:7%;width:15px;height:2px;background:#8B7D6B;transform:rotate(-30deg);opacity:0.5;"></div>
             </div>
             
+            <!-- 对手区域音乐可视化条 -->
+            <div id="opponent-visualizer" style="position:absolute;top:2vh;left:10%;width:30px;height:20vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;z-index:5;">
+                <!-- 可视化条将通过JavaScript动态生成 -->
+            </div>
+            
             <!-- 对手区域 -->
             <div id="opponent-area" style="height:25vh;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:1;">
                 <div id="opponent-hand" class="deck opponent-hand" style="width:100%;display:flex;overflow:hidden;"></div>
@@ -638,6 +681,11 @@ class CardGame extends MiniGame {
                 <div style="position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(212, 175, 55, 0.3);border-radius:10px;"></div>
                 <div style="position:absolute;top:20%;left:5%;width:30px;height:2px;background:#8B7D6B;transform:rotate(-20deg);opacity:0.5;"></div>
                 <div style="position:absolute;top:60%;right:7%;width:20px;height:2px;background:#8B7D6B;transform:rotate(30deg);opacity:0.5;"></div>
+            </div>
+            
+            <!-- 玩家区域音乐可视化条 -->
+            <div id="player-visualizer" style="position:absolute;bottom:2vh;left:10%;width:30px;height:20vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;z-index:5;">
+                <!-- 可视化条将通过JavaScript动态生成 -->
             </div>
             
             <!-- 玩家手牌区域 -->
@@ -670,8 +718,15 @@ class CardGame extends MiniGame {
     private buffInfoPanel: HTMLElement | null = null; // Buff说明面板
     private volumeToggle: HTMLElement | null = null; // 音量控制切换按钮
     private volumePanel: HTMLElement | null = null; // 音量控制面板
+    private musicVisualizer: HTMLElement | null = null; // 音乐可视化条
+    private visualizationInterval: number | null = null; // 可视化更新定时器
+    private analyser: AnalyserNode | null = null; // 音频分析器
+    private audioContext: AudioContext | null = null; // 音频上下文
     // 已出牌记录（包含回合信息）
     private playedCards: Array<{ card: Card, turn: number, player: 'player' | 'opponent' }> = []; // 统一的已出牌记录
+    // 记录上一次灾厄之主阶段
+    private lastDisasterLordPhase: string | null = null;
+
 
     // 游戏状态
     private state: CardGameState = {
@@ -926,6 +981,11 @@ class CardGame extends MiniGame {
         // 获取音量控制面板相关元素
         this.volumeToggle = document.getElementById('volume-toggle');
         this.volumePanel = document.getElementById('volume-panel');
+        // Deleted: this.volumePanel = container.querySelector('#volume-panel');
+        this.musicVisualizer = document.getElementById('music-visualizer');
+
+        // 初始化音乐可视化条
+        this.initializeVisualizer();
 
         // 设置事件监听器
         this.setupEventListeners();
@@ -937,6 +997,150 @@ class CardGame extends MiniGame {
         this.setupVolumeControl();
     }
 
+
+    // 初始化音乐可视化条
+    private initializeVisualizer(): void {
+        if (!this.musicVisualizer) return;
+        
+        // 创建可视化条
+        this.createVisualizerBars(this.musicVisualizer, 15);
+        
+        // 初始化音频分析器
+        this.initAudioAnalyser();
+        
+        // 开始可视化动画
+        this.startVisualization();
+    }
+    
+    // 创建可视化条
+    private createVisualizerBars(container: HTMLElement | null, count: number): void {
+        if (!container) return;
+        
+        // 清空容器
+        container.innerHTML = '';
+        
+        // 创建指定数量的可视化条
+        for (let i = 0; i < count; i++) {
+            const bar = document.createElement('div');
+            bar.style.width = '40%';
+            bar.style.height = '2.5vh';
+            bar.style.backgroundColor = '#ffffff';
+            bar.style.margin = '0.6vh 0';
+            bar.style.borderRadius = '0.8vh';
+            bar.style.opacity = '0.85';
+            bar.style.transition = 'width 0.03s ease, opacity 0.03s ease';
+            bar.style.minHeight = '6px';
+            container.appendChild(bar);
+        }
+    }
+    
+    // 初始化音频分析器
+    private initAudioAnalyser(): void {
+        try {
+            // 创建音频上下文
+            this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+            
+            // 创建分析器节点
+            this.analyser = this.audioContext.createAnalyser();
+            this.analyser.fftSize = 64; // 较小的fftSize以获得更平滑的效果
+            
+            // 获取背景音乐元素
+            const musicElement = document.getElementById('music') as HTMLAudioElement;
+            if (musicElement) {
+                // 创建媒体元素源
+                const source = this.audioContext.createMediaElementSource(musicElement);
+                
+                // 连接节点: source -> analyser -> destination
+                source.connect(this.analyser);
+                this.analyser.connect(this.audioContext.destination);
+            }
+        } catch (e) {
+            console.warn('无法初始化音频分析器:', e);
+        }
+    }
+    
+    // 开始可视化动画
+    private startVisualization(): void {
+        // 清除已存在的定时器
+        if (this.visualizationInterval) {
+            clearInterval(this.visualizationInterval);
+        }
+        
+        // 设置新的定时器，定期更新可视化效果
+        this.visualizationInterval = window.setInterval(() => {
+            this.updateVisualization();
+        }, 50); // 每50毫秒更新一次（从100毫秒改为50毫秒）
+    }
+    
+
+    // 更新可视化
+    private updateVisualization(): void {
+        if (!this.musicVisualizer) return;
+        
+        // 如果有音频分析器，使用真实音频数据
+        if (this.analyser) {
+            // 获取频域数据
+            const bufferLength = this.analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            this.analyser.getByteFrequencyData(dataArray);
+            
+            // 更新可视化条
+            const bars = this.musicVisualizer.querySelectorAll('div');
+            bars.forEach((bar, index) => {
+                // 创建中间高两边低的效果
+                // 计算条在数组中的位置（0到1之间）
+                const position = index / (bars.length - 1);
+                // 计算距离中心的距离（0到0.5）
+                const distanceFromCenter = Math.abs(position - 0.5);
+                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
+                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
+                
+                // 使用音频数据更新宽度，并应用中心增强效果
+                const rawValue = dataArray[index % bufferLength] || 0;
+                // 增强波动效果，但减小变化幅度
+                const value = rawValue * centerMultiplier * 1.5;
+                const width = Math.max(30, value); // 最小宽度30像素
+                bar.style.width = `${width}px`;
+                
+                // 根据音频强度调整透明度，增加对比度
+                const opacity = 0.4 + (value / 255) * 0.6;
+                bar.style.opacity = opacity.toString();
+                
+                // 设置为白色
+                bar.style.backgroundColor = '#ffffff';
+            });
+        } else {
+            // 如果没有音频分析器，使用原来的随机数据模拟
+            const bars = this.musicVisualizer.querySelectorAll('div');
+            bars.forEach((bar, index) => {
+                // 创建中间高两边低的效果
+                // 计算条在数组中的位置（0到1之间）
+                const position = index / (bars.length - 1);
+                // 计算距离中心的距离（0到0.5）
+                const distanceFromCenter = Math.abs(position - 0.5);
+                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
+                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
+                
+                // 使用索引创建更有节奏感的变化
+                const timeOffset = index * 0.5;
+                const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
+                
+                // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
+                const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
+                const width = rawWidth * centerMultiplier;
+                bar.style.width = `${width}%`;
+                
+                // 根据宽度调整透明度，增加对比度
+                const opacity = 0.4 + (width / 100) * 0.6;
+                bar.style.opacity = opacity.toString();
+                
+                // 设置为白色
+                bar.style.backgroundColor = '#ffffff';
+            });
+        }
+    }
+
+    
     // 设置音量控制
     private setupVolumeControl(): void {
         const volumeToggle = document.getElementById('volume-toggle');
@@ -1418,9 +1622,9 @@ class CardGame extends MiniGame {
             console.log("保存当前背景音乐:", this.originalBgm);
 
             // 播放卡牌游戏专用背景音乐
-            const gameBgm = this.gameConfig?.bgm || "bgm9";
-            console.log("播放卡牌游戏背景音乐:", gameBgm);
-            this.audioManager.updateBackgroundMusic(gameBgm);
+const gameBgm = this.gameConfig?.bgm || "bgm9";
+console.log("播放卡牌游戏背景音乐:", gameBgm);
+this.audioManager.updateBackgroundMusic(gameBgm);
             
             // 确保应用保存的音量设置到当前播放的音乐
             const savedBgmVolume = localStorage.getItem('bgmVolume');
@@ -1440,6 +1644,37 @@ class CardGame extends MiniGame {
             console.error("播放背景音乐时出错:", error);
         }
     }
+
+    // 根据灾厄之主阶段更新背景音乐
+    private updateDisasterLordBgm(): void {
+        try {
+            console.log('[DEBUG] 更新灾厄之主背景音乐');
+            console.log('[DEBUG] 对手buff:', this.state.opponent.buffs);
+            
+            // 检查对手是否为灾厄之主以及其当前阶段
+            if (this.state.opponent.buffs.some(buff => buff.id === 'disaster_lord_phase1')) {
+                // 第一阶段音乐
+                const phase1Bgm = this.gameConfig?.disasterLordBgm?.phase1 || "zaiezhizhu";
+                console.log("播放灾厄之主第一阶段背景音乐:", phase1Bgm);
+                this.audioManager.updateBackgroundMusic(phase1Bgm);
+            } else if (this.state.opponent.buffs.some(buff => buff.id === 'disaster_lord_phase2')) {
+                // 第二阶段音乐
+                const phase2Bgm = this.gameConfig?.disasterLordBgm?.phase2 || "zaiezhizhu_phase2";
+                console.log("播放灾厄之主第二阶段背景音乐:", phase2Bgm);
+                this.audioManager.updateBackgroundMusic(phase2Bgm);
+            } else if (this.state.opponent.buffs.some(buff => buff.id === 'disaster_lord_phase3')) {
+                // 第三阶段音乐
+                const phase3Bgm = this.gameConfig?.disasterLordBgm?.phase3 || "zaiezhizhu_phase3";
+                console.log("播放灾厄之主第三阶段背景音乐:", phase3Bgm);
+                this.audioManager.updateBackgroundMusic(phase3Bgm);
+            } else {
+                console.log("对手不是灾厄之主或未找到对应阶段");
+            }
+        } catch (error) {
+            console.error("更新灾厄之主背景音乐时出错:", error);
+        }
+    }
+
     private stopBackgroundMusic(): void {
         try {
             if (this.audioManager) {
@@ -2006,6 +2241,7 @@ class CardGame extends MiniGame {
             }
         }
     }
+    
 
     // 通用音效播放方法
     private playSoundEffect(soundName: string, volume: number = 1.0): void {
@@ -2078,6 +2314,18 @@ class CardGame extends MiniGame {
         } else {
             // 巨石回合结束时增加巨石行动值
             this.state.opponent.actionPoints += typeof this.config.opponent?.actionPoints == 'function' ? this.config.opponent.actionPoints() : this.config.opponent?.actionPoints!;
+            
+            // 检查灾厄之主阶段转换
+            const initialPhase = this.getDisasterLordPhase(this.state.opponent);
+            BuffService.checkDisasterLordPhase(this.state.opponent, this.state.player);
+            const newPhase = this.getDisasterLordPhase(this.state.opponent);
+            
+            // 如果灾厄之主阶段发生变化，更新背景音乐并显示过渡效果
+            if (initialPhase !== newPhase && newPhase !== null) {
+                console.log(`灾厄之主阶段从 ${initialPhase} 转换到 ${newPhase}`);
+                this.showDisasterLordPhaseTransition(newPhase);
+            }
+            
             this.state.currentPlayer = 'player';
             this.state.gamePhase = 'draw';
             this.state.turn++;
@@ -2094,6 +2342,258 @@ class CardGame extends MiniGame {
         }
 
         this.updateUI();
+    }
+
+    // 应用灾厄之主战斗压迫感滤镜
+    private applyDisasterLordFilter(): void {
+        // 移除已存在的滤镜
+        this.removeDisasterLordFilter();
+        
+        // 创建滤镜元素
+        const filterOverlay = document.createElement('div');
+        filterOverlay.id = 'disaster-lord-filter';
+        filterOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.5s ease-in-out;
+        `;
+        
+        document.body.appendChild(filterOverlay);
+        
+        console.log('[DEBUG] 应用灾厄之主静态压迫感滤镜');
+        
+        // 记录阶段开始时间
+        const phaseStartTime = Date.now();
+        const currentPhase = this.getDisasterLordPhase(this.state.opponent);
+        
+        // 根据当前阶段设置定时器
+        switch(currentPhase) {
+            case 'phase1':
+                // 第一阶段40秒后闪白并应用第三阶段效果
+                setTimeout(() => {
+                    // 检查是否仍在第一阶段，避免在阶段已经转换后还触发效果
+                    const currentPhaseCheck = this.getDisasterLordPhase(this.state.opponent);
+                    if (currentPhaseCheck === 'phase1') {
+                        this.flashWhiteAndApplyPhase3Effect();
+                    } else {
+                        // 如果已经进入下一阶段，直接应用相应阶段的效果
+                        this.applyPhaseEffectForCurrentState();
+                    }
+                }, 38000);
+                break;
+            case 'phase2':
+                // 第二阶段12秒后闪白并应用第三阶段效果
+                setTimeout(() => {
+                    // 检查是否仍在第二阶段，避免在阶段已经转换后还触发效果
+                    const currentPhaseCheck = this.getDisasterLordPhase(this.state.opponent);
+                    if (currentPhaseCheck === 'phase2') {
+                        this.flashWhiteAndApplyPhase3Effect();
+                    } else {
+                        // 如果已经进入下一阶段，直接应用相应阶段的效果
+                        this.applyPhaseEffectForCurrentState();
+                    }
+                }, 14000);
+                break;
+            case 'phase3':
+                // 第三阶段提高亮度
+                setTimeout(() => {
+                    // 检查是否仍在第三阶段
+                    const currentPhaseCheck = this.getDisasterLordPhase(this.state.opponent);
+                    if (currentPhaseCheck === 'phase3') {
+                        this.increaseBrightness();
+                    }
+                }, 1000);
+                break;
+        }
+    }
+    
+    // 根据当前阶段应用相应的效果
+    private applyPhaseEffectForCurrentState(): void {
+        const currentPhase = this.getDisasterLordPhase(this.state.opponent);
+        switch(currentPhase) {
+            case 'phase2':
+                // 应用第二阶段效果
+                // 这里可以添加第二阶段需要的特殊效果
+                console.log('[DEBUG] 直接应用第二阶段效果');
+                break;
+            case 'phase3':
+                // 直接应用第三阶段效果
+                setTimeout(() => {
+                    this.applyPhase3Effect();
+                }, 100);
+                console.log('[DEBUG] 直接应用第三阶段效果');
+                break;
+            default:
+                console.log('[DEBUG] 当前阶段无需特殊处理');
+                break;
+        }
+    }
+    
+    // 移除灾厄之主战斗压迫感滤镜
+    private removeDisasterLordFilter(): void {
+        const filterOverlay = document.getElementById('disaster-lord-filter');
+        const flashOverlay = document.getElementById('disaster-lord-flash');
+        const phase3Filter = document.getElementById('disaster-lord-filter-phase3');
+        
+        if (filterOverlay && filterOverlay.parentNode) {
+            filterOverlay.parentNode.removeChild(filterOverlay);
+        }
+        
+        if (flashOverlay && flashOverlay.parentNode) {
+            flashOverlay.parentNode.removeChild(flashOverlay);
+        }
+        
+        if (phase3Filter && phase3Filter.parentNode) {
+            phase3Filter.parentNode.removeChild(phase3Filter);
+        }
+        
+        console.log('[DEBUG] 移除灾厄之主滤镜');
+    }
+    
+    // 闪白并移除滤镜
+    private flashWhiteAndRemoveFilter(): void {
+        // 创建闪白效果元素
+        const flashOverlay = document.createElement('div');
+        flashOverlay.id = 'disaster-lord-flash';
+        flashOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+        `;
+        
+        document.body.appendChild(flashOverlay);
+        
+        // 执行闪白动画
+        setTimeout(() => {
+            flashOverlay.style.transition = 'opacity 0.5s ease-in-out';
+            flashOverlay.style.opacity = '1';
+            
+            setTimeout(() => {
+                flashOverlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    if (flashOverlay.parentNode) {
+                        flashOverlay.parentNode.removeChild(flashOverlay);
+                    }
+                    this.removeDisasterLordFilter();
+                }, 500);
+            }, 1000);
+        }, 100);
+    }
+    
+    // 闪白并应用第三阶段效果
+    private flashWhiteAndApplyPhase3Effect(): void {
+        // 创建闪白效果元素
+        const flashOverlay = document.createElement('div');
+        flashOverlay.id = 'disaster-lord-flash';
+        flashOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+        `;
+        
+        document.body.appendChild(flashOverlay);
+        
+        // 执行闪白动画
+        setTimeout(() => {
+            flashOverlay.style.transition = 'opacity 0.5s ease-in-out';
+            flashOverlay.style.opacity = '1';
+            
+            setTimeout(() => {
+                flashOverlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    if (flashOverlay.parentNode) {
+                        flashOverlay.parentNode.removeChild(flashOverlay);
+                    }
+                    // 移除当前滤镜并应用第三阶段效果
+                    this.removeDisasterLordFilter();
+                    // 应用第三阶段效果（提高亮度）
+                    setTimeout(() => {
+                        this.applyPhase3Effect();
+                    }, 100);
+                }, 500);
+            }, 1000);
+        }, 100);
+    }
+    
+    // 应用第三阶段效果（提高亮度）
+    private applyPhase3Effect(): void {
+        // 创建第三阶段效果滤镜
+        const filterOverlay = document.createElement('div');
+        filterOverlay.id = 'disaster-lord-filter';
+        filterOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 100px 30px rgba(255,255,255,0.1);
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.5s ease-in-out;
+        `;
+        
+        document.body.appendChild(filterOverlay);
+        console.log('[DEBUG] 应用灾厄之主第三阶段效果');
+    }
+
+    // 增加亮度效果（修复缺失的方法）
+    private increaseBrightness(): void {
+        // 移除可能存在的旧滤镜
+        this.removeDisasterLordFilter();
+        
+        // 创建新的亮度增加滤镜
+        const filterOverlay = document.createElement('div');
+        filterOverlay.id = 'disaster-lord-filter-phase3';
+        filterOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 150px 50px rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.5s ease-in-out;
+        `;
+        
+        document.body.appendChild(filterOverlay);
+        console.log('[DEBUG] 增加灾厄之主第三阶段亮度效果');
+    }
+
+
+    // 获取灾厄之主阶段
+    private getDisasterLordPhase(player: Player): 'phase1' | 'phase2' | 'phase3' | null {
+        // 检查玩家是否有灾厄之主的各个阶段buff
+        if (player.buffs.some(buff => buff.id === 'disaster_lord_phase1')) {
+            return 'phase1';
+        } else if (player.buffs.some(buff => buff.id === 'disaster_lord_phase2')) {
+            return 'phase2';
+        } else if (player.buffs.some(buff => buff.id === 'disaster_lord_phase3')) {
+            return 'phase3';
+        }
+        return null;
     }
 
     // 清除临时防御（普通防御）
@@ -2351,6 +2851,9 @@ class CardGame extends MiniGame {
 
     // 结束游戏
     protected endGame(): void {
+        // 移除灾厄之主滤镜
+        this.removeDisasterLordFilter();
+        
         this.state.gamePhase = 'gameover';
         this.updateUI();
 
@@ -2409,6 +2912,9 @@ class CardGame extends MiniGame {
     private updateUI(): void {
         // 只有在选卡界面隐藏时才更新游戏UI
         if (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer) {
+            // 检查灾厄之主阶段变化
+            this.checkDisasterLordPhaseChange();
+            
             this.updateScoreDisplay();
             UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
                 ? this.config.player!.drawCount()!
@@ -2476,6 +2982,77 @@ class CardGame extends MiniGame {
         }
     }
 
+    // 检查灾厄之主阶段变化
+    private checkDisasterLordPhaseChange(): void {
+        // 获取当前灾厄之主阶段
+        const currentPhase = this.getDisasterLordPhase(this.state.opponent);
+        
+        // 检查是否有灾厄之主buff
+        const isDisasterLord = this.state.opponent.buffs.some(buff => 
+            buff.id === 'disaster_lord_phase1' || 
+            buff.id === 'disaster_lord_phase2' || 
+            buff.id === 'disaster_lord_phase3'
+        );
+        
+        // 如果是灾厄之主且阶段发生变化
+        if (isDisasterLord && this.lastDisasterLordPhase !== currentPhase && currentPhase !== null) {
+            console.log(`灾厄之主阶段从 ${this.lastDisasterLordPhase} 转换到 ${currentPhase}`);
+            this.showDisasterLordPhaseTransition(currentPhase);
+            this.updateDisasterLordBgm();
+            this.lastDisasterLordPhase = currentPhase;
+            
+            // 应用新的滤镜效果
+            this.applyDisasterLordFilter();
+        }
+        
+        // 如果不是灾厄之主，重置记录的阶段并移除滤镜
+        if (!isDisasterLord) {
+            this.lastDisasterLordPhase = null;
+            this.removeDisasterLordFilter();
+        }
+    }
+
+    // 显示灾厄之主阶段转换动画
+    private showDisasterLordPhaseTransition(phase: 'phase1' | 'phase2' | 'phase3'): void {
+        // 创建阶段转换文本元素
+        const phaseText = document.createElement('div');
+        phaseText.className = 'disaster-lord-phase-text';
+        phaseText.style.position = 'fixed';
+        phaseText.style.top = '50%';
+        phaseText.style.left = '50%';
+        phaseText.style.transform = 'translate(-50%, -50%)';
+        phaseText.style.zIndex = '3000';
+        phaseText.style.fontSize = '2em';
+        phaseText.style.fontWeight = 'bold';
+        phaseText.style.color = '#ff0000';
+        phaseText.style.textAlign = 'center';
+        phaseText.style.textShadow = '0 0 10px #000';
+        phaseText.style.pointerEvents = 'none';
+        
+        // 根据阶段设置文本内容
+        switch(phase) {
+            case 'phase1':
+                phaseText.textContent = '灾厄之主·第一阶段';
+                break;
+            case 'phase2':
+                phaseText.textContent = '灾厄之主·第二阶段';
+                break;
+            case 'phase3':
+                phaseText.textContent = '灾厄之主·第三阶段';
+                break;
+        }
+        
+        // 添加到文档中
+        document.body.appendChild(phaseText);
+        
+        // 3秒后移除元素
+        setTimeout(() => {
+            if (phaseText.parentNode) {
+                phaseText.parentNode.removeChild(phaseText);
+            }
+        }, 3000);
+    }
+
     // 更新已出牌区域卡牌的视觉状态
     private updatePlayedCardsVisualState(): void {
         // 处理统一的已出牌区域
@@ -2518,6 +3095,13 @@ class CardGame extends MiniGame {
     }
 
     public restart(): void {
+        console.log('[CardGame] 重启游戏');
+        
+        // 清理可视化定时器
+        if (this.visualizationInterval) {
+            clearInterval(this.visualizationInterval);
+            this.visualizationInterval = null;
+        }
         // 重置游戏状态
         this.state = {
             player: {

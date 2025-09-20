@@ -56,6 +56,13 @@ export interface CardGameConfig {
     // 添加背景音乐配置
     bgm?: string;                       // 卡牌游戏背景音乐
     
+    // 灾厄之主各阶段背景音乐配置
+    disasterLordBgm?: {
+        phase1?: string;                // 灾厄之主第一阶段背景音乐
+        phase2?: string;                // 灾厄之主第二阶段背景音乐
+        phase3?: string;                // 灾厄之主第三阶段背景音乐
+    };
+    
     // 添加背景图片配置
     backgroundImage?: string;           // 卡牌游戏背景图片路径
     
