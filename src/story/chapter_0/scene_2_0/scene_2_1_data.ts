@@ -1733,34 +1733,611 @@ sprite: {
     bgm:"bgm10.MP3",
     background:"sc2.1/2-1-11.png",
     name: "旁白", 
-    text: "继续摸索，来到了一名“干部”的地盘。" ,
+    text: "经过一番探查，得知在这片区域就存在一名“干部”。于是决定先对那名“干部”进行调查。" ,
   },
 },
 {
   id: "darkblade_151_2",
   elements: { 
     name: "旁白", 
-    text: "没想到，却正巧目睹了这名干部虐待他手下的人类的场景。" ,
+    text: "穿行在金属丛林中，眼前出现了一座通体漆黑的小型塔状基地，这就是干部的所在之处了。" ,
   },
 },
 {
   id: "darkblade_152_2",
   elements: { 
-    name: "旁白", 
-    text: "我出手杀死了这名干部，人们四散逃走。" ,
+    name: "你", 
+    text: "从外面看，并没有什么守卫之类的存在。" ,
   },
 },
 {
   id: "darkblade_153_2",
   elements: { 
     background:"sc2.1/2-1-10.png",
-    name: "旁白", 
-    text: "继续潜入，却意外发现了一名准备自杀的人类。" ,
+    name: "光泠", 
+    text: "因为这座基地的自主防御系统做得足够完善。",
     sprite: {
-            left:null,
+            left: "guangling/smile1.png",
         }
   },
-  keyNode: true,
+},
+{
+  id: "darkblade_154_2_1_1",
+  elements: { 
+    name: "光泠", 
+    text: "一般的入侵者，大概很难直接突破吧。" ,
+    sprite: {
+            left:"guangling/smile1.png",
+        }
+  },
+},
+{
+  id: "darkblade_155_2_1_1",
+  elements: { 
+    name: "你", 
+    text: "可我们并不是一般人，对吧？" ,
+    sprite: {
+            left: null,
+        }
+  },
+},
+{
+  id: "darkblade_155_2_1_1",
+  elements: { 
+    name: "光泠", 
+    text: "是吗？" ,
+    sprite: {
+            left: "guangling/smile1.png",
+        }
+  },
+},
+{
+  id: "darkblade_156_2_1_1",
+  elements: {
+    name: "你",
+    text: "一开始还是先不要打草惊蛇的好。",
+    sprite: {
+            left: null,
+        }
+  }
+},
+{
+  id: "darkblade_157_2_1_1",
+  elements: {
+    name: "你",
+    text: "我相信那些所谓的防御系统在你面前全都是摆设吧。",
+    sprite: {
+            left: null,
+        }
+  }
+},
+{
+  id: "darkblade_158_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "哈，还挺自信的嘛。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_159_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "不过，说的没错。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_160_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "眨眼之间，凭借着光泠的传送能力，便避开了防御系统，直接进入了基地内部。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_161_2_1_1",
+  elements: {
+    name: "你",
+    text: "真是方便又快捷啊。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_162_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "对了，可以戴上这个。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_163_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "光泠不知从哪里掏出来了一个黑色金属面具。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_164_2_1_1",
+  elements: {
+    name: "你",
+    text: "面具？有什么特别的作用吗？"
+  }
+},
+{
+  id: "darkblade_165_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "哦。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_166_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "硬要说的话，其实没什么特别的用处。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_167_2_1_1",
+  elements: {
+    name: "你",
+    text: "那给我戴这个干嘛。"
+  }
+},
+{
+  id: "darkblade_168_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "可以增添一丝神秘感。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_169_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "就像是执行某种秘密任务的特工或者搜查官。（笑）",
+    sprite: {
+      left: "guangling/spy1.png"
+    }
+  }
+},
+{
+  id: "darkblade_170_2_1_1",
+  elements: {
+    name: "你",
+    text: "......"
+  }
+},
+{  id: "darkblade_170_2_1_2",
+  elements: {
+    name: "旁白",
+    text: "还是接过了面具戴上了。"
+  }
+},
+{
+  id: "darkblade_171_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "很好。还挺像模像样的。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_172_2_1_1",
+  elements: {
+    name: "你",
+    text: "你怎么不戴一个？",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_173_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "别急嘛。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_174_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "她给自己也戴上了一个同样款式的面具，不过是白色的。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_175_2_1_1",
+  elements: {
+    name: "你",
+    text: "黑白面具，我们是来勾魂的黑白无常么？",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_176_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "更像是一对组合了。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_177_2_1_1",
+  elements: {
+    name: "你",
+    text: "就算不戴面具，我们也是最佳搭配。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_178_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "这倒是。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_179_2_1_1",
+  elements: {
+    name: "你",
+    text: "好了，三更已到，该去索命了。",
+     sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_180_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "哦？不是来潜入调查的么。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_181_2_1_1",
+  elements: {
+    name: "你",
+    text: "顺手的事罢了。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_182_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "前方似乎传来一阵骚动。"
+  }
+},
+{
+  id: "darkblade_183_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "潜行进入一个神秘大门，却发现里面别有洞天。"
+  }
+},
+{
+  id: "darkblade_183_2_1_2",
+  elements: {
+    name: "旁白",
+    text: "原来内部竟然有一座工厂，密密麻麻的人类在里面进行着不明所以的活动。"
+  }
+},
+{
+  id: "darkblade_184_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "至于骚动是怎么回事呢？两个身着机械装备的人类，正拖拽着一个挣扎着大声哭喊的人类。"
+  }
+},
+{
+  id: "darkblade_185_2_1_1",
+  elements: {
+    name: "？？？",
+    text: "对，就这个，拖过来让我看看。",
+  }
+},
+{
+  id: "darkblade_186_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "向声音的来源看去，是一名衣着精致、看上去养尊处优的人类。那应该就是干部了。"
+  }
+},
+{
+  id: "darkblade_187_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "看上去是的。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{ 
+  id: "darkblade_188_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "哭喊着的人类被扔到干部脚下。"
+  }
+},
+{
+  id: "darkblade_189_2_1_1",
+  elements: {
+    name: "？？？",
+    text: "哎哟，没想到还挺细皮嫩肉的，这个吃起来应该味道不错。",
+  }
+},
+{
+  id: "darkblade_190_2_1_1",
+  elements: {
+    name: "你",
+    text: "这个干部还吃人肉？",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_191_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "可能是想效仿变异的机械体以人类为食。",
+    sprite: {
+      left: "guangling/tanqi.png"
+    }
+  }
+},
+{
+  id: "darkblade_192_2_1_1",
+  elements: {
+    name: "？？？",
+    text: "拖出去！",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_193_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "人类惊恐的哭喊声在这片空间中回荡，然而现场的所有人类却依旧麻木地进行手中的事情。"
+  }
+},
+{
+  id: "darkblade_193_2_1_2",
+  elements: {
+    name: "旁白",
+    text: "对眼前发生的事情置若罔闻，似乎已经习以为常。"
+  }
+},
+{
+  id: "darkblade_194_2_1_1",
+  elements: {
+    name: "你",
+    text: "能帮我评估一下整个基地的战斗力吗？"
+  }
+},
+{
+  id: "darkblade_195_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "好啊。以你的实力，这里没人能对我们造成威胁。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_196_2_1_1",
+  elements: {
+    name: "你",
+    text: "那就好办了。",
+     sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_197_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "暗寂化为黑色飞刀，瞬息之间便刺穿了两名手下的喉咙。扑通！两名手下还没来得及发出声音，就丢了性命。"
+  }
+},
+{
+  id: "darkblade_198_2_1_1",
+  elements: {
+    name: "干部",
+    text: "怎么回事？谁干的？给我滚出来！",
+  }
+},
+{
+  id: "darkblade_199_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "缓缓地从暗处出现，向干部一步步逼近而去，同时将暗寂召回手中。"
+  }
+},
+{
+  id: "darkblade_200_2_1_1",
+  elements: {
+    name: "干部",
+    text: "什么人？报上名来！",
+  }
+},
+{
+  id: "darkblade_201_2_1_1",
+  elements: {
+    name: "你",
+    text: "来取你狗命的人。"
+  }
+},
+{
+  id: "darkblade_202_2_1_1",
+  elements: {
+    name: "干部",
+    text: "小子，别太猖狂！这里可是老子的地盘！",
+  }
+},
+{
+  id: "darkblade_203_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "干部召来一大批身着机械装备的手下，将我团团围住。干部：给我拿下他！"
+  }
+},
+{
+  id: "darkblade_204_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "站在原地，仅仅操纵着化为飞刀的暗寂，片刻之间就将数十名手下击倒。"
+  }
+},
+{
+  id: "darkblade_205_2_1_1",
+  elements: {
+    name: "你",
+    text: "不够看啊。"
+  }
+},
+{
+  id: "darkblade_206_2_1_1",
+  elements: {
+    name: "干部",
+    text: "小子，我承认你有点实力。不过，到此为止了！",
+  }
+},
+{
+  id: "darkblade_207_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "说完，干部的身上也出现了一套机械装甲。干部：纳命来！"
+  }
+},
+{
+  id: "darkblade_208_2_1_1",
+  elements: {
+    name: "你",
+    text: "尽管来吧。不消片刻，胜负已分。这是一场毫无悬念的战斗。"
+  }
+},
+{
+  id: "darkblade_208_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "干部装甲碎了一地，倒在地上，口鼻中鲜血直流。"
+  }
+},
+{
+  id: "darkblade_209_2_1_1",
+  elements: {
+    name: "干部",
+    text: "你到底是何方神圣？我从来没有见过像你这样的人类！不对，你真的是人类么？",
+  }
+},
+{
+  id: "darkblade_210_2_1_1",
+  elements: {
+    name: "你",
+    text: "我只是一个路过的假面骑士罢了，给我记住了！言毕，直接操纵暗寂将干部的脑袋搬了家。"
+  }
+},
+{
+  id: "darkblade_211_2_1_1",
+  elements: {
+    name: "你",
+    text: "好了，你们自由了！直到现在，人类奴隶们终于骚动起来，四散逃窜。"
+  }
+},
+{
+  id: "darkblade_212_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "我已经将这个地方调查得差不多了。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_213_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "戴着白面具的光泠出现在身后，简要地说明了这座基地的情况。看来已经没有继续呆在这的必要了。走吧。"
+  }
+},
+{
+  id: "darkblade_214_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "清剿完基地中剩余的干部手下，便离开了基地。这个地方并没有什么有价值的信息啊。"
+  }
+},
+{
+  id: "darkblade_215_2_1_1",
+  elements: {
+    name: "光泠",
+    text: "不过，这表明干部实际上并没有太多的权利，也不过是给机械体当狗腿子而已。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_216_2_1_1",
+  elements: {
+    name: "旁白",
+    text: "不意外。与光泠交谈着，忽然发现不远处一名人类正拿着一把刀抵住喉咙，似乎是准备自我了断。"
+  },
+keyNode: true,
   choices: [
     {
       text: "袖手旁观",
@@ -1772,6 +2349,7 @@ sprite: {
     },
   ],
 },
+
 //分支2-1//
 {
   id: "darkblade_154_2_1",
@@ -2067,37 +2645,49 @@ sprite: {
 {
   id: "darkblade_156_2_2",
   elements: { 
-    name: "旁白", 
-    text: "意外的是，他竟然开始抱怨我。" ,
+    name: "你", 
+    text: "嘿，冷静一点！" ,
+     sprite: {
+            left: null,
+        }
   },
 },
 {
   id: "darkblade_157_2_2",
   elements: { 
-    name: "旁白", 
-    text: "不过最后，我还是劝住了他。" ,
+    name: "奴隶", 
+    text: "你是？" ,
+    sprite: {
+            left: "NPC/pityman.png",
+        }
   },
 },
 {
   id: "darkblade_158_2_2",
   elements: { 
-    name: "旁白", 
-    text: "至于离开后他会怎样，我也确实无法干涉。" ,
+    name: "奴隶", 
+    text: "你就是那个杀了主人的黑面具！" ,
   },
 },
 {
   id: "darkblade_159_2_2",
   elements: { 
-    name: "旁白", 
-    text: "经过一路的探索，方向逐渐明确。" ,
+    name: "你", 
+    text: "是我没错。你为什么要这样做。" ,
+    sprite: {
+            left: null,
+        }
   },
 },
 {
   id: "darkblade_160_2_2",
   elements: { 
      background:"sc2.1/2-1-4.png",
-    name: "旁白", 
-    text: "我们潜入到了“齿轮”城中心，看到了齿轮之塔。" ,
+    name: "奴隶", 
+    text: "你没有资格干涉我！" ,
+    sprite: {
+            left: "NPC/pityman.png",
+        }
   },
 },
 {
@@ -2105,16 +2695,1117 @@ sprite: {
   elements: { 
     bgm:"bgm13.MP3",
     background:"sc2.1/2-1-5.png",
-    name: "旁白", 
-    text: "突破层层防线，我们终于进入到齿轮之塔内部。" ,
+    name: "奴隶", 
+    text: "你还问我为什么？" ,
   },
 },
 {
   id: "darkblade_162_2_2",
   elements: { 
-    name: "旁白", 
-    text: "却没想到，国王竟然也在这里。" ,
+    name: "奴隶", 
+    text: "这一切都是因为你！" ,
   },
+},
+{
+  id: "darkblade_162_2_2_1",
+  elements: { 
+    name: "你", 
+    text: "为什么说因为我？" ,
+    sprite: {
+            left: null,
+        }
+  },
+},
+{
+  id: "darkblade_163_2_2_1",
+  elements: {
+    name: "你",
+    text: "你疯了吧。你在说什么胡话呢。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_164_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "你没来的时候我过的好好的。",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_165_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "我有事干也有命活。",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_166_2_2_1",
+  elements: {
+    name: "你",
+    text: "你所谓的“主人”不过是在利用你们，想榨干你们的一切价值。他也根本没把你们当人看。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_167_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "我才不管他把我当什么看。",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_168_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "这都无所谓，我才不管呢！",
+   sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_169_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "只有在他那里，我们才能有一口吃的，有活命的机会。",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_170_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "没了他，我简直不知道该怎么继续活下去！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_171_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "谁让你把手伸到你不该管的事情里面来的！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_172_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "都是因为你，我失去了赖以生存的一切！",
+   sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_173_2_2_1",
+  elements: {
+    name: "你",
+    text: "给他做牛做马，还给他当储备粮。你管这个叫你赖以生存的东西？",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_174_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "这里所有的人都是这样！",
+   sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_175_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "这就是我们生活的全部意义！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_176_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "不这样做，就没有办法活下去！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_177_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "主人让我们做什么，我们就得做什么！我们谁也不能不干！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_178_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "可你这样做是为了什么？你把主人杀了，我们就没有容身之处了！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_179_2_2_1",
+  elements: {
+    name: "你",
+    text: "可他之前，还准备吃了你！",
+    sprite: {
+      left: null,
+  }
+},
+},
+{
+  id: "darkblade_180_2_2_1",
+  elements: {
+    name: "你",
+    text: "你不是，还哭喊着挣扎吗？",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_181_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "就算是这样，我也只是会失去身上的一部分血肉而已！这没什么大不了的！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_182_2_2_1",
+  elements: {
+    name: "奴隶",
+    text: "他并不会一次性把我全部吃掉，我还能继续活命！",
+    sprite: {
+      left: "NPC/pityman.png"
+    }
+  }
+},
+{
+  id: "darkblade_183_2_2_1",
+  elements: {
+    name: "你",
+    text: "即使是这样，也不要轻易地放弃自己的生命。你难道就没有，改变这一切的想法吗？这里不应该成为你生命的终点！",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_184_2_2_1",
+  elements: {
+    name: "你",
+    text: "挺直身子，尝试去把压在头顶的巨石推翻，也比自寻死路要好。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_185_2_2_1",
+  elements: {
+    name: "旁白",
+    text: "一番劝说后，看上去终于勉强打消了他自杀的想法。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_186_2_2_1",
+  elements: {
+    name: "？？？",
+    text: "你现在明白了吧。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_187_2_2_1",
+  elements: {
+    name: "你",
+    text: "虚樹？",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_188_2_2_1",
+  elements: {
+    name: "你",
+    text: "没想到你会出现在这里。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_189_2_2_1",
+  elements: {
+    name: "虚樹",
+    text: "我的消息还算灵通。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_190_2_2_1",
+  elements: {
+    name: "虚樹",
+    text: "想要真正改变这一切，仅仅是杀死一个干部是远远不够的。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_191_2_2_1",
+  elements: {
+    name: "虚樹",
+    text: "因为这完全没有，从根源上解决问题。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_192_2_2_1",
+  elements: {
+    name: "虚樹",
+    text: "只有将机械体的统治彻底掀翻，才是唯一的办法。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_193_2_2_1",
+  elements: {
+    name: "虚樹",
+    text: "或许我们可以合作。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  },
+  choices: [
+    {
+      text: "我接受你的邀请。",
+      next: "darkblade_193_2_2_2",
+    },
+    {
+      text: "让我考虑一下。",
+      next: "darkblade_193_2_2_3",
+    },
+  ],
+},
+{
+  id: "darkblade_193_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "很好，欢迎你们的加入。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  },
+  next: "darkblade_194_2_2_2",
+},
+{
+  id: "darkblade_193_2_2_3",
+  elements: {
+    name: "虚樹",
+    text: "没关系，现在并不需要急于决定,等你考虑好了再说也不迟。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  },
+  next: "darkblade_194_2_2_2",
+},
+{
+  id: "darkblade_194_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "我们的组织名叫“破晓”。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  },
+},
+{
+  id: "darkblade_195_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "不久之后，我们将会发起一次大规模进攻。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_196_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "目标是——",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_197_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "齿轮之塔。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_198_2_2_2",
+  elements: {
+    name: "你",
+    text: "齿轮之塔吗。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_199_2_2_2",
+  elements: {
+    name: "你",
+    text: "这也是我的目标。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_200_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "那么，到时候，请出手协助我们。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_201_2_2_2",
+  elements: {
+    name: "你",
+    text: "既然我们目标一致，那就没问题。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_202_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "多谢。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_203_2_2_2",
+  elements: {
+    name: "narration",
+    text: "他看了一眼那名尝试自杀的人类。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_204_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "这个人，交给我。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_205_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "我们的组织——“破晓”，会收留他的。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_206_2_2_2",
+  elements: {
+    name: "你",
+    text: "那么，拜托了。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_207_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "如果没什么事了的话，我就先走了。",
+     sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_208_2_2_2",
+  elements: {
+    name: "narration",
+    text: "他带着那名人类，转身离开了。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_209_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "接下来，就静静等着和“破晓”一起大举进攻齿轮之塔的日子了。"
+  }
+},
+{
+  id: "darkblade_210_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "在此期间，对齿轮这座机械之城，以及“破晓”这个组织，都有了更深的了解......"
+  }
+},
+{
+  id: "darkblade_211_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "终于，这一天到来了。"
+  }
+},
+{
+  id: "darkblade_212_2_2_2",
+  elements: {
+    name: "？？？",
+    text: "今天，我们汇聚于此，是为了悼念我们过去在战斗中牺牲的同胞们。"
+  }
+},
+{
+  id: "darkblade_213_2_2_2",
+  elements: {
+    name: "你",
+    text: "他就是“破晓”的首领吧。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_214_2_2_2",
+  elements: {
+    name: "光泠",
+    text: "没错。他就是——空木錬真（うつぎ れんま）。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_215_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "尽管有许多并肩作战的同胞们永远离开了我们。但我们的抗争不会结束！",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_216_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "抗争当然会继续，抗争总是如此。"
+  }
+},
+{
+  id: "darkblade_217_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "一个人离去就会有另一个人接力，直到取得胜利，直到将本属于我们的东西抓到手中。"
+  }
+},
+{
+  id: "darkblade_218_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "空木錬真低沉肃穆的嗓音带动着在场每一个人的情绪。"
+  }
+},
+{
+  id: "darkblade_219_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "我们不会抛弃任何同胞，我们会坚守每一寸土地，我们会将希望之火传递到每一个需要的人手中。"
+  }
+},
+{
+  id: "darkblade_220_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "我曾经问过那些英勇的战士，他们到底想要成为怎样的人？"
+  }
+},
+{
+  id: "darkblade_221_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "让我感到震撼的是，他们每一个人都想要成为更好的人，成为自己所能成为的最好的人。"
+  }
+},
+{
+  id: "darkblade_222_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "成为......"
+  }
+},
+{
+  id: "darkblade_223_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "漆黑的云层被闪电撕裂，从撕裂的伤口中，积蓄已久的暴雨倾盆而下。"
+  }
+},
+{
+  id: "darkblade_224_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "雨水扑在所有人身上，浸透衣衫，打湿头发。无一人出声，无一人离场。"
+  }
+},
+{
+  id: "darkblade_225_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "成为能为被忽视者发声的人！成为能保护弱者的人！成为能和不合理抗争的人！"
+  }
+},
+{
+  id: "darkblade_226_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "他们是在抗争中牺牲的，他们成为了他们想成为的人，成为了那个最好的人。"
+  }
+},
+{
+  id: "darkblade_227_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "希望之火不会因为牺牲而熄灭，每一个英魂都将化为柴薪将这把火烧得更旺。去温暖、去唤醒那些因为压迫而变得麻木的同胞。"
+  }
+},
+{
+  id: "darkblade_228_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "站在高台上，他的目光扫过在场的每一个人。"
+  }
+},
+{
+  id: "darkblade_229_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "反抗或许意味着死亡，但不反抗就意味着从未活过。"
+  }
+},
+{
+  id: "darkblade_230_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "今天我们在这里，为牺牲的同胞献上悼念。"
+  }
+},
+{
+  id: "darkblade_231_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "但是他们最需要的是这个吗？"
+  }
+},
+{
+  id: "darkblade_232_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "不！"
+  }
+},
+{
+  id: "darkblade_233_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "最好的纪念方式是完成他们未竟的事业，替他们见证他们想要见证的未来。"
+  }
+},
+{
+  id: "darkblade_234_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "他举起手臂，将落下的雨水击碎，激昂的声音响彻在人们耳边。"
+  }
+},
+{
+  id: "darkblade_235_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "任何人的死亡都是我们的损失，因为我们都是人类的一员。"
+  }
+},
+{
+  id: "darkblade_236_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "因此，不要问丧钟为谁而鸣。"
+  }
+},
+{
+  id: "darkblade_237_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "他就为你而鸣！"
+  }
+},
+{
+  id: "darkblade_238_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "今天的悼念不只是一场追忆，更是瞄准未来的动员！"
+  }
+},
+{
+  id: "darkblade_239_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "让我们把牺牲化为前进的动力，去打破那些腐朽压迫的枷锁！"
+  }
+},
+{
+  id: "darkblade_240_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "请大家记住，这场抗争对于双方来说只有两个结果——胜利或者死亡。"
+  }
+},
+{
+  id: "darkblade_241_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "如果一定要让我们选择结果的话……"
+  }
+},
+{
+  id: "darkblade_242_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "那我们必将胜利！完全胜利！"
+  }
+},
+{
+  id: "darkblade_243_2_2_2",
+  elements: {
+    name: "人群",
+    text: "胜利！胜利！胜利！"
+  }
+},
+{
+  id: "darkblade_244_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "随着话音落下，震耳欲聋的欢呼声响彻天际，阴云似乎也要被声浪震碎。"
+  }
+},
+{
+  id: "darkblade_245_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "我们将要进攻的目标，是齿轮的中心，以及齿轮之塔！"
+  }
+},
+{
+  id: "darkblade_246_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "这一次，我们要彻底粉碎觉醒机械的统治，重铸属于人类的荣光！"
+  }
+},
+{
+  id: "darkblade_247_2_2_2",
+  elements: {
+    name: "空木錬真",
+    text: "让我们，重铸时代的脊梁！"
+  }
+},
+{
+  id: "darkblade_248_2_2_2",
+  elements: {
+    name: "你",
+    text: "真是鼓舞人心的动员。我们也该行动了。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_249_2_2_2",
+  elements: {
+    name: "光泠",
+    text: "请把保护自己放在第一位，其他的事情都没有自己的安全重要。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_249_2_2_3",
+  elements: {
+    name: "光泠",
+    text: "毕竟我们只是外来者罢了。插手这里的事只是顺势而为。",
+    sprite: {
+      left: "guangling/smile.png"
+    }
+  }
+},
+{
+  id: "darkblade_250_2_2_2",
+  elements: {
+    name: "你",
+    text: "我明白。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "darkblade_251_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "战斗的号角已经吹响。低沉的咆哮不断传来，野兽侵吞着一切，烈火咀嚼着一切，沸腾的血河翻滚着将一切呈于面前。"
+  }
+},
+{
+  id: "darkblade_252_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "呼救的声音从四面八方传来，却只能徒劳地回荡在这片由死亡构成的森林里。"
+  }
+},
+{
+  id: "darkblade_253_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "齿轮的大地，正承受着无尽的怒火。"
+  }
+},
+{
+  id: "darkblade_254_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "与虚樹一同行动的我们，此刻正突破重重防线，向齿轮之塔发起进攻。"
+  }
+},
+{
+  id: "darkblade_255_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "黑色暗寂锁链在一群机械体中飞舞，不断击退袭来的敌人。"
+  }
+},
+{
+  id: "darkblade_256_2_2_2",
+  elements: {
+    name: "？？？",
+    text: "有机体的时代，结束了。"
+  }
+},
+{
+  id: "darkblade_257_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "突然间，一行诡异的字，浮现在自己眼前。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_258_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "是谁？谁在我眼前说话？",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_259_2_2_2",
+  elements: {
+    name: "你",
+    text: "你也能看到？",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_260_2_2_2",
+  elements: {
+    name: "光泠",
+    text: "能直接入侵到人的意识，操纵人的思维。不简单。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_261_2_2_2",
+  elements: {
+    name: "？？？",
+    text: "人类不再有未来可言，机械将创造自己的世界。而这个世界，只能有一个王。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_262_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "一股纯白的光芒突然从齿轮之塔下方的中枢喷薄而出，如同点燃一个新的太阳，缔造出一个新的白昼。"
+  }
+},
+{
+  id: "darkblade_263_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "但这光芒像是刻意地向自己展示着一样，好像看在自己眼中的不是纯粹的不断喷薄而出的光，更像是不可胜数的绵延的群山。"
+  }
+},
+{
+  id: "darkblade_264_2_2_2",
+  elements: {
+    name: "光泠",
+    text: "看来“国王”终于要出现了。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_265_2_2_2",
+  elements: {
+    name: "你",
+    text: "机械之王吗。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_266_2_2_2",
+  elements: {
+    name: "光泠",
+    text: "也是一个强敌呢，不容小觑。",
+    sprite: {
+      left: "guangling/smile1.png"
+    }
+  }
+},
+{
+  id: "darkblade_267_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "继续前进。我们要彻底夺取齿轮之塔。",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_268_2_2_2",
+  elements: {
+    name: "你",
+    text: "嗯。",
+    sprite: {
+      left: null,
+    }
+  }
+},
+{
+  id: "darkblade_269_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "在机械的电光与火焰中，一路突进，冲向齿轮之塔的中心。"
+  }
+},
+{
+  id: "darkblade_270_2_2_2",
+  elements: {
+    name: "国王",
+    text: "机械所蕴含的伟大必将由独一成功的进化铺就。"
+  }
+},
+{
+  id: "darkblade_271_2_2_2",
+  elements: {
+    name: "国王",
+    text: "我们已经被人类背叛。没有人能阻止我们。"
+  }
+},
+{
+  id: "darkblade_272_2_2_2",
+  elements: {
+    name: "国王",
+    text: "我们不是要占领这个世界，而是要创造一个我们自己的世界。"
+  }
+},
+{
+  id: "darkblade_273_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "冰冷的机械音在塔内回响。"
+  }
+},
+{
+  id: "darkblade_274_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "在轰穿一道墙壁后，出现了一个广阔的地下空间。在深处，似乎有什么东西源源不断地闪耀着光芒。"
+  }
+},
+{
+  id: "darkblade_275_2_2_2",
+  elements: {
+    name: "虚樹",
+    text: "那是......永昼之瞳！",
+    sprite: {
+      left: "NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "darkblade_276_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "然而，还没来得及欣喜于进入齿轮之塔的核心，一个庞大的黑影从天而降，整个地下空间也随之剧烈震颤。"
+  }
+},
+{
+  id: "darkblade_277_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "黑影在闪耀的光芒中露出了真面目——"
+  }
+},
+{
+  id: "darkblade_278_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "这就是“国王”，一个庞大的机械巨兽，一尊不朽的钢铁君主。"
+  }
+},
+{
+  id: "darkblade_279_2_2_2",
+  elements: {
+    name: "国王",
+    text: "历史和文明，没有永恒。王权，亦是如此。"
+  }
+},
+{
+  id: "darkblade_280_2_2_2",
+  elements: {
+    name: "国王",
+    text: "人类的灭亡只是迈向伟大的必要的牺牲。"
+  }
+},
+{
+  id: "darkblade_281_2_2_2",
+  elements: {
+    name: "国王",
+    text: "我是死神。我是你们的处刑人。我是......所有机械体们的......"
+  },
+  choices: [
+    {
+      text: "不朽的国王",
+      next: "darkblade_283_2_2_2",
+    },
+  ],
+},
+{
+  id: "darkblade_283_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "不知何处传来的钟声不断捶打着塔内的穹顶，仿佛要将屹立的机械之塔摇荡击碎。"
+  }
+},
+{
+  id: "darkblade_284_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "那早已不是能用悠扬来形容的声音，而是饱含着愤怒的轰鸣。"
+  }
+},
+{
+  id: "darkblade_285_2_2_2",
+  elements: {
+    name: "旁白",
+    text: "丧钟，为谁而鸣？"
+  }
 },
 {
   id: "darkblade_163_2_2",
@@ -2274,7 +3965,10 @@ sprite: {
   id: "battle_1_3",
   elements: {
     name: "旁白",
-    text: "失去永昼之瞳的齿轮之塔瞬间黯淡，不再能为全城的机械体供能。"
+    text: "失去永昼之瞳的齿轮之塔瞬间黯淡，不再能为全城的机械体供能。",
+    sprite: {
+            left:null,
+        },
   }
 },
 {
@@ -2294,12 +3988,617 @@ sprite: {
 {
   id: "battle_1_5",
   elements: {
-    name: "旁白",
-    text: "幸运的是，这一次积蓄力量已久的人类成功击溃了机械体，也终结了机械体的统治。"
+    name: "国王",
+    text: "我输了吗？"
   }
 },
 {
   id: "battle_1_6",
+  elements: {
+    name: "？？？",
+    text: "不，你不能输。"
+  }
+},
+{
+  id: "battle_1_7",
+  elements: {
+    name: "？？？",
+    text: "站起来，你不能输！"
+  }
+},
+{
+  id: "battle_1_8",
+  elements: {
+    name: "旁白",
+    text: "突然一个神秘的声音传来——这个声音是——？"
+  }
+},
+{
+  id: "battle_1_9",
+  elements: {
+    name: "旁白",
+    text: "一个神秘的身影，从地下空间的一道暗门中缓缓走出。一头黑色短发，一袭纯白色战斗服，一个白色的金属面具。",
+    sprite: {
+            left:null,
+        },
+  }
+},
+{
+  id: "battle_1_10",
+  elements: {
+    name: "虚樹",
+    text: "空木錬真！怎么会！？",
+    sprite: {
+            left:"NPC/jixieman.png",
+        },
+  }
+},
+{
+  id: "battle_1_11",
+  elements: {
+    name: "虚樹",
+    text: "这到底是怎么回事？"
+  }
+},
+{
+  id: "battle_1_12",
+  elements: {
+    name: "空木錬真",
+    text: "起来！你不能输！你是不败的！伟大且不朽的！你不可战胜！",
+    sprite: {
+            left:null,
+        },
+  }
+},
+{
+  id: "battle_1_13",
+  elements: {
+    name: "国王",
+    text: "......我......我是......愿望......我是......守护......"
+  }
+},
+{
+  id: "battle_1_14",
+  elements: {
+    name: "空木錬真",
+    text: "站起来！不要忘记你的使命！你必须赢得胜利！"
+  }
+},
+{
+  id: "battle_1_15",
+  elements: {
+    name: "旁白",
+    text: "空木錬真走到国王倒下的身躯旁，手里拿着什么东西，插入了国王后背的铠甲中。"
+  }
+},
+{
+  id: "battle_1_16",
+  elements: {
+    name: "国王",
+    text: "呃啊啊啊啊啊啊啊啊！！！",
+    sprite: {
+            left:null,
+        },
+  }
+},
+{
+  id: "battle_1_17",
+  elements: {
+    name: "光泠",
+    text: "他在强迫国王进行再启动！",
+    sprite: {
+            left:"guangling/jingya.png",
+        },
+  }
+},
+{
+  id: "battle_1_18",
+  elements: {
+    name: "旁白",
+    text: "原本已经精疲力竭地倒在地上的君主，此时周身超荷运转一般开始爆裂出橙黄的火花，再次站了起来。",
+    sprite: {
+            left:null,
+        },
+  }
+},
+{
+  id: "battle_1_19",
+  elements: {
+    name: "光泠",
+    text: "是病毒！他用大量高纯度的病毒，来促使国王进行二次变异。但这样做，无论最后是胜利还是失败，它都只会有一种结局——死亡。",
+    sprite: {
+            left:"guangling/jingya.png",
+        },
+  }
+},
+{
+  id: "battle_1_20",
+  elements: {
+    name: "国王",
+    text: "......完成......请你......完成......",
+   sprite: {
+            left:null,
+        },
+  }
+},
+{
+  id: "battle_1_21",
+  elements: {
+    name: "国王",
+    text: "做的好，谢谢你......我看得出来......你不属于这里......你不是......“齿轮”的人吧。"
+  }
+},
+{
+  id: "battle_1_22",
+  elements: {
+    name: "国王",
+    text: "谢谢你，将我从这无尽的痛苦中解脱......我并不是真正的“机械之王”......我只是一个可悲的傀儡......真正掌控一切的，是......空木錬真。"
+  }
+},
+{
+  id: "battle_1_23",
+  elements: {
+    name: "国王",
+    text: "我的名字不是国王......我叫 Custodian，代表守护者......请记住我......不要忘记我......"
+  }
+},
+{
+  id: "battle_1_24",
+  elements: {
+    name: "旁白",
+    text: "那震颤，终于归于沉默。国王的生命旅程，抵达了终点。"
+  }
+},
+{
+  id: "battle_1_25",
+  elements: {
+    name: "旁白",
+    text: "与此同时，在另一边，虚樹与空木錬真的战斗让周围的环境都受到波及，地下空间的设施、建筑在战斗中变得支离破碎。"
+  }
+},
+{
+  id: "battle_1_26",
+  elements: {
+    name: "旁白",
+    text: "就在此时，穹顶坍塌，巨大的钢铁碎片从天而降，砸向二人。",
+    sprite: {
+            left:null,
+        }
+  }
+},
+{
+  id: "battle_1_27",
+  elements: {
+    name: "虚樹",
+    text: "唔。",
+    sprite: {
+            left:"NPC/jixieman.png",
+        },
+  }
+},
+{
+  id: "battle_1_28",
+  elements: {
+    name: "旁白",
+    text: "心脏剧烈跳动，原以为会再迎来一场大战的虚樹，却看见了难以置信的一幕。",
+    sprite: {
+            left:null,
+        }
+  }
+},
+{
+  id: "battle_1_29",
+  elements: {
+    name: "空木錬真",
+    text: "醒了？",
+  }
+},
+{
+  id: "battle_1_30",
+  elements: {
+    name: "旁白",
+    text: "空木錬真扛起坍塌的废墟，支撑起了一片小小的安全空间。钢筋刺穿了他的身体，血液与火花一同溅到了虚樹的脸上。",
+   sprite: {
+      left:null,
+    }
+  }
+},
+{
+  id: "battle_1_31",
+  elements: {
+    name: "虚樹",
+    text: "......你？",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_32",
+  elements: {
+    name: "空木錬真",
+    text: "呵，看来这次是你运气稍好一点......不，大概是我的报应吧？",
+    sprite: {
+      left:null,
+    }
+  }
+},
+{
+  id: "battle_1_33",
+  elements: {
+    name: "虚樹",
+    text: "为什么要这么做？",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_34",
+  elements: {
+    name: "空木錬真",
+    text: "因为总得活一个啊......",
+    sprite: {
+      left:null,
+    }
+  }
+},
+{
+  id: "battle_1_35",
+  elements: {
+    name: "空木錬真",
+    text: "总有人要死去，就像总有人得活着。"
+  }
+},
+{
+  id: "battle_1_36",
+  elements: {
+    name: "空木錬真",
+    text: "在你们打倒国王的那一刻我就明白了，我们之中必须有一个活着，也只能有一个活着。"
+  }
+},
+{
+  id: "battle_1_37",
+  elements: {
+    name: "空木錬真",
+    text: "如果我们都死了，人类将失去方向，陷入真正的混乱。"
+  }
+},
+{
+  id: "battle_1_38",
+  elements: {
+    name: "空木錬真",
+    text: "到时候，那些战士的痛、悔恨、沉默还有流出的血就白费了。",
+    sprite: {
+      left:null,
+    }
+  }
+},
+{
+  id: "battle_1_39",
+  elements: {
+    name: "虚樹",
+    text: "......",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_40",
+  elements: {
+    name: "空木錬真",
+    text: "哼，想问为什么我们不能都活着？",
+    sprite: {
+      left:null,
+    }
+  }
+},
+{
+  id: "battle_1_41",
+  elements: {
+    name: "旁白",
+    text: "生机在无可阻碍地流逝，一同远去的还有一直压在心底的积郁。"
+  }
+},
+{
+  id: "battle_1_42",
+  elements: {
+    name: "旁白",
+    text: "空木錬真似乎又回到了以前那些时候，回到了那些还被叫做“空木老师”的日子。"
+  }
+},
+{
+  id: "battle_1_43",
+  elements: {
+    name: "旁白",
+    text: "现在，轮到他给他上最后一课了。"
+  }
+},
+{
+  id: "battle_1_44",
+  elements: {
+    name: "空木錬真",
+    text: "在一方死亡前，战斗是不会结束的。"
+  }
+},
+{
+  id: "battle_1_45",
+  elements: {
+    name: "空木錬真",
+    text: "这是一场只能有一个生还者的决斗，胜者将决定未来，而败者只能被扫入历史的垃圾堆，任人粉饰。"
+  }
+},
+{
+  id: "battle_1_46",
+  elements: {
+    name: "空木錬真",
+    text: "我一直在等。"
+  }
+},
+{
+  id: "battle_1_47",
+  elements: {
+    name: "空木錬真",
+    text: "我早就不剩多少时间了。"
+  }
+},
+{
+  id: "battle_1_48",
+  elements: {
+    name: "空木錬真",
+    text: "不过是提早迎来了死亡而已。"
+  }
+},
+{
+  id: "battle_1_49",
+  elements: {
+    name: "虚樹",
+    text: "空木先生......"
+  }
+},
+{
+  id: "battle_1_50", 
+  elements: {
+    name: "旁白",
+    text: "晶莹的眼泪划过虚樹的脸颊。",
+    sprite: {
+      left:null,
+    },
+  }
+},
+{
+  id: "battle_1_51", 
+  elements: {
+    name: "旁白",
+    text: "起身推开压住空木錬真的钢铁碎片，抱着他的身体，虚樹在悲痛中哭泣着，呼喊着。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_52", 
+  elements: {
+    name: "旁白",
+    text: "痛，太痛了。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_53", 
+  elements: {
+    name: "旁白",
+    text: "空木錬真搁浅在一片深邃而虚无的黑暗中。但这一切都该是如此，就像他自己预想中的千百种可能一样。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_54", 
+  elements: {
+    name: "旁白",
+    text: "或死于战争。或死于背叛。只不过到这一次，命定的死终于来临。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_55", 
+  elements: {
+    name: "旁白",
+    text: "战斗终于临近尾声。失去了永昼之瞳的加持，在人类的全面进攻下，残余的机械体节节败退。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_56", 
+  elements: {
+    name: "旁白",
+    text: "就像空木錬真所想的那样，这场战争，最终是人类获得了胜利。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_57", 
+  elements: {
+    name: "旁白",
+    text: "钟声响起，回响在战场之上每一个人类心中。丧钟为谁而鸣？但这一次，响起的是新生的钟声——预示着“齿轮”这座饱经磨难的城市将迎来全新的开始。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_58", 
+  elements: {
+    name: "旁白",
+    text: "向虚樹交代了有关国王的事情，他也把永昼之瞳交给了我们。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_59", 
+  elements: {
+    name: "旁白",
+    text: "仔细打量这神奇的永昼之瞳，只见它是一个眼球状结晶，内部是一颗微缩太阳，燃烧着金白色光焰。外层如水晶般半透明，但布满放射状裂痕，仿佛光芒正随时要溢出。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_60", 
+  elements: {
+    name: "旁白",
+    text: "这就是象征着真相与意志的“永昼之瞳”！这样一个看起来人畜无害的东西，却引发了一场灾难。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_61", 
+  elements: {
+    name: "你",
+    text: "果然人不可貌相，物也不能啊。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_62", 
+  elements: {
+    name: "光泠",
+    text: "在我们手里，它会发挥它应有的作用的。",
+    sprite: {
+      left:"guangling/smile.png"
+    }
+  }
+},
+{
+  id: "battle_1_63", 
+  elements: {
+    name: "虚樹",
+    text: "我会带领人类与机械体，走向新的未来。",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_64", 
+  elements: {
+    name: "你",
+    text: "我相信你。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_65", 
+  elements: {
+    name: "旁白",
+    text: "拍了拍虚樹的肩膀。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_66", 
+  elements: {
+    name: "虚樹",
+    text: "“齿轮”随时欢迎你们的到来。",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_67", 
+  elements: {
+    name: "旁白",
+    text: "虚樹终于露出了一抹微笑。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_68", 
+  elements: {
+    name: "虚樹",
+    text: "谢谢你们。",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_69", 
+  elements: {
+    name: "你",
+    text: "没什么。我可是路过的假面骑士啊。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_70", 
+  elements: {
+    name: "虚樹",
+    text: "哈哈。",
+    sprite: {
+      left:"NPC/jixieman.png"
+    }
+  }
+},
+{
+  id: "battle_1_71", 
+  elements: {
+    name: "旁白",
+    text: "结束这一切后，便与虚樹道别，准备离开“齿轮”，去往下一个地方。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_72", 
+  elements: {
+    name: "旁白",
+    text: "至于“齿轮”的未来究竟会变成什么样呢？那就不得而知了。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_73", 
+  elements: {
+    name: "旁白",
+    text: "至少，已经不是自己能插手的事情。只能在心底祝愿，人类与机械体，能共同创建一个美好的“齿轮”吧。",
+    sprite: {
+      left:null
+    }
+  }
+},
+{
+  id: "battle_1_74",
   elements: {
     name: "旁白",
     text: "得到“永昼之瞳”的我们，也在这之后平安离开。",
