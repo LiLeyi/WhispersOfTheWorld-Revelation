@@ -1919,9 +1919,9 @@ sprite: {
   id: "darkblade_169_2_1_1",
   elements: {
     name: "光泠",
-    text: "就像是执行某种秘密任务的特工或者搜查官。（笑）",
+    text: "就像是执行某种秘密任务的特工或者搜查官。",
     sprite: {
-      left: "guangling/spy1.png"
+      left: "guangling/smile1.png"
     }
   }
 },
@@ -3954,6 +3954,17 @@ keyNode: true,
             left:"NPC/foreverlight.png",
         },
   },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("item_eye_of_eternal_sun");
+                
+                // 检查是否集齐三个关键物品
+                if (am.isUnlocked("item_heart_of_prime") && 
+                    am.isUnlocked("item_eye_of_eternal_sun") && 
+                    am.isUnlocked("item_tear_of_terminus")) {
+                    am.unlockAchievementWithAnimation("item_key_items_all");
+                }
+            },
   choices: [
             {
                 text: "永昼之瞳",

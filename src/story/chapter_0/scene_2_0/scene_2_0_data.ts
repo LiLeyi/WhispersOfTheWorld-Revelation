@@ -1846,6 +1846,13 @@ nodes: [
   action: () => {
                 let am = AchievementManager.getInstance();
                 am.unlockAchievementWithAnimation("item_heart_of_prime");
+                
+                // 检查是否集齐三个关键物品
+                if (am.isUnlocked("item_heart_of_prime") && 
+                    am.isUnlocked("item_eye_of_eternal_sun") && 
+                    am.isUnlocked("item_tear_of_terminus")) {
+                    am.unlockAchievementWithAnimation("item_key_items_all");
+                }
             },
 },
 {

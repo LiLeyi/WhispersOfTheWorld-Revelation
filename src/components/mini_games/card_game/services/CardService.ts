@@ -1054,8 +1054,12 @@ export class BuffService {
             disasterLord.hp = 1;
             disasterLord.maxHp = 1;
 
-            // 如果有玩家，给玩家添加终焉之泪和影子卡牌
-            if (player) {
+            // 检查是否是特殊对战（通过检查游戏配置中的特殊标志）
+            // 我们可以通过检查window对象上的特殊属性来判断
+            const isSpecialBattle = (window as any).isDisasterLordFinalBattle === true;
+            
+            // 如果有玩家且不是特殊对战，则给玩家添加终焉之泪和影子卡牌
+            if (player && !isSpecialBattle) {
                 // 玩家血量回复至满，但上限减为4
                 player.hp = 4;
                 player.maxHp = 4;
@@ -1070,6 +1074,10 @@ export class BuffService {
                 if (shadowCard) {
                     player.hand.push({ ...shadowCard });
                 }
+            } else if (player) {
+                // 在特殊对战中，只调整玩家血量，不给终焉之泪和影子卡牌
+                player.hp = 4;
+                player.maxHp = 4;
             }
         }
     }

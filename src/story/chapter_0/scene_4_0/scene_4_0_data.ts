@@ -1181,7 +1181,7 @@ sprite:{
       bgm:"bgm23.MP3",  
       text: "谜题的答案，可不会主动送上门来啊。" ,
         sprite:{
-    left:"null",
+    left:null,
 }  
     },
 },
@@ -1198,7 +1198,7 @@ sprite:{
         name: "你",
         text: "只要灾厄仍在世界上蔓延，我就会继续前进。",
         sprite: {
-            left: "null"
+            left: null,
         }
     },
 },
@@ -2836,105 +2836,130 @@ sprite: {
     keyNode: true,
     choices: [
       {
-        text: "未集齐三样关键之物",
-        next: "ending_32_4"
+        text: "进入集齐结局",
+        next: "ending_32_5",
+        condition: () => {
+          // 检查玩家是否集齐三样关键之物
+          const achievementManager = AchievementManager.getInstance();
+          const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
+          const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
+          const hasTearOfTerminus = achievementManager.isUnlocked("item_tear_of_terminus");  // 终焉之泪
+          
+          // 只有集齐三样关键之物才显示此选项
+          return hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus;
+        }
       },
       {
-        text: "集齐三样关键之物",
-        next: "ending_32_5"
+        text: "进入未集齐结局",
+        next: "test_game8",
+        condition: () => {
+          // 检查玩家是否集齐三样关键之物
+          const achievementManager = AchievementManager.getInstance();
+          const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
+          const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
+          const hasTearOfTerminus = achievementManager.isUnlocked("item_tear_of_terminus");  // 终焉之泪
+          
+          // 无论是否集齐都显示此选项
+          return true;
+        }
       }
     ]
   },//进行最后的战斗//
 //结局4//
 {
-                    id: "test_game8",
-                    elements: {
-                        name: "灾厄之主",
-                        text: "我将亲手毁掉你的意志",
-                    },
-                    game: {
-                        id: "card_game",
-                        config: {
-                            player: {
-                                actionPoints: 5,
-                                hp: 60,
-                                maxHp: 60,
-                                 deck: () => {
-                                    const bagManager = BagManager.getInstance();
-                                    return bagManager.getCardDeckForGame();
-                                },
-                                drawCount: 3,           // 玩家每回合抽2张牌
-                                initialDrawCount: 5 ,    // 玩家开始时抽3张牌
-                            },
-                            deckSelection: {
-                            minDeckSize: 15,   // 设置最小选牌数量
-                            maxDeckSize: 20,   // 设置最大选牌数量
-                        },
-                            opponent: {
-                              name:"灾厄之主",
-                                actionPoints: 6,
-                                hp:30 ,
-                                maxHp: 30,
-                                deck: {
-                                    "little_stone": 1,        
-                                "strange_stone": 1,         
-                                "bedrock": 1, 
-                                "large_rock": 1,
-                                "red_stone":2,
-                                "diamond":2,
-                                "crushed_stone":2,
-                                "pebble":2,
-                                "meteorite":1,        
-                                },
-                                drawCount: 6,           // 对手每回合抽3张牌
-                                initialDrawCount: 6 ,    // 对手开始时抽6张牌
-                            initialBuffs: [  // 设置初始buff
-                                {
-                                     id: "disaster_lord_phase1",
-                                     duration: -1,
-                                     target: "self"
-                                 }
-                             ],
-                              },
-                            backgroundImage:"sc1.1/1-1-0.jpg",
-                            bgm:"zaiezhizhu",
-                            disasterLordBgm: {
-                                phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐
-                                phase2: "zaiezhizhu",             // 灾厄之主第二阶段使用原来第一阶段的音乐
-                                phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
-                            }
-                        },
-                        end: [
-                            {
-                                condition: (score: number) => score >= 1,
-                                next: "battle_1_1_1",
-                            },
-                            {
-                                condition: (score: number) => true, // 默认条件，总是为真
-                                next: "battle_1_1",
-                            }
-                        ]
-                    }
-                },     
-{
-    "id": "ending_32_4",
-    "elements": {
-       bgm:"bgm26.MP3" ,
-      "name": "你",
-      "text": "未集齐三样关键之物",
+    id: "test_game8",
+    elements: {
+        name: "灾厄之主",
+        text: "我将亲手毁掉你的意志",
     },
-    keyNode: true,
-    choices: [
-        {
-          text: "输了",
-          next: "ending_33_4",
-        },
-        {
-          text: "赢了",
-          next: "ending_33_6",
-        }
-      ]
-},
+    // 在游戏开始前设置特殊标志
+    action: () => {
+        // 设置特殊对战标志，使得灾厄之主第三阶段不会给玩家卡牌
+        (window as any).isDisasterLordFinalBattle = true;
+    },
+    game: {
+        id: "card_game",
+        config: {
+            player: {
+                actionPoints: 5,
+                hp: 60,
+                maxHp: 60,
+                 deck: () => {
+                    const bagManager = BagManager.getInstance();
+                    return bagManager.getCardDeckForGame();
+                },
+                drawCount: 3,           // 玩家每回合抽2张牌
+                initialDrawCount: 5 ,    // 玩家开始时抽3张牌
+            },
+            deckSelection: {
+                minDeckSize: 15,   // 设置最小选牌数量
+                maxDeckSize: 20,   // 设置最大选牌数量
+            },
+            opponent: {
+                name:"灾厄之主",
+                actionPoints: 6,
+                hp:30 ,
+                maxHp: 30,
+                deck: {
+                    "little_stone": 1,        
+                    "strange_stone": 1,         
+                    "bedrock": 1, 
+                    "large_rock": 1,
+                    "red_stone":2,
+                    "diamond":2,
+                    "crushed_stone":2,
+                    "pebble":2,
+                    "meteorite":1,        
+                },
+                drawCount: 6,           // 对手每回合抽3张牌
+                initialDrawCount: 6 ,    // 对手开始时抽6张牌
+                initialBuffs: [  // 设置初始buff
+                    {
+                        id: "disaster_lord_phase1",
+                        duration: -1,
+                        target: "self"
+                    }
+                ],
+            },
+            backgroundImage:"sc1.1/1-1-0.jpg",
+            bgm:"zaiezhizhu",
+            disasterLordBgm: {
+                phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐
+                phase2: "zaiezhizhu",             // 灾厄之主第二阶段使用原来第一阶段的音乐
+                phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
+            }
+        },                      
+        end: [
+            {
+                condition: (score: number) => score >= 1,
+                next: "ending_33_6",
+            },
+            {
+                condition: (score: number) => score <= 0, // 明确表示输了的情况
+                next: "ending_33_4",
+            }
+        ]
+    }
+},     
+// {
+//     "id": "ending_32_4",
+//     "elements": {
+//        bgm:"bgm26.MP3" ,
+//       "name": "你",
+//       "text": "未集齐三样关键之物",
+//     },
+//     keyNode: true,
+//     choices: [
+//         {
+//           text: "输了",
+//           next: "ending_33_4",
+//         },
+//         {
+//           text: "赢了",
+//           next: "ending_33_6",
+//         }
+//       ]
+// },
 {
     "id": "ending_33_4",
     "elements": {
@@ -3647,51 +3672,63 @@ sprite: {
                                 phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
                             }
                         },
-                        end: [
+                         end: [
                             {
-                                condition: (score: number) => score >= 1,
-                                next: "battle_1_1_1",
+                                condition: (score: number) => score === 1,  // 大获全胜
+                                next: "ending_33_5",
                             },
                             {
-                                condition: (score: number) => true, // 默认条件，总是为真
+                                condition: (score: number) => score === 2,  // 小胜
+                                next: "ending_33_6",
+                            },
+                            {
+                                condition: (score: number) => score === -1,  // 完全惨败
+                                next: "ending_33_7",
+                            },
+                            {
+                                condition: (score: number) => score === -2,  // 小败
+                                next: "ending_33_8",
+                            },
+                            {
+                                condition: (score: number) => score <= 0,  // 默认失败条件
                                 next: "battle_1_1",
                             }
                         ]
                     }
                 },   
-  {
-    id: "ending_32_5_1",
-    elements: {
-    name: "旁白",
-    text: "战斗结束",
-      sprite: { 
-        left: null
-     }
-    },
-    keyNode: true,
-    choices:[
-        {
-            text:"大获全胜（最后一管血你>2Hp）",
-            next:"ending_33_5",
-    },
-    {
-            text:"小胜（最后一管血你<=2Hp）",
-            next:"ending_33_6",
-    },
-    {
-            text:"完全惨败（第一管血就死了）",
-            next:"ending_33_7",
-    },
-    {
-            text:"小败（第二管血，第三管血死了）",
-            next:"ending_33_8",
-    },
-    {
-            text:"重新挑战",
-            next:"ending_32_5",
-    }
-    ]
-  },
+  // {
+  //   id: "ending_32_5_1",
+  //   elements: {
+  //   name: "旁白",
+  //   text: "战斗结束",
+  //     sprite: { 
+  //       left: null
+  //    }
+  //   },
+  //   keyNode: true,
+  //   choices:[
+  //       {
+  //           text:"大获全胜（最后一管血你>2Hp）",
+  //           next:"ending_33_5",
+  //   },
+  //   {
+  //           text:"小胜（最后一管血你<=2Hp）",
+  //           next:"ending_33_6",
+  //   },
+  //   {
+  //           text:"完全惨败（第一管血就死了）",
+  //           next:"ending_33_7",
+  //   },
+  //   {
+  //           text:"小败（第二管血，第三管血死了）",
+  //           next:"ending_33_8",
+  //   },
+  //   {
+  //           text:"重新挑战",
+  //           next:"ending_32_5",
+  //   }
+  //   ]
+  // },
   //结局5//
 {
     id: "ending_33_5",

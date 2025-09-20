@@ -2868,8 +2868,40 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         // 停止背景音乐
         this.stopBackgroundMusic();
 
-        // 调用完成回调，玩家获胜得分为1，失败为0
-        this.onComplete(this.state.playerWon ? 1 : 0);
+        // 清理特殊对战标志
+        if ((window as any).isDisasterLordFinalBattle) {
+            (window as any).isDisasterLordFinalBattle = false;
+        }
+
+        // 调用完成回调，传递更详细的游戏状态信息
+        // 1: 胜利, 0: 失败, -1: 完全惨败(第一管血就死了), -2: 小败(第二/三管血死了)
+        let gameResult = 0;
+        if (this.state.playerWon) {
+            // 胜利 - 根据剩余血量判断是大胜还是小胜
+            if (this.state.player.hp > 2) {
+                gameResult = 1; // 大获全胜
+            } else {
+                gameResult = 2; // 小胜
+            }
+        } else {
+            // 失败 - 根据死亡时的血量判断失败程度
+            // player.maxHp为60，每管血20点
+            if (this.state.player.hp <= (this.state.player.maxHp - 20 * 3)) {
+                // 第一管血就死了（血量<=0）
+                gameResult = -1; // 完全惨败
+            } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 2)) {
+                // 第二管血死了（血量<=20）
+                gameResult = -2; // 小败
+            } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 1)) {
+                // 第三管血死了（血量<=40）
+                gameResult = -2; // 小败
+            } else {
+                // 其他情况（不太可能）
+                gameResult = 0;
+            }
+        }
+        
+        this.onComplete(gameResult);
     }
 
 
