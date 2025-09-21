@@ -4,6 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 // 定义第3章第1幕场景
 const scene: Scene = {
 id:"chapter_0_scene_3_0",
@@ -1303,11 +1304,11 @@ nodes: [
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "victory",
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "fail",
                         }
                     ]
@@ -1887,7 +1888,7 @@ choices: [
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "victory_1",
                         },
                         {
@@ -2777,11 +2778,11 @@ choices: [
                         },
                         end: [
                             {
-                                condition: (score: number) => score >= 1,
+                                condition: (gameData: CardGameEventData) => gameData.score >= 1,
                                 next: "battle_1_1_1",
                             },
                             {
-                                condition: (score: number) => true, // 默认条件，总是为真
+                                condition: () => true, // 默认条件，总是为真
                                 next: "battle_1_1",
                             }
                         ]

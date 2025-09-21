@@ -1731,11 +1731,11 @@ nodes: [
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "altar_41",
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "repeat",
                         }
                     ]

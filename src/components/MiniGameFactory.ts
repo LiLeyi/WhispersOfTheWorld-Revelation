@@ -4,7 +4,7 @@ import { CardGame } from './mini_games/card_game/CardGame';
 
 // 定义游戏信息接口
 interface GameInfo {
-    clas: new (onComplete: (score: number) => void, config?: any, gameEvents?: Array<any>) => MiniGame;
+    clas: new (onComplete: (gameData: any) => void, config?: any, gameEvents?: Array<any>) => MiniGame;
     template: string;
 }
 
@@ -31,7 +31,7 @@ export class MiniGameFactory {
      * @param config 游戏配置
      * @returns 小游戏实例
      */
-    static createGame(gameId: string, onComplete: (score: number) => void, config?: any, events?: any): MiniGame | null {
+    static createGame(gameId: string, onComplete: (gameData: any) => void, config?: any, events?: any): MiniGame | null {
         const gameInfo = this.gameMap[gameId];
         if (gameInfo) {
             return new gameInfo.clas(onComplete, config, events);
