@@ -630,11 +630,11 @@ sprite: {
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "darkblade_57"
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "false_1"
                         }
                     ]
@@ -3905,11 +3905,11 @@ keyNode: true,
                     ],
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "battle_1_1_1",
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "battle_1_1",
                         }
                     ]

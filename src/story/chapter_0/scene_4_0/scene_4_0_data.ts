@@ -4,6 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 //终章第1幕//
 const scene: Scene = {
 id:"chapter_0_scene_4_0",
@@ -2931,11 +2932,11 @@ sprite: {
         },                      
         end: [
             {
-                condition: (score: number) => score >= 1,
+                condition: (gameData: CardGameEventData) => gameData.score >= 1,
                 next: "ending_33_6",
             },
             {
-                condition: (score: number) => score <= 0, // 明确表示输了的情况
+                condition: (gameData: CardGameEventData) => gameData.score <= 0, // 明确表示输了的情况
                 next: "ending_33_4",
             }
         ]

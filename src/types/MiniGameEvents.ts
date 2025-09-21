@@ -12,4 +12,5 @@ export interface CardGameEventData {
     };
     turn: number;
     totalTurns: number;
+    score: number;
 }

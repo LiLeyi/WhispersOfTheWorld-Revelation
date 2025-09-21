@@ -17,7 +17,7 @@ import { SceneManager } from "../../SceneManager";
 
 // 卡牌游戏类
 class CardGame extends MiniGame {
-     static readonly HTML_TEMPLATE = `
+    static readonly HTML_TEMPLATE = `
         <div id="card-game-container" style="width:100%;height:100%;position:relative;color:#ffffff;font-family:'Courier New', monospace;overflow:hidden;">
           <!-- 背景图片层 -->
             <div id="card-game-background" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;background-color:#38383a;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
@@ -775,7 +775,7 @@ class CardGame extends MiniGame {
     // 场景管理器实例
     protected sceneManager: any = null;
 
-    constructor(onComplete: (score: number) => void, private gameConfig?: CardGameConfig, private gameEvents?: Array<any>) {
+    constructor(onComplete: (gameData: any) => void, private gameConfig?: CardGameConfig, private gameEvents?: Array<any>) {
         super(onComplete);
 
         // 在CardGame类的构造函数中，处理player deck配置
@@ -962,7 +962,7 @@ class CardGame extends MiniGame {
         }
     }
 
-        private setupUIElements(): void {
+    private setupUIElements(): void {
         this.restartButton = document.getElementById('restart-button') as HTMLButtonElement;
         this.endTurnButton = document.getElementById('end-turn-button') as HTMLButtonElement;
         this.playerHandElement = document.getElementById('player-hand');
@@ -992,7 +992,7 @@ class CardGame extends MiniGame {
 
         // 设置背景图片
         this.setupBackgroundImage();
-        
+
         // 设置音量控制
         this.setupVolumeControl();
     }
@@ -1001,24 +1001,24 @@ class CardGame extends MiniGame {
     // 初始化音乐可视化条
     private initializeVisualizer(): void {
         if (!this.musicVisualizer) return;
-        
+
         // 创建可视化条
         this.createVisualizerBars(this.musicVisualizer, 15);
-        
+
         // 初始化音频分析器
         this.initAudioAnalyser();
-        
+
         // 开始可视化动画
         this.startVisualization();
     }
-    
+
     // 创建可视化条
     private createVisualizerBars(container: HTMLElement | null, count: number): void {
         if (!container) return;
-        
+
         // 清空容器
         container.innerHTML = '';
-        
+
         // 创建指定数量的可视化条
         for (let i = 0; i < count; i++) {
             const bar = document.createElement('div');
@@ -1033,23 +1033,23 @@ class CardGame extends MiniGame {
             container.appendChild(bar);
         }
     }
-    
+
     // 初始化音频分析器
     private initAudioAnalyser(): void {
         try {
             // 创建音频上下文
             this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-            
+
             // 创建分析器节点
             this.analyser = this.audioContext.createAnalyser();
             this.analyser.fftSize = 64; // 较小的fftSize以获得更平滑的效果
-            
+
             // 获取背景音乐元素
             const musicElement = document.getElementById('music') as HTMLAudioElement;
             if (musicElement) {
                 // 创建媒体元素源
                 const source = this.audioContext.createMediaElementSource(musicElement);
-                
+
                 // 连接节点: source -> analyser -> destination
                 source.connect(this.analyser);
                 this.analyser.connect(this.audioContext.destination);
@@ -1058,32 +1058,32 @@ class CardGame extends MiniGame {
             console.warn('无法初始化音频分析器:', e);
         }
     }
-    
+
     // 开始可视化动画
     private startVisualization(): void {
         // 清除已存在的定时器
         if (this.visualizationInterval) {
             clearInterval(this.visualizationInterval);
         }
-        
+
         // 设置新的定时器，定期更新可视化效果
         this.visualizationInterval = window.setInterval(() => {
             this.updateVisualization();
         }, 50); // 每50毫秒更新一次（从100毫秒改为50毫秒）
     }
-    
+
 
     // 更新可视化
     private updateVisualization(): void {
         if (!this.musicVisualizer) return;
-        
+
         // 如果有音频分析器，使用真实音频数据
         if (this.analyser) {
             // 获取频域数据
             const bufferLength = this.analyser.frequencyBinCount;
             const dataArray = new Uint8Array(bufferLength);
             this.analyser.getByteFrequencyData(dataArray);
-            
+
             // 更新可视化条
             const bars = this.musicVisualizer.querySelectorAll('div');
             bars.forEach((bar, index) => {
@@ -1094,18 +1094,18 @@ class CardGame extends MiniGame {
                 const distanceFromCenter = Math.abs(position - 0.5);
                 // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
                 const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-                
+
                 // 使用音频数据更新宽度，并应用中心增强效果
                 const rawValue = dataArray[index % bufferLength] || 0;
                 // 增强波动效果，但减小变化幅度
                 const value = rawValue * centerMultiplier * 1.5;
                 const width = Math.max(30, value); // 最小宽度30像素
                 bar.style.width = `${width}px`;
-                
+
                 // 根据音频强度调整透明度，增加对比度
                 const opacity = 0.4 + (value / 255) * 0.6;
                 bar.style.opacity = opacity.toString();
-                
+
                 // 设置为白色
                 bar.style.backgroundColor = '#ffffff';
             });
@@ -1120,27 +1120,27 @@ class CardGame extends MiniGame {
                 const distanceFromCenter = Math.abs(position - 0.5);
                 // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
                 const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-                
+
                 // 使用索引创建更有节奏感的变化
                 const timeOffset = index * 0.5;
                 const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
-                
+
                 // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
                 const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
                 const width = rawWidth * centerMultiplier;
                 bar.style.width = `${width}%`;
-                
+
                 // 根据宽度调整透明度，增加对比度
                 const opacity = 0.4 + (width / 100) * 0.6;
                 bar.style.opacity = opacity.toString();
-                
+
                 // 设置为白色
                 bar.style.backgroundColor = '#ffffff';
             });
         }
     }
 
-    
+
     // 设置音量控制
     private setupVolumeControl(): void {
         const volumeToggle = document.getElementById('volume-toggle');
@@ -1149,27 +1149,27 @@ class CardGame extends MiniGame {
         const sfxVolumeSlider = document.getElementById('sfx-volume-slider') as HTMLInputElement;
         const bgmVolumeValue = document.getElementById('bgm-volume-value');
         const sfxVolumeValue = document.getElementById('sfx-volume-value');
-        
+
         if (volumeToggle && volumePanel && bgmVolumeSlider && sfxVolumeSlider && bgmVolumeValue && sfxVolumeValue) {
             let isPanelOpen = false;
-            
+
             // 切换音量控制面板显示/隐藏
             volumeToggle.addEventListener('click', () => {
                 isPanelOpen = !isPanelOpen;
                 volumePanel.style.transform = isPanelOpen ? 'translateX(0)' : 'translateX(-100%)';
             });
-            
+
             // 设置背景音乐音量控制
             bgmVolumeSlider.addEventListener('input', () => {
                 const volume = parseInt(bgmVolumeSlider.value);
                 bgmVolumeValue.textContent = `${volume}%`;
-                
+
                 // 直接控制当前游戏中正在播放的背景音乐
                 const bgmElement = document.getElementById('music') as HTMLAudioElement;
                 if (bgmElement) {
                     bgmElement.volume = volume / 100;
                 }
-                
+
                 // 保存到localStorage
                 try {
                     localStorage.setItem('bgmVolume', volume.toString());
@@ -1177,12 +1177,12 @@ class CardGame extends MiniGame {
                     console.warn('无法保存背景音乐音量设置:', e);
                 }
             });
-            
+
             // 设置音效音量控制
             sfxVolumeSlider.addEventListener('input', () => {
                 const volume = parseInt(sfxVolumeSlider.value);
                 sfxVolumeValue.textContent = `${volume}%`;
-                
+
                 // 保存音效音量设置
                 try {
                     localStorage.setItem('sfxVolume', volume.toString());
@@ -1190,19 +1190,19 @@ class CardGame extends MiniGame {
                     console.warn('无法保存音效音量设置:', e);
                 }
             });
-            
+
             // 恢复保存的音量设置
             try {
                 const savedBgmVolume = localStorage.getItem('bgmVolume');
                 const savedSfxVolume = localStorage.getItem('sfxVolume');
-                
+
                 if (savedBgmVolume !== null) {
                     const volume = parseInt(savedBgmVolume);
                     if (!isNaN(volume)) {
                         const clampedVolume = Math.max(0, Math.min(100, volume));
                         bgmVolumeSlider.value = clampedVolume.toString();
                         bgmVolumeValue.textContent = `${clampedVolume}%`;
-                        
+
                         // 应用到当前游戏中正在播放的背景音乐
                         const bgmElement = document.getElementById('music') as HTMLAudioElement;
                         if (bgmElement) {
@@ -1210,7 +1210,7 @@ class CardGame extends MiniGame {
                         }
                     }
                 }
-                
+
                 if (savedSfxVolume !== null) {
                     const volume = parseInt(savedSfxVolume);
                     if (!isNaN(volume)) {
@@ -1318,7 +1318,7 @@ class CardGame extends MiniGame {
             });
         }
 
-      // 为玩家手牌区域添加事件监听器
+        // 为玩家手牌区域添加事件监听器
         if (this.playerHandElement) {
             // 添加防抖变量来处理快速鼠标移动
             let handAreaTimeout: number | null = null;
@@ -1337,10 +1337,10 @@ class CardGame extends MiniGame {
 
                 // 标记手牌为展开状态
                 isHandOpen = true;
-                
+
                 // 立即展开手牌
                 this.playerHandElement!.classList.add('open');
-                
+
                 // 播放悬停音效
                 try {
                     if (this.audioManager) {
@@ -1371,7 +1371,7 @@ class CardGame extends MiniGame {
                 handAreaTimeout = window.setTimeout(() => {
                     // 标记手牌为收起状态
                     isHandOpen = false;
-                    
+
                     this.playerHandElement!.classList.remove('open');
                     // 清除所有悬停效果
                     const peekedCards = this.playerHandElement!.querySelectorAll('.card.peek');
@@ -1379,88 +1379,88 @@ class CardGame extends MiniGame {
                         card.classList.remove('peek');
                     });
                     this.playerHandElement!.classList.remove('dim');
-                    
+
                     handAreaTimeout = null;
                 }, 300); // 减少延迟到300毫秒以提高响应性
             });
-        // 点击空白处取消选中
-        document.body.addEventListener('click', (e) => {
-            if (this.playerHandElement && !this.playerHandElement.contains(e.target as Node)) {
-                const selectedCards = this.playerHandElement.querySelectorAll('.card.selected');
-                selectedCards.forEach(card => {
-                    card.classList.remove('selected');
-                });
-                if (this.playerHandElement) {
-                    this.playerHandElement.classList.remove('dim');
+            // 点击空白处取消选中
+            document.body.addEventListener('click', (e) => {
+                if (this.playerHandElement && !this.playerHandElement.contains(e.target as Node)) {
+                    const selectedCards = this.playerHandElement.querySelectorAll('.card.selected');
+                    selectedCards.forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    if (this.playerHandElement) {
+                        this.playerHandElement.classList.remove('dim');
+                    }
+                }
+            });
+
+            // 为buff说明面板添加事件监听器
+            if (this.buffInfoToggle && this.buffInfoPanel) {
+                // 确保只添加一次事件监听器
+                if (!this.buffInfoToggle.hasAttribute('data-listener-added')) {
+                    this.buffInfoToggle.setAttribute('data-listener-added', 'true');
+
+                    // 切换buff说明面板显示/隐藏
+                    this.buffInfoToggle.addEventListener('click', () => {
+                        const isPanelOpen = this.buffInfoPanel!.style.transform === 'translateX(0px)' ||
+                            this.buffInfoPanel!.style.transform === 'translateX(0)';
+                        if (isPanelOpen) {
+                            // 面板已打开，关闭面板
+                            this.buffInfoPanel!.style.transform = 'translateX(-100%)';
+                        } else {
+                            // 面板已关闭，打开面板
+                            this.buffInfoPanel!.style.transform = 'translateX(0)';
+                        }
+                    });
+                }
+
+                // 为buff面板添加关闭按钮事件监听器
+                const closeBuffPanelButton = document.getElementById('close-buff-panel');
+                if (closeBuffPanelButton && !closeBuffPanelButton.hasAttribute('data-listener-added')) {
+                    closeBuffPanelButton.setAttribute('data-listener-added', 'true');
+
+                    closeBuffPanelButton.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        this.buffInfoPanel!.style.transform = 'translateX(-100%)';
+                    });
                 }
             }
-        });
-        
-        // 为buff说明面板添加事件监听器
-        if (this.buffInfoToggle && this.buffInfoPanel) {
-            // 确保只添加一次事件监听器
-            if (!this.buffInfoToggle.hasAttribute('data-listener-added')) {
-                this.buffInfoToggle.setAttribute('data-listener-added', 'true');
-                
-                // 切换buff说明面板显示/隐藏
-                this.buffInfoToggle.addEventListener('click', () => {
-                    const isPanelOpen = this.buffInfoPanel!.style.transform === 'translateX(0px)' || 
-                                      this.buffInfoPanel!.style.transform === 'translateX(0)';
-                    if (isPanelOpen) {
-                        // 面板已打开，关闭面板
-                        this.buffInfoPanel!.style.transform = 'translateX(-100%)';
-                    } else {
-                        // 面板已关闭，打开面板
-                        this.buffInfoPanel!.style.transform = 'translateX(0)';
-                    }
-                });
-            }
-            
-            // 为buff面板添加关闭按钮事件监听器
-            const closeBuffPanelButton = document.getElementById('close-buff-panel');
-            if (closeBuffPanelButton && !closeBuffPanelButton.hasAttribute('data-listener-added')) {
-                closeBuffPanelButton.setAttribute('data-listener-added', 'true');
-                
-                closeBuffPanelButton.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    this.buffInfoPanel!.style.transform = 'translateX(-100%)';
-                });
-            }
-        }
-        
-        // 获取音量控制相关元素
-        if (this.volumeToggle && this.volumePanel) {
-            // 确保只添加一次事件监听器
-            if (!this.volumeToggle.hasAttribute('data-listener-added')) {
-                this.volumeToggle.setAttribute('data-listener-added', 'true');
-                
-                // 切换音量控制面板显示/隐藏
-                this.volumeToggle.addEventListener('click', () => {
-                    const isPanelOpen = this.volumePanel!.style.transform === 'translateX(0px)' || 
-                                      this.volumePanel!.style.transform === 'translateX(0)';
-                    if (isPanelOpen) {
-                        // 面板已打开，关闭面板
+
+            // 获取音量控制相关元素
+            if (this.volumeToggle && this.volumePanel) {
+                // 确保只添加一次事件监听器
+                if (!this.volumeToggle.hasAttribute('data-listener-added')) {
+                    this.volumeToggle.setAttribute('data-listener-added', 'true');
+
+                    // 切换音量控制面板显示/隐藏
+                    this.volumeToggle.addEventListener('click', () => {
+                        const isPanelOpen = this.volumePanel!.style.transform === 'translateX(0px)' ||
+                            this.volumePanel!.style.transform === 'translateX(0)';
+                        if (isPanelOpen) {
+                            // 面板已打开，关闭面板
+                            this.volumePanel!.style.transform = 'translateX(-100%)';
+                        } else {
+                            // 面板已关闭，打开面板
+                            this.volumePanel!.style.transform = 'translateX(0)';
+                        }
+                    });
+                }
+
+                // 为音量面板添加关闭按钮事件监听器
+                const closeVolumePanelButton = document.getElementById('close-volume-panel');
+                if (closeVolumePanelButton && !closeVolumePanelButton.hasAttribute('data-listener-added')) {
+                    closeVolumePanelButton.setAttribute('data-listener-added', 'true');
+
+                    closeVolumePanelButton.addEventListener('click', (event) => {
+                        event.stopPropagation();
                         this.volumePanel!.style.transform = 'translateX(-100%)';
-                    } else {
-                        // 面板已关闭，打开面板
-                        this.volumePanel!.style.transform = 'translateX(0)';
-                    }
-                });
-            }
-            
-            // 为音量面板添加关闭按钮事件监听器
-            const closeVolumePanelButton = document.getElementById('close-volume-panel');
-            if (closeVolumePanelButton && !closeVolumePanelButton.hasAttribute('data-listener-added')) {
-                closeVolumePanelButton.setAttribute('data-listener-added', 'true');
-                
-                closeVolumePanelButton.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    this.volumePanel!.style.transform = 'translateX(-100%)';
-                });
+                    });
+                }
             }
         }
     }
-}
     // 更新音频管理器的音效音量
     private updateAudioManagerSfxVolume(): void {
         try {
@@ -1469,7 +1469,7 @@ class CardGame extends MiniGame {
                 const volume = parseInt(savedSfxVolume);
                 if (!isNaN(volume)) {
                     const clampedVolume = Math.max(0, Math.min(100, volume)) / 100;
-                    
+
                     // 设置音频管理器的音效音量
                     if (this.audioManager && this.audioManager.setSoundEffectVolume) {
                         this.audioManager.setSoundEffectVolume(clampedVolume);
@@ -1508,7 +1508,7 @@ class CardGame extends MiniGame {
         if (this.deckSelectionContainer) {
             this.deckSelectionContainer.style.display = 'none';
         }
-        
+
         // 设置初始化buff（在游戏真正开始时设置）
         PlayerService.setInitialBuffs(this.state.player, this.gameConfig?.player?.initialBuffs);
         PlayerService.setInitialBuffs(this.state.opponent, this.gameConfig?.opponent?.initialBuffs);
@@ -1545,7 +1545,7 @@ class CardGame extends MiniGame {
                 const volume = parseInt(savedBgmVolume);
                 if (!isNaN(volume)) {
                     const clampedVolume = Math.max(0, Math.min(100, volume));
-                    
+
                     // 应用到当前游戏中正在播放的背景音乐
                     const bgmElement = document.getElementById('music') as HTMLAudioElement;
                     if (bgmElement) {
@@ -1585,7 +1585,7 @@ class CardGame extends MiniGame {
                             const audioPath = `../../assets/bgm/${bgm}.mp3`;
                             musicElement.src = audioPath;
                             musicElement.loop = true;
-                            
+
                             // 应用保存的音量设置
                             const savedVolume = localStorage.getItem('bgmVolume');
                             if (savedVolume) {
@@ -1595,7 +1595,7 @@ class CardGame extends MiniGame {
                             } else {
                                 musicElement.volume = 1.0; // 默认100%
                             }
-                            
+
                             musicElement.play().catch(e => console.error("播放失败:", e));
                             localStorage.setItem("nowbgm", bgm);
                             console.log("已直接播放音乐:", audioPath);
@@ -1622,17 +1622,17 @@ class CardGame extends MiniGame {
             console.log("保存当前背景音乐:", this.originalBgm);
 
             // 播放卡牌游戏专用背景音乐
-const gameBgm = this.gameConfig?.bgm || "bgm9";
-console.log("播放卡牌游戏背景音乐:", gameBgm);
-this.audioManager.updateBackgroundMusic(gameBgm);
-            
+            const gameBgm = this.gameConfig?.bgm || "bgm9";
+            console.log("播放卡牌游戏背景音乐:", gameBgm);
+            this.audioManager.updateBackgroundMusic(gameBgm);
+
             // 确保应用保存的音量设置到当前播放的音乐
             const savedBgmVolume = localStorage.getItem('bgmVolume');
             if (savedBgmVolume !== null) {
                 let volume = parseInt(savedBgmVolume);
                 if (!isNaN(volume)) {
                     volume = Math.max(0, Math.min(100, volume));
-                    
+
                     // 应用到当前播放的背景音乐
                     const musicElement = document.getElementById("music") as HTMLAudioElement | null;
                     if (musicElement) {
@@ -1650,7 +1650,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         try {
             console.log('[DEBUG] 更新灾厄之主背景音乐');
             console.log('[DEBUG] 对手buff:', this.state.opponent.buffs);
-            
+
             // 检查对手是否为灾厄之主以及其当前阶段
             if (this.state.opponent.buffs.some(buff => buff.id === 'disaster_lord_phase1')) {
                 // 第一阶段音乐
@@ -1776,7 +1776,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 this.opponentTurn();
                 break;
             case 'main':
-                                console.log(`${this.state.opponent.name}主要阶段，准备出牌`);
+                console.log(`${this.state.opponent.name}主要阶段，准备出牌`);
                 this.updateUI();
                 // 添加一个小延迟，让玩家看到消息变化
                 setTimeout(() => {
@@ -1871,16 +1871,16 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                     const selfDamage = selfDamageEffects.reduce((sum, effect) => sum + (effect.duration || 0), 0);
 
                     // 检查是否能一次性击败玩家
-                const totalPlayerDamage = this.state.player.hp;
+                    const totalPlayerDamage = this.state.player.hp;
 
-                // 如果对手当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
-                if (this.state.opponent.hp - selfDamage > 0 &&
-                    card.effect.some(effect =>
-                        effect.id === 'do_attack' &&
-                        effect.target === 'other' &&
-                        (effect.duration || 0) >= totalPlayerDamage)) {
-                    return true;
-                }
+                    // 如果对手当前血量减去自伤后仍然能击败玩家，则保留这张卡牌
+                    if (this.state.opponent.hp - selfDamage > 0 &&
+                        card.effect.some(effect =>
+                            effect.id === 'do_attack' &&
+                            effect.target === 'other' &&
+                            (effect.duration || 0) >= totalPlayerDamage)) {
+                        return true;
+                    }
 
                     // 如果会造成自伤且不能一次性击败玩家，则过滤掉这张卡牌
                     return false;
@@ -1975,34 +1975,34 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             }
 
             // 为对手卡牌添加sourceElement属性，确保动画能正常工作
-        if (this.opponentHandElement) {
-            const allCards = this.opponentHandElement.querySelectorAll('.card');
-            // 查找匹配的卡牌元素
-            for (let i = 0; i < allCards.length; i++) {
-                const cardElement = allCards[i] as HTMLElement;
-                if (cardElement.dataset.cardName === card.name) {
-                    // 添加sourceElement属性
-                    const cardWithElement = card as Card & { sourceElement: HTMLElement };
-                    cardWithElement.sourceElement = cardElement;
-                    break;
+            if (this.opponentHandElement) {
+                const allCards = this.opponentHandElement.querySelectorAll('.card');
+                // 查找匹配的卡牌元素
+                for (let i = 0; i < allCards.length; i++) {
+                    const cardElement = allCards[i] as HTMLElement;
+                    if (cardElement.dataset.cardName === card.name) {
+                        // 添加sourceElement属性
+                        const cardWithElement = card as Card & { sourceElement: HTMLElement };
+                        cardWithElement.sourceElement = cardElement;
+                        break;
+                    }
                 }
             }
-        }
 
-        this.playCard(this.state.opponent, card);
-    } else {
-        console.log('巨石没有可用卡牌');
-        // 在调试信息中显示没有可用卡牌
-        if (this.debugContentElement) {
-            this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
+            this.playCard(this.state.opponent, card);
+        } else {
+            console.log('巨石没有可用卡牌');
+            // 在调试信息中显示没有可用卡牌
+            if (this.debugContentElement) {
+                this.debugContentElement.innerHTML += `<div>巨石没有可用卡牌，将结束回合</div>`;
+            }
+            // 没有可用卡牌，直接结束回合
+            setTimeout(() => {
+                console.log('巨石没有可用卡牌，结束回合');
+                this.endTurn();
+            }, 1500);
         }
-        // 没有可用卡牌，直接结束回合
-        setTimeout(() => {
-            console.log('巨石没有可用卡牌，结束回合');
-            this.endTurn();
-        }, 1500);
     }
-}
 
     // 处理delay_attack buff
     private processDelayAttackBuff(player: Player, opponent: Player): void {
@@ -2150,7 +2150,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                     }
                 }
             }
-            
+
             if (this.audioManager) {
                 this.audioManager.playSoundEffect("card_play");
             }
@@ -2158,7 +2158,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             console.log("无法播放出牌音效:", e);
         }
 
-        
+
         // 消耗行动值
         player.actionPoints -= (card.cost?.action || 0);
 
@@ -2178,7 +2178,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 turn: this.state.turn,
                 player: player.id as 'player' | 'opponent'
             });
-            
+
             // 如果卡牌是一次性使用的，则将其添加到已使用集合中
             if (card.useOnce) {
                 console.log(`[DEBUG] 添加一次性卡牌到已使用集合: ${card.name}(${card.id})`);
@@ -2241,7 +2241,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             }
         }
     }
-    
+
 
     // 通用音效播放方法
     private playSoundEffect(soundName: string, volume: number = 1.0): void {
@@ -2258,10 +2258,10 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 console.warn('使用音频管理器播放音效失败:', e);
             }
         }
-        
+
         // 如果没有音频管理器或调用失败，尝试直接播放
         console.log(`播放音效: ${soundName} (音量: ${volume})`);
-        
+
         // 这里可以添加直接播放音频文件的代码
         // 例如创建一个新的Audio对象并播放
         /*
@@ -2314,18 +2314,18 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         } else {
             // 巨石回合结束时增加巨石行动值
             this.state.opponent.actionPoints += typeof this.config.opponent?.actionPoints == 'function' ? this.config.opponent.actionPoints() : this.config.opponent?.actionPoints!;
-            
+
             // 检查灾厄之主阶段转换
             const initialPhase = this.getDisasterLordPhase(this.state.opponent);
             BuffService.checkDisasterLordPhase(this.state.opponent, this.state.player);
             const newPhase = this.getDisasterLordPhase(this.state.opponent);
-            
+
             // 如果灾厄之主阶段发生变化，更新背景音乐并显示过渡效果
             if (initialPhase !== newPhase && newPhase !== null) {
                 console.log(`灾厄之主阶段从 ${initialPhase} 转换到 ${newPhase}`);
                 this.showDisasterLordPhaseTransition(newPhase);
             }
-            
+
             this.state.currentPlayer = 'player';
             this.state.gamePhase = 'draw';
             this.state.turn++;
@@ -2348,7 +2348,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
     private applyDisasterLordFilter(): void {
         // 移除已存在的滤镜
         this.removeDisasterLordFilter();
-        
+
         // 创建滤镜元素
         const filterOverlay = document.createElement('div');
         filterOverlay.id = 'disaster-lord-filter';
@@ -2363,17 +2363,17 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             z-index: 9998;
             transition: all 0.5s ease-in-out;
         `;
-        
+
         document.body.appendChild(filterOverlay);
-        
+
         console.log('[DEBUG] 应用灾厄之主静态压迫感滤镜');
-        
+
         // 记录阶段开始时间
         const phaseStartTime = Date.now();
         const currentPhase = this.getDisasterLordPhase(this.state.opponent);
-        
+
         // 根据当前阶段设置定时器
-        switch(currentPhase) {
+        switch (currentPhase) {
             case 'phase1':
                 // 第一阶段40秒后闪白并应用第三阶段效果
                 setTimeout(() => {
@@ -2412,11 +2412,11 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 break;
         }
     }
-    
+
     // 根据当前阶段应用相应的效果
     private applyPhaseEffectForCurrentState(): void {
         const currentPhase = this.getDisasterLordPhase(this.state.opponent);
-        switch(currentPhase) {
+        switch (currentPhase) {
             case 'phase2':
                 // 应用第二阶段效果
                 // 这里可以添加第二阶段需要的特殊效果
@@ -2434,28 +2434,28 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 break;
         }
     }
-    
+
     // 移除灾厄之主战斗压迫感滤镜
     private removeDisasterLordFilter(): void {
         const filterOverlay = document.getElementById('disaster-lord-filter');
         const flashOverlay = document.getElementById('disaster-lord-flash');
         const phase3Filter = document.getElementById('disaster-lord-filter-phase3');
-        
+
         if (filterOverlay && filterOverlay.parentNode) {
             filterOverlay.parentNode.removeChild(filterOverlay);
         }
-        
+
         if (flashOverlay && flashOverlay.parentNode) {
             flashOverlay.parentNode.removeChild(flashOverlay);
         }
-        
+
         if (phase3Filter && phase3Filter.parentNode) {
             phase3Filter.parentNode.removeChild(phase3Filter);
         }
-        
+
         console.log('[DEBUG] 移除灾厄之主滤镜');
     }
-    
+
     // 闪白并移除滤镜
     private flashWhiteAndRemoveFilter(): void {
         // 创建闪白效果元素
@@ -2472,17 +2472,17 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             opacity: 0;
             pointer-events: none;
         `;
-        
+
         document.body.appendChild(flashOverlay);
-        
+
         // 执行闪白动画
         setTimeout(() => {
             flashOverlay.style.transition = 'opacity 0.5s ease-in-out';
             flashOverlay.style.opacity = '1';
-            
+
             setTimeout(() => {
                 flashOverlay.style.opacity = '0';
-                
+
                 setTimeout(() => {
                     if (flashOverlay.parentNode) {
                         flashOverlay.parentNode.removeChild(flashOverlay);
@@ -2492,7 +2492,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             }, 1000);
         }, 100);
     }
-    
+
     // 闪白并应用第三阶段效果
     private flashWhiteAndApplyPhase3Effect(): void {
         // 创建闪白效果元素
@@ -2509,17 +2509,17 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             opacity: 0;
             pointer-events: none;
         `;
-        
+
         document.body.appendChild(flashOverlay);
-        
+
         // 执行闪白动画
         setTimeout(() => {
             flashOverlay.style.transition = 'opacity 0.5s ease-in-out';
             flashOverlay.style.opacity = '1';
-            
+
             setTimeout(() => {
                 flashOverlay.style.opacity = '0';
-                
+
                 setTimeout(() => {
                     if (flashOverlay.parentNode) {
                         flashOverlay.parentNode.removeChild(flashOverlay);
@@ -2534,7 +2534,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             }, 1000);
         }, 100);
     }
-    
+
     // 应用第三阶段效果（提高亮度）
     private applyPhase3Effect(): void {
         // 创建第三阶段效果滤镜
@@ -2552,7 +2552,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             z-index: 9998;
             transition: all 0.5s ease-in-out;
         `;
-        
+
         document.body.appendChild(filterOverlay);
         console.log('[DEBUG] 应用灾厄之主第三阶段效果');
     }
@@ -2561,7 +2561,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
     private increaseBrightness(): void {
         // 移除可能存在的旧滤镜
         this.removeDisasterLordFilter();
-        
+
         // 创建新的亮度增加滤镜
         const filterOverlay = document.createElement('div');
         filterOverlay.id = 'disaster-lord-filter-phase3';
@@ -2577,7 +2577,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             z-index: 9998;
             transition: all 0.5s ease-in-out;
         `;
-        
+
         document.body.appendChild(filterOverlay);
         console.log('[DEBUG] 增加灾厄之主第三阶段亮度效果');
     }
@@ -2668,7 +2668,8 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                     : null
             },
             turn: this.state.turn,
-            totalTurns: this.state.turn
+            totalTurns: this.state.turn,
+            score: this.calculateScore()
         };
     }
 
@@ -2683,7 +2684,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
 
         // 使用现有的场景管理器实例（如果存在的话）
         let useSceneManager = this.sceneManager;
-        
+
         // 如果没有场景管理器，尝试从全局获取
         if (!useSceneManager) {
             useSceneManager = (window as any).sceneManagerInstance;
@@ -2724,7 +2725,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             sceneElementsContainer.style.height = '100%';
             sceneElementsContainer.style.pointerEvents = 'none';
             sceneElementsContainer.style.zIndex = '1001';
-            
+
             // 创建对话框元素，使用SceneManager中的方法逻辑
             const dialog = this.createDialogElement(event.elements);
             sceneElementsContainer.appendChild(dialog);
@@ -2736,7 +2737,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             // 添加点击事件以关闭对话框
             const closeHandler = () => {
                 console.log('[CardGame] 关闭事件对话框');
-                
+
                 if (overlay.parentNode) {
                     overlay.parentNode.removeChild(overlay);
                 }
@@ -2750,7 +2751,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             console.warn('[CardGame] 未找到card-game-container元素');
         }
     }
-    
+
     /**
      * 创建对话框元素（复用SceneManager中的逻辑）
      * @param element 对话框元素数据
@@ -2775,11 +2776,11 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         textElement.id = 'texts';
         textElement.textContent = element.text;
         textBox.appendChild(textElement);
-        
+
         dialog.appendChild(textBox);
         return dialog;
     }
-    
+
     /**
      * 创建简单对话框（不依赖SceneManager）
      * @param elements 对话框元素
@@ -2837,7 +2838,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         // 添加点击事件以关闭对话框
         const closeHandler = () => {
             console.log('[CardGame] 关闭简单事件对话框');
-            
+
             if (overlay.parentNode) {
                 overlay.parentNode.removeChild(overlay);
             }
@@ -2853,7 +2854,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
     protected endGame(): void {
         // 移除灾厄之主滤镜
         this.removeDisasterLordFilter();
-        
+
         this.state.gamePhase = 'gameover';
         this.updateUI();
 
@@ -2873,35 +2874,47 @@ this.audioManager.updateBackgroundMusic(gameBgm);
             (window as any).isDisasterLordFinalBattle = false;
         }
 
-        // 调用完成回调，传递更详细的游戏状态信息
-        // 1: 胜利, 0: 失败, -1: 完全惨败(第一管血就死了), -2: 小败(第二/三管血死了)
-        let gameResult = 0;
-        if (this.state.playerWon) {
-            // 胜利 - 根据剩余血量判断是大胜还是小胜
-            if (this.state.player.hp > 2) {
-                gameResult = 1; // 大获全胜
-            } else {
-                gameResult = 2; // 小胜
-            }
-        } else {
-            // 失败 - 根据死亡时的血量判断失败程度
-            // player.maxHp为60，每管血20点
-            if (this.state.player.hp <= (this.state.player.maxHp - 20 * 3)) {
-                // 第一管血就死了（血量<=0）
-                gameResult = -1; // 完全惨败
-            } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 2)) {
-                // 第二管血死了（血量<=20）
-                gameResult = -2; // 小败
-            } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 1)) {
-                // 第三管血死了（血量<=40）
-                gameResult = -2; // 小败
-            } else {
-                // 其他情况（不太可能）
-                gameResult = 0;
-            }
+        // // 调用完成回调，传递更详细的游戏状态信息
+        // // 1: 胜利, 0: 失败, -1: 完全惨败(第一管血就死了), -2: 小败(第二/三管血死了)
+        // let gameResult = 0;
+        // if (this.state.playerWon) {
+        //     // 胜利 - 根据剩余血量判断是大胜还是小胜
+        //     if (this.state.player.hp > 2) {
+        //         gameResult = 1; // 大获全胜
+        //     } else {
+        //         gameResult = 2; // 小胜
+        //     }
+        // } else {
+        //     // 失败 - 根据死亡时的血量判断失败程度
+        //     // player.maxHp为60，每管血20点
+        //     if (this.state.player.hp <= (this.state.player.maxHp - 20 * 3)) {
+        //         // 第一管血就死了（血量<=0）
+        //         gameResult = -1; // 完全惨败
+        //     } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 2)) {
+        //         // 第二管血死了（血量<=20）
+        //         gameResult = -2; // 小败
+        //     } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 1)) {
+        //         // 第三管血死了（血量<=40）
+        //         gameResult = -2; // 小败
+        //     } else {
+        //         // 其他情况（不太可能）
+        //         gameResult = 0;
+        //     }
+        // }
+
+        this.onComplete(this.getGameData());
+    }
+    /**
+     * 计算当前游戏分数
+     * 分数基于玩家是否击败对手：击败对手为1分，否则为0分
+     */
+    private calculateScore(): number {
+        // 如果对手生命值小于等于0，玩家获胜，得分为1
+        if (this.state.opponent.hp <= 0) {
+            return 1;
         }
-        
-        this.onComplete(gameResult);
+        // 否则得分为0
+        return 0;
     }
 
 
@@ -2946,7 +2959,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         if (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer) {
             // 检查灾厄之主阶段变化
             this.checkDisasterLordPhaseChange();
-            
+
             this.updateScoreDisplay();
             UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
                 ? this.config.player!.drawCount()!
@@ -3018,25 +3031,25 @@ this.audioManager.updateBackgroundMusic(gameBgm);
     private checkDisasterLordPhaseChange(): void {
         // 获取当前灾厄之主阶段
         const currentPhase = this.getDisasterLordPhase(this.state.opponent);
-        
+
         // 检查是否有灾厄之主buff
-        const isDisasterLord = this.state.opponent.buffs.some(buff => 
-            buff.id === 'disaster_lord_phase1' || 
-            buff.id === 'disaster_lord_phase2' || 
+        const isDisasterLord = this.state.opponent.buffs.some(buff =>
+            buff.id === 'disaster_lord_phase1' ||
+            buff.id === 'disaster_lord_phase2' ||
             buff.id === 'disaster_lord_phase3'
         );
-        
+
         // 如果是灾厄之主且阶段发生变化
         if (isDisasterLord && this.lastDisasterLordPhase !== currentPhase && currentPhase !== null) {
             console.log(`灾厄之主阶段从 ${this.lastDisasterLordPhase} 转换到 ${currentPhase}`);
             this.showDisasterLordPhaseTransition(currentPhase);
             this.updateDisasterLordBgm();
             this.lastDisasterLordPhase = currentPhase;
-            
+
             // 应用新的滤镜效果
             this.applyDisasterLordFilter();
         }
-        
+
         // 如果不是灾厄之主，重置记录的阶段并移除滤镜
         if (!isDisasterLord) {
             this.lastDisasterLordPhase = null;
@@ -3060,9 +3073,9 @@ this.audioManager.updateBackgroundMusic(gameBgm);
         phaseText.style.textAlign = 'center';
         phaseText.style.textShadow = '0 0 10px #000';
         phaseText.style.pointerEvents = 'none';
-        
+
         // 根据阶段设置文本内容
-        switch(phase) {
+        switch (phase) {
             case 'phase1':
                 phaseText.textContent = '灾厄之主·第一阶段';
                 break;
@@ -3073,10 +3086,10 @@ this.audioManager.updateBackgroundMusic(gameBgm);
                 phaseText.textContent = '灾厄之主·第三阶段';
                 break;
         }
-        
+
         // 添加到文档中
         document.body.appendChild(phaseText);
-        
+
         // 3秒后移除元素
         setTimeout(() => {
             if (phaseText.parentNode) {
@@ -3128,7 +3141,7 @@ this.audioManager.updateBackgroundMusic(gameBgm);
 
     public restart(): void {
         console.log('[CardGame] 重启游戏');
-        
+
         // 清理可视化定时器
         if (this.visualizationInterval) {
             clearInterval(this.visualizationInterval);

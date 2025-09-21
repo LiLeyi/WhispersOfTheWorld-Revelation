@@ -29,7 +29,7 @@ export interface SceneNode extends BaseSceneNode {
         id: string;                     // 游戏ID
         config: JumpingGameConfig | CardGameConfig;      // 游戏配置，有其他的配置需加在这里
         end?: Array<{                   // 分数跳转配置数组
-            condition: (score: number) => boolean; // 分数的条件
+            condition: (gameData: any) => boolean; // 分数的条件
             next: string;               // 跳转的节点
         }>;
         events?: Array<MiniGameEvent>;

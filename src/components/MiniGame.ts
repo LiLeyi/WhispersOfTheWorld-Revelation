@@ -16,7 +16,7 @@ abstract class MiniGame {
     protected audioManager: any; // 添加audioManager属性定义
     protected sceneManager: any; // 添加sceneManager属性定义
     
-    constructor(protected onComplete: (score: number) => void) {}
+    constructor(protected onComplete: (gameData: any) => void) {}
 
     /**
      * 初始化游戏

@@ -4,6 +4,7 @@ import { CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
+import { CardGameEventData } from '../../../types/MiniGameEvents';
 // 定义第1幕场景
 const scene: Scene = {
     id: "chapter_0_scene_1_0",
@@ -1404,12 +1405,12 @@ const scene: Scene = {
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
 
                             next: "ask1"
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "ask2"
                         }
                     ]
@@ -1510,11 +1511,11 @@ const scene: Scene = {
                     },
                     end: [
                         {
-                            condition: (score: number) => score >= 1,
+                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
                             next: "ask1"
                         },
                         {
-                            condition: (score: number) => true, // 默认条件，总是为真
+                            condition: () => true, // 默认条件，总是为真
                             next: "branch_1_20"
                         }
                     ]
