@@ -2921,7 +2921,7 @@ sprite: {
                     }
                 ],
             },
-            backgroundImage:"sc1.1/1-1-0.jpg",
+            backgroundImage:"game/zaiezhizhu.jpg",
             bgm:"zaiezhizhu",
             disasterLordBgm: {
                 phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐
@@ -3664,7 +3664,7 @@ sprite: {
                                  }
                              ],
                               },
-                            backgroundImage:"sc1.1/1-1-0.jpg",
+                            backgroundImage:"game/zaiezhizhu.jpg",
                             bgm:"zaiezhizhu",
                             disasterLordBgm: {
                                 phase1: "zaiezhizhu_phase2",      // 灾厄之主第一阶段使用原来第二阶段的音乐

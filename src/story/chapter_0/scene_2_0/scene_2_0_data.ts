@@ -1726,7 +1726,7 @@ nodes: [
                             drawCount: 3,           // 对手每回合抽3张牌
                             initialDrawCount: 4     // 对手开始时抽4张牌
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        backgroundImage:"game/wupo.jpg",
                         bgm:"wupo"
                     },
                     end: [

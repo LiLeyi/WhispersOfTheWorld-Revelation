@@ -1298,7 +1298,7 @@ nodes: [
                             drawCount: 2,           // 对手每回合抽3张牌
                             initialDrawCount: 4 ,    // 对手开始时抽4张牌
                           },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        backgroundImage:"game/meifeisite.jpg",
                         bgm:"sishen"
                     },
                     end: [
@@ -1882,7 +1882,7 @@ choices: [
                             drawCount: 5,           // 对手每回合抽3张牌
                             initialDrawCount: 6 ,    // 对手开始时抽4张牌
                           },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
+                        backgroundImage:"game/guiguai.jpg",
                         bgm:"guiguai"
                     },
                     end: [
@@ -2772,7 +2772,7 @@ choices: [
                                  }
                              ],
                               },
-                            backgroundImage:"sc1.1/1-1-0.jpg",
+                            backgroundImage:"game/ehun.jpg",
                             bgm:"ehun"
                         },
                         end: [
