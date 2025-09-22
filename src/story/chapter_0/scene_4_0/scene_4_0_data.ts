@@ -4323,10 +4323,20 @@ sprite: {
   choices: [
     {
       text: "达成结局五！！！(真结局)",
-      next: "chapter_0_scene_0",
+      next: "video_node111",
     },
   ],
 },
+{
+            id: "video_node111",
+            elements: {
+                name: "旁白",
+                text: "播放视频"
+            },
+            video: "baomu.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            next:"chapter_0_scene_0",
+        },
+        
 //结局6//
 {
   id: "ending_33_6",
