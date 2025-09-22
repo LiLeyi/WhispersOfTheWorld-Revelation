@@ -117,17 +117,6 @@ export class CardManager {
     }
 
     /**
-     * 检查卡组是否包含指定卡牌
-     * @param cardId 卡牌ID
-     * @param count 需要的数量
-     * @returns 是否包含足够数量的指定卡牌
-     */
-    public hasCardInDeck(cardId: string, count: number = 1): boolean {
-        const currentDeck = this.getPlayerDeck();
-        return (currentDeck[cardId] || 0) >= count;
-    }
-
-    /**
      * 获取卡组中卡牌的总数量
      * @returns 卡牌总数量
      */

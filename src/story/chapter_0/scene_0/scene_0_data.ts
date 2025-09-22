@@ -39,6 +39,7 @@ const scene: Scene = {
                         "parry": 3,      // 招架 x3
                         "hook": 3,       // 勾拳 x3
                         "combo": 3,       // 连击 x3
+                        "shadow_card": 1,
                     };
 
                     console.log("[SceneAction] 正在添加初始卡牌:", INITIAL_CARDS);
@@ -111,11 +112,11 @@ const scene: Scene = {
                 end: [
                     {
                         condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                        next: "ask1"
+                        next: "test1"
                     },
                     {
                         condition: () => true, // 默认条件，总是为真
-                        next: "ask2"
+                        next: "test2"
                     }
                 ]
             }
@@ -289,22 +290,22 @@ const scene: Scene = {
         //         ]
         //     }
         // },
-        // {
-        //     id: "test1",
-        //     elements: {
-        //         name: "旁白",
-        //         text: "拿到了一分！",
-        //         bgm: "bgm2.mp3"
-        //     }
-        // },
-        // {
-        //     id: "test2",
-        //     elements: {
-        //         name: "旁白",
-        //         text: "未拿到分",
-        //         bgm: "bgm2.mp3"
-        //     }
-        // },
+        {
+            id: "test1",
+            elements: {
+                name: "旁白",
+                text: "拿到了一分！",
+                bgm: "bgm2.mp3"
+            }
+        },
+        {
+            id: "test2",
+            elements: {
+                name: "旁白",
+                text: "未拿到分",
+                bgm: "bgm2.mp3"
+            }
+        },
         {
             id: "node2",
             elements: {

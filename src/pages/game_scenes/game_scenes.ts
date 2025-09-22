@@ -1429,33 +1429,137 @@ private showAutoSaveNotification(message: string): void {
         
         this.miniGameContainer.appendChild(gameElementsContainer);
 
-        // 确保DOM已更新后再创建游戏实例
+                // 确保DOM已更新后再创建游戏实例
         setTimeout(() => {
             // 使用工厂模式创建游戏实例
             const gameInstance = MiniGameFactory.createGame(
                 node.game!.id,
-                (score: number) => {
+                (gameData: any) => {
+                    console.log('[GameScene] 小游戏结束，gameData:', gameData);
+                    // 检查是否已经处理过游戏结束，防止重复处理
+                    if ((gameInstance as any)._gameEnded) {
+                        console.log('[GameScene] 游戏已结束，跳过重复处理');
+                        return;
+                    }
+                    
+                    // 标记游戏已结束
+                    (gameInstance as any)._gameEnded = true;
+                    
                     // 淡出小游戏
                     this.miniGameContainer.style.opacity = '0';
+
+                    // 停止自动播放功能，防止自动跳转
+                    if (this.autoClickInterval) {
+                        console.log('[GameScene] 停止自动播放功能');
+                        this.startAutoClick(); // 这会停止自动播放
+                    }
 
                     // 等待淡出完成后处理跳转
                     setTimeout(() => {
                         // 游戏结束后处理跳转
                         this.miniGameContainer.style.display = 'none';
 
-                        // 恢复背景显示并淡入
-                        const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
-                        if (currentBgElement) {
-                            currentBgElement.style.display = 'block';
-                            let fadeInOpacity = 0;
-                            const fadeInInterval = setInterval(() => {
-                                fadeInOpacity += 0.05;
-                                currentBgElement.style.opacity = fadeInOpacity.toString();
-                                blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
+                        // 检查是否有end条件配置
+                        if (node.game!.end) {
+                            console.log('[GameScene] 检查end条件:', node.game!.end);
+                            // 遍历end条件数组，找到第一个满足条件的项
+                            for (const endCondition of node.game!.end) {
+                                console.log('[GameScene] 检查条件:', endCondition.condition, 'gameData:', gameData);
+                                if (endCondition.condition(gameData)) {
+                                    console.log('[GameScene] 满足end条件:', endCondition);
+                                    // 跳转到指定的next节点
+                                    const nextNodeId = endCondition.next;
+                                    
+                                    // 恢复背景显示并淡入
+                                    const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+                                    if (currentBgElement) {
+                                        currentBgElement.style.display = 'block';
+                                        let fadeInOpacity = 0;
+                                        const fadeInInterval = setInterval(() => {
+                                            fadeInOpacity += 0.05;
+                                            currentBgElement.style.opacity = fadeInOpacity.toString();
+                                            blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
 
-                                    if (fadeInOpacity >= 1) {
-                                        clearInterval(fadeInInterval);
-                                        // 移除黑色覆盖层
+                                            if (fadeInOpacity >= 1) {
+                                                clearInterval(fadeInInterval);
+                                                // 移除黑色覆盖层
+                                                if (blackOverlay.parentNode) {
+                                                    blackOverlay.parentNode.removeChild(blackOverlay);
+                                                }
+
+                                                // 恢复原始点击事件
+                                                if (moveElement) {
+                                                    // 移除可能存在的事件监听器
+                                                    if ((moveElement as any)._nextMoveHandler) {
+                                                        moveElement.removeEventListener('click', (moveElement as any)._nextMoveHandler);
+                                                    }
+                                                    // 恢复原始事件监听器
+                                                    if (originalMoveHandler) {
+                                                        moveElement.addEventListener('click', originalMoveHandler);
+                                                        (moveElement as any)._nextMoveHandler = originalMoveHandler;
+                                                    }
+                                                }
+                                                if (dialogElement) {
+                                                    // 移除可能存在的事件监听器
+                                                    if ((dialogElement as any)._nextMoveHandler) {
+                                                        dialogElement.removeEventListener('click', (dialogElement as any)._nextMoveHandler);
+                                                    }
+                                                    // 恢复原始事件监听器
+                                                    if (originalDialogHandler) {
+                                                        dialogElement.addEventListener('click', originalDialogHandler);
+                                                        (dialogElement as any)._nextMoveHandler = originalDialogHandler;
+                                                    }
+                                                }
+                                                if (textBoxElement) {
+                                                    // 移除可能存在的事件监听器
+                                                    if ((textBoxElement as any)._nextMoveHandler) {
+                                                        textBoxElement.removeEventListener('click', (textBoxElement as any)._nextMoveHandler);
+                                                    }
+                                                    // 恢复原始事件监听器
+                                                    if (originalTextBoxHandler) {
+                                                        textBoxElement.addEventListener('click', originalTextBoxHandler);
+                                                        (textBoxElement as any)._nextMoveHandler = originalTextBoxHandler;
+                                                    }
+                                                }
+
+                                                // 恢复对话框显示
+                                                dialogElements.forEach(el => {
+                                                    (el as HTMLElement).style.display = '';
+                                                });
+                                                
+                                                // 淡入立绘元素（如果存在）
+                                                if (gameElementsContainer) {
+                                                    const sceneElementsContainer = gameElementsContainer.querySelector('.scene-elements-container');
+                                                    if (sceneElementsContainer && (sceneElementsContainer as any).fadeInSprites) {
+                                                        (sceneElementsContainer as any).fadeInSprites();
+                                                    }
+                                                }
+
+                                                // 查找当前场景中的目标节点
+                                                if (this.currentScene) {
+                                                    const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                                        (n) => n.id === nextNodeId
+                                                    );
+
+                                                    if (targetNodeIndex !== -1) {
+                                                        // 如果找到了节点，跳转到该节点
+                                                        this.currentNodeIndex = targetNodeIndex;
+                                                        // 更新点击次数，确保存档正确
+                                                        localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                                        // 渲染新节点
+                                                        this.renderCurrentNode();
+                                                    } else {
+                                                        // 如果没找到节点，尝试作为场景ID处理
+                                                        this.navigateToScene(nextNodeId);
+                                                    }
+                                                } else {
+                                                    // 如果没有当前场景，尝试作为场景ID处理
+                                                    this.navigateToScene(nextNodeId);
+                                                }
+                                            }
+                                        }, 50);
+                                    } else {
+                                        // 没有背景元素，直接移除覆盖层并恢复原始事件
                                         if (blackOverlay.parentNode) {
                                             blackOverlay.parentNode.removeChild(blackOverlay);
                                         }
@@ -1499,47 +1603,135 @@ private showAutoSaveNotification(message: string): void {
                                         dialogElements.forEach(el => {
                                             (el as HTMLElement).style.display = '';
                                         });
-                                        
-                                        // 淡入立绘元素（如果存在）
-                                        if (gameElementsContainer) {
-                                            const sceneElementsContainer = gameElementsContainer.querySelector('.scene-elements-container');
-                                            if (sceneElementsContainer && (sceneElementsContainer as any).fadeInSprites) {
-                                                (sceneElementsContainer as any).fadeInSprites();
-                                            }
-                                        }
 
-                                        // 继续游戏
-                                        if (node.next) {
-                                            // 如果有指定的下一个节点，则跳转到该节点
-                                            const nextNodeId = node.next;
-                                            console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
+                                        // 查找当前场景中的目标节点
+                                        if (this.currentScene) {
+                                            const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                                (n) => n.id === nextNodeId
+                                            );
 
-                                            // 查找当前场景中的目标节点
-                                            if (this.currentScene) {
-                                                const targetNodeIndex = this.currentScene.nodes.findIndex(
-                                                    (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
-                                                );
-
-                                                if (targetNodeIndex !== -1) {
-                                                    // 如果找到了节点，跳转到该节点
-                                                    this.currentNodeIndex = targetNodeIndex;
-                                                    // 更新点击次数，确保存档正确
-                                                    localStorage.setItem("nowclick", targetNodeIndex.toString());
-                                                    // 渲染新节点
-                                                    this.renderCurrentNode();
-                                                } else {
-                                                    // 如果没找到节点，尝试作为场景ID处理
-                                                    this.navigateToScene(nextNodeId);
-                                                }
+                                            if (targetNodeIndex !== -1) {
+                                                // 如果找到了节点，跳转到该节点
+                                                this.currentNodeIndex = targetNodeIndex;
+                                                // 更新点击次数，确保存档正确
+                                                localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                                // 渲染新节点
+                                                this.renderCurrentNode();
                                             } else {
-                                                // 如果没有当前场景，尝试作为场景ID处理
+                                                // 如果没找到节点，尝试作为场景ID处理
                                                 this.navigateToScene(nextNodeId);
                                             }
                                         } else {
-                                            // 如果没有指定下一个节点，则继续到下一个节点
-                                            this.nextMove();
+                                            // 如果没有当前场景，尝试作为场景ID处理
+                                            this.navigateToScene(nextNodeId);
                                         }
                                     }
+                                    // 找到并处理了满足条件的end项，跳出循环并结束函数
+                                    return;
+                                } else {
+                                    console.log('[GameScene] 不满足条件:', endCondition);
+                                }
+                            }
+                        }
+                        
+                        // 如果没有满足的end条件或者没有配置end条件，则使用默认的next处理
+                        // 恢复背景显示并淡入
+                        const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+                        if (currentBgElement) {
+                            currentBgElement.style.display = 'block';
+                            let fadeInOpacity = 0;
+                            const fadeInInterval = setInterval(() => {
+                                fadeInOpacity += 0.05;
+                                currentBgElement.style.opacity = fadeInOpacity.toString();
+                                blackOverlay.style.opacity = (1 - fadeInOpacity).toString();
+
+                                if (fadeInOpacity >= 1) {
+                                    clearInterval(fadeInInterval);
+                                    // 移除黑色覆盖层
+                                    if (blackOverlay.parentNode) {
+                                        blackOverlay.parentNode.removeChild(blackOverlay);
+                                    }
+
+                                    // 恢复原始点击事件
+                                    if (moveElement) {
+                                        // 移除可能存在的事件监听器
+                                        if ((moveElement as any)._nextMoveHandler) {
+                                            moveElement.removeEventListener('click', (moveElement as any)._nextMoveHandler);
+                                        }
+                                        // 恢复原始事件监听器
+                                        if (originalMoveHandler) {
+                                            moveElement.addEventListener('click', originalMoveHandler);
+                                            (moveElement as any)._nextMoveHandler = originalMoveHandler;
+                                        }
+                                    }
+                                    if (dialogElement) {
+                                        // 移除可能存在的事件监听器
+                                        if ((dialogElement as any)._nextMoveHandler) {
+                                            dialogElement.removeEventListener('click', (dialogElement as any)._nextMoveHandler);
+                                        }
+                                        // 恢复原始事件监听器
+                                        if (originalDialogHandler) {
+                                            dialogElement.addEventListener('click', originalDialogHandler);
+                                            (dialogElement as any)._nextMoveHandler = originalDialogHandler;
+                                        }
+                                    }
+                                    if (textBoxElement) {
+                                        // 移除可能存在的事件监听器
+                                        if ((textBoxElement as any)._nextMoveHandler) {
+                                            textBoxElement.removeEventListener('click', (textBoxElement as any)._nextMoveHandler);
+                                        }
+                                        // 恢复原始事件监听器
+                                        if (originalTextBoxHandler) {
+                                            textBoxElement.addEventListener('click', originalTextBoxHandler);
+                                            (textBoxElement as any)._nextMoveHandler = originalTextBoxHandler;
+                                        }
+                                    }
+
+                                    // 恢复对话框显示
+                                    dialogElements.forEach(el => {
+                                        (el as HTMLElement).style.display = '';
+                                    });
+                                    
+                                    // 淡入立绘元素（如果存在）
+                                    if (gameElementsContainer) {
+                                        const sceneElementsContainer = gameElementsContainer.querySelector('.scene-elements-container');
+                                        if (sceneElementsContainer && (sceneElementsContainer as any).fadeInSprites) {
+                                            (sceneElementsContainer as any).fadeInSprites();
+                                        }
+                                    }
+
+                                    // 继续游戏
+                                    if (node.next) {
+                                        // 如果有指定的下一个节点，则跳转到该节点
+                                        const nextNodeId = node.next;
+                                        console.log(`小游戏结束，跳转到节点: ${nextNodeId}`);
+
+                                        // 查找当前场景中的目标节点
+                                        if (this.currentScene) {
+                                            const targetNodeIndex = this.currentScene.nodes.findIndex(
+                                                (n, index) => index > this.currentNodeIndex && n.id === nextNodeId
+                                            );
+
+                                            if (targetNodeIndex !== -1) {
+                                                // 如果找到了节点，跳转到该节点
+                                                this.currentNodeIndex = targetNodeIndex;
+                                                // 更新点击次数，确保存档正确
+                                                localStorage.setItem("nowclick", targetNodeIndex.toString());
+                                                // 渲染新节点
+                                                this.renderCurrentNode();
+                                            } else {
+                                                // 如果没找到节点，尝试作为场景ID处理
+                                                this.navigateToScene(nextNodeId);
+                                            }
+                                        } else {
+                                            // 如果没有当前场景，尝试作为场景ID处理
+                                            this.navigateToScene(nextNodeId);
+                                        }
+                                    } else {
+                                        // 如果没有指定下一个节点，则继续到下一个节点
+                                        this.nextMove();
+                                    }
+                                }
                             }, 50);
                         } else {
                             // 没有背景元素，直接移除覆盖层并恢复原始事件

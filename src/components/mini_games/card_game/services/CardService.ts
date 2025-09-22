@@ -4,6 +4,8 @@ import { Buff } from "../models/Buff";
 import { PlayerService } from "./PlayerService";
 import { CARD_TEMPLATES } from "../data/CardData";
 import { ArchiveManager } from "../../../ArchiveManager";
+import { CardManager } from "../CardManager";
+import { BagManager } from "../../../BagManager";
 
 export class CardService {
     static executeCardEffects(
@@ -1012,7 +1014,7 @@ export class BuffService {
             });
 
             // 设置第二管血的血量
-            disasterLord.hp = 30;
+            disasterLord.hp = 2;
             disasterLord.maxHp = 30;
 
             disasterLord.hand = [];
@@ -1066,13 +1068,14 @@ export class BuffService {
                 player.maxHp = 4;
 
                 // 添加终焉之泪和影子手牌到玩家手中（如果有的话）
-                let am = ArchiveManager.getInstance();
-                if (am.getItemCount('end_tears') > 0) {
+                const bagManager = BagManager.getInstance();
+                if (bagManager.hasCard('end_tears')) {
                     const endTearsCard = CARD_TEMPLATES.end_tears;
                     player.hand.push({ ...endTearsCard });
                 }
 
-                if (am.getItemCount('shadow_card') > 0) {
+                console.log(`[DEBUG] Checking for shadow_card in deck: ${bagManager.hasCard('shadow_card')}`);
+                if (bagManager.hasCard('shadow_card')) {
                     const shadowCard = CARD_TEMPLATES.shadow_card;
                     player.hand.push({ ...shadowCard });
                 }

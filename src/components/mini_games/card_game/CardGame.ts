@@ -1795,6 +1795,13 @@ class CardGame extends MiniGame {
         console.log(`${this.state.opponent.name}血量:`, this.state.opponent.hp, '/', this.state.opponent.maxHp);
         console.log('玩家血量:', this.state.player.hp, '/', this.state.player.maxHp);
 
+        // 检查游戏是否已经结束
+        this.checkGameOver();
+        if (this.state.gamePhase === 'gameover') {
+            console.log('游戏已结束，停止对手出牌');
+            return;
+        }
+        
         // 检查ban效果 - 如果对手被禁言，则不能出牌
         if (BuffService.isBanned(this.state.opponent)) {
             this.state.message = `${this.state.opponent.name} 被禁言，本回合无法出牌`;
@@ -2874,33 +2881,8 @@ class CardGame extends MiniGame {
             (window as any).isDisasterLordFinalBattle = false;
         }
 
-        // // 调用完成回调，传递更详细的游戏状态信息
-        // // 1: 胜利, 0: 失败, -1: 完全惨败(第一管血就死了), -2: 小败(第二/三管血死了)
-        // let gameResult = 0;
-        // if (this.state.playerWon) {
-        //     // 胜利 - 根据剩余血量判断是大胜还是小胜
-        //     if (this.state.player.hp > 2) {
-        //         gameResult = 1; // 大获全胜
-        //     } else {
-        //         gameResult = 2; // 小胜
-        //     }
-        // } else {
-        //     // 失败 - 根据死亡时的血量判断失败程度
-        //     // player.maxHp为60，每管血20点
-        //     if (this.state.player.hp <= (this.state.player.maxHp - 20 * 3)) {
-        //         // 第一管血就死了（血量<=0）
-        //         gameResult = -1; // 完全惨败
-        //     } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 2)) {
-        //         // 第二管血死了（血量<=20）
-        //         gameResult = -2; // 小败
-        //     } else if (this.state.player.hp <= (this.state.player.maxHp - 20 * 1)) {
-        //         // 第三管血死了（血量<=40）
-        //         gameResult = -2; // 小败
-        //     } else {
-        //         // 其他情况（不太可能）
-        //         gameResult = 0;
-        //     }
-        // }
+        // 确保游戏循环停止
+        this.isRunning = false;
 
         this.onComplete(this.getGameData());
     }
@@ -2934,6 +2916,7 @@ class CardGame extends MiniGame {
             requestAnimationFrame(() => this.gameLoop());
         } else {
             console.log('暂停游戏循环，等待用户输入');
+            this.isRunning = false;
         }
     }
 
