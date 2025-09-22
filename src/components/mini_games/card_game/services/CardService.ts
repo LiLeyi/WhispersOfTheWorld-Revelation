@@ -1014,7 +1014,7 @@ export class BuffService {
             });
 
             // 设置第二管血的血量
-            disasterLord.hp = 2;
+            disasterLord.hp = 30;
             disasterLord.maxHp = 30;
 
             disasterLord.hand = [];

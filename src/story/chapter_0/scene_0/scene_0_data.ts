@@ -39,7 +39,7 @@ const scene: Scene = {
                         "parry": 3,      // 招架 x3
                         "hook": 3,       // 勾拳 x3
                         "combo": 3,       // 连击 x3
-                        "shadow_card": 1,
+                        // "shadow_card": 1,
                     };
 
                     console.log("[SceneAction] 正在添加初始卡牌:", INITIAL_CARDS);
