@@ -2957,12 +2957,64 @@ class CardGame extends MiniGame {
         this.updateScoreDisplay();
     }
 
+
+    // 为特定角色应用黑幕滤镜（巫婆、梅菲斯特、恶魂、鬼怪）
+    private applyCharacterDarkFilter(characterName: string): void {
+        // 移除已存在的滤镜
+        this.removeCharacterDarkFilter();
+        
+        // 创建滤镜元素
+        const filterOverlay = document.createElement('div');
+        filterOverlay.id = 'character-dark-filter';
+        filterOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 9997;
+            transition: all 0.5s ease-in-out;
+        `;
+        
+        document.body.appendChild(filterOverlay);
+        
+        console.log(`[DEBUG] 应用${characterName}黑幕滤镜`);
+    }
+    
+    // 移除角色黑幕滤镜
+    private removeCharacterDarkFilter(): void {
+        const filterOverlay = document.getElementById('character-dark-filter');
+        if (filterOverlay && filterOverlay.parentNode) {
+            filterOverlay.parentNode.removeChild(filterOverlay);
+            console.log('[DEBUG] 移除角色黑幕滤镜');
+        }
+    }
+
+    // 检查并应用角色特殊滤镜
+    private checkAndApplyCharacterFilter(): void {
+        const opponentName = this.state.opponent.name;
+        
+        // 检查是否是需要应用黑幕滤镜的角色
+        const darkFilterCharacters = ['巫婆', '梅菲斯特', '恶魂', '鬼怪'];
+        if (darkFilterCharacters.some(character => opponentName.includes(character))) {
+            this.applyCharacterDarkFilter(opponentName);
+        } else {
+            // 如果不是这些角色，确保移除滤镜
+            this.removeCharacterDarkFilter();
+        }
+    }
+    
     // 更新UI
     private updateUI(): void {
         // 只有在选卡界面隐藏时才更新游戏UI
         if (this.deckSelectionContainer?.style.display === 'none' || !this.deckSelectionContainer) {
             // 检查灾厄之主阶段变化
             this.checkDisasterLordPhaseChange();
+            
+            // 检查并应用角色特殊滤镜（包括巫婆、梅菲斯特、恶魂、鬼怪的黑幕滤镜）
+            this.checkAndApplyCharacterFilter();
 
             this.updateScoreDisplay();
             UIManager.updatePlayerInfo(this.playerInfoElement, this.state.player, typeof this.config.player!.drawCount === 'function'
@@ -3003,31 +3055,16 @@ class CardGame extends MiniGame {
                 if (this.state.currentPlayer === 'player' && this.state.gamePhase === 'main') {
                     this.endTurnButton.disabled = false;
                     this.endTurnButton.style.opacity = '1';
-                    this.endTurnButton.style.cursor = 'pointer';
-                    console.log('结束回合按钮已启用');
                 } else {
                     this.endTurnButton.disabled = true;
                     this.endTurnButton.style.opacity = '0.5';
-                    this.endTurnButton.style.cursor = 'not-allowed';
-                    console.log('结束回合按钮已禁用', '当前玩家:', this.state.currentPlayer, '游戏阶段:', this.state.gamePhase);
                 }
             }
 
+            // 更新游戏消息
             if (this.gameMessageElement) {
-                // 添加消息变化的动画效果
-                this.gameMessageElement.style.opacity = '0';
-                this.gameMessageElement.style.transition = 'opacity 0.3s';
-
-                setTimeout(() => {
-                    if (this.gameMessageElement) {
-                        this.gameMessageElement.textContent = this.state.message;
-                        this.gameMessageElement.style.opacity = '1';
-                    }
-                }, 300);
+                this.gameMessageElement.textContent = this.state.message;
             }
-
-            // 更新调试信息
-            this.updateDebugInfo();
         }
     }
 
