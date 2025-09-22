@@ -1362,8 +1362,8 @@ const scene: Scene = {
     {
                 id: "test_game1",
                 elements: {
-                    name: "旁白",
-                    text: "小游戏测试",
+                    name: "巨石",
+                    text: "只有通过我的考验才能进入村庄",
                     sprite: {
             left:null
         }
@@ -1403,28 +1403,26 @@ const scene: Scene = {
                         backgroundImage:"sc1.1/1-1-0.jpg",
                         bgm:"bgm29"
                     },
-                    end: [
-                        {
-                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-
-                            next: "ask1"
+                   end: [
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "happy1"
                         },
-                        {
-                            condition: () => true, // 默认条件，总是为真
-                            next: "ask2"
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "sad1"
                         }
                     ]
                 }
             },
             {
-        id: "ask1",
+        id: "happy1",
         elements: {
             name: "旁白",
             text: "恭喜通关，是否继续挑战困难模式？",
             sprite: {
             left:null
         }
-        
         },
         choices: [
                 {
@@ -1432,13 +1430,13 @@ const scene: Scene = {
                     next: "test_game2",
                 },
                 {
-                    text: "否",
-                    next: "test1_1"
+                    text: "是",
+                    next: "test_game2"
                 }
             ]
             }, 
             {
-                id: "ask2",
+                id: "sad1",
                 elements: {
                     name: "旁白",
                     text: "很遗憾挑战失败，是否重试？"
@@ -1450,14 +1448,6 @@ const scene: Scene = {
                 },
             ]
             },    
-             {
-                id: "test2",
-                elements: {
-                    name: "旁白",
-                    text: "恭喜过关"
-                },
-                next: "test1_1",
-            },         
             {
                 id: "test_game2",
                 elements: {
@@ -1466,7 +1456,6 @@ const scene: Scene = {
                     sprite: {
             left:null
         },
-        
                 },
                 
                 game: {
@@ -1509,18 +1498,23 @@ const scene: Scene = {
                         backgroundImage:"sc1.1/1-1-0.jpg",
                         bgm:"bgm30"
                     },
-                    end: [
-                        {
-                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                            next: "ask1"
-                        },
-                        {
-                            condition: () => true, // 默认条件，总是为真
-                            next: "branch_1_20"
-                        }
-                    ]
-                }
-            },
+                   end: [
+                            {
+                                condition: (gameData: CardGameEventData) => {
+                                    //获胜：玩家血量大于0
+                                    return gameData.player.hp > 0;
+                                },
+                                next: "test1",
+                            },
+                            {
+                                condition: (gameData: CardGameEventData) => {
+                                    // 失败：玩家血量小于等于0
+                                    return gameData.player.hp <= 0;
+                                },
+                                next: "branch_1_21",
+                            },
+                        ]
+            },},
             {
                 id: "test1",
                 elements: {
@@ -1534,15 +1528,12 @@ const scene: Scene = {
                 bagManager.addCardsToBag("strange_stone", 2);
                 bagManager.addCardsToBag("pebble", 2);
             },
-                next:"test1_1",
-            },
-            {
-                id: "test1_1",
-                elements: {
-                    name: "旁白",
-                    text: "在毫无意义的世界上，人被迫选择并承担自己的存在，从而成为真正的自己。"
+               choices: [
+                {
+                    text: "进入村庄",
+                    next: "chapter_0_scene_2_0",
                 },
-                next:"chapter_0_scene_2_0",
+            ]
             },
             {
                 id: "branch_1_20",
@@ -1558,9 +1549,18 @@ const scene: Scene = {
             text: "我失败了。",
             sprite: {
             left:null
-        }
-            
         },
+        },
+        choices: [
+                {
+                    text: "重新接受巨石的终极考验",
+                    next: "test_game2",
+                },
+                {
+                    text: "继续前行",
+                    next: "branch_1_22",
+                },
+            ]  
 },
 {
                 id: "branch_1_22",

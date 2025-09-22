@@ -2913,6 +2913,10 @@ class CardGame extends MiniGame {
         if (this.state.opponent.hp <= 0) {
             return 1;
         }
+         // 如果玩家生命值小于等于0，玩家失败，得分为-1
+        if (this.state.player.hp <= 0) {
+            return -1;
+        }
         // 否则得分为0
         return 0;
     }
