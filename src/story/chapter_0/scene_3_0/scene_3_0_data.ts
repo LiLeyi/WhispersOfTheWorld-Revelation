@@ -644,7 +644,7 @@ nodes: [
         name: "梅菲斯特",
         text: "我并非恶魔，而是答案。",
          sprite: {
-            left: "NPC/deadman.png",
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -692,8 +692,8 @@ nodes: [
     elements: {
         name: "梅菲斯特",
         text: "旅人啊，你们为何如此匆忙地奔向痛苦？",
-        sprite: {
-            left:"NPC/deadman.png"
+       sprite: {
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -741,7 +741,7 @@ nodes: [
         name: "梅菲斯特",
         text: "正如我曾对那位博学的博士所言：",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -864,7 +864,7 @@ nodes: [
         name: "梅菲斯特",
         text: "那疲惫，那怀疑，那对意义的诘问......便是你迈向真理的第一步。",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1206,7 +1206,7 @@ nodes: [
         name: "梅菲斯特",
         text: "呵呵。",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1226,7 +1226,7 @@ nodes: [
         name: "梅菲斯特",
         text: "竟敢在那永恒的织机前，妄谈选择？",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1256,8 +1256,8 @@ nodes: [
         background:"sc3.1/3-1-1.jpg",
         name: "梅菲斯特",
         text: "就让我看看吧！信念的血肉能否抵御深渊的利齿！",
-        sprite: {
-            left:"NPC/deadman.png"
+       sprite: {
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1266,8 +1266,8 @@ nodes: [
                 elements: {
                     name: "梅菲斯特",
                     text: "我将亲手撕碎你那可笑的意志！",
-                    sprite: {
-            left:"NPC/deadman.png"
+                   sprite: {
+            left: "NPC/zaie.png",
         }
                 },
                 game: {
@@ -1394,7 +1394,7 @@ nodes: [
         name: "梅菲斯特",
         text: "就此安眠......无梦地安眠......",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
     action: () => {
@@ -1448,7 +1448,7 @@ nodes: [
         name: "梅菲斯特",
         text: "怀疑已在心中扎根，虚无将会张开怀抱。",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1469,7 +1469,7 @@ nodes: [
         name: "梅菲斯特",
         text: "我是杀不死的，我是永恒的。",
         sprite: {
-            left:"NPC/deadman.png"
+            left: "NPC/zaie.png",
         }
     },
 },
@@ -1495,8 +1495,8 @@ nodes: [
     elements: {
         name: "梅菲斯特",
         text: "攀登者啊，请聆听我最后的献词：",
-        sprite: {
-            left:"NPC/deadman.png"
+       sprite: {
+            left: "NPC/zaie.png",
         }
     },
 },

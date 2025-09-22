@@ -3262,7 +3262,7 @@ keyNode: true,
     name: "空木錬真",
     text: "尽管有许多并肩作战的同胞们永远离开了我们。但我们的抗争不会结束！",
     sprite: {
-      left: null,
+      left: "NPC/shouling.png",
     }
   }
 },
@@ -3284,14 +3284,20 @@ keyNode: true,
   id: "darkblade_218_2_2_2",
   elements: {
     name: "旁白",
-    text: "空木錬真低沉肃穆的嗓音带动着在场每一个人的情绪。"
+    text: "空木錬真低沉肃穆的嗓音带动着在场每一个人的情绪。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "darkblade_219_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "我们不会抛弃任何同胞，我们会坚守每一寸土地，我们会将希望之火传递到每一个需要的人手中。"
+    text: "我们不会抛弃任何同胞，我们会坚守每一寸土地，我们会将希望之火传递到每一个需要的人手中。",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
@@ -3319,21 +3325,30 @@ keyNode: true,
   id: "darkblade_223_2_2_2",
   elements: {
     name: "旁白",
-    text: "漆黑的云层被闪电撕裂，从撕裂的伤口中，积蓄已久的暴雨倾盆而下。"
+    text: "漆黑的云层被闪电撕裂，从撕裂的伤口中，积蓄已久的暴雨倾盆而下。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "darkblade_224_2_2_2",
   elements: {
     name: "旁白",
-    text: "雨水扑在所有人身上，浸透衣衫，打湿头发。无一人出声，无一人离场。"
+    text: "雨水扑在所有人身上，浸透衣衫，打湿头发。无一人出声，无一人离场。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "darkblade_225_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "成为能为被忽视者发声的人！成为能保护弱者的人！成为能和不合理抗争的人！"
+    text: "成为能为被忽视者发声的人！成为能保护弱者的人！成为能和不合理抗争的人！",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
@@ -3354,14 +3369,20 @@ keyNode: true,
   id: "darkblade_228_2_2_2",
   elements: {
     name: "旁白",
-    text: "站在高台上，他的目光扫过在场的每一个人。"
+    text: "站在高台上，他的目光扫过在场的每一个人。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "darkblade_229_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "反抗或许意味着死亡，但不反抗就意味着从未活过。"
+    text: "反抗或许意味着死亡，但不反抗就意味着从未活过。",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
@@ -3389,21 +3410,30 @@ keyNode: true,
   id: "darkblade_233_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "最好的纪念方式是完成他们未竟的事业，替他们见证他们想要见证的未来。"
+    text: "最好的纪念方式是完成他们未竟的事业，替他们见证他们想要见证的未来。",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
   id: "darkblade_234_2_2_2",
   elements: {
     name: "旁白",
-    text: "他举起手臂，将落下的雨水击碎，激昂的声音响彻在人们耳边。"
+    text: "他举起手臂，将落下的雨水击碎，激昂的声音响彻在人们耳边。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "darkblade_235_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "任何人的死亡都是我们的损失，因为我们都是人类的一员。"
+    text: "任何人的死亡都是我们的损失，因为我们都是人类的一员。",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
@@ -3459,7 +3489,10 @@ keyNode: true,
   id: "darkblade_243_2_2_2",
   elements: {
     name: "人群",
-    text: "胜利！胜利！胜利！"
+    text: "胜利！胜利！胜利！",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
@@ -3473,7 +3506,10 @@ keyNode: true,
   id: "darkblade_245_2_2_2",
   elements: {
     name: "空木錬真",
-    text: "我们将要进攻的目标，是齿轮的中心，以及齿轮之塔！"
+    text: "我们将要进攻的目标，是齿轮的中心，以及齿轮之塔！",
+    sprite: {
+      left: "NPC/shouling.png",
+    }
   }
 },
 {
@@ -4007,7 +4043,10 @@ keyNode: true,
   id: "battle_1_6",
   elements: {
     name: "？？？",
-    text: "不，你不能输。"
+    text: "不，你不能输。",
+    sprite: {
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
@@ -4021,7 +4060,10 @@ keyNode: true,
   id: "battle_1_8",
   elements: {
     name: "旁白",
-    text: "突然一个神秘的声音传来——这个声音是——？"
+    text: "突然一个神秘的声音传来——这个声音是——？",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
@@ -4057,8 +4099,8 @@ keyNode: true,
     name: "空木錬真",
     text: "起来！你不能输！你是不败的！伟大且不朽的！你不可战胜！",
     sprite: {
-            left:null,
-        },
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
@@ -4072,14 +4114,20 @@ keyNode: true,
   id: "battle_1_14",
   elements: {
     name: "空木錬真",
-    text: "站起来！不要忘记你的使命！你必须赢得胜利！"
+    text: "站起来！不要忘记你的使命！你必须赢得胜利！",
+    sprite: {
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
   id: "battle_1_15",
   elements: {
     name: "旁白",
-    text: "空木錬真走到国王倒下的身躯旁，手里拿着什么东西，插入了国王后背的铠甲中。"
+    text: "空木錬真走到国王倒下的身躯旁，手里拿着什么东西，插入了国王后背的铠甲中。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
@@ -4202,6 +4250,9 @@ keyNode: true,
   elements: {
     name: "空木錬真",
     text: "醒了？",
+    sprite: {
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
@@ -4230,7 +4281,7 @@ keyNode: true,
     name: "空木錬真",
     text: "呵，看来这次是你运气稍好一点......不，大概是我的报应吧？",
     sprite: {
-      left:null,
+      left: "NPC/mianjuman.png",
     }
   }
 },
@@ -4250,15 +4301,8 @@ keyNode: true,
     name: "空木錬真",
     text: "因为总得活一个啊......",
     sprite: {
-      left:null,
+      left: "NPC/mianjuman.png",
     }
-  }
-},
-{
-  id: "battle_1_35",
-  elements: {
-    name: "空木錬真",
-    text: "总有人要死去，就像总有人得活着。"
   }
 },
 {
@@ -4281,7 +4325,7 @@ keyNode: true,
     name: "空木錬真",
     text: "到时候，那些战士的痛、悔恨、沉默还有流出的血就白费了。",
     sprite: {
-      left:null,
+      left: "NPC/mianjuman.png",
     }
   }
 },
@@ -4300,8 +4344,8 @@ keyNode: true,
   elements: {
     name: "空木錬真",
     text: "哼，想问为什么我们不能都活着？",
-    sprite: {
-      left:null,
+   sprite: {
+      left: "NPC/mianjuman.png",
     }
   }
 },
@@ -4309,7 +4353,10 @@ keyNode: true,
   id: "battle_1_41",
   elements: {
     name: "旁白",
-    text: "生机在无可阻碍地流逝，一同远去的还有一直压在心底的积郁。"
+    text: "生机在无可阻碍地流逝，一同远去的还有一直压在心底的积郁。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
@@ -4323,14 +4370,20 @@ keyNode: true,
   id: "battle_1_43",
   elements: {
     name: "旁白",
-    text: "现在，轮到他给他上最后一课了。"
+    text: "现在，轮到他给他上最后一课了。",
+    sprite: {
+      left: null,
+    }
   }
 },
 {
   id: "battle_1_44",
   elements: {
     name: "空木錬真",
-    text: "在一方死亡前，战斗是不会结束的。"
+    text: "在一方死亡前，战斗是不会结束的。",
+    sprite: {
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
@@ -4358,14 +4411,20 @@ keyNode: true,
   id: "battle_1_48",
   elements: {
     name: "空木錬真",
-    text: "不过是提早迎来了死亡而已。"
+    text: "不过是提早迎来了死亡而已。",
+    sprite: {
+      left: "NPC/mianjuman.png",
+    }
   }
 },
 {
   id: "battle_1_49",
   elements: {
     name: "虚樹",
-    text: "空木先生......"
+    text: "空木先生......",
+    sprite: {
+      left: "NPC/jixiemian.png",
+    }
   }
 },
 {
