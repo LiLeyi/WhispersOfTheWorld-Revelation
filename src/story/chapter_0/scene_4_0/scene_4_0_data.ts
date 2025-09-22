@@ -3675,25 +3675,40 @@ sprite: {
                         },
                          end: [
                             {
-                                condition: (score: number) => score === 1,  // 大获全胜
+                                condition: (gameData: CardGameEventData) => {
+                                    // 大获全胜：玩家血量大于2
+                                    return gameData.player.hp > 2;
+                                },
                                 next: "ending_33_5",
                             },
                             {
-                                condition: (score: number) => score === 2,  // 小胜
+                                condition: (gameData: CardGameEventData) => {
+                                    // 小胜：玩家血量小于等于2但仍然存活
+                                    return gameData.player.hp <= 2 && gameData.player.hp > 0;
+                                },
                                 next: "ending_33_6",
                             },
                             {
-                                condition: (score: number) => score === -1,  // 完全惨败
+                                condition: (gameData: CardGameEventData) => {
+                                    // 完全惨败：玩家在前两个阶段就失败了（血量为0）
+                                    return gameData.player.hp <= 0 && gameData.turn <= 2;
+                                },
                                 next: "ending_33_7",
                             },
                             {
-                                condition: (score: number) => score === -2,  // 小败
+                                condition: (gameData: CardGameEventData) => {
+                                    // 小败：玩家过了前两个阶段但在第三个阶段失败了
+                                    return gameData.player.hp <= 0 && gameData.turn > 2;
+                                },
                                 next: "ending_33_8",
                             },
-                            {
-                                condition: (score: number) => score <= 0,  // 默认失败条件
-                                next: "battle_1_1",
-                            }
+                            // {
+                            //     condition: (gameData: CardGameEventData) => {
+                            //         // 默认失败条件
+                            //         return gameData.player.hp <= 0;
+                            //     },
+                            //     next: "battle_1_1",
+                            // }
                         ]
                     }
                 },   
