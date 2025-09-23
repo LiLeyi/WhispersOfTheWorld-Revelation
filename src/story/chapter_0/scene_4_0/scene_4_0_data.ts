@@ -175,24 +175,27 @@ nodes:[
 {  
     id: "spirit_camel_14_2",  
     elements: {  
-        name: "？",  
-        text: "善待轻蔑我们的人，并亲近畏惧我们的鬼怪？"  
-    }  
-},  
-{  
-    id: "spirit_lion_1",  
-    elements: {  
-        name: "旁白",  
-        text: "就在这最寂寥的荒漠中，第二种变形产生了：" ,
+        name: "你",  
+        text: "善待轻蔑我们的人，并亲近畏惧我们的鬼怪？" ,
         sprite: {
             left: null,
         }   
     }  
 },  
 {  
+  id: "spirit_lion_1",  
+  elements: {  
+      name: "？",  
+      text: "就在这最寂寥的荒漠中，第二种变形产生了：" ,
+      sprite: {
+          left: "NPC/questionman.png",
+      }   
+  }  
+},
+{  
     id: "spirit_lion_1_1",  
     elements: {  
-        name: "旁白",  
+        name: "？",  
         background:"sc4.1/4-1-2.jpg",
         text: "在这里，满载重物的骆驼变成了狮子，它亟想争取自己，并主宰自己的荒漠。"  
     }  
@@ -201,18 +204,21 @@ nodes:[
     id: "spirit_lion_2",  
     elements: {  
         name: "旁白",  
-        text: "荒漠渐渐消失，精神化作野兽，在峭壁之巅咆哮。"  
-    }  
-},  
-{  
-    id: "spirit_lion_2_1",  
-    elements: {  
-        name: "旁白",  
-        text: "烈焰如意志般喷薄而出，击碎旧秩序的残骸。",
+        text: "荒漠渐渐消失，精神化作野兽，在峭壁之巅咆哮。",
         sprite: {
             left: null,
         }    
     }  
+},  
+{  
+  id: "spirit_lion_2_1",  
+  elements: {  
+      name: "旁白",  
+      text: "烈焰如意志般喷薄而出，击碎旧秩序的残骸。",
+      sprite: {
+          left: null,
+      }    
+  }  
 },  
 {  
     id: "spirit_lion_3",  
@@ -287,7 +293,7 @@ nodes:[
 {  
     id: "spirit_lion_7",  
     elements: {  
-        name: "旁白",  
+        name: "你",  
         text: "精神还要狮子何用？光是谦逊崇敬而能负重致远的骆驼不就够了吗？",
         sprite: {
             left: null,
@@ -328,19 +334,22 @@ nodes:[
 {  
     id: "spirit_lion_9_2",  
     elements: {  
-        name: "？",  
-        text: " 那连狮子都无法做到的事，又还有谁能够做得到呢？"  
-    }  
-},  
-{  
-    id: "spirit_child_1",  
-    elements: {  
-        name: "旁白",  
-        text: "烈焰熄灭，荒漠与峭壁的残影消散，精神像初生的孩童般轻盈而清澈。",
+        name: "你",  
+        text: "那连狮子都无法做到的事，又还有谁能够做得到呢？",
         sprite: {
             left: null,
         }    
     }  
+},  
+{  
+  id: "spirit_child_1",  
+  elements: {  
+      name: "旁白",  
+      text: "烈焰熄灭，荒漠与峭壁的残影消散，精神像初生的孩童般轻盈而清澈。",
+      sprite: {
+          left: null,
+      }    
+  }  
 },  
 {  
     id: "spirit_child_1_1",  
@@ -442,9 +451,16 @@ nodes:[
     id: "battle_shadow_2",  
     elements: {  
         name: "旁白",  
-        text: "不知怎么的，此刻却在脑海中回忆起来。 然而，现在来不及深究这其中的缘由。"  
+        text: "不知怎么的，此刻却在脑海中回忆起来。"  
     }  
 },  
+{  
+  id: "battle_shadow_2-1",  
+  elements: {  
+      name: "旁白",  
+      text: "然而，现在来不及深究这其中的缘由。"  
+  }  
+}, 
 {  
     id: "battle_shadow_3",  
     elements: {  
@@ -602,44 +618,42 @@ nodes:[
     id: "battle_shadow_18",  
     elements: {  
         name: "？？？",  
-        text: "你所追求的创造与超越，真的存在吗——还是," ,
+        text: "你所追求的创造与超越，真的存在吗——还是仅仅一场自欺的游戏？" ,
         sprite: {
             left: "NPC/zaie.png",
         }  
     }  ,
-    choices: [
-        {
-            text: "仅仅一场自欺的游戏？",
-            next: "battle_shadow_19"
-        },
-    ]
 },  
 {  
     id: "battle_shadow_19",  
     elements: {  
         name: "？？？",  
-        text: "你所托付信任的人，真的值得信赖吗——还是说，"  ,
+        text: "你所托付信任的人，真的值得信赖吗——还是说，仅仅是楚门的世界中的演员？"  ,
         sprite: {
             left: "NPC/zaie.png",
         }  
     }  ,
-    choices: [
-        {
-            text: "仅仅是楚门的世界中的演员？",
-            next: "battle_shadow_20"
-        },
-    ]
 },  
 {  
     id: "battle_shadow_20",  
     elements: {  
         name: "你",  
-        text: "你到底是谁？你的目的究竟是什么？" ,
+        text: "你到底是谁？" ,
         sprite: {
             left: null,
         } 
     }  
-},  
+}, 
+{  
+  id: "battle_shadow_20-1",  
+  elements: {  
+      name: "你",  
+      text: "你的目的究竟是什么？" ,
+      sprite: {
+          left: null,
+      } 
+  }  
+}, 
 {  
     id: "battle_shadow_21",  
     elements: {  
@@ -816,35 +830,35 @@ sprite:{
 {  
     id: "battle_shadow_35",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "我早就觉得，这一切有问题了。"  
     }  
 },  
 {  
     id: "battle_shadow_35_1",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "莫名其妙地把一无所知的我带上这样的道路，你一定也是个满嘴谎言的家伙。"  
     }  
 },  
 {  
     id: "battle_shadow_36",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "为了欺骗我，不择手段，费尽心思。"  
     }  
 },  
 {  
     id: "battle_shadow_36_1",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "为了愚弄我，把我弄得像一个骆驼。我已经受够了这一切！"  
     }  
 },  
 {  
     id: "battle_shadow_37",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "到底还要在戏弄我多久？这令人憎恶的世界，还有你！"  
     }  
 },  
@@ -904,7 +918,7 @@ sprite:{
 {  
     id: "battle_shadow_43",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "错的不是我，而是这个世界！" ,
         sprite:{
     left:null,
@@ -957,45 +971,122 @@ sprite:{
 {  
     id: "battle_shadow_48",  
     elements: {  
-        name: "我",  
-        text: "这样就好了吗？这样就好。"  
+        name: "你",  
+        text: "这样就好了吗？"  
     }  
 },  
+{  
+  id: "battle_shadow_48-1",  
+  elements: {  
+      name: "旁白",  
+      text: "喃喃自语道。"  
+  }  
+}, 
+{  
+  id: "battle_shadow_48-2",  
+  elements: {  
+      name: "旁白",  
+      text: "这样就好。"  
+  }  
+}, 
+{  
+  id: "battle_shadow_48-3",  
+  elements: {  
+      name: "旁白",  
+      text: "——不知是谁在替自己回答。"  
+  }  
+}, 
 {  
     id: "battle_shadow_49",  
     elements: {  
         name: "旁白",  
-        text: "然而，世界的躁动并未停息。大地燃烧起熊熊烈火；群山与森林在死亡的嘶吼中崩裂坍塌。"  
+        text: "然而，世界的躁动并未停息。"  
     }  
+}, 
+{  
+  id: "battle_shadow_49-1",  
+  elements: {  
+      name: "旁白",  
+      text: "大地燃烧起熊熊烈火，就好像世界在发怒；群山与森林在死亡的嘶吼中崩裂坍塌。"  
+  }  
+}, 
+{  
+  id: "battle_shadow_50",  
+  elements: {  
+      name: "旁白",  
+      text: "面部突然感到一阵剧烈的灼痛，仿佛有什么东西要从脸上被剥离。"  
+  }  
 },  
 {  
-    id: "battle_shadow_50",  
+    id: "battle_shadow_50-1",  
     elements: {  
         name: "旁白",  
         text: "伸手捂住脸，却只摸到一片冰冷而陌生的空白。"  
     }  
 },  
 {  
-    id: "battle_shadow_50",  
+    id: "battle_shadow_50-2",  
     elements: {  
         name: "旁白",  
         text: "五官如同被无形之手抹去：眼睛溶解成漆黑的虚空，鼻梁与嘴唇化作空洞的平面。"  
     }  
 },  
 {  
-    id: "battle_shadow_51",  
-    elements: {  
-        name: "旁白",  
-        text: "从四面八方传来的杂音不断撞击着耳膜，似怒号，似哭喊，"  
-    }  
+  id: "battle_shadow_50-3",  
+  elements: {  
+      name: "旁白",  
+      text: "跪倒在地，双手在空白的面庞上颤抖游走，想要抓回失去的自己。"  
+  }  
 },  
+{  
+  id: "battle_shadow_50-4",  
+  elements: {  
+      name: "旁白",  
+      text: "然而触到的，只有光滑而冰冷的虚无。"  
+  }  
+}, 
+{  
+  id: "battle_shadow_50-5",  
+  elements: {  
+      name: "旁白",  
+      text: "想要痛苦的嘶吼，喉咙中却只能发出刺耳的呜咽。"  
+  }  
+},
 {  
     id: "battle_shadow_51",  
     elements: {  
         name: "旁白",  
-        text: "似咒骂，似讥讽——一遍又一遍，直至再次被彻底吞没。"  
+        text: "从四面八方传来的杂音不断撞击着耳膜，一遍又一遍。"  
     }  
 },  
+{  
+  id: "battle_shadow_51-1",  
+  elements: {  
+      name: "旁白",  
+      text: "似怒号，似哭喊，似咒骂，似讥讽。"  
+  }  
+}, 
+{  
+    id: "battle_shadow_51-2",  
+    elements: {  
+        name: "旁白",  
+        text: "一遍又一遍......"  
+    }  
+},  
+{  
+  id: "battle_shadow_51-3",  
+  elements: {  
+      name: "旁白",  
+      text: "直至，再次将自己彻底吞没。"  
+  }  
+}, 
+{  
+  id: "battle_shadow_51-4",  
+  elements: {  
+      name: "旁白",  
+      text: "......"  
+  }  
+}, 
 {  
     id: "battle_shadow_52",  
     elements: {  
@@ -1028,16 +1119,44 @@ sprite:{
     id: "battle_shadow_55",  
     elements: {  
         name: "？？？",  
-        text: "为了能让那个人一直停留在这里。多余的“眷恋”必须被剔除。"  
+        text: "为了能让那个人一直停留在这里。"  
     }  
-},  
+},
+{  
+  id: "battle_shadow_55-1",  
+  elements: {  
+      name: "？？？",  
+      text: "多余的“眷恋”必须被剔除。"  
+  }  
+},
+{  
+  id: "battle_shadow_55-2",  
+  elements: {  
+      name: "？？？",  
+      text: "那个人不需要到别的地方去。"  
+  }  
+},
+{  
+  id: "battle_shadow_55-3",  
+  elements: {  
+      name: "？？？",  
+      text: "不需要，再回到那个悲惨的“现实”。"  
+  }  
+},
 {  
     id: "battle_shadow_56",  
     elements: {  
         name: "旁白",  
-        text: "在破败的废墟里醒来。总觉得这副场景似曾相识，可却又什么也回想不起来。"  
+        text: "在破败的废墟里醒来。"  
     }  
-},  
+}, 
+{  
+  id: "battle_shadow_56-1",  
+  elements: {  
+      name: "旁白",  
+      text: "总觉得这副场景似曾相识，可却又什么也回想不起来。"  
+  }  
+},
 {  
     id: "battle_shadow_57",  
     elements: {  
@@ -1053,30 +1172,50 @@ sprite:{
 {  
     id: "battle_shadow_58",  
     elements: {  
-        name: "我",  
+        name: "你",  
         text: "你……是？" ,
         sprite:{
             left:null,
         }  
     }  
-},  
+}, 
+{  
+  id: "battle_shadow_58-1",  
+  elements: {  
+      name: "旁白",  
+      text: "此时才注意到，一名少女正站在身旁，笑着看着自己。" ,
+      sprite:{
+          left:null,
+      }  
+  }  
+},
 {  
     id: "battle_shadow_59",  
     elements: {  
-        name: "光泠",  
-        text: "您好，我的名字是光泠。是为了为世界带来新生，前来引导您的人。", 
+        name: "？？？",  
+        text: "您好，我的名字是光泠。", 
         sprite:{
             left:"guangling/smile.png",
         } 
     }  
 },  
 {  
+  id: "battle_shadow_59",  
+  elements: {  
+      name: "光泠",  
+      text: "是为了为世界带来新生，前来引导您的人。", 
+      sprite:{
+          left:"guangling/smile1.png",
+      } 
+  }  
+},
+{  
     id: "battle_shadow_60",  
     elements: {  
         name: "旁白",  
         text: "破败的废墟里，少女再一次，朝成为白纸的你露出微笑。" ,
         sprite:{
-            left:"guangling/smile1.png",
+            left:null,
         }  
     }  ,
     action: () => {
@@ -1399,7 +1538,7 @@ sprite:{
     id: "ending_12_3",
     elements: {
         name: "光泠",
-        text: "当时间的尺度被无限拉长，活着的注定死亡，守护的必然毁坏，",
+        text: "当时间的尺度被无限拉长，活着的注定死亡，守护的必然毁坏。",
     },
 },
 {
@@ -1447,44 +1586,98 @@ sprite:{
     id: "ending_14_3_1",
     elements: {
         name: "光泠",
-        text: "不论彼此身在何方，我们的目光都会在同一个终点相聚。就此道别吧。",
+        text: "不论彼此身在何方，我们的目光都会在同一个终点相聚。",
     },
+},
+{
+  id: "ending_14_4",
+  elements: {
+      name: "你",
+      text: "就此道别吧。",
+      sprite: {
+          left: null,
+      }
+  },
 },
 {
     id: "ending_15_3",
     elements: {
         name: "你",
-        text: "虽然很感激你所做的一切，但是——再见了，光泠。",
+        text: "虽然很感激你所做的一切，但是——",
         sprite: {
             left: null,
         }
     },
 },
 {
+  id: "ending_15_4",
+  elements: {
+      name: "你",
+      text: "再见了，光泠。",
+      sprite: {
+          left: null,
+      }
+  },
+},
+{
     id: "ending_16_3",
     elements: {
         name: "光泠",
-        text: "再见。愿胜利的光辉照亮你的前路。祈盼希望能永远伴你身旁。",
+        text: "再见。",
         sprite: {
             left: "guangling/smile.png",
         }
     },
 },
 {
+  id: "ending_16_4",
+  elements: {
+      name: "光泠",
+      text: "愿胜利的光辉照亮你的前路。",
+      sprite: {
+          left: "guangling/smile.png",
+      }
+  },
+},
+{
+  id: "ending_16_5",
+  elements: {
+      name: "光泠",
+      text: "祈盼希望能永远伴你身旁。",
+      sprite: {
+          left: "guangling/smile.png",
+      }
+  },
+},
+{
     id: "ending_17_3",
     elements: {
         name: "旁白",
-        text: "转身离去，不再回头。如果战斗是种罪孽，",
+        text: "转身离去，不再回头。",
     sprite: {
             left: null,
         }
 },
 },
 {
-    id: "ending_17_3_1",
+  id: "ending_17_3_1",
+  elements: {
+      name: "你",
+      text: "如果战斗是种罪孽，那就让我一个人来承担吧。",
+  },
+},
+{
+  id: "ending_17_3_2",
+  elements: {
+      name: "旁白",
+      text: "……",
+  },
+},
+{
+    id: "ending_17_3_3",
     elements: {
         name: "旁白",
-        text: "那就让我一个人来承担吧。……独自向着无脸人离开的方向追去。",
+        text: "独自向着无脸人离开的方向追去。",
     },
 },
 {
@@ -1499,14 +1692,14 @@ sprite:{
     id: "ending_18_3_1",
     elements: {
         name: "旁白",
-        text: "穿过断裂的石柱，跨过坍塌的拱门。灰烬如同雪般飘落，",
+        text: "穿过断裂的石柱，跨过坍塌的拱门。灰烬如同雪般飘落，脚下的废墟在沉默中低吟。",
     },
 },
 {
     id: "ending_18_3_2",
     elements: {
         name: "旁白",
-        text: "脚下的废墟在沉默中低吟。一切在这里起始，也将在这里迎来终结。",
+        text: "一切在这里起始，也将在这里迎来终结。",
     },
 },
 {
@@ -1542,21 +1735,28 @@ sprite:{
     id: "ending_21_3",
     elements: {
         name: "？？？",
-        text: "呵，大言不惭！你的生命，你的愿望，你的力量，都是如此的微不足道。",
+        text: "呵，大言不惭！",
         sprite: {
             left: "NPC/zaie.png",
         }
     },
 },
 {
-    id: "ending_21_3_1",
+  id: "ending_21_3_1",
+  elements: {
+      name: "？？？",
+      text: "你的生命，你的愿望，你的力量，都是如此的微不足道。",
+  },
+},
+{
+    id: "ending_21_3_2",
     elements: {
         name: "？？？",
         text: "连你身边曾经最亲密的同伴，也没有和你并肩同行。",
     },
 },
 {
-    id: "ending_21_3_2",
+    id: "ending_21_3_3",
     elements: {
         name: "？？？",
         text: "如此弱小无助的你，也配妄言？",
@@ -1582,7 +1782,7 @@ sprite:{
 {
     id: "ending_22_3_2",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "明白自我真正的困惑和恐惧，迎难而上才是真正的强大。",
     },
 },
@@ -1661,28 +1861,49 @@ sprite:{
     id: "ending_28_3",
     elements: {
         name: "？？？",
-        text: "呵！既然你已经是孤身一人，不如和我一起掌控这个世界吧。",
+        text: "呵！",
         sprite: {
             left: "NPC/zaie.png",
         }
     },
 },
 {
-    id: "ending_28_3_1",
+  id: "ending_28_3_1",
+  elements: {
+      name: "？？？",
+      text: "你可知：美丽的幻影永远不会令人生厌。",
+  },
+},
+{
+  id: "ending_28_3_2",
+  elements: {
+      name: "？？？",
+      text: "对于幻影，你不能踢，也不能踩，否则跌跤的是你自己。",
+  },
+},
+{
+  id: "ending_28_3_3",
+  elements: {
+      name: "？？？",
+      text: "既然你已经是孤身一人，不如和我一起掌控这个世界吧。",
+  },
+},
+{
+    id: "ending_28_3_4",
     elements: {
         name: "？？？",
         text: "我理解你的思想与心绪，我也知晓你内心深处的渴望与野心。",
     },
 },
 {
-    id: "ending_28_3_2",
+    id: "ending_28_3_5",
     elements: {
         name: "？？？",
         text: "我们拥有相同的力量，我们来自相同的地方。我们齐心合力，就没人能够阻止我们。",
     },
 },
 {
-    id: "ending_28_3_3",
+    id: "ending_28_3_6",
     elements: {
         name: "？？？",
         text: "好好想想吧！是与我同行？还是被我毁灭？",
@@ -1692,11 +1913,21 @@ sprite:{
     id: "ending_29_3",
     elements: {
         name: "你",
-        text: "你的话语，就像你自身现在一样软弱无力。与你同行？你还不配！",
+        text: "你的话语，就像你自身现在一样软弱无力。",
         sprite: {
             left: null,
         }
     },
+},
+{
+  id: "ending_29_4",
+  elements: {
+      name: "你",
+      text: "与你同行？你还不配！",
+      sprite: {
+          left: null,
+      }
+  },
 },
 {
     id: "ending_30_3",
@@ -1764,8 +1995,85 @@ sprite:{
     id: "ending_33_3_1",
     elements: {
         name: "你",
-        text: "我要成为新世界的太阳。我要行天之道，总司一切。",
+        text: "我要成为新世界的太阳。",
     },
+},
+{
+  id: "ending_33_3_2",
+  elements: {
+      name: "你",
+      text: "我要行天之道，总司一切。",
+  },
+},
+{
+  id: "ending_34_1",
+  elements: {
+      name: "？？？",
+      text: "你若执意如此，则将陷入万劫不复，付出生命的代价！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_1-1",
+  elements: {
+      name: "？？？",
+      text: "为了那些本来与自己无关的事，死的代价太大了。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_1-2",
+  elements: {
+      name: "？？？",
+      text: "对每个人来说，生命都是瑰宝。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_1-3",
+  elements: {
+      name: "？？？",
+      text: "每天坐在翠绿的枝头，看着那太阳驾着金色的马车，月亮乘着银色的玉辇来来去去，多么快活。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_1-4",
+  elements: {
+      name: "？？？",
+      text: "山楂花的味道那么香，山谷里的蓝铃草那么美，山坡上的石楠花笑得那么甜！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_2",
+  elements: {
+      name: "？？？",
+      text: "世界是如此的美好，不妨放下这痛苦的一切，去好好享受那美妙！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  },
+},
+{
+  id: "ending_34_2-1",
+  elements: {
+      name: "你",
+      text: "我所为之赴汤蹈火的使命，比我一个人的生命更重要。",
+      sprite: {
+          left: null,
+      }
+  },
 },
 {
     id: "ending_34_3",
@@ -1795,17 +2103,27 @@ sprite:{
     id: "ending_35_3",
     elements: {
         name: "你",
-        text: "我是为了那些无法战斗的人而战斗！为了这个地方，不想再看到有人流泪",
+        text: "我是为了那些无法战斗的人而战斗！",
         sprite: {
             left: null,
         }
     },
 },
 {
-    id: "ending_35_3_1",
+  id: "ending_35_3-1",
+  elements: {
+      name: "你",
+      text: "为了这个地方，不想再看到有人流泪，我想要大家的脸上拥有笑容。",
+      sprite: {
+          left: null,
+      }
+  },
+},
+{
+    id: "ending_35_3-2",
     elements: {
         name: "你",
-        text: "我想要大家的脸上拥有笑容。如果说世界的命运掌握在你手里的话，那我，就要把它夺回来！",
+        text: "如果说世界的命运掌握在你手里的话，那我，就要把它夺回来！",
     },
 },
 {
@@ -1873,15 +2191,15 @@ sprite:{
     elements: {
          background:"sc4.1/4-1-15.jpg", 
       name: "旁白",
-        text: "此刻，异变突生——在废墟的中央，一道漆黑的裂隙缓缓张开，",
+        text: "此刻，异变突生——",
     },
 },
 {
-    id: "ending_41_3_2",
-    elements: {
-        name: "旁白",
-        text: "仿佛世界的肌肤被撕开一道无法愈合的伤口。",
-    },
+  id: "ending_41_3_2",
+  elements: {
+      name: "旁白",
+      text: "在废墟的中央，一道漆黑的裂隙缓缓张开，仿佛世界的肌肤被撕开一道无法愈合的伤口。",
+  },
 },
 {
     id: "ending_41_3_3",
@@ -1915,32 +2233,32 @@ sprite:{
     id: "ending_43_3_1",
     elements: {
         name: "旁白",
-        text: "深埋地底的岩层被撕扯翻涌，火焰与黑雾喷薄而出，仿佛迎来了末日。然后，他出现了。",
+        text: "深埋地底的岩层被撕扯翻涌，火焰与黑雾喷薄而出，仿佛迎来了末日。",
     },
+},
+{
+  id: "ending_43_3_1",
+  elements: {
+      name: "旁白",
+      text: "然后，祂出现了。",
+  },
 },
 {
     id: "ending_44_3",
     elements: {
         name: "旁白",
-        text: "一具由黑雾与碎骨拼凑的身躯缓缓升起，肩背如山岳般庞大，胸口燃烧着漆黑火焰，",
+        text: "一具由黑雾与碎骨拼凑的身躯缓缓升起，肩背如山岳般庞大，胸口燃烧着漆黑火焰，吞噬着天地的残光。",
     },
 },
 {
     id: "ending_44_3_1",
     elements: {
         name: "旁白",
-        text: "吞噬着天地的残光。一张模糊不清的面孔浮现，却不断变幻，",
+        text: "一张模糊不清的面孔浮现，却不断变幻，时而是骷髅，时而是扭曲的人脸，时而则是一片空洞。",
     },
 },
 {
     id: "ending_44_3_2",
-    elements: {
-        name: "旁白",
-        text: "时而是骷髅，时而是扭曲的人脸，时而则是一片空洞。",
-    },
-},
-{
-    id: "ending_44_3_3",
     elements: {
         name: "旁白",
         text: "他抬首的刹那，天空随之倾塌，赤红的裂纹在天空中扩散。",
@@ -1981,14 +2299,14 @@ sprite:{
 {
     id: "ending_48_3",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "呼——"
     }
 },
 {
     id: "ending_49_3",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "前所未有的强敌吗，真是可怕。"
     }
 },
@@ -2009,14 +2327,14 @@ sprite:{
 {
     id: "ending_52_3",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "但既然选择了独自面对，不论怎样，我都会战斗到底！"
     }
 },
 {
     id: "ending_53_3",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "背负着拯救世界的使命，我不能输！"
     }
 },
@@ -2077,14 +2395,14 @@ sprite:{
 {
     id: "ending_60_3",
     elements: {
-        name: "你",
+        name: "旁白",
         text: "……"
     }
 },
 {
     id: "ending_61_3",
     elements: {
-        name: "你",
+        name: "旁白",
         text: "理想很丰满，现实很骨感。"
     }
 },
@@ -2205,7 +2523,7 @@ sprite:{
 {
     id: "ending_77_3",
     elements: {
-        name: "你",
+        name: "旁白",
         text: "……"
     }
 },
@@ -2679,12 +2997,469 @@ sprite: {
 {
     id: "ending_15_4",
     elements: {
-        name: "？？？",
+        name: "你",
         text: "做好受死的准备了么？",
-         sprite: {
-            left: "NPC/zaie.png",
-        }
     }
+},
+{
+  id: "ending_15-5",
+  elements: {  
+    name: "？？？",
+      text: "大言不惭！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-1",
+  elements: {  
+    name: "？？？",
+      text: "你难道不渴求真相么？",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "你就不想知道，我是谁吗？",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "对你这样的家伙，说再多的话也没用。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "你身上那污秽而邪恶的气息，真是令人作呕。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "可笑至极。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "告诉你真相吧！我就是你，你就是我！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "我们是同样的存在，我们本就是同一个人！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "我就是你的过去，也将是你的未来！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "我可不会像你一样，堕落成这副模样。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "冥顽不灵！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "告诉你真相吧！这一切悲剧的始作俑者，就是你身边之人！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "恶魔的耳语有时会听起来像天使的声音。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "而她就是诱使你走向灭亡，堕入深渊的魔鬼！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "她就是在你目光不及之处操纵一切、将你玩弄于鼓掌之中的幕后黑手！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "与她同行，只会让你走向万劫不复！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "只有我，才是值得你信赖的同道中人。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "我理解你的一切，我也知晓你的渴望。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "真的要与我为敌么？还是就此悔改，与她做个了断？",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "你的话语，就像你本人一样软弱无力。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "我，绝不会像你一样，说着恬不知耻的话，还妄想挑拨他人的关系。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "执迷不悟！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "这个世界一向不缺谎言......你能肯定，自己活在“真相”中吗？",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "无脸人的声音逐渐变得扭曲。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "好吧！既然你执意选择错误的道路，那么绝望就是你的唯一结局！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "来吧，享受地狱的乐趣吧。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "他癫狂地大笑。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "我会将你那可笑的希望与信念，彻底粉碎！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "就凭你，也想阻止我么？",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "哈哈！大错特错！愚蠢至极！",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "你以为，我的力量仅此而已吗？",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "一股危险的气息从无脸人身上爆发而出，他身上燃起仿佛来自地狱的黑炎，举起手中的暗寂，一把插进废墟的大地。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "黑炎灼烧着暗寂，蔓延到大地上，将所到之处的一切都焚烧殆尽。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "在废墟的中央，一道漆黑的裂隙缓缓张开，仿佛世界的肌肤被撕开一道无法愈合的伤口。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "从裂隙中涌起了一团团令人窒息的黑雾，迅速向四周弥漫扩张，眨眼间遮天蔽日，天地失色。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "低沉的咆哮在天地间回荡，如同无数亡者的哭喊。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15-5-2",
+  elements: {  
+    name: "？？？",
+      text: "终于......来了。",
+      sprite: {
+          left: "NPC/zaie.png",
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "说完最后一句话，无脸人的面部出现数道裂纹，身影逐渐融化为一滩黑色液体，直到最后彻底崩散，不复存在。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "你",
+      text: "注意，大的要来了！",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "吼——",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "一道来自裂缝中的嘶吼冲击着耳膜，大地随之震颤，碎石如雨坠落。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "深埋地底的岩层被撕扯翻涌，火焰与黑雾喷薄而出，仿佛迎来了末日。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "然后，祂出现了。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "一具由黑雾与碎骨拼凑的身躯缓缓升起，肩背如山岳般庞大，胸口燃烧着漆黑火焰，吞噬着天地的残光。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "一张模糊不清的面孔浮现，却不断变幻，时而是骷髅，时而是扭曲的人脸，时而则是一片空洞。",
+       sprite: {
+          left: null,
+      }
+  }
+},
+{
+  id: "ending_15_5-3",
+  elements: {
+      name: "旁白",
+      text: "祂抬首的刹那，天空随之倾塌，赤红的裂纹在天空中扩散。",
+       sprite: {
+          left: null,
+      }
+  }
 },
 {
     id: "ending_16_4",
@@ -3131,14 +3906,7 @@ sprite: {
     "elements": {
        background:"sc4.1/4-1-13.jpg", 
       "name": "旁白",
-      "text": "猛烈的光线从暗寂中直冲而出，燃烧着最后的生命力量，",
-    }
-  },
-  {
-    "id": "ending_51_4_1",
-    "elements": {
-      "name": "旁白",
-      "text": "承载着绝望中的希望，向肆虐天地的灾厄之主袭去。",
+      "text": "猛烈的光线从暗寂中直冲而出，燃烧着最后的生命力量，承载着绝望中的希望，向肆虐天地的灾厄之主袭去。",
     }
   },
   {
@@ -3174,7 +3942,14 @@ sprite: {
     "id": "ending_56_4",
     "elements": {
       "name": "旁白",
-      "text": "然而——缺失的力量，让一切徒劳的行为都显得无比苍白。",
+      "text": "然而——",
+    }
+  },
+  {
+    "id": "ending_56_4-1",
+    "elements": {
+      "name": "旁白",
+      "text": "缺失的力量，让一切徒劳的行为都显得无比苍白。",
     }
   },
   {
@@ -3259,7 +4034,17 @@ sprite: {
     "id": "ending_66_4",
     "elements": {
       "name": "你",
-      "text": "啊......是吗......没想到......我还有这种魔力......",
+      "text": "啊......是吗......",
+      "sprite": {
+         "left": null, 
+        }
+    }
+  },
+  {
+    "id": "ending_66_5",
+    "elements": {
+      "name": "你",
+      "text": "没想到......我还有这种魔力......",
       "sprite": {
          "left": null, 
         }
@@ -3342,22 +4127,43 @@ sprite: {
   {
     "id": "ending_76_4",
     "elements": {
-      "name": "你",
-      "text": "......啊。谁都好，救救......",
+      "name": "旁白",
+      "text": "......啊。",
+    }
+  },
+  {
+    "id": "ending_76_5",
+    "elements": {
+      "name": "旁白",
+      "text": "谁都好，救救......",
     }
   },
   {
     "id": "ending_77_4",
     "elements": {
       "name": "旁白",
-      "text": "首先是听觉。一声天光乍明般，魔咒似的啸声。",
+      "text": "首先是听觉。",
+    }
+  },
+  {
+    "id": "ending_77_4-1",
+    "elements": {
+      "name": "旁白",
+      "text": "一声天光乍明般，魔咒似的啸声。",
     }
   },
   {
     "id": "ending_78_4",
     "elements": {
       "name": "旁白",
-      "text": "紧接着的是视觉。无边界的黑暗在眼间弥散，视锥细胞开始重新接收光线。",
+      "text": "紧接着的是视觉。",
+    }
+  },
+  {
+    "id": "ending_78_4-1",
+    "elements": {
+      "name": "旁白",
+      "text": "无边界的黑暗在眼间弥散，视锥细胞开始重新接收光线。",
     }
   },
   {
@@ -3393,18 +4199,10 @@ sprite: {
     "elements": {
       bgm:"bgm27.MP3" ,
       "name": "旁白",
-      "text": "而当环顾四周之时，一切便如同帷幕拉开，",
+      "text": "而当环顾四周之时，一切便如同帷幕拉开，登台亮相，世间万物伴随神秘悠长的旋律，开始流动了起来。",
       "sprite": {
          "left": null
          }
-    }
-  },
-  {
-    "id": "ending_83_4_1",
-    "elements": {
-      "name": "旁白",
-      "text": "登台亮相，世间万物伴随神秘悠长的旋律，开始流动了起来。",
-      "sprite": { "left": null }
     }
   },
   {
@@ -3440,6 +4238,13 @@ sprite: {
     "elements": {
       "name": "旁白",
       "text": "太阳穴鼓噪，模糊的记忆深海鲸越一般涌现在脑海，又迅速下落惊起波涛。",
+    }
+  },
+  {
+    "id": "ending_87_5",
+    "elements": {
+      "name": "旁白",
+      "text": "心脏被冲撞得酸涩，感受倏忽变幻，思绪虚假如同与谁人的共享幻觉。",
     }
   },
   {
@@ -3516,39 +4321,21 @@ sprite: {
     "id": "ending_95_4",
     "elements": {
       "name": "旁白",
-      "text": "在这片荒芜的废墟和寂寥的墓地之间，她就像是不属于此地的存在，",
-    }
-  },
-  {
-    "id": "ending_95_4_1",
-    "elements": {
-      "name": "旁白",
-      "text": "仿佛自另一方世界走来的过客。"
+      "text": "她微笑着注视自己，仿佛等待已久。",
     }
   },
   {
     "id": "ending_96_4",
     "elements": {
-      "name": "旁白",
-      "text": "你正要开口，心头却涌起一股莫名的熟悉感，",
-      "sprite": { "left": null }
-    }
-  },
-  {
-    "id": "ending_96_4_1",
-    "elements": {
-      "name": "旁白",
-      "text": "像是曾与她相伴千百次，又像是隔着无尽时空呼唤而来的回声。",
-      "sprite": { 
-        "left": null,
-    }
+      "name": "你",
+      "text": "你......是谁？"
     }
   },
   {
     id: "ending_97_4",
     elements: {
-      name: "光泠",
-      text: "请不要害怕。",
+      name: "？？？",
+      text: "您好，我的名字是——光泠。",
       sprite: {
          left: "guangling/smile.png",
          }
@@ -3558,9 +4345,9 @@ sprite: {
     "id": "ending_98_4",
     "elements": {
       "name": "旁白",
-      "text": "少女微微一笑，声音宛若潺潺的清泉，带着不可抗拒的安抚与温柔。",
-      "sprite": { 
-        "left": null 
+      "text": "她的声音像溪水般流过破败的石隙，好似承载着难以言说的希望。",
+      sprite: { 
+        left: null 
     }
     }
   },
@@ -3568,9 +4355,9 @@ sprite: {
     "id": "ending_99_4",
     "elements": {
       "name": "光泠",
-      "text": "我们会一起，找回答案的。",
-      "sprite": {
-         "left": "guangling/smile1.png",
+      "text": "我是为了为这世界带来新生，前来引导您的人。",
+      sprite: {
+         left: "guangling/smile1.png",
          }
     }
   },
@@ -3578,26 +4365,18 @@ sprite: {
     "id": "ending_100_4",
     "elements": {
       "name": "旁白",
-      "text": "你怔怔望着她，心中那份空白似乎被轻轻填补了一角，却又引来更多未解的疑惑。",
-      "sprite": { "left": null }
+      "text": "风声在废墟间穿行，像是命运的低语，带来世界的讯息。",
+      sprite: { 
+        left: null 
+      }
     }
   },
   {
     "id": "ending_101_4",
     "elements": {
       "name": "旁白",
-      "text": "在此刻，荒凉的废墟不再冰冷，未知的前路也不再令人惶恐。",
+      "text": "一场新的旅程，即将再次缓缓开启。",
     }
-  },
-  {
-    "id": "ending_102_4",
-    "elements": {
-      "name": "旁白",
-      "text": "因为你知道——一场新的旅程，即将再次缓缓开启。",
-      "sprite": { 
-        "left": null
-     }
-    },
   },
   {
     id: "ending_103_4",
@@ -3762,7 +4541,14 @@ sprite: {
   id: "ending_34_5",
   elements: {
     name: "旁白",
-    text: "灾厄之主的黑影高耸如山，胸口的漆黑火焰燃烧着虚无与绝望。胜利的法则已然确定！"
+    text: "灾厄之主的黑影高耸如山，胸口的漆黑火焰燃烧着虚无与绝望。"
+  }
+},
+{
+  id: "ending_34_5-1",
+  elements: {
+    name: "你",
+    text: "胜利的法则已然确定！"
   }
 },
 {
@@ -3776,7 +4562,28 @@ sprite: {
   id: "ending_36_5",
   elements: {
     name: "旁白",
-    text: "在光泠的法阵中，灾厄之主的力量被不断削弱，而三样关键之物的加持让我们力量无比充沛！"
+    text: "在光泠的法阵中，灾厄之主的力量被不断削弱。"
+  }
+},
+{
+  id: "ending_36_5-1",
+  elements: {
+    name: "旁白",
+    text: "而有着三样关键之物加持的我们，却从未感到力量是如此的充沛！"
+  }
+},
+{
+  id: "ending_36_5-2",
+  elements: {
+    name: "旁白",
+    text: "将终焉之泪与化为一把黑金巨扇的暗寂融为一体，瞬间一股侵蚀之力源源不断地从暗寂中释放而出——"
+  }
+},
+{
+  id: "ending_36_5-3",
+  elements: {
+    name: "旁白",
+    text: "这一次，这股曾经让人心生恐惧地力量将为己所用。"
   }
 },
 {
@@ -3790,21 +4597,28 @@ sprite: {
   id: "ending_38_5",
   elements: {
     name: "旁白",
-    text: "终焉之泪与暗寂融为一体，化为黑金巨扇，侵蚀之力随之爆发。"
+    text: "向着灾厄之主用力挥动暗寂。"
   }
 },
 {
-  id: "ending_38_5_1",
+  id: "ending_39_5-1",
   elements: {
     name: "旁白",
-    text: "巨大的龙卷风携毁灭之力席卷灾厄之主。"
+    text: "霎时，一道巨大的龙卷风夹杂着毁灭一切的侵蚀之力，向着灾厄之主席卷而去。"
   }
 },
 {
-  id: "ending_39_5",
+  id: "ending_39_5-2",
   elements: {
     name: "旁白",
-    text: "风暴之声浓稠，如千万只狂蜂灌入耳膜。湮灭之风所过之处的一切皆被揉碎。"
+    text: "风暴之声，浓稠得如千万只狂蜂灌入耳膜。"
+  }
+},
+{
+  id: "ending_39_5-3",
+  elements: {
+    name: "旁白",
+    text: "狂暴的湮灭之风将所经之处的一切统统揉碎，宣告着混沌的降临。"
   }
 },
 {
@@ -3853,7 +4667,7 @@ sprite: {
   id: "ending_46_5",
   elements: {
     name: "旁白",
-    text: "你沐浴在始源之心的生命光辉中，将永昼之瞳嵌入暗寂。"
+    text: "沐浴在始源之心的生命光辉中，将永昼之瞳嵌入暗寂。"
   }
 },
 {
@@ -3867,14 +4681,14 @@ sprite: {
   id: "ending_48_5",
   elements: {
     name: "旁白",
-    text: "暗寂化为黑金巨炮，对准灾厄之主，喷射出最猛烈的耀眼光线，照亮整个天地。"
+    text: "暗寂化为黑金巨炮，对准灾厄之主，爆发出有史以来最猛烈的耀眼光线，一瞬间照亮了整个天地。"
   }
 },
 {
   id: "ending_49_5",
   elements: {
     name: "旁白",
-    text: "光线中蕴藏着无穷能量，以摧枯拉朽之势，将邪恶与污秽彻底抹除。"
+    text: "仿佛其中蕴藏着无穷能量，以摧枯拉朽之势，将沿途的一切邪恶与污秽从这个世界上彻底抹除，不留痕迹。"
   }
 },
 {
@@ -3888,7 +4702,7 @@ sprite: {
   id: "ending_51_5",
   elements: {
     name: "旁白",
-    text: "灾厄之主在不甘的咆哮中，庞大身躯被轰得支离破碎。"
+    text: "灾厄之主只能在不甘的咆哮中，看着自己的庞大身躯被轰得支离破碎。"
   }
 },
 {
@@ -3902,14 +4716,14 @@ sprite: {
   id: "ending_53_5",
   elements: {
     name: "旁白",
-    text: "暗寂化为六把黑金飞剑，不断斩击灾厄之主，使其残躯摇摇欲坠。"
+    text: "暗寂化为六把黑金飞剑，不断斩击灾厄之主，使它原本就快倒塌的躯壳离毁灭的终点更进一步。"
   }
 },
 {
   id: "ending_54_5",
   elements: {
     name: "旁白",
-    text: "最终，六剑合一，挟无可匹敌的力量，刺进灾厄之主燃着黑焰的胸膛。"
+    text: "最终，六剑合一，挟无可匹敌之力，在狂野风暴与山崩地裂中，刺进了灾厄之主燃着黑焰的胸膛。"
   }
 },
 {
@@ -3938,14 +4752,21 @@ sprite: {
   id: "ending_58_5",
   elements: {
     name: "旁白",
-    text: "始源之心、永昼之瞳、终焉之泪三件至宝合而为一，创造的伟力笼罩整个残破世界。"
+    text: "始源之心、永昼之瞳、终焉之泪三件至宝合而为一，焕发出创造的伟力，笼罩了整个残破的世界。"
   }
 },
 {
   id: "ending_59_5",
   elements: {
     name: "旁白",
-    text: "就在灾厄之主彻底消失的刹那，天地骤然颤抖——那震动来自时间！"
+    text: "就在灾厄之主彻底消失的刹那，天地骤然颤抖——"
+  }
+},
+{
+  id: "ending_59_5-1",
+  elements: {
+    name: "旁白",
+    text: "不是大地，不是天空，而是来自时间！"
   }
 },
 {
@@ -3980,7 +4801,7 @@ sprite: {
 {
   id: "ending_64_5",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "时间开始加速了！"
   }
 },
@@ -4035,7 +4856,27 @@ sprite: {
   id: "ending_70_5",
   elements: {
     name: "旁白",
-    text: "时间愈发加速，直到一切化为白光。世界，即将迎来新生。",
+    text: "时间愈发加速，直到一切化为白光。",
+     sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_70_5-1",
+  elements: {
+    name: "旁白",
+    text: "世界，即将迎来新生。",
+     sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_70_5-2",
+  elements: {
+    name: "旁白",
+    text: "……",
      sprite:{
         left:null,
     }
@@ -4067,14 +4908,14 @@ sprite: {
   id: "ending_74_5",
   elements: {
     name: "旁白",
-    text: "云谦卑地立在天边，晨光为它戴上金冠。空气里弥漫青草与花木的芬芳。"
+    text: "云谦卑地立在天边，晨光为它戴上金冠。"
   }
 },
 {
   id: "ending_75_5",
   elements: {
     name: "旁白",
-    text: "风吹过，携来远山的清凉与流水的欢唱。"
+    text: "空气里弥漫青草与花木的芬芳。风吹过，携来远山的清凉与流水的欢唱。"
   }
 },
 {
@@ -4095,21 +4936,41 @@ sprite: {
   id: "ending_77_5",
   elements: {
     name: "旁白",
-    text: "世界揭下它浩瀚的面具，变得小巧而温柔，如同一首歌，如同一个永恒的吻。"
+    text: "世界向它的爱人揭下了它浩瀚的面具。。它变小了，小如一首歌，小如一个永恒的吻。"
   }
 },
 {
   id: "ending_78_5",
   elements: {
     name: "旁白",
-    text: "此刻，你第一次如此清晰地感受到：自己是这个世界的一份子。"
+    text: "在此之前，从未如此清晰地认识到，自己是这个世界的一份子。"
   }
 },
 {
   id: "ending_79_5",
   elements: {
     name: "旁白",
-    text: "隐约间，你感到前方有什么在等待，于是迈步走向树林深处。",
+    text: "隐约间，感到前方有什么在等待着自己。",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_79_5-1",
+  elements: {
+    name: "旁白",
+    text: "于是便迈开步子，向一片树林深处走去。",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_79_5-2",
+  elements: {
+    name: "旁白",
+    text: "这份直觉在片刻后得到了回应。",
     sprite:{
         left:null,
     }
@@ -4120,21 +4981,35 @@ sprite: {
   elements: {
      background:"sc4.1/4-1-6.jpg", 
     name: "？？？",
-    text: "……您来了。"
+    text: "……"
+  }
+},
+{
+  id: "ending_80_5-1",
+  elements: { 
+    name: "？？？",
+    text: "您来了。"
   }
 },
 {
   id: "ending_81_5",
   elements: {
     name: "旁白",
-    text: "淡蓝色眼瞳的少女在古树下微笑，手里捧着一朵金黄色野花。"
+    text: "淡蓝色眼瞳的少女向自己露出微笑。"
+  }
+},
+{
+  id: "ending_81_5-1",
+  elements: {
+    name: "旁白",
+    text: "她倚坐在一颗古树的树荫下，手里捏着一朵刚摘下的金黄色野花。"
   }
 },
 {
   id: "ending_82_5",
   elements: {
     name: "你",
-    text: "光泠……",
+    text: "光泠。",
     sprite:{
         left:null,
     }
@@ -4144,7 +5019,17 @@ sprite: {
   id: "ending_83_5",
   elements: {
     name: "光泠",
-    text: "太好了，你没有忘记我的名字。很高兴，不用再和你说告别了。",
+    text: "太好了，你没有忘记我的名字。",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_83_5-1",
+  elements: {
+    name: "光泠",
+    text: "很高兴，不用再和你说告别了。",
     sprite:{
         left:"guangling/smile1.png",
     }
@@ -4158,17 +5043,44 @@ sprite: {
   }
 },
 {
+  id: "ending_84_5-1",
+  elements: {
+    name: "你",
+    text: "......",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
   id: "ending_85_5",
   elements: {
     name: "光泠",
-    text: "别担心，一切都很美好，不是么？这就是美丽新世界啊。"
+    text: "别担心，一切都很美好，不是么？",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_85_5-1",
+  elements: {
+    name: "光泠",
+    text: "这就是美丽新世界啊。"
   }
 },
 {
   id: "ending_86_5",
   elements: {
     name: "光泠",
-    text: "从毁灭中重获新生的世界。还记得在一开始，我与你说过的话吗？"
+    text: "从毁灭中重获新生的世界。"
+  }
+},
+{
+  id: "ending_86_5-1",
+  elements: {
+    name: "光泠",
+    text: "还记得在一开始，我与你说过的话吗？"
   }
 },
 {
@@ -4205,7 +5117,27 @@ sprite: {
   id: "ending_89_5",
   elements: {
     name: "光泠",
-    text: "……是啊。某种意义上，这里就是终点了。恭喜你，属于你的旅途结束了。",
+    text: "……是啊。",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_89_5-1",
+  elements: {
+    name: "光泠",
+    text: "某种意义上，这里就是终点了。",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_89_5-2",
+  elements: {
+    name: "光泠",
+    text: "恭喜你，属于你的旅途结束了。",
     sprite:{
         left:"guangling/smile1.png",
     }
@@ -4498,7 +5430,7 @@ sprite: {
   elements: {
      background:"sc4.1/4-1-19.jpg", 
     name: "旁白",
-    text: "越过光泠，在黑暗的更深处伸出双手，",
+    text: "越过光泠，在黑暗的更深处伸出双手。",
     sprite:{
         left:null,
     }
@@ -4689,7 +5621,7 @@ sprite: {
   id: "ending_70_6_1",
   elements: {
     name: "旁白",
-    text: "几罐接近发霉的压缩饼干、半卷绷带、用完的酒精瓶、一管钢笔、墨水瓶"
+    text: "几罐接近发霉的压缩饼干、半卷绷带、用完的酒精瓶、一管钢笔、墨水瓶。"
   }
 },
 {
@@ -4717,7 +5649,7 @@ sprite: {
   id: "ending_73_6",
   elements: {
     name: "旁白",
-    text: "无所谓的废话和故作高深的用词也是出于自己的老毛病"
+    text: "无所谓的废话和故作高深的用词也是出于自己的老毛病。"
   }
 },
 {
@@ -4758,7 +5690,7 @@ sprite: {
 {
   id: "ending_78_6",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "还好，稿子没事就行。"
   }
 },
@@ -4807,7 +5739,7 @@ sprite: {
 {
   id: "ending_85_6",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "......？"
   }
 },
@@ -4865,7 +5797,7 @@ sprite: {
 {
   id: "ending_92_6",
   elements: {
-    name: "我",
+    name: "你",
     text: "读者么？"
   }
 },
@@ -4928,7 +5860,7 @@ sprite: {
 {
   id: "ending_101_6",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "那么，似乎得新加一个角色。"
   }
 },
@@ -4968,6 +5900,13 @@ sprite: {
   }
 },
 {
+  id: "ending_106_6-1",
+  elements: {
+    name: "旁白",
+    text: "那得是一个一直关心着主人公，却有略带神秘感的少女。"
+  }
+},
+{
   id: "ending_107_6",
   elements: {
     name: "？？？",
@@ -4984,19 +5923,19 @@ sprite: {
 {
   id: "ending_109_6",
   elements: {
-    name: "旁白",
-    text: "这个角色就叫做......没由来的，一个名字突然窜到自己的脑海中。"
+    name: "你",
+    text: "这个角色就叫做......"
   }
 },
 {
   id: "ending_110_6",
   elements: {
     name: "旁白",
-    text: "这个角色就叫"
+    text: "没由来的，一个名字突然窜到自己的脑海中。"
   },
   choices: [
     {
-      text: "光泠吧",
+      text: "“光泠”吧。",
       next: "ending_111_6"
     }
   ]
@@ -5079,7 +6018,7 @@ sprite: {
   id: "ending_39_7",
   elements: {
     name: "旁白",
-    text: "此时此刻，脑海中却不自觉地回想起了光泠的话语。",
+    text: "——此时此刻，脑海中却不自觉地回想起了光泠的话语。",
     sprite: {
       left: null
     }
@@ -5099,7 +6038,7 @@ sprite: {
   id: "ending_41_7",
   elements: {
     name: "旁白",
-    text: "还记得在刚与光泠相识时，她会这样安慰自己。",
+    text: "——还记得在刚与光泠相识时，她会这样安慰自己。",
     sprite: {
       left: null
     }
@@ -5109,7 +6048,27 @@ sprite: {
   id: "ending_42_7",
   elements: {
     name: "你",
-    text: "真令人怀念啊......只可惜.....已经......已经没有力气去回忆了。",
+    text: "真令人怀念啊......",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "ending_42_7-1",
+  elements: {
+    name: "你",
+    text: "只可惜.....已经......",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "ending_42_7-2",
+  elements: {
+    name: "旁白",
+    text: "已经没有力气去回忆了。",
     sprite: {
       left: null
     }
@@ -5131,6 +6090,16 @@ sprite: {
     background:"sc3.1/3-1-11.jpg", 
     name: "旁白",
     text: "在某一刻，生命的火花悄然熄灭。",
+    sprite: {
+      left: null
+    }
+  }
+},
+{
+  id: "ending_44_7-1",
+  elements: {
+    name: "旁白",
+    text: "……",
     sprite: {
       left: null
     }
@@ -5209,7 +6178,7 @@ sprite: {
 {
   id: "ending_39_8",
   elements: {
-    name: "我",
+    name: "你",
     text: "到此为止了吗？"
   }
 },
@@ -5344,13 +6313,19 @@ sprite: {
   id: "ending_55_8",
   elements: {
     name: "旁白",
-    text: "然而——想象中被这黑焰焚烧殆尽的情景并没有出现。"
+    text: "然而——"
+  }
+},
+{
+  id: "ending_55_8-1",
+  elements: {
+    name: "旁白",
+    text: "想象中被这黑焰焚烧殆尽的情景并没有出现。"
   }
 },
 {
   id: "ending_56_8",
   elements: {
-   
     name: "你",
     text: "为什么？"
   }
@@ -5366,7 +6341,7 @@ sprite: {
   id: "ending_58_8",
   elements: {
     name: "旁白",
-    text: "是光泠，为你挡下了这毁灭性的一击。"
+    text: "是光泠，为自己挡下了这毁灭性的一击。"
   }
 },
 {
@@ -5466,7 +6441,27 @@ sprite:{
   id: "ending_69_8",
   elements: {
     name: "光泠",
-    text: "为什么呢？也许我自己也不知道。只是身体不自觉地行动起来了。",
+    text: "为什么呢？",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_69_8-1",
+  elements: {
+    name: "光泠",
+    text: "也许我自己也不知道。",
+    sprite:{
+        left:"guangling/smile1.png",
+    }
+  }
+},
+{
+  id: "ending_69_8-2",
+  elements: {
+    name: "光泠",
+    text: "只是身体不自觉地行动起来了。",
     sprite:{
         left:"guangling/smile1.png",
     }
@@ -5617,7 +6612,7 @@ sprite:{
   id: "ending_83_8",
   elements: {
     name: "光泠",
-    text: "无论发生了什么，无论身处何处，"
+    text: "无论发生了什么，无论身处何处。"
   }
 },
 {
@@ -5638,14 +6633,61 @@ sprite:{
   id: "ending_85_8",
   elements: {
     name: "光泠",
-    text: "再多和我说一些话吧，无论是什么，我都愿意听。可以握住的手，千万别放开了呢。"
+    text: "再多和我说一些话吧，无论是什么，我都愿意听。"
+  }
+},
+{
+  id: "ending_85_8-2",
+  elements: {
+    name: "光泠",
+    text: "可以握住的手，千万别放开了呢。"
   }
 },
 {
   id: "ending_86_8",
   elements: {
     name: "旁白",
-    text: "她的梦，她的心，她的情，她的一切。一幕幕画面在脑中闪过，泪水无声地滴落。",
+    text: "她的梦.",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_86_8-1",
+  elements: {
+    name: "旁白",
+    text: "她的心。",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_86_8-2",
+  elements: {
+    name: "旁白",
+    text: "她的情。",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_86_8-3",
+  elements: {
+    name: "旁白",
+    text: "她的一切。",
+    sprite:{
+        left:null,
+    }
+  }
+},
+{
+  id: "ending_86_8-4",
+  elements: {
+    name: "旁白",
+    text: "一幕幕画面在脑中闪过，泪水无声地滴落。",
     sprite:{
         left:null,
     }
@@ -5695,7 +6737,7 @@ sprite:{
   id: "ending_90_8",
   elements: {
     name: "旁白",
-    text: "就在这片混乱无序中，始源之心、永昼之瞳、终焉之泪三样关键之物结合在一起，"
+    text: "就在这片混乱无序中，始源之心、永昼之瞳、终焉之泪三样关键之物结合在一起。"
   }
 },
 {
@@ -5765,6 +6807,13 @@ sprite:{
   }
 },
 {
+  id: "ending_98_8-1",
+  elements: {
+    name: "旁白",
+    text: "……"
+  }
+},
+{
   id: "ending_99_8",
   elements: {
     name: "旁白",
@@ -5802,7 +6851,7 @@ sprite:{
 {
   id: "ending_104_8",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "......这样就结束了......吗？"
   }
 },
@@ -5916,7 +6965,7 @@ background:"sc4.1/4-1-25.jpg",
   id: "ending_120_8",
   elements: {
     name: "旁白",
-    text: "脚步在此驻足，群集的飞鸟振翅而来，久久盘旋不落，"
+    text: "脚步在此驻足，群集的飞鸟振翅而来，久久盘旋不落。"
   }
 },
 {
@@ -5993,7 +7042,7 @@ background:"sc4.1/4-1-25.jpg",
   id: "ending_130_8",
   elements: {
     name: "旁白",
-    text: "脑海中的记忆如烟雾般朦胧离散，只有一根汇聚的细长的引线堪堪维系着，"
+    text: "脑海中的记忆如烟雾般朦胧离散，只有一根汇聚的细长的引线堪堪维系着。"
   }
 },
 {
@@ -6426,22 +7475,22 @@ background:"sc4.1/4-1-25.jpg",
 {
   id: "ending_66_9",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "为什么......做到这种地步......"
   }
 },
 {
   id: "ending_67_9",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "就算你死了，你也能“活”下去的吧。"
   }
 },
 {
   id: "ending_68_9",
   elements: {
-    name: "旁白",
-    text: "你早就察觉到了，你并不是，像光泠一样脆弱的存在。",
+    name: "你",
+    text: "我早就察觉到了，你并不是，像我一样脆弱的存在。",
     sprite:{
         left:null,
     }
@@ -6603,7 +7652,7 @@ sprite:{
 {
   id: "ending_85_9",
   elements: {
-    name: "旁白",
+    name: "你",
     text: "那种事情......不要啊！",
     sprite:{
         left:null,
@@ -6614,7 +7663,8 @@ sprite:{
   id: "ending_86_9",
   elements: {
     name: "旁白",
-    text: "在身心的双重折磨之下，脑海中回忆涌起。",sprite:{
+    text: "在身心的双重折磨之下，脑海中回忆涌起。",
+    sprite:{
         left:null,
     }
   }
@@ -6673,7 +7723,6 @@ sprite:{
 {
   id: "ending_91_9",
   elements: {
-    
     name: "光泠",
     text: "这个世界上有很多压倒性的力量，但它们却从未真正掌握在任何人手中。",
     sprite:{
@@ -6736,7 +7785,7 @@ sprite:{
   id: "ending_97_9",
   elements: {
     name: "光泠",
-    text: "无论发生了什么，无论身处何处，我都不会忘记和你在一起的时间，",
+    text: "无论发生了什么，无论身处何处，我都不会忘记和你在一起的时间。",
     sprite:{
         left:"guangling/smile1.png",
     }
@@ -6856,7 +7905,7 @@ sprite:{
   id: "ending_112_9",
   elements: {
     name: "旁白",
-    text: "一旦落入这黑暗的天罗地网中，等待着我们的，就将是失去自由,"
+    text: "一旦落入这黑暗的天罗地网中，等待着我们的，就将是失去自由——"
   }
 },
 {
@@ -6959,17 +8008,24 @@ sprite:{
   }
 },
 {
+  id: "ending_123_9-1",
+  elements: {
+    name: "旁白",
+    text: "——荣辱于我都一样;"
+  }
+},
+{
   id: "ending_124_9",
   elements: {
     name: "旁白",
-    text: "黑暗中，一个无机质的声音响起，似乎在蛊惑着她放弃抵抗，"
+    text: "黑暗中，一个无机质的声音响起，似乎在蛊惑着她放弃抵抗，沉溺于黑暗中，推动着她自我吞噬。"
   }
 },
 {
   id: "ending_124_9_1",
   elements: {
     name: "旁白",
-    text: "推动着她自我吞噬，告诉她消解在至高无上的毁灭之力中、与虚无融为一体才是最好的结局。"
+    text: "告诉她消解在至高无上的毁灭之力中、与虚无融为一体才是最好的结局。"
   }
 },
 {
@@ -7322,7 +8378,7 @@ sprite:{
   id: "ending_167_9",
   elements: {
     name: "你",
-    text: "我希望，与你永不分离。"
+    text: "我希望，与光泠永不分离。"
   }
 },
 {
@@ -7372,6 +8428,13 @@ sprite:{
   elements: {
     name: "旁白",
     text: "那一声声回响，成为虚无中唯一的律动。"
+  }
+},
+{
+  id: "ending_174_9-1",
+  elements: {
+    name: "旁白",
+    text: "……"
   }
 },
 {
@@ -7426,8 +8489,8 @@ sprite:{
 {
   id: "ending_182_9",
   elements: {
-    name: "旁白",
-    text: "睁眼"
+    name: "你",
+    text: "（睁眼）"
   }
 },
 {
@@ -7543,6 +8606,13 @@ sprite:{
   elements: {
     name: "旁白",
     text: "温热在唇间留下痕迹，那些或是神圣的，或是私欲的情愫，正贪婪地攫取着彼此的温度。"
+  }
+},
+{
+  id: "ending_197_9-1",
+  elements: {
+    name: "旁白",
+    text: "……"
   }
 },
 {
