@@ -1001,28 +1001,28 @@ class CardGame extends MiniGame {
     // 初始化音乐可视化条
     private initializeVisualizer(): void {
         if (!this.musicVisualizer) return;
-
+        
         // 创建可视化条
         this.createVisualizerBars(this.musicVisualizer, 15);
-
+        
         // 初始化音频分析器
         this.initAudioAnalyser();
-
+        
         // 开始可视化动画
         this.startVisualization();
     }
-
+    
     // 创建可视化条
     private createVisualizerBars(container: HTMLElement | null, count: number): void {
         if (!container) return;
-
+        
         // 清空容器
         container.innerHTML = '';
-
+        
         // 创建指定数量的可视化条
         for (let i = 0; i < count; i++) {
             const bar = document.createElement('div');
-            bar.style.width = '40%';
+            bar.style.width = '80%';
             bar.style.height = '2.5vh';
             bar.style.backgroundColor = '#ffffff';
             bar.style.margin = '0.6vh 0';
@@ -1033,57 +1033,69 @@ class CardGame extends MiniGame {
             container.appendChild(bar);
         }
     }
-
+    
     // 初始化音频分析器
     private initAudioAnalyser(): void {
         try {
+            // 如果已经存在音频上下文，先暂停并重置
+            if (this.audioContext) {
+                this.audioContext.suspend();
+            }
+            
             // 创建音频上下文
             this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
+            
             // 创建分析器节点
             this.analyser = this.audioContext.createAnalyser();
             this.analyser.fftSize = 64; // 较小的fftSize以获得更平滑的效果
-
+            
             // 获取背景音乐元素
             const musicElement = document.getElementById('music') as HTMLAudioElement;
-            if (musicElement) {
+            if (musicElement && musicElement.src) {
                 // 创建媒体元素源
                 const source = this.audioContext.createMediaElementSource(musicElement);
-
+                
                 // 连接节点: source -> analyser -> destination
                 source.connect(this.analyser);
                 this.analyser.connect(this.audioContext.destination);
+                
+                // 恢复音频上下文
+                this.audioContext.resume();
+            } else {
+                console.warn('未找到背景音乐元素或音乐未加载');
+                this.analyser = null;
             }
         } catch (e) {
             console.warn('无法初始化音频分析器:', e);
+            this.analyser = null;
         }
     }
-
+    
     // 开始可视化动画
     private startVisualization(): void {
         // 清除已存在的定时器
         if (this.visualizationInterval) {
             clearInterval(this.visualizationInterval);
         }
-
+        
         // 设置新的定时器，定期更新可视化效果
         this.visualizationInterval = window.setInterval(() => {
             this.updateVisualization();
         }, 50); // 每50毫秒更新一次（从100毫秒改为50毫秒）
     }
-
+    
 
     // 更新可视化
     private updateVisualization(): void {
         if (!this.musicVisualizer) return;
-
+        
         // 如果有音频分析器，使用真实音频数据
-        if (this.analyser) {
+        if (this.analyser && this.audioContext && this.audioContext.state === 'running') {
             // 获取频域数据
             const bufferLength = this.analyser.frequencyBinCount;
             const dataArray = new Uint8Array(bufferLength);
             this.analyser.getByteFrequencyData(dataArray);
-
+            
             // 更新可视化条
             const bars = this.musicVisualizer.querySelectorAll('div');
             bars.forEach((bar, index) => {
@@ -1094,18 +1106,18 @@ class CardGame extends MiniGame {
                 const distanceFromCenter = Math.abs(position - 0.5);
                 // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
                 const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-
+                
                 // 使用音频数据更新宽度，并应用中心增强效果
                 const rawValue = dataArray[index % bufferLength] || 0;
                 // 增强波动效果，但减小变化幅度
                 const value = rawValue * centerMultiplier * 1.5;
                 const width = Math.max(30, value); // 最小宽度30像素
                 bar.style.width = `${width}px`;
-
+                
                 // 根据音频强度调整透明度，增加对比度
                 const opacity = 0.4 + (value / 255) * 0.6;
                 bar.style.opacity = opacity.toString();
-
+                
                 // 设置为白色
                 bar.style.backgroundColor = '#ffffff';
             });
@@ -1120,20 +1132,20 @@ class CardGame extends MiniGame {
                 const distanceFromCenter = Math.abs(position - 0.5);
                 // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
                 const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-
+                
                 // 使用索引创建更有节奏感的变化
                 const timeOffset = index * 0.5;
                 const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
-
+                
                 // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
                 const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
                 const width = rawWidth * centerMultiplier;
                 bar.style.width = `${width}%`;
-
+                
                 // 根据宽度调整透明度，增加对比度
-                const opacity = 0.4 + (width / 100) * 0.6;
+                const opacity = 0.4 + (width / 120) * 0.6;
                 bar.style.opacity = opacity.toString();
-
+                
                 // 设置为白色
                 bar.style.backgroundColor = '#ffffff';
             });
