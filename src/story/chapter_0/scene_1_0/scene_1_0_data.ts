@@ -1507,7 +1507,7 @@ const scene: Scene = {
                                     // 失败：玩家血量小于等于0
                                     return gameData && gameData.player && gameData.player.hp <= 0;
                                 },
-                                next: "branch_1_21",
+                                next: "branch_1_20",
                             },
                         ]
             },},

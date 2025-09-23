@@ -2046,16 +2046,16 @@ choices: [
                     },
                         opponent: {
                             name:"鬼怪",
-                            actionPoints: 7,
+                            actionPoints: 4,
                             hp: 25,
                             maxHp: 25,
                             deck: {
                                  "mountain_ghoul":3,
-                                "forest_ghoul":2,
+                                "forest_ghoul":1,
                                  "drowned_ghoul":2,
                                  "hungry_ghoul":2,
-                                 "lonely_ghoul":1,
-                                 "stingy_ghoul":2,
+                                 "lonely_ghoul":2,
+                                 "stingy_ghoul":1,
                             },
                             drawCount: 5,           // 对手每回合抽3张牌
                             initialDrawCount: 6 ,    // 对手开始时抽4张牌
@@ -2109,10 +2109,6 @@ choices: [
             left: null,
         }
     },
-    action: () => {
-                const bagManager = BagManager.getInstance();
-                bagManager.addCardsToBag("ghostly_figures", 1);
-}
 },
 {
     id: "mountain_150_2_2_2_1",
@@ -2165,6 +2161,10 @@ choices: [
         name: "旁白",
         text: "深入一路，也灭杀了一路的恶鬼。"
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("ghostly_figures", 1);
+}
 },
 {
     id: "mountain_153_2_2_2_1",
@@ -3097,11 +3097,15 @@ choices: [
                         end: [
                             {
                                 condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                                next: "battle_1_1_1",
+                                next: "mountain_197_2_3",
                             },
                             {
-                                condition: () => true, // 默认条件，总是为真
-                                next: "battle_1_1",
+                                condition: (gameData: CardGameEventData) => gameData.score === 0,
+                                next: "mountain_197_2_2",
+                            },
+                            {
+                                condition: (gameData: CardGameEventData) => gameData.score < 0,
+                                next: "mountain_197_2_1",
                             }
                         ]
                     }
