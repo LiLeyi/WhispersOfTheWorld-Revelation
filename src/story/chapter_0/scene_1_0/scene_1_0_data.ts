@@ -1502,14 +1502,14 @@ const scene: Scene = {
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     //获胜：玩家血量大于0
-                                    return gameData.player.hp > 0;
+                                    return gameData && gameData.player && gameData.player.hp > 0;
                                 },
                                 next: "test1",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 失败：玩家血量小于等于0
-                                    return gameData.player.hp <= 0;
+                                    return gameData && gameData.player && gameData.player.hp <= 0;
                                 },
                                 next: "branch_1_21",
                             },

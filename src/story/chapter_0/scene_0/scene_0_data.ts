@@ -59,68 +59,68 @@ const scene: Scene = {
                 }
             }
         },
-        {
-            id: "test_game1",
-            elements: {
-                name: "旁白",
-                text: "小游戏测试",
-                sprite: {
-                    left: null
-                }
-            },
-            game: {
-                id: "card_game",
-                config: {
-                    player: {
-                        actionPoints: 10,
-                        hp: 1000,
-                        maxHp: 1000,
-                        deck: () => {
-                            const bagManager = BagManager.getInstance();
-                            return bagManager.getCardDeckForGame();
-                        },
-                        drawCount: 2,           // 玩家每回合抽2张牌
-                        initialDrawCount: 3,     // 玩家开始时抽3张牌
-                    },
-                    deckSelection: {
-                        minDeckSize: 3,   // 设置最小选牌数量
-                        maxDeckSize: 10,   // 设置最大选牌数量
-                    },
-                    opponent: {
-                        actionPoints: 8,
-                        hp: 3,
-                        maxHp: 11,
-                        deck: {
-                            "little_stone": 2,
-                            "strange_stone": 2,
-                            "bedrock": 2,
-                            "large_rock": 2,
-                        },
-                        drawCount: 4,           // 对手每回合抽1张牌
-                        initialDrawCount: 3,     // 对手开始时抽3张牌
-                        initialBuffs: [
-                            {
-                                id: 'disaster_lord_phase1',
-                                duration: 0,
-                                target: 'self'
-                            }
-                        ]
-                    },
-                    backgroundImage: "sc1.1/1-1-0.jpg",
-                    bgm: "bgm29"
-                },
-                end: [
-                    {
-                        condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                        next: "test1"
-                    },
-                    {
-                        condition: () => true, // 默认条件，总是为真
-                        next: "test2"
-                    }
-                ]
-            }
-        },
+        // {
+        //     id: "test_game1",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "小游戏测试",
+        //         sprite: {
+        //             left: null
+        //         }
+        //     },
+        //     game: {
+        //         id: "card_game",
+        //         config: {
+        //             player: {
+        //                 actionPoints: 10,
+        //                 hp: 1000,
+        //                 maxHp: 1000,
+        //                 deck: () => {
+        //                     const bagManager = BagManager.getInstance();
+        //                     return bagManager.getCardDeckForGame();
+        //                 },
+        //                 drawCount: 2,           // 玩家每回合抽2张牌
+        //                 initialDrawCount: 3,     // 玩家开始时抽3张牌
+        //             },
+        //             deckSelection: {
+        //                 minDeckSize: 3,   // 设置最小选牌数量
+        //                 maxDeckSize: 10,   // 设置最大选牌数量
+        //             },
+        //             opponent: {
+        //                 actionPoints: 8,
+        //                 hp: 3,
+        //                 maxHp: 11,
+        //                 deck: {
+        //                     "little_stone": 2,
+        //                     "strange_stone": 2,
+        //                     "bedrock": 2,
+        //                     "large_rock": 2,
+        //                 },
+        //                 drawCount: 4,           // 对手每回合抽1张牌
+        //                 initialDrawCount: 3,     // 对手开始时抽3张牌
+        //                 initialBuffs: [
+        //                     {
+        //                         id: 'disaster_lord_phase1',
+        //                         duration: 0,
+        //                         target: 'self'
+        //                     }
+        //                 ]
+        //             },
+        //             backgroundImage: "sc1.1/1-1-0.jpg",
+        //             bgm: "bgm29"
+        //         },
+        //         end: [
+        //             {
+        //                 condition: (gameData: CardGameEventData) => gameData.score >= 1,
+        //                 next: "test1"
+        //             },
+        //             {
+        //                 condition: () => true, // 默认条件，总是为真
+        //                 next: "test2"
+        //             }
+        //         ]
+        //     }
+        // },
         // {
         //     id: "choice_test",
         //     elements: {
@@ -290,22 +290,22 @@ const scene: Scene = {
         //         ]
         //     }
         // },
-        {
-            id: "test1",
-            elements: {
-                name: "旁白",
-                text: "拿到了一分！",
-                bgm: "bgm2.mp3"
-            }
-        },
-        {
-            id: "test2",
-            elements: {
-                name: "旁白",
-                text: "未拿到分",
-                bgm: "bgm2.mp3"
-            }
-        },
+        // {
+        //     id: "test1",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "拿到了一分！",
+        //         bgm: "bgm2.mp3"
+        //     }
+        // },
+        // {
+        //     id: "test2",
+        //     elements: {
+        //         name: "旁白",
+        //         text: "未拿到分",
+        //         bgm: "bgm2.mp3"
+        //     }
+        // },
         {
             id: "node2",
             elements: {
