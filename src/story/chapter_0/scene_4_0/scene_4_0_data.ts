@@ -788,14 +788,24 @@ sprite:{
     },
     keyNode: true,
     choices: [
-        {
-            text: "已拾取蚀心刃",
-            next: "battle_shadow_33"
-        },
-        {
-            text: "没有蚀心刃",
-            next: "battle_shadow_33_1"
-        },
+      {
+        text: "已拾取蚀心刃",
+        next: "battle_shadow_33",
+        condition: () => {
+          // 检查玩家背包中是否含有蚀心刃
+          const bagManager = BagManager.getInstance();
+          return bagManager.hasCard("darkness_erosive_heart");
+        }
+      },
+      {
+        text: "未拾取蚀心刃",
+        next: "battle_shadow_33_1",
+        condition: () => {
+          // 检查玩家背包中是否含有破碎蚀心刃或终焉之泪
+          const bagManager = BagManager.getInstance();
+          return bagManager.hasCard("shattered_erosive_blade")||bagManager.hasCard("end_tears");
+        }
+      }
     ]
 },
 //蚀心刃分支//

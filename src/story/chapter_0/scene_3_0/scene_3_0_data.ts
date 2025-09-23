@@ -1391,7 +1391,7 @@ nodes: [
                     },
                         opponent: {
                             name:"梅菲斯特",
-                            actionPoints: 7,
+                            actionPoints: 4,
                             hp: 25,
                             maxHp: 25,
                             deck: {
@@ -2164,6 +2164,8 @@ choices: [
     action: () => {
                 const bagManager = BagManager.getInstance();
                 bagManager.addCardsToBag("ghostly_figures", 1);
+                bagManager.addCardsToBag("darkness_final", 1);
+                bagManager.removeCardFromBag("darkness", 1);
 }
 },
 {
@@ -3055,7 +3057,7 @@ choices: [
                         id: "card_game",
                         config: {
                             player: {
-                                actionPoints: 3,
+                                actionPoints: 4,
                                 hp: 35,
                                 maxHp: 35,
                                  deck: () => {
@@ -3367,14 +3369,14 @@ choices: [
     },
 },
 {
-    id: "mountain_209_2_3",
+    id: "mountain_209_2_3_1",
     elements: {
         name: "旁白",
         text: "恶魂在刺眼的光芒中爆发出最后一声尖叫，像是在哀嚎，又像是在诅咒。"
     },
 },
 {
-    id: "mountain_209_2_4",
+    id: "mountain_209_2_4_1",
     elements: {
         name: "你",
         text: "结束了。"
@@ -3906,12 +3908,6 @@ choices: [
         name: "旁白",
         text: "那是——",
     },
-    choices: [
-        {
-            text: "所寻的关键之物!？",
-            next: "mountain_209_2_3",
-        },
-    ],
 },
 {
     id: "mountain_209_2_3",
@@ -4224,7 +4220,7 @@ choices: [
     },
 },
 {
-    id: "mountain_244_2_3_2",
+    id: "mountain_244_2_3_2_1",
     elements: {
         name: "旁白",
         text: "将那个东西捡起来，却发现正是自己要寻求的关键之物——",
@@ -4328,6 +4324,7 @@ choices: [
                   bagManager.removeCardFromBag("darkness", 1);
                 bagManager.addCardsToBag("darkness_shadow_form", 1);
                 bagManager.addCardsToBag("end_tears", 1);
+                bagManager.removeCardFromBag("tear_of_no_trace", 1);
   },
 },
 {
@@ -4648,6 +4645,11 @@ choices: [
         name: "你",
         text: "好东西，我收下了。。",
     },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.removeCardFromBag("darkness_final", 1);
+                  bagManager.addCardsToBag("darkness_erosive_heart", 1);
+  },
 },//融合暗寂//
 {
     id: "mountain_241_2_3_2_1",
@@ -4703,7 +4705,10 @@ choices: [
         name: "你",
         text: "这种东西，我不需要。",
     },
-},
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                  bagManager.addCardsToBag("shattered_erosive_blade", 1);
+},},
 {
     id: "mountain_242_2_3_2_2",
     elements: {
