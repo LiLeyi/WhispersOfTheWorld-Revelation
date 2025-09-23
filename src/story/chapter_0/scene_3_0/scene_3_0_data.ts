@@ -3119,32 +3119,6 @@ choices: [
                         ]
                     }
                 },     
-    {
-    id: "battle_1_1_1",
-    elements: {
-        name: "旁白",
-        text: "你战胜了恶魂",
-        background:"sc3.1/3-1-13.jpg",
-    },
-    choices: [
-        {
-            text: "大获全胜。",
-            next: "mountain_197_2_3",
-        },
-        {
-            text: "你彻底的失败了。",
-            next: "mountain_197_2_1",
-        },
-        {
-            text: "你和恶魂不相上下。",
-            next: "mountain_197_2_2",
-        },
-        {
-            text: "重新挑战",
-            next: "test_game6",
-        },
-    ]
-},
 //分支3-2-1//
 {
     id: "mountain_197_2_1",
