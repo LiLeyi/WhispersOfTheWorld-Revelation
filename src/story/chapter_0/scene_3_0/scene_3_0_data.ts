@@ -3096,21 +3096,29 @@ choices: [
                         },
                         end: [
                             {
-                                condition: (gameData: CardGameEventData) => gameData.score >= 1,
+                                condition: (gameData: CardGameEventData) => {
+                                    // 大获全胜：玩家获胜且恶魂的ghast buff已被触发（即恶魂已经经历过一次死亡）
+                                    return gameData.score >= 1 && gameData.opponent.maxHp === 20; // 恶魂血量上限从30减少到20说明ghast已被触发
+                                },
                                 next: "mountain_197_2_3",
                             },
                             {
-                                condition: (gameData: CardGameEventData) => gameData.score === 0,
+                                condition: (gameData: CardGameEventData) => {
+                                    // 不相上下：恶魂的ghast buff已被触发但玩家失败（即恶魂经历了一次死亡但最终获胜）
+                                    return gameData.score <= 0 && gameData.opponent.maxHp === 20; // 恶魂血量上限从30减少到20说明ghast已被触发
+                                },
                                 next: "mountain_197_2_2",
                             },
                             {
-                                condition: (gameData: CardGameEventData) => gameData.score < 0,
+                                condition: (gameData: CardGameEventData) => {
+                                    // 彻底失败：恶魂的ghast buff未被触发且玩家失败（即玩家在第一阶段就失败了）
+                                    return gameData.score <= 0 && gameData.opponent.maxHp === 30; // 恶魂血量上限仍为30说明ghast未被触发
+                                },
                                 next: "mountain_197_2_1",
                             }
                         ]
                     }
                 },     
-    
     {
     id: "battle_1_1_1",
     elements: {
