@@ -1494,16 +1494,22 @@ const scene: Scene = {
                         backgroundImage:"sc1.1/1-1-0.jpg",
                         bgm:"bgm30"
                     },
-                  end: [
-                   {
-                            condition: (gameData: CardGameEventData) => gameData.score >0,
-                            next: "test1"
-                        },
-                    {
-                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
-                            next: "branch_1_20"
-                        }
-                    ]
+                   end: [
+                            {
+                                condition: (gameData: CardGameEventData) => {
+                                    //获胜：玩家血量大于0
+                                    return gameData && gameData.player && gameData.player.hp > 0;
+                                },
+                                next: "test1",
+                            },
+                            {
+                                condition: (gameData: CardGameEventData) => {
+                                    // 失败：玩家血量小于等于0
+                                    return gameData && gameData.player && gameData.player.hp <= 0;
+                                },
+                                next: "branch_1_21",
+                            },
+                        ]
             },},
             {
                 id: "test1",

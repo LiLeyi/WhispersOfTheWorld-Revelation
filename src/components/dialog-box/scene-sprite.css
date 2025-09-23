@@ -1,37 +1,41 @@
 /* scene-sprite.css - 场景中立绘相关样式 */
 .scene-elements-container .sprite {
     position: absolute;
-    bottom: -500px;
-    height: 130%;
+    bottom: -50vh;
+    height: 120vh;
+    max-height: 120vh;
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
     transition: all 0.3s ease-in-out;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
     font-family: 'Libre Baskerville', 'Crimson Text', serif;
+    object-fit: cover;
 }
 
 .sprite {
     position: absolute;
-    bottom: -500px;
-    height: 130%;
+    bottom: -50vh;
+    height: 120vh;
+    max-height: 120vh;
     transform: translateY(0);
     z-index: 5;
     opacity: 0;
     transition: all 0.3s ease-in-out;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
     font-family: 'Libre Baskerville', 'Crimson Text', serif;
+    object-fit: cover;
 }
 
 .scene-elements-container .sprite.left {
     left: 5%;
-    transform: translateX(-50px) translateY(0);
+    transform: translateX(-10vw) translateY(0);
     transition: all 0.3s ease-in-out;
 }
 
 .sprite.left {
     left: 5%;
-    transform: translateX(-50px) translateY(0);
+    transform: translateX(-10vw) translateY(0);
     transition: all 0.3s ease-in-out;
 }
 
@@ -40,7 +44,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     transition: all 0.3s ease-in-out;
-    height: 80%;
+    height: 80vh;
+    max-height: 80vh;
     bottom: auto;
 }
 
@@ -49,19 +54,20 @@
     top: 50%;
     transform: translate(-50%, -50%);
     transition: all 0.3s ease-in-out;
-    height: 80%;
+    height: 80vh;
+    max-height: 80vh;
     bottom: auto;
 }
 
 .scene-elements-container .sprite.right {
     right: 5%;
-    transform: translateX(50px) translateY(0);
+    transform: translateX(10vw) translateY(0);
     transition: all 0.3s ease-in-out;
 }
 
 .sprite.right {
     right: 5%;
-    transform: translateX(50px) translateY(0);
+    transform: translateX(10vw) translateY(0);
     transition: all 0.3s ease-in-out;
 }
 
@@ -107,29 +113,43 @@
 @media (max-width: 1400px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 135%;
-        bottom: -450px;
+        height: 110vh;
+        max-height: 110vh;
+        bottom: -45vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 75%;
+        height: 75vh;
+        max-height: 75vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
+    }
+    
+    .scene-elements-container .sprite.left,
+    .sprite.left {
+        transform: translateX(-8vw) translateY(0);
+    }
+    
+    .scene-elements-container .sprite.right,
+    .sprite.right {
+        transform: translateX(8vw) translateY(0);
     }
 }
 
 @media (max-width: 1200px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 135%;
-        bottom: -400px;
+        height: 105vh;
+        max-height: 105vh;
+        bottom: -40vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 75%;
+        height: 70vh;
+        max-height: 70vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -138,24 +158,28 @@
     .scene-elements-container .sprite.left,
     .sprite.left {
         left: 3%;
+        transform: translateX(-6vw) translateY(0);
     }
     
     .scene-elements-container .sprite.right,
     .sprite.right {
         right: 3%;
+        transform: translateX(6vw) translateY(0);
     }
 }
 
 @media (max-width: 1000px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 130%;
-        bottom: -350px;
+        height: 100vh;
+        max-height: 100vh;
+        bottom: -35vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 70%;
+        height: 65vh;
+        max-height: 65vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -164,24 +188,28 @@
     .scene-elements-container .sprite.left,
     .sprite.left {
         left: 2%;
+        transform: translateX(-4vw) translateY(0);
     }
     
     .scene-elements-container .sprite.right,
     .sprite.right {
         right: 2%;
+        transform: translateX(4vw) translateY(0);
     }
 }
 
 @media (max-width: 768px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 125%;
-        bottom: -300px;
+        height: 95vh;
+        max-height: 95vh;
+        bottom: -30vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 65%;
+        height: 60vh;
+        max-height: 60vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -190,24 +218,28 @@
     .scene-elements-container .sprite.left,
     .sprite.left {
         left: 1%;
+        transform: translateX(-2vw) translateY(0);
     }
     
     .scene-elements-container .sprite.right,
     .sprite.right {
         right: 1%;
+        transform: translateX(2vw) translateY(0);
     }
 }
 
 @media (max-width: 480px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 120%;
-        bottom: -250px;
+        height: 90vh;
+        max-height: 90vh;
+        bottom: -25vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 60%;
+        height: 55vh;
+        max-height: 55vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -216,11 +248,13 @@
     .scene-elements-container .sprite.left,
     .sprite.left {
         left: 0%;
+        transform: translateX(-1vw) translateY(0);
     }
     
     .scene-elements-container .sprite.right,
     .sprite.right {
         right: 0%;
+        transform: translateX(1vw) translateY(0);
     }
 }
 
@@ -228,56 +262,27 @@
 @media (max-width: 320px) {
     .scene-elements-container .sprite,
     .sprite {
-        height: 115%;
-        bottom: -200px;
+        height: 85vh;
+        max-height: 85vh;
+        bottom: -20vh;
     }
     
     .scene-elements-container .sprite.center,
     .sprite.center {
-        height: 55%;
+        height: 50vh;
+        max-height: 50vh;
         bottom: auto;
         top: 50%;
         transform: translate(-50%, -50%);
     }
-}
-
-/* 基于视窗的自适应缩放（在不破坏既有样式前提下增强） */
-:root {
-    --sprite-height-vh: 85vh;
-    --sprite-center-height-vh: 70vh;
-}
-
-/* 立绘统一用视窗高度进行等比缩放，保留原有动画与定位 */
-.scene-elements-container .sprite,
-.sprite {
-    height: clamp(70vh, var(--sprite-height-vh), 95vh);
-    width: auto;
-    max-width: none;
-    bottom: max(-8vh, -120px);
-}
-
-/* 中央立绘略小一些，始终垂直水平居中 */
-.scene-elements-container .sprite.center,
-.sprite.center {
-    height: clamp(50vh, var(--sprite-center-height-vh), 80vh);
-    width: auto;
-    bottom: auto;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* 超宽屏下略微收缩，避免过大 */
-@media (min-aspect-ratio: 16/9) {
-    :root {
-        --sprite-height-vh: 80vh;
-        --sprite-center-height-vh: 65vh;
+    
+    .scene-elements-container .sprite.left,
+    .sprite.left {
+        transform: translateX(0) translateY(0);
     }
-}
-
-/* 矮屏设备下减少底部溢出 */
-@media (max-height: 700px) {
-    .scene-elements-container .sprite,
-    .sprite {
-        bottom: max(-4vh, -80px);
+    
+    .scene-elements-container .sprite.right,
+    .sprite.right {
+        transform: translateX(0) translateY(0);
     }
 }
