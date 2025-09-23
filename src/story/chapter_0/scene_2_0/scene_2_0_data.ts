@@ -238,10 +238,12 @@ nodes: [
     id: "wake_7",
     elements: {
         name: "旁白",
-        text: "不管我哭不哭都不会改变。"
-    }
-},
-
+        text: "不管我哭不哭都不会改变。",
+    },
+    action: () => {
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("tear_of_no_trace",1);
+},},
 {
     id: "wake_15",
     elements: {
@@ -1678,12 +1680,12 @@ nodes: [
   choices: [
             {
                 text: "接受巫婆的考验",
-                next: "test_game1"
+                next: "test_game3"
             },
         ]
 },
 {
-                id: "test_game1",
+                id: "test_game3",
                 elements: {
                     name: "巫婆",
                     text: "就让我看看你的觉悟吧！",
@@ -1730,18 +1732,28 @@ nodes: [
                         bgm:"wupo"
                     },
                     end: [
-                        {
-                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                            next: "altar_41",
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "altar_41"
                         },
-                        {
-                            condition: () => true, // 默认条件，总是为真
-                            next: "repeat",
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "repeat"
                         }
                     ]
                 }
             },
 {
+  id: "altar_41",
+  elements: {
+    name: "旁白",
+    text: "你战胜了巫婆。",
+    sprite: {
+            left:null,
+        }},
+        next: "altar_41_1",
+},         
+            {
   id: "repeat",
   elements: {
     name: "旁白",
@@ -1753,16 +1765,12 @@ nodes: [
   choices: [
     {
       text: "请重新挑战",
-      next: "test_game1",
+      next: "test_game3",
     },
-    {
-      text: "继续前进",
-      next: "altar_41",
-    }
   ]
-},            
+},  
 {
-  id: "altar_41",
+  id: "altar_41_1",
   elements: {
     name: "巫婆",
     text: "收下吧。如今我将这始源之心交予你，就像是悲剧的开幕。",
@@ -1776,7 +1784,6 @@ nodes: [
                   bagManager.addCardsToBag("useless_potion", 1);
                 bagManager.addCardsToBag("eerie_candlelight", 1);
   },
-
 },
 {
   id: "altar_42",

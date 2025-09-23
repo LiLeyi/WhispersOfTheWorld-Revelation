@@ -97,7 +97,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   holy_shield: {
     id: "holy_shield",
     name: "圣盾",
-    description: "获得3点真防，消耗3行动。",
+    description: "获得3点真防，消耗1行动。",
     priority: 8,
     effect: [
       {
@@ -107,13 +107,13 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 3
+      action: 1
     }
   },
   holiness: {
     id: "holiness",
     name: "圣洁",
-    description: "恢复3点血量，消耗2行动。",
+    description: "恢复3点血量，消耗1行动。",
     priority: 5,
     effect: [
       {
@@ -123,7 +123,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   darkness_initial: {
@@ -214,7 +214,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     effect: [
       {
         id: "do_attack",
-        duration: 100,
+        duration: 1,
         target: "other"
       }
     ],
@@ -361,17 +361,17 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   tear_of_no_trace: {
     id: "tear_of_no_trace",
     name: "无痕之“泪”",
-    description: "无视任何效果造成2伤害，消耗2行动。",
+    description: "无视任何效果造成3伤害，消耗1行动。",
     priority: 17,
     effect: [
       {
         id: "do_true_attack",
-        duration: 2,
+        duration: 3,
         target: "other"
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   ill_fitting_robe: {

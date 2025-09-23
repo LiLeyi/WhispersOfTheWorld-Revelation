@@ -638,17 +638,17 @@ const scene: Scene = {
           bgm: "xushu"
         },
         end: [
-          {
-            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-            next: "darkblade_57"
-          },
-          {
-            condition: () => true, // 默认条件，总是为真
-            next: "false_1"
-          }
-        ]
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "darkblade_57"
+                        },
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "false_1"
+                        }
+                    ]
       }
-    },//后面填event时把score得分补上就好了
+    },
     {
       id: "false_1",
       elements: {
@@ -661,13 +661,20 @@ const scene: Scene = {
           next: "test_game1",
         },
         {
-          text: "继续前进",
+          text: "开挂跳过",
           next: "darkblade_57",
         },
       ],
     },
     {
       id: "darkblade_57",
+      elements: {
+        name: "旁白",
+        text: "你战胜了“？”。"
+      },
+    },
+    {
+      id: "darkblade_57_1",
       elements: {
         name: "？",
         text: "你们......是谁？"
@@ -1441,6 +1448,7 @@ const scene: Scene = {
         bagManager.addCardsToBag("full_battery_bomb", 1);
         bagManager.addCardsToBag("nano_armor", 1);
         bagManager.addCardsToBag("swap_robot", 1);
+        bagManager.addCardsToBag("expired_oil", 1);
       },
     },
     {
@@ -4221,12 +4229,12 @@ const scene: Scene = {
       choices: [
         {
           text: "去击败国王吧",
-          next: "test_game3",
+          next: "test_game4",
         },
       ],
     },
     {
-      id: "test_game3",
+      id: "test_game4",
       elements: {
         name: "国王",
         text: "成为我的奴隶吧！",
@@ -4305,15 +4313,15 @@ const scene: Scene = {
           }
         ],
         end: [
-          {
-            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-            next: "battle_1_1_1",
-          },
-          {
-            condition: () => true, // 默认条件，总是为真
-            next: "battle_1_1",
-          }
-        ]
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "battle_1_1"
+                        },
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "battle_2_1"
+                        }
+                    ]
       }
     },
     {
@@ -4325,16 +4333,6 @@ const scene: Scene = {
           left: null,
         }
       },
-      choices: [
-        {
-          text: "重新挑战",
-          next: "test_game3",
-        },
-        {
-          text: "继续前进",
-          next: "battle_1_1_1",
-        },
-      ],
     },
     {
       id: "battle_1_1_1",
@@ -7993,7 +7991,21 @@ const scene: Scene = {
         sprite: {
           left: null,
         }
-      }
+      },
+      choices: [
+        {
+          text: "重新挑战国王",
+          next: "test_game4",
+        },
+        {
+          text: "放弃抗争",
+          next: "battle_2_2",
+        },
+        {
+          text: "开挂跳过",
+          next: "battle_1_1",
+        },
+      ]
     },
     {
       id: "battle_2_2",

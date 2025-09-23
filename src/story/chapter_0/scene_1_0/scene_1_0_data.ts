@@ -1172,10 +1172,6 @@ const scene: Scene = {
             text: "尽管来吧。",
             next: "branch_1_1"
         },
-        {
-            text: " 不，也许这是一个陷阱呢。",
-            next: "branch_2_1"
-        }
     ]
 },
 
@@ -1498,22 +1494,16 @@ const scene: Scene = {
                         backgroundImage:"sc1.1/1-1-0.jpg",
                         bgm:"bgm30"
                     },
-                   end: [
-                            {
-                                condition: (gameData: CardGameEventData) => {
-                                    //获胜：玩家血量大于0
-                                    return gameData.player.hp > 0;
-                                },
-                                next: "test1",
-                            },
-                            {
-                                condition: (gameData: CardGameEventData) => {
-                                    // 失败：玩家血量小于等于0
-                                    return gameData.player.hp <= 0;
-                                },
-                                next: "branch_1_21",
-                            },
-                        ]
+                  end: [
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "test1"
+                        },
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "branch_1_20"
+                        }
+                    ]
             },},
             {
                 id: "test1",
@@ -1655,99 +1645,6 @@ const scene: Scene = {
         },
         next:"chapter_0_scene_2_0",
 },
-    // ========== 分支② ==========
-    {
-        id: "branch_2_1",
-        elements: {
-            name: "光泠",
-            text: "也许是吧。但我们似乎也别无他法。",
-            sprite: {
-            left:"guangling/down.png"
-        }
-        },
-        next: "branch_2_2"
-    },
-    {
-        id: "branch_2_2",
-        elements: {
-            name: "光泠",
-            text: "您打算放弃吗？",
-            sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
-        },
-        next: "branch_2_3"
-    },
-    {
-        id: "branch_2_3",
-        elements: {
-            name: "你",
-            text: "我想我们应该试试别的方法，或者到其他地方去。"
-        },
-        next: "branch_2_4"
-    },
-    {
-        id: "branch_2_4",
-        elements: {
-            name: "你",
-            text: "我可不敢冒这个风险。"
-        },
-        next: "branch_2_5"
-    },
-    {
-        id: "branch_2_5",
-        elements: {
-            name: "光泠",
-            text: "实在是遗憾。不过我尊重您的选择。",
-            sprite: {
-            left:"guangling/down.png"
-        }
-        },
-        next: "branch_2_6"
-    },
-    {
-        id: "branch_2_6",
-        elements: {
-            name: "光泠",
-            text: "将您带到这里，我的任务就完成了。",
-            sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
-        },
-        next: "branch_2_7"
-    },
-    {
-        id: "branch_2_7",
-        elements: {
-            name: "你",
-            text: "我知道。只是我实在不放心。"
-        },
-        next: "branch_2_8"
-    },
-    {
-        id: "branch_2_8",
-        elements: {
-            name: "光泠",
-            text: "没关系。"
-        },
-        next: "branch_2_9"
-    },
-    {
-        id: "branch_2_9",
-        elements: {
-            name: "光泠",
-            text: "走吧。"
-        },
-        next: "branch_2_10"
-    },
-    {
-        id: "branch_2_10",
-        elements: {
-            name: "光泠",
-            text: "嗯。"
-        },
-        next:"chapter_0_scene_2_0",
-    },
     ]
 };
 export default scene;

@@ -1404,18 +1404,36 @@ nodes: [
                         bgm:"sishen"
                     },
                     end: [
-                        {
-                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                            next: "victory",
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "victory"
                         },
-                        {
-                            condition: () => true, // 默认条件，总是为真
-                            next: "fail",
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "fail"
                         }
                     ]
                 }
             },     
-{
+ {
+    id: "victory",
+    elements: {
+       background:"sc3.1/3-1-1.jpg",
+        bgm: "bgm10.MP3",
+        name: "旁白",
+        text: "你成功战胜了死神",
+        sprite: {
+            left:null,
+        }
+    },
+    choices:[
+        {
+            text:"继续前进",
+            next:"mountain_114_2_2",
+        }
+    ]
+}, 
+            {
     id: "fail",
     elements: {
         background:"sc3.1/3-1-11.jpg",
@@ -1436,29 +1454,11 @@ nodes: [
             next:"mountain_114_2_1",
         },
         {
-            text:"继续前进",
+            text:"开挂跳过",
             next:"mountain_114_2_2",
         }
     ]
 },      
-            {
-    id: "victory",
-    elements: {
-       background:"sc3.1/3-1-1.jpg",
-        bgm: "bgm10.MP3",
-        name: "旁白",
-        text: "你成功战胜了死神",
-        sprite: {
-            left:null,
-        }
-    },
-    choices:[
-        {
-            text:"继续前进",
-            next:"mountain_114_2_2",
-        }
-    ]
-}, 
 //分支2-2-1//
 {
     id: "mountain_114_2_1",
@@ -2064,13 +2064,13 @@ choices: [
                         bgm:"guiguai"
                     },
                     end: [
-                        {
-                            condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                            next: "victory_1",
+                   {
+                            condition: (gameData: CardGameEventData) => gameData.score >0,
+                            next: "victory_1"
                         },
-                        {
-                            condition: (score: number) => true, // 默认条件，总是为真
-                            next: "fail_1",
+                    {
+                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                            next: "fail_1"
                         }
                     ]
                 }
@@ -2079,18 +2079,26 @@ choices: [
                 id: "victory_1",
                 elements: {
                     name: "旁白",
-                    text: "你胜利了",
+                    text: "你战胜了鬼怪",
+                },
+                next: "mountain_150_2_2_2",
+            },    
+             {
+                id: "fail_1",
+                elements: {
+                    name: "旁白",
+                    text: "你失败了",
                 },
                 choices: [
-                        {
-                            text: "重新挑战",
-                            next: "test_game5",
-                        },
-                        {
-                            text: "继续前进",
-                            next: "mountain_150_2_2_2",
-                        },           
-],
+                    {
+                        text: "重新挑战",
+                        next: "test_game5"
+                    },
+                    {
+                        text: "开挂跳过",
+                        next: "mountain_150_2_2_2"
+                    }
+                ]
             },    
 {
     id: "mountain_150_2_2_2",
