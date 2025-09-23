@@ -45,6 +45,13 @@ nodes: [
     },
 },
 {
+    id: "mountain_4-1",
+    elements: {
+        name: "旁白",
+        text: "月华如练，入夜深宵，寒气凛冽。"
+    },
+},
+{
     id: "mountain_5",
     elements: {
         name: "旁白",
@@ -181,7 +188,7 @@ nodes: [
             next: "mountain_21_1",
         },
         {
-            text: "我猜你怕我",
+            text: "呵呵，恶鬼尚且不怕，怎么会怕你。",
             next: "mountain_21_2",
         },
     ]
@@ -266,6 +273,20 @@ nodes: [
     },
 },
 {
+    id: "mountain_29_1-1",
+    elements: {
+        name: "旁白",
+        text: "光泠红到了耳根。她脖颈上细白的肌肤柔润而光艳，洋溢着青春的性感，娇媚迷人。"
+    },
+},
+{
+    id: "mountain_29_1-2",
+    elements: {
+        name: "旁白",
+        text: "她星眼微饧，不时抚摸一下面颊。"
+    },
+},
+{
     id: "mountain_30_1",
     elements: {
         name: "光泠",
@@ -284,7 +305,51 @@ nodes: [
             left: null,
         }
     },
-    next:"mountain_32"
+},
+{
+    id: "mountain_31_2",
+    elements: {
+        name: "光泠",
+        text: "是吗。",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+},
+{
+    id: "mountain_31_3",
+    elements: {
+        name: "旁白",
+        text: "光泠高兴地眯起一只眼睛。"
+    },
+},
+{
+    id: "mountain_31_4",
+    elements: {
+        name: "旁白",
+        text: "朝她望去，眼里映出她绯红的面颊。真有一种说不出的洁净，说不出的美。"
+    },
+},
+{
+    id: "mountain_31_5",
+    elements: {
+        name: "你",
+        text: "你连手指尖都红的很好看呢。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_31_6",
+    elements: {
+        name: "光泠",
+        text: "走啦。",
+        sprite: {
+            left: "guangling/smile1.png",
+        }
+    },
+        next:"mountain_35"
 },
 //分支1-2//
 {
@@ -373,14 +438,11 @@ nodes: [
             left: "guangling/smile.png",
         }
     },
-    next:"mountain_32",
+
 },
-//主线//
 {
     id:"mountain_32",
     elements: {
-        background:"sc3.1/3-1-4.jpg",
-        bgm:"bgm14.MP3",
         name: "你",
         text: "这个世界总是变化的很快，雅致的，急躁的，激昂的，哀沉的……",
         sprite: {
@@ -403,8 +465,47 @@ nodes: [
     },
 },
 {
+    id: "mountain_34_1",
+    elements: {
+        name: "旁白",
+        text: "光泠浑身暖洋洋的，似乎这样的话让她感到很是受用。"
+    },
+},
+{
+    id: "mountain_34_2",
+    elements: {
+        name: "旁白",
+        text: "她细巧挺直的鼻子虽然稍显单薄，面颊却鲜艳红嫩，仿佛在悄声低语：“我就在这儿呢。”"
+    },
+},
+{
+    id: "mountain_34_3",
+    elements: {
+        name: "旁白",
+        text: "美丽而柔滑的朱唇，闭拢时润泽有光，而随着言语张开来时，又会立即会合在一起，显得依依可人，跟她人一样妩媚。"
+    },
+},
+{
+    id: "mountain_34_4",
+    elements: {
+        name: "旁白",
+        text: "两道弯弯的眉毛下，眼梢不上不下，眼睛仿佛特意描成一条直线，水灵灵亮晶晶的，带些稚气。"
+    },
+},
+{
+    id: "mountain_34_5",
+    elements: {
+        name: "旁白",
+        text: "不施脂粉的肌肤，真好像剥去外皮的百合的球根或洋葱一样鲜美细嫩，甚至连脖子都是白里透红，看着十分净丽。"
+    },
+    next:"mountain_35",
+},
+//主线//
+{
     id: "mountain_35",
     elements: {
+        background:"sc3.1/3-1-4.jpg",
+        bgm:"bgm14.MP3",
         name: "旁白",
         text: "与光泠交谈着前进，忽然隐约感知到远方传来危险的味道。"
     },
@@ -570,6 +671,13 @@ nodes: [
     elements: {
         name: "你",
         text: "嗯，有趣。你是来表演戏剧的吗？先生。"
+    },
+},
+{
+    id: "mountain_56-1",
+    elements: {
+        name: "你",
+        text: "你是来表演戏剧的吗？先生。"
     },
 },
 {
@@ -909,14 +1017,14 @@ nodes: [
 {
     id: "mountain_95_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "一次又一次地抵挡潮水，明知它终将漫过一切？"
     },
 },
 {
     id: "mountain_96_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "所谓的壮丽，在永恒的空无面前，岂非连一瞬的涟漪都算不上？"
     },
 },
@@ -1138,14 +1246,7 @@ nodes: [
     id: "mountain_101_2",
     elements: {
         name: "你",
-        text: "而我，宁可选择这负重的痛苦，这挣扎的疲惫，"
-    },
-},
-{
-    id: "mountain_101_2_1",
-    elements: {
-        name: "你",
-        text: "这充满怀疑却永不屈服的前行——我感受到为巨人与神奋斗的力量！"
+        text: "而我，宁可选择这负重的痛苦，这挣扎的疲惫，这充满怀疑却永不屈服的前行——我感受到为巨人与神奋斗的力量！"
     },
 },
 {
@@ -1571,6 +1672,62 @@ action: () => {
 }
 },
 {
+    id: "mountain_131_3",
+    elements: {
+        name: "旁白",
+        text: "哈哈爱兮爱乎爱乎！"
+    },
+},
+{
+    id: "mountain_131_4",
+    elements: {
+        name: "旁白",
+        text: "爱兮血兮兮谁乎独无。"
+    },
+},
+{
+    id: "mountain_131_5",
+    elements: {
+        name: "旁白",
+        text: "民萌冥行兮一夫壶卢。"
+    },
+},
+{
+    id: "mountain_131_6",
+    elements: {
+        name: "旁白",
+        text: "彼用百头颅，千头颅兮用万头颅！"
+    },
+},
+{
+    id: "mountain_131_7",
+    elements: {
+        name: "旁白",
+        text: "我用一头颅兮而无万夫。"
+    },
+},
+{
+    id: "mountain_131_8",
+    elements: {
+        name: "旁白",
+        text: "爱一头颅兮血乎呜呼！"
+    },
+},
+{
+    id: "mountain_131_9",
+    elements: {
+        name: "旁白",
+        text: "血乎呜呼兮呜呼阿呼，阿呼呜呼兮呜呼呜呼！"
+    },
+},
+{
+    id: "mountain_133_9_1",
+    elements: {
+        name: "旁白",
+        text: "……"
+    },
+},
+{
     id: "mountain_132_2_2",
     elements: {
         background:"sc3.1/3-1-4.jpg",
@@ -1593,9 +1750,15 @@ action: () => {
     },
 },
 {
+    id: "mountain_135_2_1",
+    elements: {
+        name: "旁白",
+        text: "月光晶莹澄澈，宛如嵌在蓝冰里的一把利刃。"
+    },
+},
+{
     id: "mountain_135_2_2",
     elements: {
-        
         name: "旁白",
         text: "越过流水与悬崖，行至山林深处，眼前出现了一座高大而神秘的青铜门。"
     },
@@ -1646,7 +1809,7 @@ action: () => {
     keyNode: true,
     choices: [
         {
-            text: "等等吧。",
+            text: "等等。",
             next: "mountain_140_2_2_1",
         },
         {
@@ -1803,7 +1966,21 @@ action: () => {
     id: "mountain_145_2_2_2",
     elements: {
         name: "旁白",
-        text: "吼！一只双眼猩红的恶鬼飞扑而来，但还没接近便被光泠的屏障击飞。"
+        text: "只是——"
+    },
+},
+{
+    id: "mountain_145_2_2_3",
+    elements: {
+        name: "旁白",
+        text: "吼！"
+    },
+},
+{
+    id: "mountain_145_2_2_4",
+    elements: {
+        name: "旁白",
+        text: "一只双眼猩红的恶鬼飞扑而来，但还没接近便被光泠的屏障击飞。"
     },
 },
 {
@@ -1947,6 +2124,13 @@ choices: [
     },
 },
 {
+    id: "mountain_151_2_2_3",
+    elements: {
+        name: "你",
+        text: "有点神秘。"
+    },
+},
+{
     id: "mountain_152_2_2_2",
     elements: {
         name: "光泠",
@@ -1961,10 +2145,17 @@ choices: [
     elements: {
         
         name: "你",
-        text: "继续前进吧。深入一路，也灭杀了一路的恶鬼。",
+        text: "继续前进吧。",
     sprite: {
             left: null,
         }
+    },
+},
+{
+    id: "mountain_153_2_2_3",
+    elements: {
+        name: "旁白",
+        text: "深入一路，也灭杀了一路的恶鬼。"
     },
 },
 {
@@ -2053,7 +2244,14 @@ choices: [
     id: "mountain_160_2_2_2",
     elements: {
         name: "旁白",
-        text: "眼前浮现出一个恐怖的身影。它——或者说它们——从黑暗中最浓稠的地方渗出。"
+        text: "眼前浮现出一个恐怖的身影。"
+    },
+},
+{
+    id: "mountain_160_2_2_3",
+    elements: {
+        name: "旁白",
+        text: "它——或者说它们——从黑暗中最浓稠的地方渗出。"
     },
 },
 {
@@ -2092,6 +2290,20 @@ choices: [
     },
 },
 {
+    id: "mountain_163_2_2_3",
+    elements: {
+        name: "旁白",
+        text: "似乎光泠对它而言，是最大的侮辱，也是最具诱惑力的食粮。"
+    },
+},
+{
+    id: "mountain_163_2_2_4",
+    elements: {
+        name: "你",
+        text: "这就是——"
+    },
+},
+{
     id: "mountain_164_2_2_2",
     elements: {
         name: "旁白",
@@ -2105,7 +2317,7 @@ choices: [
         
         name: "你",
         bgm: "bgm10.MP3",
-        text: "恶魂(ghost)",
+        text: "恶魂(Ghast)",
         sprite: {
             left: null,
         }
@@ -2136,7 +2348,7 @@ choices: [
     id: "mountain_168",
     elements: {
         name: "旁白",
-        text: "它伸出由哀嚎着的灵魂凝聚成的扭曲“手臂”，径直向光泠抓去，"
+        text: "它伸出由哀嚎着的灵魂凝聚成的扭曲“手臂”，径直向光泠抓去。"
     },
 },
 {
@@ -2168,6 +2380,13 @@ choices: [
     },
 },
 {
+    id: "mountain_171-1",
+    elements: {
+        name: "你",
+        text: "！"
+    },
+},
+{
     id: "mountain_172",
     elements: {
         name: "旁白",
@@ -2185,31 +2404,31 @@ choices: [
     id: "mountain_174",
     elements: {
         name: "旁白",
-        text: "光泠抬手释放光屏",
-    },
-},
-{
-    id: "mountain_175",
-    elements: {
-        name: "旁白",
-        text: "光屏使恶魂的行动受阻，攻势减缓。"
+        text: "光泠抬手释放出一道光屏，竟使恶魂的行动受到了阻碍，攻势也缓慢些许。",
     },
 },
 {
     id: "mountain_175_1",
     elements: {
         name: "旁白",
-        text: "大小不一的碎石砸向恶魂，洞穿了它的“手臂”。",
+        text: "大小不一的碎石砸向恶魂，洞穿了恶魂的“手臂”。",
         sprite: {
             left: null,
         }
     },
 },
 {
-    id: "mountain_176",
+    id: "mountain_175_2",
     elements: {
         name: "旁白",
-        text: "最后一刻，我们成功避开了恶魂的袭击，逃离了洞窟。真是可怕的力量。"
+        text: "最后一刻，我们成功避开了恶魂的袭击，逃离了洞窟。"
+    },
+},
+{
+    id: "mountain_176",
+    elements: {
+        name: "你",
+        text: "真是可怕的力量。"
     },
     keyNode: true,
     choices: [
@@ -2229,7 +2448,7 @@ choices: [
     elements: {
         background:"sc3.1/3-1-11.jpg",
         name: "旁白",
-        text: "我感到前所未有的恐惧，却没有发现一团黑雾在周围浮现。",
+        text: "内心感到前所未有的恐惧，却没有发现一团黑雾在周围浮现。",
         sprite: {
             left: null,
         }
@@ -2246,7 +2465,7 @@ choices: [
     id: "mountain_178_1",
     elements: {
         name: "旁白",
-        text: "我惊魂未定，大口喘息着，全然没有发觉自己吸进了大片黑雾。"
+        text: "惊魂未定，大口喘息着，全然没有发觉自己吸进了大片黑雾。"
     },
 },
 {
@@ -2280,7 +2499,37 @@ choices: [
     id: "mountain_182_1",
     elements: {
         name: "旁白",
-        text: "光泠扶住我，我感觉一阵瘫软。恐惧，在这一刻彻底占领了大脑。",
+        text: "光泠扶住我，我感觉一阵瘫软。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_182_2",
+    elements: {
+        name: "旁白",
+        text: "恐惧，在这一刻彻底占领了大脑。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_182_3",
+    elements: {
+        name: "你",
+        text: "不能留在这，不能留在这！",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_182_4",
+    elements: {
+        name: "旁白",
+        text: "光泠微微皱眉，捧起我的脸，淡蓝色的双眼凝视着我。",
         sprite: {
             left: null,
         }
@@ -2317,7 +2566,17 @@ choices: [
     id: "mountain_186_1",
     elements: {
         name: "你",
-        text: "我好些了。不过，先离开这里再说。",
+        text: "我好些了。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_186_2",
+    elements: {
+        name: "你",
+        text: "不过，先离开这里再说。",
         sprite: {
             left: null,
         }
@@ -2339,7 +2598,7 @@ choices: [
         background:"sc3.1/3-1-8.jpg",
         bgm: "bgm2.mp3",
         name: "旁白",
-        text: "走出青铜门，回望门内，仍感到心有余悸。呼。",
+        text: "走出青铜门，回望门内，仍感到心有余悸。",
         sprite: {
             left: null,
         }
@@ -2348,8 +2607,28 @@ choices: [
 {
     id: "mountain_188_1_1",
     elements: {
-        name: "旁白",
-        text: "这一次，是真的没有办法了。我甚至无法直接攻击到恶魂。",
+        name: "你",
+        text: "呼——",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_188_2",
+    elements: {
+        name: "你",
+        text: "这一次，是真的没有办法了。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_188_3",
+    elements: {
+        name: "你",
+        text: "我甚至无法直接攻击到恶魂。",
         sprite: {
             left: null,
         }
@@ -2406,15 +2685,25 @@ choices: [
     id: "mountain_193_1",
     elements: {
         background:"sc3.1/3-1-2.jpg",
-        name: "旁白",
+        name: "你",
         text: "‘在美好时光遭到命运欺骗的那些善良人已从我眼前凋零。’",
     },
 },
 {
     id: "mountain_193_1_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "梅菲斯特说得不错，或许我们这样的善良人就是遭到了命运的欺骗，才会来到这里。",
+        sprite: {
+            left: null,
+        }
+    },
+},
+{
+    id: "mountain_193_1_2",
+    elements: {
+        name: "你",
+        text: "如果我们真的选择面对恶魂，等待我们的就是凋零的结局。",
         sprite: {
             left: null,
         }
@@ -2456,7 +2745,7 @@ choices: [
         name: "你",
         text: "是的。",
          sprite: {
-            left: "guangling/tanqi.png",
+            left: "null",
         }
     },
 },
@@ -2578,7 +2867,7 @@ choices: [
     id: "mountain_182_2",
     elements: {
         name: "你",
-        text: "嗯。我看到了，胜利的机会。",
+        text: "嗯。我已经看到了，胜利的机会。",
         sprite: {
             left: null,
         }
@@ -2662,7 +2951,21 @@ choices: [
     id: "mountain_190_2",
     elements: {
         name: "你",
-        text: "遇到事情不能坐以待毙。不战斗就无法生存。做好觉悟，一起上吧。",
+        text: "遇到事情不能坐以待毙。",
+    },
+},
+{
+    id: "mountain_190_3",
+    elements: {
+        name: "你",
+        text: "不战斗就无法生存。",
+    },
+},
+{
+    id: "mountain_190_4",
+    elements: {
+        name: "你",
+        text: "做好觉悟，一起上吧。",
     },
 },//这里可以将觉悟卡升级//
 {
@@ -2679,7 +2982,7 @@ choices: [
     id: "mountain_192_2",
     elements: {
         name: "旁白",
-        text: "重回洞窟，恶魂依旧在空中游荡。光泠汇聚起力量，一个法阵覆盖了整个洞窟。",
+        text: "重回洞窟，恶魂依旧在空中游荡。",
         sprite: {
             left: null,
         }
@@ -2687,6 +2990,13 @@ choices: [
 },
 {
     id: "mountain_192_2_1",
+    elements: {
+        name: "旁白",
+        text: "光泠汇聚起力量，一个法阵覆盖了整个洞窟。"
+    },
+},
+{
+    id: "mountain_192_2_2",
     elements: {
         name: "旁白",
         text: "刹那间，恶魂仿佛受到了某种刺激，洞窟中瞬间爆发了刺耳的尖啸。"
@@ -2853,7 +3163,14 @@ choices: [
     id: "mountain_200_2_1",
     elements: {
         name: "旁白",
-        text: "砰！重重的一击，将你直挺挺摔在岩壁上。"
+        text: "砰！"
+    },
+},
+{
+    id: "mountain_200_2_2",
+    elements: {
+        name: "旁白",
+        text: "重重的一击，将你直挺挺摔在岩壁上。"
     },
 },
 {
@@ -2887,7 +3204,7 @@ choices: [
 {
     id: "mountain_205_2_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "可惜，还没来得及看光泠最后一眼。"
     },
 },
@@ -2947,11 +3264,18 @@ choices: [
     id: "mountain_200_2_2",
     elements: {
         name: "旁白",
-        text: "砰！重重的一击，将你直挺挺摔在岩壁上。"
+        text: "砰！"
     },
 },
 {
-    id: "mountain_200_2_2_1",
+    id: "mountain_200_2_3",
+    elements: {
+        name: "旁白",
+        text: "重重的一击，将你直挺挺摔在岩壁上。"
+    },
+},
+{
+    id: "mountain_200_2_4",
     elements: {
         name: "旁白",
         text: "口鼻中鲜血直流，胸口的大洞也预示着死亡的结局。"
@@ -2968,7 +3292,14 @@ choices: [
     id: "mountain_202_2_2",
     elements: {
         name: "你",
-        text: "真是狼狈啊……在这最后的时刻，我忍不住自嘲道。"
+        text: "真是狼狈啊……"
+    },
+},
+{
+    id: "mountain_203_2_1",
+    elements: {
+        name: "旁白",
+        text: "在这最后的时刻，忍不住自嘲道。"
     },
 },
 {
@@ -3010,28 +3341,49 @@ choices: [
     id: "mountain_207_2_2",
     elements: {
         name: "你",
-        text: "收下吧，这是我最后的光芒！！！聆听死亡的终音！"
+        text: "收下吧，这是我最后的光芒！！！"
+    },
+},
+{
+    id: "mountain_207_2_3",
+    elements: {
+        name: "你",
+        text: "聆听死亡的终音！"
     },
 },
 {
     id: "mountain_208_2_2",
     elements: {
         name: "旁白",
-        text: "轰！！！猛烈的光线从暗寂中直冲而出。"
+        text: "轰！！！"
     },
 },
 {
     id: "mountain_208_2_2_1",
     elements: {
         name: "旁白",
-        text: "爆发出前所未有的强悍威力，瞬间蒸发了沿途的一切黑暗与腐朽！"
+        text: "猛烈的光线从暗寂中直冲而出，爆发出前所未有的强悍威力，瞬间蒸发了沿途的一切黑暗与腐朽！"
     },
 },
 {
     id: "mountain_209_2_2",
     elements: {
         name: "旁白",
-        text: "啊啊啊啊啊——恶魂在刺眼的光芒中爆发出最后一声尖叫，像是在哀嚎，又像是在诅咒。"
+        text: "啊啊啊啊啊——"
+    },
+},
+{
+    id: "mountain_209_2_3",
+    elements: {
+        name: "旁白",
+        text: "恶魂在刺眼的光芒中爆发出最后一声尖叫，像是在哀嚎，又像是在诅咒。"
+    },
+},
+{
+    id: "mountain_209_2_4",
+    elements: {
+        name: "你",
+        text: "结束了。"
     },
 },
 {
@@ -3039,7 +3391,7 @@ choices: [
     elements: {
        background:"sc3.1/3-1-11.jpg",
         name: "旁白",
-        text: "结束了。头脑一沉，你便失去了意识。"
+        text: "头脑一沉，便失去了意识。"
     },
 },
 {
@@ -3110,7 +3462,7 @@ choices: [
     id: "mountain_220_2_2",
     elements: {
         name: "旁白",
-        text: "过去似乎曾有人对自己说过这样一番话。",
+        text: "——过去似乎曾有人对自己说过这样一番话。",
     },
 },
 {
@@ -3123,7 +3475,7 @@ choices: [
 {
     id: "mountain_222_2_2",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "今天的订单是……",
     },
 },
@@ -3138,14 +3490,7 @@ choices: [
     id: "mountain_224_2_2",
     elements: {
         name: "旁白",
-        text: "当镇民们需要修理工的时候，会在笔记本上备注好具体事项，",
-    },
-},
-{
-    id: "mountain_224_2_2_1",
-    elements: {
-        name: "旁白",
-        text: "自己和师傅会在次日一一整理，并逐条登门服务。",
+        text: "当镇民们需要修理工的时候，会在笔记本上备注好具体事项，自己和师傅会在次日一一整理，并逐条登门服务。",
     },
 },
 {
@@ -3172,149 +3517,166 @@ choices: [
 {
     id: "mountain_228_2_2",
     elements: {
+        background:"sc0.1/0-1-2.jpg",
         name: "旁白",
-        text: "今天的订单不多，第一条是在镇外渔夫的小屋。",
+        text: "第一个到达的地方，是郊外的一处庭院。",
     },
 },
 {
     id: "mountain_229_2_2",
     elements: {
         name: "旁白",
-        text: "他的渔具坏了，需要修复。",
+        text: "这里以前似乎被废弃了很久，最近才被镇里的一户富裕人家买下地皮，大张旗鼓地重新装修。 ",
     },
 },
 {
     id: "mountain_230_2_2",
     elements: {
         name: "旁白",
-        text: "海浪声伴随着呼啸的风扑面而来。",
+        text: "大约十几分钟的脚程后，便能看到密林尽头那栋别墅尖尖的屋顶，以及占地面积不菲的大庭院。",
     },
 },
 {
     id: "mountain_231_2_2",
     elements: {
         name: "旁白",
-        text: "一阵恍惚之中，似乎听见了某种低语。",
+        text: "庭院的旁边有一块小小的古老墓地——那户人家为了拆除这块“晦气”的地方，已经与镇长争吵许久了。",
     },
 },
 {
     id: "mountain_232_2_2",
     elements: {
-        name: "？？？",
-        text: "……终于找到你了。",
+        name: "旁白",
+        text: "正当自己站在栅栏前，想喊人来开门的时候，视野的角落，余光瞥到了某个人影。",
     },
 },
 {
     id: "mountain_233_2_2",
     elements: {
-        name: "你",
-        text: "谁？！",
+        name: "旁白",
+        text: "此时，一名穿着斗篷的少女正跪坐在其中的一块墓碑前，闭着眼睛，双手合拢，像是在祈祷。",
     },
 },
 {
     id: "mountain_234_2_2",
     elements: {
         name: "旁白",
-        text: "环顾四周，却没有发现半个人影。",
+        text: "如果被住在这里的人家发现少女的行为，他们肯定会毫不客气地下来赶人吧。",
     },
 },
 {
     id: "mountain_235_2_2",
     elements: {
-        name: "旁白",
-        text: "风声渐渐平息，仿佛什么都没有发生过。",
+        name: "你",
+        text: "你在这里做什么？",
     },
 },
 {
     id: "mountain_236_2_2",
     elements: {
         name: "旁白",
-        text: "摇了摇头，继续前行。",
+        text: "双腿不自觉地迈开，走到那名少女身边，开口问道。",
     },
 },
 {
     id: "mountain_237_2_2",
     elements: {
         name: "旁白",
-        text: "修理完渔具，完成几单零散的小活，太阳渐渐西斜。",
+        text: "这里埋葬的大概都是逝世了数百年的人。",
     },
 },
 {
     id: "mountain_238_2_2",
     elements: {
         name: "旁白",
-        text: "最后一单是在镇边的小屋。",
+        text: "很难想象，这名年轻的少女会去祭奠这其中的某个对象。",
     },
 },
 {
     id: "mountain_239_2_2",
     elements: {
-        name: "旁白",
-        text: "推开吱呀作响的木门，一个熟悉的身影出现在眼前。",
+        name: "？？？",
+        text: "啊......",
+        sprite: {
+            left: "guangling/wubiaoqing.png"
+        }
     },
 },
 {
     id: "mountain_240_2_2",
     elements: {
-        name: "你",
-        text: "是……你？！",
+        name: "？？？",
+        text: "没什么。",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
 },
 {
     id: "mountain_241_2_2",
     elements: {
-        name: "少女",
-        text: "好久不见呀。",
+        name: "旁白",
+        text: "少女听到了自己的声音，她缓缓站起来，转头朝向自己，露出一个浅浅的微笑。",
     },
 },
 {
     id: "mountain_242_2_2",
     elements: {
-        name: "旁白",
-        text: "那是一个记忆中反复出现过的面孔。",
+        name: "你",
+        text: "要是被住在这里的人发现了......",
+        sprite: {
+            left: null
+        }
     },
 },
 {
     id: "mountain_243_2_2",
     elements: {
-        name: "旁白",
-        text: "虽然记忆模糊，但可以确定的是，她和自己有着某种说不清的羁绊。",
+        name: "？？？",
+        text: "没关系，要做的事已经做完了。",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
 },
 {
     id: "mountain_244_2_2",
     elements: {
-        name: "少女",
-        text: "看来你过得还不错嘛，成为修理工的学徒了？",
+        name: "旁白",
+        text: "少女打断了自己的话，仿佛已经料到之后会有什么发展。",
+        sprite: {
+            left: null
+        }
+    },
+},
+{
+    id: "mountain_244_2_3",
+    elements: {
+        name: "？？？",
+        text: "刚才，只是在‘告别’而已。",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
 },
 {
     id: "mountain_245_2_2",
     elements: {
         name: "你",
-        text: "你……是谁？",
-    },
-},
-{
-    id: "mountain_246_2_2",
-    elements: {
-        name: "少女",
-        text: "啊，这个嘛……",
-    },
-},
-{
-    id: "mountain_247_2_2",
-    elements: {
-        name: "少女",
-        text: "或许你暂时还想不起来也没关系。",
+        text: "……？",
+        sprite: {
+            left: null
+        }
     },
 },
 {
     id: "mountain_248_2_2",
     elements: {
-        background:"sc3.1/3-1-12.jpg",
-        name: "少女",
+        name: "？？？",
         text: "对了，在这里的日子，过得还开心吗？",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
     choices: [
         {
@@ -3330,37 +3692,46 @@ choices: [
 {
     id: "mountain_249_2_2_1",
     elements: {
-        name: "少女",
+        name: "？？？",
         text: "是吗？",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
     next:"mountain_250_2_2",
 },
 {
     id: "mountain_249_2_2_2",
     elements: {
-        name: "少女",
+        name: "？？？",
         text: "是吗？太好了。",
+        sprite: {
+            left: "guangling/smile1.png"
+        }
     },
 },
 {
     id: "mountain_250_2_2",
     elements: {
-        name: "少女",
+        name: "旁白",
         text: "她不知为何开始反问过来。",
+        sprite: {
+            left: null
+        }
     },
 },
 {
     id: "mountain_251_2_2",
     elements: {
         name: "旁白",
-        text: "自己并没有多想，毕竟，把昏迷的自己救起这件事情。",
+        text: "自己并没有多想，毕竟，把昏迷的自己救起这件事情，在镇上引起了不小的轰动。",
     },
 },
 {
     id: "mountain_251_2_2_1",
     elements: {
         name: "旁白",
-        text: "在镇上引起了不小的轰动，这名少女很可能是在那时认识自己的。",
+        text: "这名少女很可能是在那时认识自己的。",
     },
 },
 {
@@ -3373,15 +3744,21 @@ choices: [
 {
     id: "mountain_253_2_2",
     elements: {
-        name: "少女",
+        name: "？？？",
         text: "那么，我是时候该离开了。",
+        sprite: {
+            left: "guangling/smile.png"
+        }
     },
 },
 {
     id: "mountain_254_2_2",
     elements: {
-        name: "少女",
+        name: "？？？",
         text: "有缘再见。",
+        sprite: {
+            left: "guangling/smile1.png"
+        }
     },
 },
 {
@@ -3389,6 +3766,9 @@ choices: [
     elements: {
         name: "你",
         text: "再见……？",
+        sprite: {
+            left: null
+        }
     },
 },
 {
@@ -3401,14 +3781,14 @@ choices: [
 {
     id: "mountain_257_2_2",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "在哪里见过她吗？",
     },
 },
 {
     id: "mountain_258_2_2",
     elements: {
-        name: "旁白",
+        name: "？",
         text: "往日喜欢我的歌声的朋友，纵活着,也已向人间四散离分。",
     },
 },
@@ -3427,10 +3807,17 @@ choices: [
     },
 },
 {
+    id: "mountain_260_2_3",
+    elements: {
+        name: "你",
+        text: "算了。",
+    },
+},
+{
     id: "mountain_261_2_2",
     elements: {
-        name: "旁白",
-        text: "算了，是错觉吧。",
+        name: "你",
+        text: "是错觉吧。",
     },
     action: () => {
                 let am = AchievementManager.getInstance();
@@ -3571,7 +3958,7 @@ choices: [
     id: "mountain_214_2_3",
     elements: {
         name: "旁白",
-        text: "出乎意料的是，分裂的两个恶魂，却并没有向我袭来。",
+        text: "出乎意料的是，分裂的两个恶魂，却并没有向你袭来。",
     },
 },
 {
@@ -3648,14 +4035,14 @@ choices: [
     id: "mountain_223_2_3_1",
     elements: {
         name: "旁白",
-        text: "恶魂被这一击砸得倒飞出去，但紧接着扭曲起身体。",
+        text: "恶魂被这一击砸得倒飞出去，但紧接着扭曲起身体，向光泠所在的方向喷射出携有侵蚀之力的吐息。",
     },
 },
 {
     id: "mountain_223_2_3_1_1",
     elements: {
-        name: "旁白",
-        text: "向光泠所在的方向喷射出携有侵蚀之力的吐息。",
+        name: "你",
+        text: "！",
     },
 },
 {
@@ -3706,7 +4093,14 @@ choices: [
     id: "mountain_228_2_3_1",
     elements: {
         name: "旁白",
-        text: "轰！侵蚀的吐息冲击到暗寂上，却被尽数消解。",
+        text: "轰！",
+    },
+},
+{
+    id: "mountain_228_2_3_1",
+    elements: {
+        name: "旁白",
+        text: "侵蚀的吐息冲击到暗寂上，却被尽数消解。",
     },
 },
 {
@@ -3804,7 +4198,14 @@ choices: [
     id: "mountain_241_2_3_1",
     elements: {
         name: "你",
-        text: "消逝在光明中吧！刀下亡魂！",
+        text: "消逝在光明中吧！",
+    },
+},
+{
+    id: "mountain_241_2_3_2",
+    elements: {
+        name: "你",
+        text: "刀下亡魂！",
     },
 },
 {
@@ -3829,10 +4230,17 @@ choices: [
     },
 },
 {
-    id: "mountain_245_2_3_1",
+    id: "mountain_244_2_3_2",
     elements: {
         name: "旁白",
-        text: "将那个东西捡起来，却发现正是自己要寻求的关键之物——代表牺牲与救赎的暗紫色泪滴——",
+        text: "将那个东西捡起来，却发现正是自己要寻求的关键之物——",
+    },
+},
+{
+    id: "mountain_245_2_3_1",
+    elements: {
+        name: "你",
+        text: "代表牺牲与救赎的暗紫色泪滴——",
         sprite: {
             center: "NPC/zhongyantear.png",
         }
@@ -3859,15 +4267,22 @@ choices: [
 {
     id: "mountain_246_2_3_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "没想到恶魂竟然没有将它毁掉。",
     },
 },
 {
     id: "mountain_247_2_3_1",
     elements: {
-        name: "旁白",
+        name: "你",
         text: "也许是光泠给我的力量保全了它。",
+    },
+},
+{
+    id: "mountain_247_2_3_1",
+    elements: {
+        name: "旁白",
+        text: "不过，不管怎样，最后还是成功将它拿到手了。",
     },
 },
 {
@@ -3935,7 +4350,17 @@ choices: [
     id: "mountain_252_2_3_1",
     elements: {
         name: "旁白",
-        text: "她微笑着向我走来。胜利，是我们之间的誓言。",
+        text: "她微笑着向我走来。",
+        sprite: {
+            left:null,
+        }
+    },
+},
+{
+    id: "mountain_252_2_3_2",
+    elements: {
+        name: "你",
+        text: "胜利，是我们之间的誓言。",
         sprite: {
             left:null,
         }
@@ -3975,7 +4400,17 @@ choices: [
     id: "mountain_256_2_3_1",
     elements: {
         name: "你",
-        text: "走吧。让我们面对最后的战役吧。",
+        text: "走吧。",
+        sprite: {
+            left:null,
+        }
+    },
+},
+{
+    id: "mountain_256_2_3_2",
+    elements: {
+        name: "你",
+        text: "让我们面对最后的战役吧。",
         sprite: {
             left:null,
         }
@@ -4015,14 +4450,14 @@ choices: [
 {
     id: "mountain_219_2_3_2",
     elements: {
-        name: "你",
+        name: "旁白",
         text: "来不及往光泠那边看一眼。",
     },
 },
 {
     id: "mountain_219_2_3_2_1",
     elements: {
-        name: "你",
+        name: "旁白",
         text: "将暗寂化为一杆黑色长棍，紧接着立棍而起，借着棍势弹向恶魂与泪滴。",
     },
 },
@@ -4037,14 +4472,7 @@ choices: [
     id: "mountain_221_2_3_2",
     elements: {
         name: "旁白",
-        text: "长戟刺穿了恶魂的同时，又一把抓住，脚下发力。",
-    },
-},
-{
-    id: "mountain_221_2_3_2_1",
-    elements: {
-        name: "旁白",
-        text: "握着长戟冲刺向前，将恶魂在地上拖拽了一路，最后狠狠地插在了岩壁之中。",
+        text: "长戟刺穿了恶魂的同时，又一把抓住，脚下发力，握着长戟冲刺向前，将恶魂在地上拖拽了一路，最后狠狠地插在了岩壁之中。",
     },
 },
 {
@@ -4073,6 +4501,13 @@ choices: [
     elements: {
         name: "旁白",
         text: "恶魂躯体之上又瞬间被炸出了一个大洞。",
+    },
+},
+{
+    id: "mountain_224_2_3_2_2",
+    elements: {
+        name: "恶魂",
+        text: "啊啊啊啊啊啊啊啊啊——",
     },
 },
 {
@@ -4177,7 +4612,7 @@ choices: [
     id: "mountain_237_2_3_2",
     elements: {
         name: "你",
-        text: "不管了，先把关键之物拿到手再说！",
+        text: "嗯？",
     },
     keyNode: true,
     choices: [
@@ -4272,7 +4707,7 @@ choices: [
     id: "mountain_241_2_3_2_2",
     elements: {
         name: "你",
-        text: "这种东西我不需要。",
+        text: "这种东西，我不需要。",
     },
 },
 {
@@ -4286,15 +4721,8 @@ choices: [
     id: "mountain_243_2_3_2_2",
     elements: {
         name: "旁白",
-        text: "连看也不看一眼，利落地转身，收回暗寂，",
-    },
-},
-{
-    id: "mountain_243_2_3_2_2_1",
-    elements: {
-        name: "旁白",
-        text: "冲向另一个恶魂，只留下一地狼藉。",
-        sprite: {
+        text: "连看也不看一眼，利落地转身，收回暗寂，就向另一个恶魂的方向走去，只留下一地狼藉。",
+            sprite: {
             left:null,
         }
     },
@@ -4411,7 +4839,17 @@ choices: [
     id: "mountain_255_2_3_2",
     elements: {
         name: "你",
-        text: "但愿如此吧。我太累了。",
+        text: "但愿如此吧。",
+         sprite: {
+            left:null,
+        }
+    },
+},
+{
+    id: "mountain_255_2_3_3",
+    elements: {
+        name: "你",
+        text: "我太累了。",
          sprite: {
             left:null,
         }
