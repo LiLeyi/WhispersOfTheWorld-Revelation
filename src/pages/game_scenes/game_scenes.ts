@@ -182,6 +182,12 @@ private init(): void {
                     }
                 },
                    onSkipYes: () => {
+            // 立即关闭跳过弹窗
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.remove("active");
+            }
+            
             // 简单直接的跳过实现
             const skipUnread = localStorage.getItem("skipUnreadText") === "true";
             
@@ -200,6 +206,26 @@ private init(): void {
                             // 同步缓存当前节点ID，供兼容型读取
                             const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                             localStorage.setItem(currentNodeKey, node.id);
+                            
+                            // 检查是否有小游戏需要执行
+                            if (node.game) {
+                                // 如果遇到小游戏节点，停止跳过并执行小游戏
+                                this.currentNodeIndex = i;
+                                this.clickCount = this.currentNodeIndex;
+                                localStorage.setItem("nowclick", String(this.clickCount));
+                                this.renderCurrentNode();
+                                return;
+                            }
+                            
+                            // 检查是否有视频需要播放
+                            if (node.video) {
+                                // 如果遇到视频节点，停止跳过并播放视频
+                                this.currentNodeIndex = i;
+                                this.clickCount = this.currentNodeIndex;
+                                localStorage.setItem("nowclick", String(this.clickCount));
+                                this.renderCurrentNode();
+                                return;
+                            }
                             
                             // 处理非选项节点的视觉和音频元素
                             if (node.elements) {
@@ -255,6 +281,26 @@ private init(): void {
                                 const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                                 localStorage.setItem(currentNodeKey, node.id);
                                 
+                                // 检查是否有小游戏需要执行
+                                if (node.game) {
+                                    // 如果遇到小游戏节点，停止跳过并执行小游戏
+                                    this.currentNodeIndex = i;
+                                    this.clickCount = this.currentNodeIndex;
+                                    localStorage.setItem("nowclick", String(this.clickCount));
+                                    this.renderCurrentNode();
+                                    return;
+                                }
+                                
+                                // 检查是否有视频需要播放
+                                if (node.video) {
+                                    // 如果遇到视频节点，停止跳过并播放视频
+                                    this.currentNodeIndex = i;
+                                    this.clickCount = this.currentNodeIndex;
+                                    localStorage.setItem("nowclick", String(this.clickCount));
+                                    this.renderCurrentNode();
+                                    return;
+                                }
+                                
                                 // 处理节点的视觉和音频元素
                                 if (node.elements) {
                                     // 合并当前节点元素与前一个节点元素
@@ -298,12 +344,6 @@ private init(): void {
             } else {
                 // 如果不允许跳过未读文本，显示提示信息并不能跳过
                 alert("跳过未读文本功能已关闭");
-            }
-            
-            // 隐藏跳过弹窗
-            const skipElement = document.getElementById("skip");
-            if (skipElement) {
-                skipElement.classList.remove("active");
             }
         },
                 onSkipNo: () => {
