@@ -67,12 +67,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   dodge: {
     id: "dodge",
     name: "闪避",
-    description: "获得2点防御，消耗1行动。",
+    description: "获得3点防御，消耗1行动。",
     priority: 8,
     effect: [
       {
         id: "do_defence",
-        duration: 2,
+        duration: 3,
         target: "self"
       }
     ],
@@ -523,12 +523,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_shield: {
     id: "mechanical_shield",
     name: "机械坚盾",
-    description: "获得3点防御，消耗1行动。",
+    description: "获得5点防御，消耗1行动。",
     priority: 6,
     effect: [
       {
         id: "do_defence",
-        duration: 3,
+        duration: 5,
         target: "self"
       }
     ],
@@ -539,12 +539,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   nano_armor: {
     id: "nano_armor",
     name: "纳米护甲",
-    description: "获得2点防御，免疫下一次攻击，消耗2行动。",
+    description: "获得3点防御，免疫下一次攻击，消耗2行动。",
     priority: 10,
     effect: [
       {
         id: "do_defence",
-        duration: 2,
+        duration: 3,
         target: "self"
       },
       {
@@ -560,12 +560,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_defense: {
     id: "mechanical_defense",
     name: "机械防御",
-    description: "获得2点真防，消耗1行动。",
+    description: "获得3点真防，消耗1行动。",
     priority: 9,
     effect: [
       {
         id: "do_true_defence",
-        duration: 2,
+        duration: 3,
         target: "self"
       }
     ],
@@ -576,8 +576,8 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_arm_swing: {
     id: "mechanical_arm_swing",
     name: "能量过载",
-    description: "自身受到2点攻击，造成1点攻击，并获得1回合“转化”效果，消耗3行动。",
-    priority: 12,
+    description: "自身受到2点攻击，造成1点攻击，并获得1回合“转化”效果，消耗2行动。",
+    priority: 25,
     effect: [
       {
         id: "do_attack",
@@ -596,7 +596,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 3
+      action: 2
     }
   },
   worn_gear: {
@@ -1032,7 +1032,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   yin_spirit: {
     id: "yin_spirit",
     name: "阴魂",
-    description: "减少对方2点真防，恢复2点血量，消耗2行动。",
+    description: "减少对方2点真防，恢复2点血量，消耗1行动。",
     priority: 12,
     effect: [
       {
@@ -1047,13 +1047,13 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   yang_spirit: {
     id: "yang_spirit",
     name: "阳魂",
-    description: "造成3点攻击，获得2点真防，消耗2行动。",
+    description: "造成3点攻击，获得2点真防，消耗1行动。",
     priority: 18,
     effect: [
       {
@@ -1104,7 +1104,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   will_o_wisp: {
     id: "will_o_wisp",
     name: "鬼火",
-    description: "弃掉对方一张手牌，消耗1行动。",
+    description: "弃掉对方一张手牌，消耗2行动。",
     priority: 9,
     effect: [
       {
@@ -1114,7 +1114,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 1
+      action: 2
     }
   },
   end_tears: {

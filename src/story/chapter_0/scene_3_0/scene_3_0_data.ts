@@ -3093,7 +3093,7 @@ choices: [
                                     "devour": 2, 
                                     "will_o_wisp":2,      
                                 },
-                                drawCount: 3,           // 对手每回合抽3张牌
+                                drawCount: 4,           // 对手每回合抽3张牌
                                 initialDrawCount: 6 ,    // 对手开始时抽6张牌
                             initialBuffs: [  // 设置初始buff
                                 {
