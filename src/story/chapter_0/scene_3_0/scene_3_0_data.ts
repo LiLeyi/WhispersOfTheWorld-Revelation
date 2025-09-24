@@ -1918,7 +1918,12 @@ action: () => {
         name: "光泠",
         text: "就让我看看，你所做出的选择，会导向何种结局吧。",
     },
-    next:"chapter_0_scene_4_0",
+    choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_4_0",
+        },
+      ],
 },
 //分支2-2-2-2//
 {
@@ -2818,7 +2823,12 @@ choices: [
             left: "guangling/tanqi.png"
         }
     },
-    next:"chapter_0_scene_4_0",
+   choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_4_0",
+        },
+      ],
 },
 //节点3-2//
 {
@@ -2977,7 +2987,7 @@ choices: [
         name: "你",
         text: "做好觉悟，一起上吧。",
     },
-},//这里可以将觉悟卡升级//
+},
 {
     id: "mountain_191_2",
     elements: {
@@ -4423,7 +4433,12 @@ choices: [
         name: "光泠",
         text: "无论是无路可通的大海，还是梦想不及的海滨，我都愿与你一同。",
     },
-    next:"chapter_0_scene_4_0",
+    choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_4_0",
+        },
+      ],
 },
 //分支3-2-3-2//
 {
@@ -4708,6 +4723,8 @@ choices: [
     action: () => {
                 const bagManager = BagManager.getInstance();
                   bagManager.addCardsToBag("shattered_erosive_blade", 1);
+                  bagManager.removeCardFromBag("darkness_final", 1);
+                  bagManager.addCardsToBag("darkness_shattered_erosive", 1);
 },},
 {
     id: "mountain_242_2_3_2_2",
@@ -4908,7 +4925,12 @@ choices: [
             left:null,
         }
     },
-    next:"chapter_0_scene_4_0",
+    choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_4_0",
+        },
+      ],
 }
 ]
 }

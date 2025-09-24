@@ -83,7 +83,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   combo: {
     id: "combo",
     name: "连击",
-    description: "下次伤害翻倍。",
+    description: "下一次你造成的伤害*2（不可叠加）。",
     priority: 10,
     effect: [
       {
@@ -361,7 +361,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   tear_of_no_trace: {
     id: "tear_of_no_trace",
     name: "无痕之“泪”",
-    description: "无视任何效果造成3伤害，消耗1行动。",
+    description: "无视任何敌我buff造成3伤害，消耗1行动。",
     priority: 17,
     effect: [
       {
@@ -422,12 +422,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   eerie_candlelight: {
     id: "eerie_candlelight",
     name: "诡异烛光",
-    description: "自身受到2点攻击，随机弃掉对方一张手牌。",
+    description: "自身受到1点攻击，随机弃掉对方一张手牌。",
     priority: 8,
     effect: [
       {
         id: "do_attack",
-        duration: 2,
+        duration: 1,
         target: "self"
       },
       {
@@ -441,7 +441,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   boring_staff: {
     id: "boring_staff",
     name: "无趣法杖",
-    description: "无视任何效果造成2点伤害，消耗1行动。",
+    description: "无视任何敌我buff造成2点伤害，消耗1行动。",
     priority: 16,
     effect: [
       {
@@ -824,7 +824,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   reapers_whisper: {
     id: "reapers_whisper",
     name: "死神低语",
-    description: "无视任何效果造成15点伤害，消耗3行动。获得3真防",
+    description: "无视任何敌我buff造成15点伤害，消耗3行动。获得3真防",
     priority: 30,
     effect: [
       {
@@ -846,7 +846,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   reapers_groan: {
     id: "reapers_groan",
     name: "死神的呻吟",
-    description: "无视任何效果造成9点伤害，消耗2行动。",
+    description: "无视任何敌我buff造成9点伤害，消耗2行动。",
     priority: 28,
     effect: [
       {
@@ -883,7 +883,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   forest_ghoul: {
     id: "forest_ghoul",
     name: "林鬼",
-    description: "造成1点攻击，获得1回合“传导”效果，消耗3行动。",
+    description: "造成1点攻击，获得1回合“传导”效果，消耗2行动。",
     priority: 35,
     effect: [
       {
@@ -898,7 +898,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 3
+      action: 2
     }
   },
   drowned_ghoul: {
@@ -991,7 +991,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   ghostly_figures: {
     id: "ghostly_figures",
     name: "魑魅魍魉",
-    description: "造成2点攻击，下回合再造成2点攻击，获得2点真防和2点防御，减少对方2点行动力，消耗2行动。",
+    description: "造成2点攻击，下回合再造成2点攻击，获得2点真防和2点防御，减少对方2点行动力，下一次你造成的伤害*2，消耗2行动。",
     priority: 20,
     effect: [
       {
@@ -1018,7 +1018,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
         id: "do_action_add",
         duration: -2,
         target: "other"
-      }
+      },
+      {
+        id: "combo",
+        duration: 1,
+        target: "self"
+      },
     ],
     cost: {
       action: 2
@@ -1197,13 +1202,13 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   darkness_shattered_erosive: {
     id: "darkness_shattered_erosive",
     name: "暗寂（破碎蚀心）",
-    description: "受到5攻击后，进行15攻击，消耗1行动。一场战斗只能用一次。",
+    description: "受到3攻击后，进行15攻击，一场战斗只能用一次。",
     priority: 18,
     useOnce: true,
     effect: [
       {
         id: "do_attack",
-        duration: 5,
+        duration: 3,
         target: "self"
       },   
       {
@@ -1213,7 +1218,6 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       },
     ],
     cost: {
-      action: 1
     }
   },
   darkness_shadow_form: {
@@ -1337,7 +1341,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   interesting_staff: {
     id: "interesting_staff",
     name: "有趣法杖",
-    description: "无视任何效果造成2点伤害。",
+    description: "无视任何敌我buff造成2点伤害。",
     priority: 16,
     effect: [
       {

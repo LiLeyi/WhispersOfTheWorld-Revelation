@@ -1449,6 +1449,7 @@ const scene: Scene = {
         bagManager.addCardsToBag("nano_armor", 1);
         bagManager.addCardsToBag("swap_robot", 1);
         bagManager.addCardsToBag("expired_oil", 1);
+        bagManager.addCardsToBag("mechanical_arm_swing", 1);
       },
     },
     {
@@ -1691,7 +1692,12 @@ const scene: Scene = {
           left: "guangling/tanqi.png",
         }
       },
-      next: "chapter_0_scene_3_0",
+      choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_3_0",
+        },
+      ],
     },
     //分支2//
     {
@@ -2521,7 +2527,7 @@ const scene: Scene = {
       id: "darkblade_155_2_1",
       elements: {
         name: "你",
-        text: "没想到他竟然做出如此下流的行径！",
+        text: "没想到他竟然做出如此极端的行径！",
         sprite: {
           left: null,
         }
@@ -2774,7 +2780,12 @@ const scene: Scene = {
         name: "光泠",
         text: "不过我尊重你的选择。",
       },
-      next: "chapter_0_scene_3_0",
+       choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_3_0",
+        },
+      ],
     },
     //分支2-2//
     {
@@ -7412,7 +7423,33 @@ const scene: Scene = {
       }
     },
     {
-      id: "battle_1_49-2-1",
+      id: "battle_1_49-2-1——1",
+      elements: {
+        name: "旁白",
+        text: "虚樹将关键之物交给了我们",
+        sprite: {
+          left: "NPC/jixieman.png",
+        }
+      }
+    },
+    {
+      id: "battle_1_49-2-1——2",
+      elements: {
+        name: "旁白",
+        text: "原来这就是我们一直要找的————",
+        sprite: {
+          center: "NPC/foreverlight.png",
+        },
+      },
+choices: [
+      {
+        text: "永昼之瞳（eye_of_eternal_sun）",
+        next: "battle_1_49-2-1_1_2_3",
+      },
+    ],
+    },
+    {
+      id: "battle_1_49-2-1_1_2_3",
       elements: {
         name: "空木錬真",
         text: "还有最后一个问题......",
@@ -7980,7 +8017,12 @@ const scene: Scene = {
           left: null,
         }
       },
-      next: "chapter_0_scene_3_0",
+       choices: [
+        {
+          text: "进入下一章",
+          next: "chapter_0_scene_3_0",
+        },
+      ],
     },
     //分支3-2//
     {
