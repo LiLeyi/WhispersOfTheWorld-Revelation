@@ -35,6 +35,11 @@ class GameScene {
         text: "",
     };
 
+    // 添加标志位，用于跟踪小游戏和视频的淡入状态
+    private isMiniGameFadingIn: boolean = false;
+    private isVideoFadingIn: boolean = false;
+
+
     // 在GameScene类中添加小游戏容器
     private miniGameContainer: HTMLDivElement = document.createElement('div');
 
@@ -44,6 +49,9 @@ class GameScene {
     this.autoSaveManager = AutoSaveManager.getInstance(); // 确保正确初始化
     
     console.log("[GameScene] AutoSaveManager实例:", this.autoSaveManager);
+    
+    // 将GameScene实例暴露给全局，以便其他组件可以访问
+    (window as any).gameSceneInstance = this;
     
     // 初始化场景元素
     this.sceneManager.initializeSceneElements();
@@ -70,6 +78,8 @@ private init(): void {
     // 创建小游戏容器
     this.miniGameContainer.id = 'mini-game-container';
     this.miniGameContainer.style.display = 'none';
+    // 添加data属性，便于其他组件访问GameScene实例
+    this.miniGameContainer.setAttribute('data-game-scene-ref', 'true');
     document.body.appendChild(this.miniGameContainer);
     console.log("[GameScene] 小游戏容器已创建");
 
@@ -172,6 +182,12 @@ private init(): void {
                     }
                 },
                    onSkipYes: () => {
+            // 立即关闭跳过弹窗
+            const skipElement = document.getElementById("skip");
+            if (skipElement) {
+                skipElement.classList.remove("active");
+            }
+            
             // 简单直接的跳过实现
             const skipUnread = localStorage.getItem("skipUnreadText") === "true";
             
@@ -190,6 +206,26 @@ private init(): void {
                             // 同步缓存当前节点ID，供兼容型读取
                             const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                             localStorage.setItem(currentNodeKey, node.id);
+                            
+                            // 检查是否有小游戏需要执行
+                            if (node.game) {
+                                // 如果遇到小游戏节点，停止跳过并执行小游戏
+                                this.currentNodeIndex = i;
+                                this.clickCount = this.currentNodeIndex;
+                                localStorage.setItem("nowclick", String(this.clickCount));
+                                this.renderCurrentNode();
+                                return;
+                            }
+                            
+                            // 检查是否有视频需要播放
+                            if (node.video) {
+                                // 如果遇到视频节点，停止跳过并播放视频
+                                this.currentNodeIndex = i;
+                                this.clickCount = this.currentNodeIndex;
+                                localStorage.setItem("nowclick", String(this.clickCount));
+                                this.renderCurrentNode();
+                                return;
+                            }
                             
                             // 处理非选项节点的视觉和音频元素
                             if (node.elements) {
@@ -245,6 +281,26 @@ private init(): void {
                                 const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                                 localStorage.setItem(currentNodeKey, node.id);
                                 
+                                // 检查是否有小游戏需要执行
+                                if (node.game) {
+                                    // 如果遇到小游戏节点，停止跳过并执行小游戏
+                                    this.currentNodeIndex = i;
+                                    this.clickCount = this.currentNodeIndex;
+                                    localStorage.setItem("nowclick", String(this.clickCount));
+                                    this.renderCurrentNode();
+                                    return;
+                                }
+                                
+                                // 检查是否有视频需要播放
+                                if (node.video) {
+                                    // 如果遇到视频节点，停止跳过并播放视频
+                                    this.currentNodeIndex = i;
+                                    this.clickCount = this.currentNodeIndex;
+                                    localStorage.setItem("nowclick", String(this.clickCount));
+                                    this.renderCurrentNode();
+                                    return;
+                                }
+                                
                                 // 处理节点的视觉和音频元素
                                 if (node.elements) {
                                     // 合并当前节点元素与前一个节点元素
@@ -288,12 +344,6 @@ private init(): void {
             } else {
                 // 如果不允许跳过未读文本，显示提示信息并不能跳过
                 alert("跳过未读文本功能已关闭");
-            }
-            
-            // 隐藏跳过弹窗
-            const skipElement = document.getElementById("skip");
-            if (skipElement) {
-                skipElement.classList.remove("active");
             }
         },
                 onSkipNo: () => {
@@ -978,291 +1028,297 @@ private showAutoSaveNotification(message: string): void {
     }
 
     private handleVideo(node: SceneNode): void {
-        // 检查是否是视频节点
-        if (!node.video) {
-            console.error('尝试处理视频，但节点没有video属性');
-            return;
-        }
-
-        // 保存当前的点击处理函数
-        const moveElement = document.getElementById("move");
-        const dialogElement = document.getElementById("dialog");
-        const textBoxElement = document.getElementById("text-box");
-
-        const originalMoveHandler = moveElement ? moveElement.onclick : null;
-        const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
-        const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
-
-        // 隐藏对话框和其他游戏场景元素
-        const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
-        dialogElements.forEach(el => {
-            (el as HTMLElement).style.display = 'none';
-        });
-
-        // 禁用场景点击事件
-        if (moveElement) moveElement.onclick = null;
-        if (dialogElement) dialogElement.onclick = null;
-        if (textBoxElement) textBoxElement.onclick = null;
-
-        // 获取背景元素
-        const bg1Element = document.getElementById('bg1');
-        const bg2Element = document.getElementById('bg2');
-        const backgroundManager = this.sceneManager.getBackgroundManager();
-        let currentBgNum = (backgroundManager as any).backgroundNum;
-
-        // 创建黑色背景覆盖层
-        const blackOverlay = document.createElement('div');
-        blackOverlay.id = 'video-black-overlay';
-        blackOverlay.style.position = 'fixed';
-        blackOverlay.style.top = '0';
-        blackOverlay.style.left = '0';
-        blackOverlay.style.width = '100%';
-        blackOverlay.style.height = '100%';
-        blackOverlay.style.backgroundColor = 'black';
-        blackOverlay.style.zIndex = '998';
-        blackOverlay.style.opacity = '0';
-        blackOverlay.style.pointerEvents = 'none';
-        document.body.appendChild(blackOverlay);
-
-        // 淡出背景到黑色
-        let backgroundOpacity = 1;
-        let overlayOpacity = 0;
-        const backgroundFadeOut = setInterval(() => {
-            backgroundOpacity -= 0.05;
-            overlayOpacity += 0.05;
-
-            // 淡出当前显示的背景元素
-            const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
-            if (currentBgElement) {
-                currentBgElement.style.opacity = backgroundOpacity.toString();
-            }
-
-            // 淡入黑色覆盖层
-            blackOverlay.style.opacity = overlayOpacity.toString();
-
-            if (backgroundOpacity <= 0) {
-                clearInterval(backgroundFadeOut);
-                // 隐藏背景元素
-                if (currentBgElement) {
-                    currentBgElement.style.display = 'none';
-                }
-
-                // 背景淡出完成后创建视频容器
-                createVideoContainer();
-            }
-        }, 50);
-
-        const createVideoContainer = () => {
-            // 创建视频容器
-            const videoContainer = document.createElement('div');
-            videoContainer.id = 'video-container';
-            videoContainer.style.position = 'fixed';
-            videoContainer.style.top = '0';
-            videoContainer.style.left = '0';
-            videoContainer.style.width = '100%';
-            videoContainer.style.height = '100%';
-            videoContainer.style.zIndex = '999';
-            videoContainer.style.display = 'flex';
-            videoContainer.style.justifyContent = 'center';
-            videoContainer.style.alignItems = 'center';
-
-            // 创建视频元素
-            const videoElement = document.createElement('video');
-            videoElement.id = 'scene-video';
-            videoElement.style.maxWidth = '100%';
-            videoElement.style.maxHeight = '100%';
-            videoElement.controls = false;
-            videoElement.autoplay = false;
-            videoElement.playsInline = true;
-            videoElement.style.opacity = '0';
-            videoElement.style.transition = 'opacity 1s ease-in-out';
-            videoElement.preload = "auto";
-
-            // 设置视频源
-            const sourceElement = document.createElement('source');
-            sourceElement.src = `../../assets/video/${node.video}`;
-            sourceElement.type = 'video/mp4';
-
-            videoElement.appendChild(sourceElement);
-            videoContainer.appendChild(videoElement);
-            document.body.appendChild(videoContainer);
-
-            // 视频播放时淡入
-            videoElement.addEventListener('play', () => {
-                videoElement.style.opacity = '1';
-            });
-
-            // 监听视频播放结束事件
-            videoElement.addEventListener('ended', () => {
-                // 淡出视频
-                videoElement.style.opacity = '0';
-
-                // 在淡出完成后移除元素并恢复背景
-                setTimeout(() => {
-                    // 移除视频容器
-                    if (videoContainer.parentNode) {
-                        videoContainer.parentNode.removeChild(videoContainer);
-                    }
-
-                    // 恢复背景显示并淡入
-                    const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
-                    if (currentBgElement) {
-                        currentBgElement.style.display = '';
-                    }
-
-                    // 淡出黑色覆盖层，同时淡入背景
-                    let overlayOpacity = 1;
-                    let backgroundOpacity = 0;
-                    const fadeOutOverlay = setInterval(() => {
-                        overlayOpacity -= 0.05;
-                        backgroundOpacity += 0.05;
-
-                        blackOverlay.style.opacity = overlayOpacity.toString();
-
-                        if (currentBgElement) {
-                            currentBgElement.style.opacity = backgroundOpacity.toString();
-                        }
-
-                        if (overlayOpacity <= 0) {
-                            clearInterval(fadeOutOverlay);
-                            blackOverlay.style.opacity = '0';
-
-                            if (currentBgElement) {
-                                currentBgElement.style.opacity = '1';
-                            }
-
-                            // 移除黑色覆盖层
-                            if (blackOverlay.parentNode) {
-                                blackOverlay.parentNode.removeChild(blackOverlay);
-                            }
-                        }
-                    }, 50);
-
-                    // 重新显示对话框元素
-                    dialogElements.forEach(el => {
-                        (el as HTMLElement).style.display = '';
-                    });
-
-                    // 恢复场景点击事件
-                    if (moveElement) moveElement.onclick = originalMoveHandler;
-                    if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                    if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
-
-                    // 跳转到下一个节点或场景
-                    if (node.next) {
-                        // 检查是否是当前场景内的节点ID
-                        if (this.currentScene) {
-                            const targetNodeIndex = this.currentScene.nodes.findIndex((n: any) => n.id === node.next);
-                            if (targetNodeIndex !== -1) {
-                                // 是当前场景内的节点，直接跳转到该节点
-                                this.currentNodeIndex = targetNodeIndex;
-                                this.clickCount = targetNodeIndex;
-                                localStorage.setItem("nowclick", this.clickCount.toString());
-                                this.renderCurrentNode();
-                                return;
-                            }
-                        }
-                        // 如果不是当前场景内的节点，则进行场景间跳转
-                        this.navigateToScene(node.next);
-                    } else {
-                        // 没有指定next，则继续到下一个节点
-                        this.nextMove();
-                    }
-                }, 1000);
-            });
-
-            // 开始播放视频
-            const playVideo = () => {
-                videoElement.play()
-                    .then(() => {
-                        console.log('视频开始播放');
-                    })
-                    .catch(e => {
-                        console.error('视频播放失败:', e);
-                        videoElement.style.opacity = '1';
-                        setTimeout(() => {
-                            videoElement.dispatchEvent(new Event('ended'));
-                        }, 1000);
-                    });
-            };
-
-            // 检查视频是否已经可以播放
-            if (videoElement.readyState >= 2) {
-                playVideo();
-            } else {
-                videoElement.addEventListener('canplay', () => {
-                    playVideo();
-                }, { once: true });
-
-                setTimeout(() => {
-                    if (videoElement.readyState < 2) {
-                        playVideo();
-                    }
-                }, 5000);
-            }
-
-            // 错误处理
-            videoElement.addEventListener('error', (e) => {
-                console.error('视频播放出错:', e);
-
-                videoElement.style.opacity = '0';
-
-                setTimeout(() => {
-                    if (videoContainer.parentNode) {
-                        videoContainer.parentNode.removeChild(videoContainer);
-                    }
-
-                    // 恢复背景显示并淡入
-                    const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
-                    if (currentBgElement) {
-                        currentBgElement.style.display = '';
-                    }
-
-                    // 淡出黑色覆盖层，同时淡入背景
-                    let overlayOpacity = 1;
-                    let backgroundOpacity = 0;
-                    const fadeOutOverlay = setInterval(() => {
-                        overlayOpacity -= 0.05;
-                        backgroundOpacity += 0.05;
-
-                        blackOverlay.style.opacity = overlayOpacity.toString();
-
-                        if (currentBgElement) {
-                            currentBgElement.style.opacity = backgroundOpacity.toString();
-                        }
-
-                        if (overlayOpacity <= 0) {
-                            clearInterval(fadeOutOverlay);
-                            blackOverlay.style.opacity = '0';
-
-                            if (currentBgElement) {
-                                currentBgElement.style.opacity = '1';
-                            }
-
-                            // 移除黑色覆盖层
-                            if (blackOverlay.parentNode) {
-                                blackOverlay.parentNode.removeChild(blackOverlay);
-                            }
-                        }
-                    }, 50);
-
-                    // 重新显示对话框元素
-                    dialogElements.forEach(el => {
-                        (el as HTMLElement).style.display = '';
-                    });
-
-                    // 恢复场景点击事件
-                    if (moveElement) moveElement.onclick = originalMoveHandler;
-                    if (dialogElement) dialogElement.onclick = originalDialogHandler;
-                    if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
-
-                    alert('视频播放出错，将跳过视频继续游戏');
-                    this.nextMove();
-                }, 1000);
-            });
-        };
+    // 检查是否是视频节点
+    if (!node.video) {
+        console.error('尝试处理视频，但节点没有video属性');
+        return;
     }
 
+    // 设置标志位，表示正在淡入视频
+    this.isVideoFadingIn = true;
+
+    // 保存当前的点击处理函数
+    const moveElement = document.getElementById("move");
+    const dialogElement = document.getElementById("dialog");
+    const textBoxElement = document.getElementById("text-box");
+
+    const originalMoveHandler = moveElement ? moveElement.onclick : null;
+    const originalDialogHandler = dialogElement ? dialogElement.onclick : null;
+    const originalTextBoxHandler = textBoxElement ? textBoxElement.onclick : null;
+
+    // 隐藏对话框和其他游戏场景元素
+    const dialogElements = document.querySelectorAll('.dialog, #text-box, #name, #dialog');
+    dialogElements.forEach(el => {
+        (el as HTMLElement).style.display = 'none';
+    });
+
+    // 禁用场景点击事件
+    if (moveElement) moveElement.onclick = null;
+    if (dialogElement) dialogElement.onclick = null;
+    if (textBoxElement) textBoxElement.onclick = null;
+
+    // 获取背景元素
+    const bg1Element = document.getElementById('bg1');
+    const bg2Element = document.getElementById('bg2');
+    const backgroundManager = this.sceneManager.getBackgroundManager();
+    let currentBgNum = (backgroundManager as any).backgroundNum;
+
+    // 创建黑色背景覆盖层
+    const blackOverlay = document.createElement('div');
+    blackOverlay.id = 'video-black-overlay';
+    blackOverlay.style.position = 'fixed';
+    blackOverlay.style.top = '0';
+    blackOverlay.style.left = '0';
+    blackOverlay.style.width = '100%';
+    blackOverlay.style.height = '100%';
+    blackOverlay.style.backgroundColor = 'black';
+    blackOverlay.style.zIndex = '998';
+    blackOverlay.style.opacity = '0';
+    blackOverlay.style.pointerEvents = 'none';
+    document.body.appendChild(blackOverlay);
+
+    // 淡出背景到黑色
+    let backgroundOpacity = 1;
+    let overlayOpacity = 0;
+    const backgroundFadeOut = setInterval(() => {
+        backgroundOpacity -= 0.05;
+        overlayOpacity += 0.05;
+
+        // 淡出当前显示的背景元素
+        const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+        if (currentBgElement) {
+            currentBgElement.style.opacity = backgroundOpacity.toString();
+        }
+
+        // 淡入黑色覆盖层
+        blackOverlay.style.opacity = overlayOpacity.toString();
+
+        if (backgroundOpacity <= 0) {
+            clearInterval(backgroundFadeOut);
+            // 隐藏背景元素
+            if (currentBgElement) {
+                currentBgElement.style.display = 'none';
+            }
+
+            // 背景淡出完成后创建视频容器
+            createVideoContainer();
+        }
+    }, 50);
+
+    const createVideoContainer = () => {
+        // 创建视频容器
+        const videoContainer = document.createElement('div');
+        videoContainer.id = 'video-container';
+        videoContainer.style.position = 'fixed';
+        videoContainer.style.top = '0';
+        videoContainer.style.left = '0';
+        videoContainer.style.width = '100%';
+        videoContainer.style.height = '100%';
+        videoContainer.style.zIndex = '999';
+        videoContainer.style.display = 'flex';
+        videoContainer.style.justifyContent = 'center';
+        videoContainer.style.alignItems = 'center';
+
+        // 创建视频元素
+        const videoElement = document.createElement('video');
+        videoElement.id = 'scene-video';
+        videoElement.style.maxWidth = '100%';
+        videoElement.style.maxHeight = '100%';
+        videoElement.controls = false;
+        videoElement.autoplay = false;
+        videoElement.playsInline = true;
+        videoElement.style.opacity = '0';
+        videoElement.style.transition = 'opacity 1s ease-in-out';
+        videoElement.preload = "auto";
+
+        // 设置视频源
+        const sourceElement = document.createElement('source');
+        sourceElement.src = `../../assets/video/${node.video}`;
+        sourceElement.type = 'video/mp4';
+
+        videoElement.appendChild(sourceElement);
+        videoContainer.appendChild(videoElement);
+        document.body.appendChild(videoContainer);
+
+        // 视频播放时淡入
+        videoElement.addEventListener('play', () => {
+            videoElement.style.opacity = '1';
+            // 淡入完成后清除标志位
+            setTimeout(() => {
+                this.isVideoFadingIn = false;
+            }, 1000);
+        });
+
+        // 监听视频播放结束事件
+        videoElement.addEventListener('ended', () => {
+            // 淡出视频
+            videoElement.style.opacity = '0';
+
+            // 在淡出完成后移除元素并恢复背景
+            setTimeout(() => {
+                // 移除视频容器
+                if (videoContainer.parentNode) {
+                    videoContainer.parentNode.removeChild(videoContainer);
+                }
+
+                // 恢复背景显示并淡入
+                const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+                if (currentBgElement) {
+                    currentBgElement.style.display = '';
+                }
+
+                // 淡出黑色覆盖层，同时淡入背景
+                let overlayOpacity = 1;
+                let backgroundOpacity = 0;
+                const fadeOutOverlay = setInterval(() => {
+                    overlayOpacity -= 0.05;
+                    backgroundOpacity += 0.05;
+
+                    blackOverlay.style.opacity = overlayOpacity.toString();
+
+                    if (currentBgElement) {
+                        currentBgElement.style.opacity = backgroundOpacity.toString();
+                    }
+
+                    if (overlayOpacity <= 0) {
+                        clearInterval(fadeOutOverlay);
+                        blackOverlay.style.opacity = '0';
+
+                        if (currentBgElement) {
+                            currentBgElement.style.opacity = '1';
+                        }
+
+                        // 移除黑色覆盖层
+                        if (blackOverlay.parentNode) {
+                            blackOverlay.parentNode.removeChild(blackOverlay);
+                        }
+                    }
+                }, 50);
+
+                // 重新显示对话框元素
+                dialogElements.forEach(el => {
+                    (el as HTMLElement).style.display = '';
+                });
+
+                // 恢复场景点击事件
+                if (moveElement) moveElement.onclick = originalMoveHandler;
+                if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+
+                // 跳转到下一个节点或场景
+                if (node.next) {
+                    // 检查是否是当前场景内的节点ID
+                    if (this.currentScene) {
+                        const targetNodeIndex = this.currentScene.nodes.findIndex((n: any) => n.id === node.next);
+                        if (targetNodeIndex !== -1) {
+                            // 是当前场景内的节点，直接跳转到该节点
+                            this.currentNodeIndex = targetNodeIndex;
+                            this.clickCount = targetNodeIndex;
+                            localStorage.setItem("nowclick", this.clickCount.toString());
+                            this.renderCurrentNode();
+                            return;
+                        }
+                    }
+                    // 如果不是当前场景内的节点，则进行场景间跳转
+                    this.navigateToScene(node.next);
+                } else {
+                    // 没有指定next，则继续到下一个节点
+                    this.nextMove();
+                }
+            }, 1000);
+        });
+
+        // 开始播放视频
+        const playVideo = () => {
+            videoElement.play()
+                .then(() => {
+                    console.log('视频开始播放');
+                })
+                .catch(e => {
+                    console.error('视频播放失败:', e);
+                    videoElement.style.opacity = '1';
+                    setTimeout(() => {
+                        videoElement.dispatchEvent(new Event('ended'));
+                    }, 1000);
+                });
+        };
+
+        // 检查视频是否已经可以播放
+        if (videoElement.readyState >= 2) {
+            playVideo();
+        } else {
+            videoElement.addEventListener('canplay', () => {
+                playVideo();
+            }, { once: true });
+
+            setTimeout(() => {
+                if (videoElement.readyState < 2) {
+                    playVideo();
+                }
+            }, 5000);
+        }
+
+        // 错误处理
+        videoElement.addEventListener('error', (e) => {
+            console.error('视频播放出错:', e);
+
+            videoElement.style.opacity = '0';
+
+            setTimeout(() => {
+                if (videoContainer.parentNode) {
+                    videoContainer.parentNode.removeChild(videoContainer);
+                }
+
+                // 恢复背景显示并淡入
+                const currentBgElement = currentBgNum === 0 ? bg1Element : bg2Element;
+                if (currentBgElement) {
+                    currentBgElement.style.display = '';
+                }
+
+                // 淡出黑色覆盖层，同时淡入背景
+                let overlayOpacity = 1;
+                let backgroundOpacity = 0;
+                const fadeOutOverlay = setInterval(() => {
+                    overlayOpacity -= 0.05;
+                    backgroundOpacity += 0.05;
+
+                    blackOverlay.style.opacity = overlayOpacity.toString();
+
+                    if (currentBgElement) {
+                        currentBgElement.style.opacity = backgroundOpacity.toString();
+                    }
+
+                    if (overlayOpacity <= 0) {
+                        clearInterval(fadeOutOverlay);
+                        blackOverlay.style.opacity = '0';
+
+                        if (currentBgElement) {
+                            currentBgElement.style.opacity = '1';
+                        }
+
+                        // 移除黑色覆盖层
+                        if (blackOverlay.parentNode) {
+                            blackOverlay.parentNode.removeChild(blackOverlay);
+                        }
+                    }
+                }, 50);
+
+                // 重新显示对话框元素
+                dialogElements.forEach(el => {
+                    (el as HTMLElement).style.display = '';
+                });
+
+                // 恢复场景点击事件
+                if (moveElement) moveElement.onclick = originalMoveHandler;
+                if (dialogElement) dialogElement.onclick = originalDialogHandler;
+                if (textBoxElement) textBoxElement.onclick = originalTextBoxHandler;
+
+                alert('视频播放出错，将跳过视频继续游戏');
+                this.nextMove();
+            }, 1000);
+        });
+    };
+}
     private handleMiniGame(node: SceneNode): void {
     // 检查是否是小游戏节点
     if (!node.game) {
@@ -1271,6 +1327,9 @@ private showAutoSaveNotification(message: string): void {
     }
 
     console.log("开始处理小游戏:", node.game);
+
+    // 设置标志位，表示正在淡入小游戏
+    this.isMiniGameFadingIn = true;
 
     // 保存当前的点击处理函数
     const moveElement = document.getElementById("move");
@@ -1404,6 +1463,11 @@ private showAutoSaveNotification(message: string): void {
         // 淡入小游戏和对话框
         setTimeout(() => {
             this.miniGameContainer.style.opacity = '1';
+            
+            // 淡入完成后清除标志位
+            setTimeout(() => {
+                this.isMiniGameFadingIn = false;
+            }, 1000);
             
             // 在对话框元素上添加点击事件来跳过对话
             setTimeout(() => {
@@ -1598,7 +1662,6 @@ private showAutoSaveNotification(message: string): void {
                                                 (textBoxElement as any)._nextMoveHandler = originalTextBoxHandler;
                                             }
                                         }
-
                                         // 恢复对话框显示
                                         dialogElements.forEach(el => {
                                             (el as HTMLElement).style.display = '';
