@@ -3130,7 +3130,20 @@ choices: [
                             }
                         ]
                     }
-                },     
+                }, 
+                {
+    id: "mountain_197_2_3",
+    elements: {
+        background:"sc3.1/3-1-13.jpg",
+        bgm:"bgm10.MP3",
+        name: "恶魂",
+        text: "啊啊啊啊啊啊——",
+        sprite: {
+            left: null,
+        }
+    },
+    next:"mountain_198_2_3",
+},    
 //分支3-2-1//
 {
     id: "mountain_197_2_1",
@@ -3229,6 +3242,14 @@ choices: [
         {
             text: "YOU ARE DEAD.",
             next: "chapter_0_scene_1_0",
+        },
+        {
+            text: "重新挑战",
+            next: "test_game6",
+        },
+        {
+            text: "开挂跳过",
+            next: "mountain_197_2_3",
         },
     ]
 },
@@ -3656,7 +3677,7 @@ choices: [
     },
 },
 {
-    id: "mountain_244_2_3",
+    id: "mountain_244_2_3_1",
     elements: {
         name: "？？？",
         text: "刚才，只是在‘告别’而已。",
@@ -3813,7 +3834,7 @@ choices: [
     },
 },
 {
-    id: "mountain_260_2_3",
+    id: "mountain_260_2_3_1",
     elements: {
         name: "你",
         text: "算了。",
@@ -3837,18 +3858,6 @@ choices: [
     ],
 },
 //分支3-2-3//
-{
-    id: "mountain_197_2_3",
-    elements: {
-        background:"sc3.1/3-1-13.jpg",
-        bgm:"bgm10.MP3",
-        name: "恶魂",
-        text: "啊啊啊啊啊啊——",
-        sprite: {
-            left: null,
-        }
-    },
-},
 {
     id: "mountain_198_2_3",
     elements: {
@@ -4335,6 +4344,7 @@ choices: [
                 bagManager.addCardsToBag("darkness_shadow_form", 1);
                 bagManager.addCardsToBag("end_tears", 1);
                 bagManager.removeCardFromBag("tear_of_no_trace", 1);
+                 bagManager.removeCardFromBag("darkness_final", 1);
   },
 },
 {
