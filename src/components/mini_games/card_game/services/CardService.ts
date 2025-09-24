@@ -1063,9 +1063,9 @@ export class BuffService {
 
             // 如果有玩家且不是特殊对战，则给玩家添加终焉之泪和影子卡牌
             if (player && !isSpecialBattle) {
-                // 玩家血量回复至满，但上限减为4
-                player.hp = 4;
-                player.maxHp = 4;
+                // 玩家血量回复至满，但上限减为16
+                player.hp = 16;
+                player.maxHp = 16;
 
                 // 添加终焉之泪和影子手牌到玩家手中（如果有的话）
                 const bagManager = BagManager.getInstance();
@@ -1081,8 +1081,8 @@ export class BuffService {
                 }
             } else if (player) {
                 // 在特殊对战中，只调整玩家血量，不给终焉之泪和影子卡牌
-                player.hp = 4;
-                player.maxHp = 4;
+                player.hp = 16;
+                player.maxHp = 16;
             }
         }
     }

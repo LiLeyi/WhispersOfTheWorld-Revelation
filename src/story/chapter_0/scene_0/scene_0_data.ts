@@ -1057,7 +1057,12 @@ const scene: Scene = {
                 bagManager.addCardsToBag("holiness", 2);
                 bagManager.addCardsToBag("darkness_initial", 1);
             },
-            next: "chapter_0_scene_1_0"
+            choices: [
+                {
+                    text: "进入下一章",
+                    next: "chapter_0_scene_1_0"
+                },
+            ],
         },
 
         /*{

@@ -1941,7 +1941,12 @@ nodes: [
             left:"guangling/smile.png"
         }
   },
-  next:"chapter_0_scene_2_1",
+choices: [
+  {
+    text: "进入下一章",
+    next: "chapter_0_scene_2_1",
+  },
+],
 },
 ]
 }

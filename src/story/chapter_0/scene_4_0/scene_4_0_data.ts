@@ -3656,7 +3656,7 @@ sprite: {
     id: "test_game8",
     elements: {
         name: "灾厄之主",
-        text: "我将亲手毁掉你的意志",
+        text: "我会亲手将你打入深渊。",
     },
     // 在游戏开始前设置特殊标志
     action: () => {
@@ -4408,7 +4408,7 @@ sprite: {
                     id: "ending_32_5",
                     elements: {
                         name: "灾厄之主",
-                        text: "我将亲手毁掉你的意志",
+                        text: "我会亲手将你打入深渊",
                     },
                     game: {
                         id: "card_game",
@@ -4462,79 +4462,38 @@ sprite: {
                                 phase3: "zaiezhizhu"              // 灾厄之主第三阶段使用原来第一阶段的音乐
                             }
                         },
-                         end: [
+                          end: [
                             {
                                 condition: (gameData: CardGameEventData) => {
-                                    // 大获全胜：玩家血量大于2
-                                    return gameData.player.hp > 2;
+                                    // 大获全胜：玩家在第三阶段获胜且血量为满血
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp === gameData.player.maxHp;
                                 },
                                 next: "ending_33_5",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
-                                    // 小胜：玩家血量小于等于2但仍然存活
-                                    return gameData.player.hp <= 2 && gameData.player.hp > 0;
+                                    // 小胜：玩家在第三阶段获胜但血量不为满血
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp < gameData.player.maxHp;
                                 },
                                 next: "ending_33_6",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
-                                    // 完全惨败：玩家在前两个阶段就失败了（血量为0）
-                                    return gameData.player.hp <= 0 && gameData.turn <= 2;
+                                    // 完全惨败：玩家在前两个阶段就失败了（灾厄之主最大血量为30，说明还在第一或第二阶段）
+                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 30;
                                 },
                                 next: "ending_33_7",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
-                                    // 小败：玩家过了前两个阶段但在第三个阶段失败了
-                                    return gameData.player.hp <= 0 && gameData.turn > 2;
+                                    // 小败：玩家在第三阶段失败了（灾厄之主最大血量为1，说明已经进入第三阶段）
+                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 1;
                                 },
                                 next: "ending_33_8",
                             },
-                            // {
-                            //     condition: (gameData: CardGameEventData) => {
-                            //         // 默认失败条件
-                            //         return gameData.player.hp <= 0;
-                            //     },
-                            //     next: "battle_1_1",
-                            // }
                         ]
                     }
                 },   
-  // {
-  //   id: "ending_32_5_1",
-  //   elements: {
-  //   name: "旁白",
-  //   text: "战斗结束",
-  //     sprite: { 
-  //       left: null
-  //    }
-  //   },
-  //   keyNode: true,
-  //   choices:[
-  //       {
-  //           text:"大获全胜（最后一管血你>2Hp）",
-  //           next:"ending_33_5",
-  //   },
-  //   {
-  //           text:"小胜（最后一管血你<=2Hp）",
-  //           next:"ending_33_6",
-  //   },
-  //   {
-  //           text:"完全惨败（第一管血就死了）",
-  //           next:"ending_33_7",
-  //   },
-  //   {
-  //           text:"小败（第二管血，第三管血死了）",
-  //           next:"ending_33_8",
-  //   },
-  //   {
-  //           text:"重新挑战",
-  //           next:"ending_32_5",
-  //   }
-  //   ]
-  // },
-  //结局5//
 {
     id: "ending_33_5",
     elements: {

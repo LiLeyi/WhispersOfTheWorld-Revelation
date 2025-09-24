@@ -1643,7 +1643,12 @@ const scene: Scene = {
             left:"guangling/smile1.png"
         }
         },
-        next:"chapter_0_scene_2_0",
+        choices: [
+                {
+                    text: "进入村庄",
+                    next: "chapter_0_scene_2_0",
+                },
+            ]
 },
     ]
 };

@@ -560,7 +560,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   mechanical_defense: {
     id: "mechanical_defense",
     name: "机械防御",
-    description: "获得2点真防，消耗2行动。",
+    description: "获得2点真防，消耗1行动。",
     priority: 9,
     effect: [
       {
@@ -570,12 +570,12 @@ export const CARD_TEMPLATES: Record<string, Card> = {
       }
     ],
     cost: {
-      action: 2
+      action: 1
     }
   },
   mechanical_arm_swing: {
     id: "mechanical_arm_swing",
-    name: "机械挥臂",
+    name: "能量过载",
     description: "自身受到2点攻击，造成1点攻击，并获得1回合“转化”效果，消耗3行动。",
     priority: 12,
     effect: [
