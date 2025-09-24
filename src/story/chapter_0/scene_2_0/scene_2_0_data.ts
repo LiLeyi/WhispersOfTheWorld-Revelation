@@ -1781,8 +1781,8 @@ nodes: [
                 const bagManager = BagManager.getInstance();
                 bagManager.addCardsToBag("witchs_gift", 1);
                 bagManager.addCardsToBag("wise_hat", 1);
-                  bagManager.addCardsToBag("useless_potion", 1);
-                bagManager.addCardsToBag("eerie_candlelight", 1);
+                  bagManager.addCardsToBag("wonderful_potion", 1);
+                bagManager.addCardsToBag("normal_candlelight", 1);
   },
 },
 {
