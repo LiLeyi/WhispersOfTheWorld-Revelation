@@ -574,6 +574,16 @@ export class SceneManager {
                         return;
                     }
 
+                    // 检查是否正在淡入小游戏或视频
+                    // 通过全局属性获取GameScene实例
+                    const gameScene = (window as any).gameSceneInstance;
+                    if (gameScene) {
+                        if (gameScene.isMiniGameFadingIn || gameScene.isVideoFadingIn) {
+                            console.log("[SceneManager] 正在淡入小游戏或视频，忽略空格键");
+                            return;
+                        }
+                    }
+
                     // 检查是否有弹窗或菜单打开，如果有则不执行跳过
                     const skipElement = document.getElementById("skip");
                     const returnElement = document.getElementById("return");
