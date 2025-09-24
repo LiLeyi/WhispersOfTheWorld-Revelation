@@ -7,7 +7,7 @@ import { ArchiveManager } from './ArchiveManager';
  */
 export class AutoSaveManager {
     private static instance: AutoSaveManager;
-    private static readonly MAX_AUTO_SLOTS = 6;
+    private static readonly MAX_AUTO_SLOTS = 9;
     private static readonly AUTO_SAVE_KEY = 'autoSaveSlots';
 
     private constructor() {}

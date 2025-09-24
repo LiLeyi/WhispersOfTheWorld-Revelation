@@ -12,6 +12,13 @@ const scene: Scene = {
     title: "第0章：开始",
     nodes: [
         {
+            id: "node0",
+            elements: {
+                name: "游玩说明",
+                text: "（点击或者空格可以推进剧情，长按空格可快进，按esc或者切屏可呼出暂停界面，在暂停界面可以进入设置）"
+            }
+        },
+        {
             id: "node1",
             elements: {
                 name: "旁白",
