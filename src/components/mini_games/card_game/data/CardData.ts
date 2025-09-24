@@ -10,7 +10,6 @@ export interface CardEffect {
     duration?: number;
     description?: string;
 }
-
 // 所有卡牌数据
 export const CARD_TEMPLATES: Record<string, Card> = {
   punch: {

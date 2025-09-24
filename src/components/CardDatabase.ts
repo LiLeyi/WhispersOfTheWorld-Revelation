@@ -35,7 +35,7 @@ export const CARD_DATABASE: Record<string, Card> =  {
     "dodge": {
         id: "dodge",
         name: "闪避",
-        description: "获得2点防御，消耗1行动。",
+        description: "获得3点防御，消耗1行动。",
         priority: 2,
         effect: [],
         cost: {
@@ -45,34 +45,34 @@ export const CARD_DATABASE: Record<string, Card> =  {
     "combo": {
         id: "combo",
         name: "连击",
-        description: "下次伤害翻倍。",
+        description: "下一次你造成的伤害*2（不可叠加）",
         priority: 2,
         effect: []
     },
     "holy_shield": {
         id: "holy_shield",
         name: "圣盾",
-        description: "获得3点真防，消耗3行动。",
+        description: "获得3点真防，消耗1行动。",
         priority: 2,
         effect: [],
         cost: {
-            action: 3
+            action: 1
         }
     },
     "holiness": {
         id: "holiness",
         name: "圣洁",
-        description: "恢复3点血量，消耗2行动。",
+        description: "恢复3点血量，消耗1行动。",
         priority: 2,
         effect: [],
         cost: {
-            action: 2
+            action: 1
         }
     },
     "darkness_initial": {
         id: "darkness_initial",
         name: "暗寂（初）",
-        description: "造成5点攻击，但自身受到1点伤害，消耗2行动。",
+        description: "造成5点攻击，但自身受到1点伤害，消耗2行动。一场战斗只能用一次。",
         priority: 4,
         effect: [],
         cost: {
@@ -83,7 +83,7 @@ export const CARD_DATABASE: Record<string, Card> =  {
     "darkness": {
         id: "darkness",
         name: "暗寂",
-        description: "造成5点攻击，消耗2行动。",
+        description: "造成5点攻击，消耗2行动。一场战斗只能用一次。",
         priority: 4,
         effect: [],
         cost: {
@@ -93,7 +93,7 @@ export const CARD_DATABASE: Record<string, Card> =  {
     "darkness_final": {
         id: "darkness_final",
         name: "暗寂（终）",
-        description: "造成5点攻击，消耗1行动。",
+        description: "造成5点攻击，消耗1行动。一场战斗只能用一次。",
         priority: 4,
         effect: [],
         cost: {
@@ -199,7 +199,7 @@ export const CARD_DATABASE: Record<string, Card> =  {
     },
     "tear_of_no_trace": {
         id: "tear_of_no_trace",
-        name: "无痕之\"泪\"",
+        name: "无痕之“泪”",
         description: "造成2点真攻，消耗2行动。",
         priority: 3,
         effect: [],
