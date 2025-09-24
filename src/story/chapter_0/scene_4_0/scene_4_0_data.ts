@@ -3625,13 +3625,14 @@ sprite: {
         text: "进入集齐结局",
         next: "ending_32_5",
         condition: () => {
-          // 检查玩家是否集齐三样关键之物
+          // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
           const achievementManager = AchievementManager.getInstance();
           const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
           const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
-          const hasTearOfTerminus = achievementManager.isUnlocked("item_tear_of_terminus");  // 终焉之泪
+          const bagManager = BagManager.getInstance();
+          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
           
-          // 只有集齐三样关键之物才显示此选项
+          // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才显示此选项
           return hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus;
         }
       },
@@ -3639,14 +3640,15 @@ sprite: {
         text: "进入未集齐结局",
         next: "test_game8",
         condition: () => {
-          // 检查玩家是否集齐三样关键之物
+          // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
           const achievementManager = AchievementManager.getInstance();
           const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
           const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
-          const hasTearOfTerminus = achievementManager.isUnlocked("item_tear_of_terminus");  // 终焉之泪
+          const bagManager = BagManager.getInstance();
+          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
           
           // 无论是否集齐都显示此选项
-          return true;
+          return !(hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus);
         }
       }
     ]
