@@ -5249,14 +5249,30 @@ sprite: {
                 text: "播放视频"
             },
             video: "baomu.mp4", // 视频文件应放在 src/assets/video/ 目录下
-            next:"infinite_torture",
+            next:"video_node22",
         },
-        
+        {
+            id: "video_node22",
+            elements: {
+                name: "旁白",
+                text: "是否进入无尽模式"
+            },
+            choices: [
+                {
+                    text: "是(有成就)",
+                    next: "infinite_torture"
+                },
+                {
+                    text: "否",
+                    next: "test1"
+                }
+            ]
+        },
         {
             id: "infinite_torture",
             elements: {
                 name: "旁白",
-                text: "无尽折磨",
+                text: "无尽的折磨",
                 sprite: {
                     left: null
                 }
@@ -5265,9 +5281,9 @@ sprite: {
                 id: "card_game",
                 config: {
                     player: {
-                        actionPoints: 12,
-                        hp: 1000,
-                        maxHp: 1000,
+                        actionPoints: 5,
+                        hp: 20,
+                        maxHp: 20,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5276,7 +5292,7 @@ sprite: {
                             }
                             return allCards;
                         },
-                        drawCount: 4,           // 玩家每回合抽2张牌
+                        drawCount: 4,           // 玩家每回合抽4张牌
                         initialDrawCount: 3,     // 玩家开始时抽3张牌
                     },
                     deckSelection: {
@@ -5308,12 +5324,28 @@ sprite: {
                     },
                     {
                         condition: () => true, // 默认条件，总是为真
-                        next: "test2"
+                        next: "test2__3"
                     }
                 ]
             }
         },
-        
+         {
+            id: "test2__3",
+            elements: {
+                name: "旁白",
+                text: "是否重新挑战？"
+            },
+            choices: [
+                {
+                    text: "是",
+                    next: "infinite_torture"
+                },
+                {
+                    text: "否",
+                    next: "test99"
+                }
+            ]
+        },
 //结局6//
 {
   id: "ending_33_6",
