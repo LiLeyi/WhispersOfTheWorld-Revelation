@@ -4351,17 +4351,7 @@ const scene: Scene = {
         name: "旁白",
         text: "机械之王庞大的躯体摇摇欲坠，跪倒在地，机体上满是破损，闪着电光与火花。",
       },
-      action: () => {
-        let am = AchievementManager.getInstance();
-        am.unlockAchievementWithAnimation("item_eye_of_eternal_sun");
-
-        // 检查是否集齐三个关键物品
-        if (am.isUnlocked("item_heart_of_prime") &&
-          am.isUnlocked("item_eye_of_eternal_sun") &&
-          am.isUnlocked("item_tear_of_terminus")) {
-          am.unlockAchievementWithAnimation("item_key_items_all");
-        }
-      },
+      
     },
     {
       id: "battle_1_2",
@@ -7440,6 +7430,17 @@ const scene: Scene = {
         sprite: {
           center: "NPC/foreverlight.png",
         },
+      },
+      action: () => {
+        let am = AchievementManager.getInstance();
+        am.unlockAchievementWithAnimation("item_eye_of_eternal_sun");
+
+        // 检查是否集齐三个关键物品
+        if (am.isUnlocked("item_heart_of_prime") &&
+          am.isUnlocked("item_eye_of_eternal_sun") &&
+          am.isUnlocked("item_tear_of_terminus")) {
+          am.unlockAchievementWithAnimation("item_key_items_all");
+        }
       },
 choices: [
       {

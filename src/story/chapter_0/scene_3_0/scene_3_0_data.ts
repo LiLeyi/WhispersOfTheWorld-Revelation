@@ -2191,6 +2191,10 @@ choices: [
         name: "你",
         text: "我已经感应到了，就在这里。"
     },
+            action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("enter_cave");
+              },
 },
 {
     id: "mountain_155_2_2_2",

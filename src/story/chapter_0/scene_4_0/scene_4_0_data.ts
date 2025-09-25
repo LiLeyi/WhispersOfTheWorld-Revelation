@@ -2861,6 +2861,10 @@ sprite:{
         name: "旁白",
         text: "被灾厄之主流放至无尽虚无之中的你，惟有孤独与黑暗永恒作伴。"
     },
+            action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_3");
+              },
     choices: [
         {
             text: "(达成结局三！！！)",
@@ -4399,6 +4403,10 @@ sprite: {
         left: null,
      }
     },
+            action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_4");
+              },
     choices:[
         {
             text:"达成结局四！！！",
@@ -5223,6 +5231,10 @@ sprite: {
         left:null,
     }
   },
+        action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_5");
+              },
   choices: [
     {
       text: "达成结局五！！！(真结局)",
@@ -5917,6 +5929,10 @@ sprite: {
     name: "旁白",
     text: "孤独的主人公，需要新的同伴——那么，请为他的故事再添一笔吧。"
   },
+        action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_6");
+              },
   choices: [
     {
       text: "达成结局六！！！",
@@ -6092,6 +6108,10 @@ sprite: {
       left: null
     }
   },
+      action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("death_ending");
+              },
   choices: [
     {
       text: "死亡结局",
@@ -7299,6 +7319,10 @@ background:"sc4.1/4-1-25.jpg",
         left:null,
     }
   },
+    action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_7");
+              },
   choices: [
     {
       text: "达成结局七！！！",
@@ -8655,6 +8679,10 @@ sprite:{
     name: "旁白",
     text: "在甜蜜的幻梦中，少女与你的故事将继续书写下去，相依的二人将永不再分离。"
   },
+  action: () => {
+                let am = AchievementManager.getInstance();
+                am.unlockAchievementWithAnimation("ending_8");
+            },
   choices: [
     {
       text: "达成结局八！！！",

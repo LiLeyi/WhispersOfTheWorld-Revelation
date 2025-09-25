@@ -956,6 +956,8 @@ export class BuffService {
                 const fullBatteryBombCard = CARD_TEMPLATES.full_battery_bomb;
                 if (fullBatteryBombCard) {
                     player.hand.push({ ...fullBatteryBombCard });
+                } else {
+                    console.warn('[WARN] 满蓄电池炸弹卡牌未定义，无法添加到手牌');
                 }
             }
 
