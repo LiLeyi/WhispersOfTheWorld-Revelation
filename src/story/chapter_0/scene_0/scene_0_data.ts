@@ -1,6 +1,6 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
-import { CardManager } from '../../../components/mini_games/card_game';
+import { CARD_TEMPLATES, CardManager } from '../../../components/mini_games/card_game';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
 import { CardGameEventData } from '../../../types/MiniGameEvents';
@@ -70,7 +70,7 @@ const scene: Scene = {
         //     id: "test_game1",
         //     elements: {
         //         name: "旁白",
-        //         text: "小游戏测试",
+        //         text: "无尽折磨",
         //         sprite: {
         //             left: null
         //         }
@@ -79,39 +79,38 @@ const scene: Scene = {
         //         id: "card_game",
         //         config: {
         //             player: {
-        //                 actionPoints: 10,
+        //                 actionPoints: 12,
         //                 hp: 1000,
         //                 maxHp: 1000,
         //                 deck: () => {
-        //                     const bagManager = BagManager.getInstance();
-        //                     return bagManager.getCardDeckForGame();
+        //                     // 返回所有卡牌各3张
+        //                     const allCards: Record<string, number> = {};
+        //                     for (const cardId in CARD_TEMPLATES) {
+        //                         allCards[cardId] = 3;
+        //                     }
+        //                     return allCards;
         //                 },
-        //                 drawCount: 2,           // 玩家每回合抽2张牌
+        //                 drawCount: 4,           // 玩家每回合抽2张牌
         //                 initialDrawCount: 3,     // 玩家开始时抽3张牌
         //             },
         //             deckSelection: {
-        //                 minDeckSize: 3,   // 设置最小选牌数量
-        //                 maxDeckSize: 10,   // 设置最大选牌数量
+        //                 minDeckSize: 1,   // 设置最小选牌数量
+        //                 maxDeckSize: 100,   // 设置最大选牌数量
         //             },
         //             opponent: {
-        //                 actionPoints: 8,
-        //                 hp: 3,
-        //                 maxHp: 11,
-        //                 deck: {
-        //                     "little_stone": 2,
-        //                     "strange_stone": 2,
-        //                     "bedrock": 2,
-        //                     "large_rock": 2,
-        //                 },
-        //                 drawCount: 4,           // 对手每回合抽1张牌
-        //                 initialDrawCount: 3,     // 对手开始时抽3张牌
-        //                 initialBuffs: [
-        //                     {
-        //                         id: 'disaster_lord_phase1',
-        //                         duration: 0,
-        //                         target: 'self'
+        //                 actionPoints: 12,
+        //                 hp: 10000,
+        //                 maxHp: 10000,
+        //                 deck: () => {
+        //                     // 返回所有卡牌各3张
+        //                     const allCards: Record<string, number> = {};
+        //                     for (const cardId in CARD_TEMPLATES) {
+        //                         allCards[cardId] = 3;
         //                     }
-        //                 ]
+        //                     return allCards;
+        //                 },
+        //                 drawCount: 4,           // 对手每回合抽4张牌
+        //                 initialDrawCount: 3,     // 对手开始时抽3张牌
         //             },
         //             backgroundImage: "sc1.1/1-1-0.jpg",
         //             bgm: "bgm29"

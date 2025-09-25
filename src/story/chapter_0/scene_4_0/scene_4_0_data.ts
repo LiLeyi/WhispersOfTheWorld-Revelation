@@ -1,6 +1,6 @@
 import { Scene } from '../../../types/SceneTypes';
 import { ArchiveManager } from '../../../components/ArchiveManager';
-import { CardManager } from '../../../components/mini_games/card_game';
+import { CARD_TEMPLATES, CardManager } from '../../../components/mini_games/card_game';
 import { BackgroundManager } from '../../../components/BackgroundManager';
 import { AchievementManager } from '../../../components/AchievementManager';
 import { BagManager } from '../../../components/BagManager';
@@ -5249,7 +5249,69 @@ sprite: {
                 text: "播放视频"
             },
             video: "baomu.mp4", // 视频文件应放在 src/assets/video/ 目录下
-            next:"chapter_0_scene_0",
+            next:"infinite_torture",
+        },
+        
+        {
+            id: "infinite_torture",
+            elements: {
+                name: "旁白",
+                text: "无尽折磨",
+                sprite: {
+                    left: null
+                }
+            },
+            game: {
+                id: "card_game",
+                config: {
+                    player: {
+                        actionPoints: 12,
+                        hp: 1000,
+                        maxHp: 1000,
+                        deck: () => {
+                            // 返回所有卡牌各3张
+                            const allCards: Record<string, number> = {};
+                            for (const cardId in CARD_TEMPLATES) {
+                                allCards[cardId] = 3;
+                            }
+                            return allCards;
+                        },
+                        drawCount: 4,           // 玩家每回合抽2张牌
+                        initialDrawCount: 3,     // 玩家开始时抽3张牌
+                    },
+                    deckSelection: {
+                        minDeckSize: 1,   // 设置最小选牌数量
+                        maxDeckSize: 100,   // 设置最大选牌数量
+                    },
+                    opponent: {
+                        actionPoints: 12,
+                        hp: 10000,
+                        maxHp: 10000,
+                        deck: () => {
+                            // 返回所有卡牌各3张
+                            const allCards: Record<string, number> = {};
+                            for (const cardId in CARD_TEMPLATES) {
+                                allCards[cardId] = 3;
+                            }
+                            return allCards;
+                        },
+                        drawCount: 4,           // 对手每回合抽4张牌
+                        initialDrawCount: 3,     // 对手开始时抽3张牌
+                    },
+                    backgroundImage: "sc1.1/1-1-0.jpg",
+                    bgm: "bgm29"
+                },
+                end: [
+                    {
+                        condition: (gameData: CardGameEventData) => gameData.score >= 1,
+                        next: "test1"
+                    },
+                    {
+                        condition: () => true, // 默认条件，总是为真
+                        next: "test2"
+                    }
+                ]
+            }
         },
         
 //结局6//
