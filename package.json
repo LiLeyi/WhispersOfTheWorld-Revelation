@@ -1,11 +1,12 @@
 {
-  "name": "WhispersOfTheWorld-Revelation",
+  "name": "whispers-of-the-world-revelation",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production",
-    "dev": "webpack serve --open"
+    "dev": "webpack serve --open",
+    "build:dev": "webpack --mode=development"
   },
   "keywords": [],
   "author": "",

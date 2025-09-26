@@ -163,8 +163,8 @@ async function renderAutoSaveSlots() {
         return;
     }
     
-    // 显示自动存档槽位
-    for (let row = 0; row < 2; row++) {
+    // 显示自动存档槽位 - 修改为3行，每行3列，总共9个槽位
+    for (let row = 0; row < 3; row++) {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row';
         
