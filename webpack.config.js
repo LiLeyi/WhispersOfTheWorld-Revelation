@@ -68,8 +68,8 @@ module.exports = (env, argv) => {
       filename: '[name]/[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
-      publicPath: isProduction ? 'auto' : '/',  // 生产环境使用自动路径，开发环境使用根路径
-      assetModuleFilename: 'assets/images/[name][ext]'
+      publicPath: isProduction ? '/' : '/',  // 统一使用根路径
+      assetModuleFilename: 'assets/[path][name][ext]'
     },
     optimization: {
       minimize: isProduction,
