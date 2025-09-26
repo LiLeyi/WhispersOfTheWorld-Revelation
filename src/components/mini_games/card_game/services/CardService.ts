@@ -1056,13 +1056,11 @@ export class BuffService {
             disasterLord.hand = [];
 
             // 设置第三管血的血量
-            disasterLord.hp = 1;
-            disasterLord.maxHp = 1;
-
+            disasterLord.hp = 3;
+            disasterLord.maxHp = 3;
             // 检查是否是特殊对战（通过检查游戏配置中的特殊标志）
             // 我们可以通过检查window对象上的特殊属性来判断
             const isSpecialBattle = (window as any).isDisasterLordFinalBattle === true;
-
             // 如果有玩家且不是特殊对战，则给玩家添加终焉之泪和影子卡牌
             if (player && !isSpecialBattle) {
                 // 玩家血量回复至满，但上限减为16

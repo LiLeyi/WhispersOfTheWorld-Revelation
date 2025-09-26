@@ -728,7 +728,12 @@ sprite:{
     choices: [
         {
             text: "你真的没有在欺骗我吗？",
-            next: "battle_shadow_28_1"
+            next: "battle_shadow_28_1",
+            condition: () => {
+          // 检查玩家背包中是否含有破碎蚀心刃或终焉之泪或蚀心暗寂
+          const bagManager = BagManager.getInstance();
+          return bagManager.hasCard("shattered_erosive_blade")||bagManager.hasCard("end_tears")||bagManager.hasCard("darkness_erosive_heart");
+        }
         },
         {
             text: "我会努力去追寻这一切的真相。",
@@ -746,7 +751,7 @@ sprite:{
     left:null,
 }  
     },
-},
+},//这里放成就（尔虞我诈）
 {  
     id: "battle_shadow_29_1",  
     elements: {  
@@ -1087,15 +1092,14 @@ sprite:{
   id: "battle_shadow_51-3",  
   elements: {  
       name: "旁白",  
-      text: "直至，再次将自己彻底吞没。"  
-  }  
-}, 
-{  
-  id: "battle_shadow_51-4",  
-  elements: {  
-      name: "旁白",  
-      text: "......"  
-  }  
+      text: "直至，再次将自己彻底吞没。",  
+  }  ,
+  choices: [
+    {
+      text: "......",
+      next: "battle_shadow_52",
+      }
+  ]
 }, 
 {  
     id: "battle_shadow_52",  
@@ -1105,7 +1109,7 @@ sprite:{
     }  
 },  
 {  
-    id: "battle_shadow_52",  
+    id: "battle_shadow_52_1",  
     elements: {  
         name: "？？？",  
         text: "这样一来，一切就不得不从头开始了。"  
@@ -3733,25 +3737,6 @@ sprite: {
         ]
     }
 },     
-// {
-//     "id": "ending_32_4",
-//     "elements": {
-//        bgm:"bgm26.MP3" ,
-//       "name": "你",
-//       "text": "未集齐三样关键之物",
-//     },
-//     keyNode: true,
-//     choices: [
-//         {
-//           text: "输了",
-//           next: "ending_33_4",
-//         },
-//         {
-//           text: "赢了",
-//           next: "ending_33_6",
-//         }
-//       ]
-// },
 {
     "id": "ending_33_4",
     "elements": {
@@ -5282,8 +5267,8 @@ sprite: {
                 config: {
                     player: {
                         actionPoints: 5,
-                        hp: 20,
-                        maxHp: 20,
+                        hp: 31,
+                        maxHp: 31,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5472,7 +5457,7 @@ sprite: {
   id: "ending_45_6",
   elements: {
     name: "旁白",
-    text: "将三样关键之物轻握在手中，从手心里传来的异样感似乎在诉说着另一个故事。"
+    text: "将关键之物轻握在手中，从手心里传来的异样感似乎在诉说着另一个故事。"
   }
 },
 {
@@ -5517,7 +5502,7 @@ sprite: {
   id: "ending_49_6_1",
   elements: {
     name: "旁白",
-    text: "三样关键之物散发出强烈的光芒，刺眼到仿佛要将整个世界照亮。"
+    text: "关键之物散发出强烈的光芒，刺眼到仿佛要将整个世界照亮。"
   }
 },
 {
@@ -6024,14 +6009,51 @@ sprite: {
     text: "孤独的主人公，需要新的同伴——那么，请为他的故事再添一笔吧。"
   },
         action: () => {
-                let am = AchievementManager.getInstance();
-                am.unlockAchievementWithAnimation("ending_6");
+                // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
+                const achievementManager = AchievementManager.getInstance();
+                const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
+                const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
+                const bagManager = BagManager.getInstance();
+                const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+                // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才解锁成就
+                if (hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus) {
+                  let am = AchievementManager.getInstance();
+                  am.unlockAchievementWithAnimation("ending_6");
+                }
+                if (!hasHeartOfPrime || !hasEyeOfEternalSun || !hasTearOfTerminus) {
+                  let am = AchievementManager.getInstance();
+                  am.unlockAchievementWithAnimation("hidden ending");
+                }
               },
   choices: [
     {
-      text: "达成结局六！！！",
-      next: "chapter_0_scene_0",
-    }
+        text: "达成结局六！！",
+        next: "chapter_0_scene_0",
+        condition: () => {
+          // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
+          const achievementManager = AchievementManager.getInstance();
+          const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
+          const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
+          const bagManager = BagManager.getInstance();
+          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+          // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才显示此选项
+          return hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus;
+        }
+    },
+    {
+        text: "达成隐藏成就！！",
+        next: "chapter_0_scene_0",
+        condition: () => {
+          // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
+          const achievementManager = AchievementManager.getInstance();
+          const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
+          const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
+          const bagManager = BagManager.getInstance();
+          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+          // 除非未获得始源之心或永昼之瞳的成就或终焉之泪的卡牌才显示此选项
+          return !hasHeartOfPrime || !hasEyeOfEternalSun || !hasTearOfTerminus;
+        }
+     },
   ],
 },
 //结局7//

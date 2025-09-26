@@ -14,7 +14,7 @@ export class AchievementRegistry {
         // 初始化所有成就
         // 结局类成就
         this.achievements.set("ending_1", new Achievement("ending_1", "永恒世界", "ETERNUM", "完成结局1"));
-        this.achievements.set("ending_2", new Achievement("ending_2", "蚀心之刃", "COR CORRUMPENS", "完成结局2"));
+        this.achievements.set("ending_2", new Achievement("ending_2", "屠龙终成魔", "DRAGON SLAYER DEMON BORN", "完成结局2"));
         this.achievements.set("ending_3", new Achievement("ending_3", "爱与生的苦恼", "DIE LIEBE UND DAS LEIDEN DES LEBENS", "完成结局3"));
         this.achievements.set("ending_4", new Achievement("ending_4", "永劫无间", "NARAKA", "完成结局4"));
         this.achievements.set("ending_5", new Achievement("ending_5", "美丽新世界", "BRAVE NEW WORLD", "完成结局5"));
@@ -41,6 +41,7 @@ export class AchievementRegistry {
         this.achievements.set("death_ending", new Achievement("death_ending", "人类一败涂地", "HUMAN FALL FLAT", "进入任意死亡结局"));
         this.achievements.set("complete_stone_trials", new Achievement("complete_stone_trials", "心魔", "THE BEAST INSIDE", "通过巨石的所有考验（第一章）"));
         this.achievements.set("abandon_human", new Achievement("abandon_human", "恶灵附身", "THE EVIL WITHIN", "拒绝救下人类（第二章）"));
+       this.achievements.set("hidden ending", new Achievement("hidden ending", "王者之证", "THE PROOF OF KINGSHIP", "在未集齐三件\"关键之物\"的情况下，击败灾厄之主（终章）"));
     }
 
     static getAchievement(id: string): Achievement | undefined {
