@@ -6355,7 +6355,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "为什么？为什么会这样？",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -6395,7 +6395,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "我不知道......",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -7426,6 +7426,7 @@ const scene: Scene = {
         text: "虚樹将关键之物交给了我们",
         sprite: {
           left: "NPC/jixieman.png",
+          center: null,
         }
       }
     },
@@ -7463,6 +7464,7 @@ choices: [
         text: "还有最后一个问题......",
         sprite: {
           left: "NPC/mianjuman.png",
+          center: null,
         }
       }
     },
