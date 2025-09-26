@@ -5295,6 +5295,7 @@ sprite: {
                         maxDeckSize: 100,   // 设置最大选牌数量
                     },
                     opponent: {
+                        name:"oiiaioooooiiai",
                         actionPoints: 12,
                         hp: 10000,
                         maxHp: 10000,
@@ -5309,8 +5310,8 @@ sprite: {
                         drawCount: 4,           // 对手每回合抽4张牌
                         initialDrawCount: 3,     // 对手开始时抽3张牌
                     },
-                    backgroundImage: "sc1.1/1-1-0.jpg",
-                    bgm: "bgm29"
+                    backgroundImage: "sc0.1/caidan.png",
+                    bgm: "caidan"
                 },
                 end: [
                     {
