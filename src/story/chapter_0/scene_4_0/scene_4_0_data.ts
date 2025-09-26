@@ -5304,13 +5304,23 @@ sprite: {
                 },
                 end: [
                     {
-                        condition: (gameData: CardGameEventData) => gameData.score >= 1,
-                        next: "test1"
+                        condition: (gameData: CardGameEventData) => {
+                                    if (gameData.opponent.hp <= 9900) {
+                                        const am = AchievementManager.getInstance();
+                                        am.unlockAchievementWithAnimation("infinite war");
+                                    }
+                                    return gameData.player.hp  > 0 ;},
+                        next: "test1__3"
                     },
-                    {
-                        condition: () => true, // 默认条件，总是为真
+                     {
+                        condition: (gameData: CardGameEventData) => {
+                                    if (gameData.opponent.hp <= 9900) {
+                                        const am = AchievementManager.getInstance();
+                                        am.unlockAchievementWithAnimation("infinite war");
+                                    }
+                                    return gameData.player.hp  <= 0 ;},
                         next: "test2__3"
-                    }
+                    },
                 ]
             }
         },
@@ -5326,8 +5336,25 @@ sprite: {
                     next: "infinite_torture"
                 },
                 {
-                    text: "否",
-                    next: "test99"
+                    text: "否（回到终章解锁其他结局）",
+                    next: "chapter_0_scene_4_0"
+                }
+            ]
+        },
+        {
+            id: "test1__3",
+            elements: {
+                name: "旁白",
+                text: "你现在强的离谱！"
+            },
+            choices: [
+                {
+                    text: "回到终章解锁其他结局",
+                    next: "chapter_0_scene_4_0"
+                },
+                {
+                    text: "退出游戏",
+                    next: "test100000000"
                 }
             ]
         },
