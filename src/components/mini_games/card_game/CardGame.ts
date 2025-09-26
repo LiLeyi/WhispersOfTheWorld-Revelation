@@ -1060,15 +1060,13 @@ class CardGame extends MiniGame {
                 this.analyser.connect(this.audioContext.destination);
                 
                 // 恢复音频上下文
-                if (this.audioContext.state === 'suspended') {
-                    this.audioContext.resume();
-                }
+                this.audioContext.resume();
             } else {
                 console.warn('未找到背景音乐元素或音乐未加载');
                 this.analyser = null;
             }
         } catch (e) {
-            console.warn('无法初始化音频分析器，可能由于浏览器安全策略限制:', e);
+            console.warn('无法初始化音频分析器:', e);
             this.analyser = null;
         }
     }
@@ -1093,77 +1091,67 @@ class CardGame extends MiniGame {
         
         // 如果有音频分析器，使用真实音频数据
         if (this.analyser && this.audioContext && this.audioContext.state === 'running') {
-            try {
-                // 获取频域数据
-                const bufferLength = this.analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-                this.analyser.getByteFrequencyData(dataArray);
+            // 获取频域数据
+            const bufferLength = this.analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            this.analyser.getByteFrequencyData(dataArray);
+            
+            // 更新可视化条
+            const bars = this.musicVisualizer.querySelectorAll('div');
+            bars.forEach((bar, index) => {
+                // 创建中间高两边低的效果
+                // 计算条在数组中的位置（0到1之间）
+                const position = index / (bars.length - 1);
+                // 计算距离中心的距离（0到0.5）
+                const distanceFromCenter = Math.abs(position - 0.5);
+                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
+                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
                 
-                // 更新可视化条
-                const bars = this.musicVisualizer.querySelectorAll('div');
-                bars.forEach((bar, index) => {
-                    // 创建中间高两边低的效果
-                    // 计算条在数组中的位置（0到1之间）
-                    const position = index / (bars.length - 1);
-                    // 计算距离中心的距离（0到0.5）
-                    const distanceFromCenter = Math.abs(position - 0.5);
-                    // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
-                    const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-                    
-                    // 使用音频数据更新宽度，并应用中心增强效果
-                    const rawValue = dataArray[index % bufferLength] || 0;
-                    // 增强波动效果，但减小变化幅度
-                    const value = rawValue * centerMultiplier * 1.5;
-                    const width = Math.max(30, value); // 最小宽度30像素
-                    bar.style.width = `${width}px`;
-                    
-                    // 根据音频强度调整透明度，增加对比度
-                    const opacity = 0.4 + (value / 255) * 0.6;
-                    bar.style.opacity = opacity.toString();
-                    
-                    // 设置为白色
-                    bar.style.backgroundColor = '#ffffff';
-                });
-            } catch (e) {
-                console.warn('音频可视化更新出错，切换到模拟模式:', e);
-                this.updateVisualizationFallback();
-            }
+                // 使用音频数据更新宽度，并应用中心增强效果
+                const rawValue = dataArray[index % bufferLength] || 0;
+                // 增强波动效果，但减小变化幅度
+                const value = rawValue * centerMultiplier * 1.5;
+                const width = Math.max(30, value); // 最小宽度30像素
+                bar.style.width = `${width}px`;
+                
+                // 根据音频强度调整透明度，增加对比度
+                const opacity = 0.4 + (value / 255) * 0.6;
+                bar.style.opacity = opacity.toString();
+                
+                // 设置为白色
+                bar.style.backgroundColor = '#ffffff';
+            });
         } else {
             // 如果没有音频分析器，使用原来的随机数据模拟
-            this.updateVisualizationFallback();
+            const bars = this.musicVisualizer.querySelectorAll('div');
+            bars.forEach((bar, index) => {
+                // 创建中间高两边低的效果
+                // 计算条在数组中的位置（0到1之间）
+                const position = index / (bars.length - 1);
+                // 计算距离中心的距离（0到0.5）
+                const distanceFromCenter = Math.abs(position - 0.5);
+                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
+                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
+                
+                // 使用索引创建更有节奏感的变化
+                const timeOffset = index * 0.5;
+                const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
+                
+                // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
+                const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
+                const width = rawWidth * centerMultiplier;
+                bar.style.width = `${width}%`;
+                
+                // 根据宽度调整透明度，增加对比度
+                const opacity = 0.4 + (width / 120) * 0.6;
+                bar.style.opacity = opacity.toString();
+                
+                // 设置为白色
+                bar.style.backgroundColor = '#ffffff';
+            });
         }
     }
-    
-    // 备用可视化更新方法（模拟）
-    private updateVisualizationFallback(): void {
-        if (!this.musicVisualizer) return;
-        const bars = this.musicVisualizer.querySelectorAll('div');
-        bars.forEach((bar, index) => {
-            // 创建中间高两边低的效果
-            // 计算条在数组中的位置（0到1之间）
-            const position = index / (bars.length - 1);
-            // 计算距离中心的距离（0到0.5）
-            const distanceFromCenter = Math.abs(position - 0.5);
-            // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
-            const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
 
-            // 使用索引创建更有节奏感的变化
-            const timeOffset = index * 0.5;
-            const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
-
-            // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
-            const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
-            const width = rawWidth * centerMultiplier;
-            bar.style.width = `${width}%`;
-
-            // 根据宽度调整透明度，增加对比度
-            const opacity = 0.4 + (width / 120) * 0.6;
-            bar.style.opacity = opacity.toString();
-
-            // 设置为白色
-            bar.style.backgroundColor = '#ffffff';
-        });
-    }
 
     // 设置音量控制
     private setupVolumeControl(): void {

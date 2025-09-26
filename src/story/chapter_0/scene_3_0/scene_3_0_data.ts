@@ -11,6 +11,13 @@ id:"chapter_0_scene_3_0",
 title:"第三章第1幕:",
 nodes: [
  {
+    id: "video_node_0",
+    elements: {
+        name: "旁白",
+        text: "诡异的山林间"
+    },
+},
+    {
             id: "video_node",
             elements: {
                 name: "旁白",
@@ -18,25 +25,6 @@ nodes: [
             },
             video: "3.mp4", // 视频文件应放在 src/assets/video/ 目录下
         },    
-{
-    id: "mountain_2",
-    elements: {
-        background:"sc3.1/3-1-3.jpg",
-        bgm:"bgm3.mp3",
-        name: "旁白",
-        text: "一个在粗鄙的爱欲中以固执的器官附着于世界。",
-        sprite: {
-            left: null,
-        }
-    },
-},
-{
-    id: "mountain_3",
-    elements: {
-        name: "旁白",
-        text: "另一个则奋力超脱尘渣，进入到崇高的先人的灵境。"
-    },
-},
 {
     id: "mountain_4",
     elements: {

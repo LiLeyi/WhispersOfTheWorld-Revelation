@@ -10,6 +10,13 @@ const scene: Scene = {
   title: "第2章第1幕:齿轮之城",
   nodes: [
     {
+      id: "video_node_0",
+      elements: {
+        name: "旁白",
+        text: "齿轮之城外围"
+      },
+    },
+    {
       id: "video_node",
       elements: {
         name: "旁白",

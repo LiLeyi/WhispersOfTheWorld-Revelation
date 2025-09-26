@@ -11,6 +11,12 @@ const scene: Scene = {
     title: "第一章第1幕：斑牛镇",
     nodes: [
          {
+            id: "video_node_0",
+            elements: {
+                name: "旁白",
+                text: "进入斑牛镇",}
+        },
+        {
             id: "video_node",
             elements: {
                 name: "旁白",
