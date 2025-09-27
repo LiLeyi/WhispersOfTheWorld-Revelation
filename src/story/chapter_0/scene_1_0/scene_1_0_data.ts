@@ -1414,7 +1414,24 @@ const scene: Scene = {
                             condition: (gameData: CardGameEventData) => gameData.score <= 0,
                             next: "sad1"
                         }
-                    ]
+                    ],
+                            events: [
+                    {
+                        id: 'opponent_critical_health',
+                        condition: (gameData: CardGameEventData) => {
+                            return gameData.player.lastPlayedCard !== null &&
+                                gameData.opponent.hp <=5;
+                        },
+                        elements: {
+                            name: '光泠',
+                            text: '加油，就要成功了'
+                        },
+                        next: "player_first_attack_1",
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },]
                 }
             },
             {

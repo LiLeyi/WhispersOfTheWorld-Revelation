@@ -225,23 +225,7 @@ const scene: Scene = {
         //                 next: "test2"
         //             }
         //         ],
-        //         events: [
-        //             {
-        //                 id: 'player_first_attack',
-        //                 condition: (gameData: CardGameEventData) => {
-        //                     return gameData.player.lastPlayedCard !== null &&
-        //                         gameData.opponent.hp < gameData.opponent.maxHp;
-        //                 },
-        //                 elements: {
-        //                     name: '对手',
-        //                     text: '哦？有点意思，竟然能伤到我'
-        //                 },
-        //                 next: "player_first_attack_1",
-        //                 triggerConfig: {
-        //                     onlyOnce: true,
-        //                     conflict: true
-        //                 }
-        //             },
+              
         //             {
         //                 id: 'player_first_attack_1',
         //                 condition: () => false,
