@@ -1034,40 +1034,358 @@ class CardGame extends MiniGame {
         }
     }
     
+    // 添加一个标志来跟踪是否已经初始化了音频分析器
+    private audioAnalyserInitialized: boolean = false;
+    private audioAnalyserPending: boolean = false;
+    
     // 初始化音频分析器
     private initAudioAnalyser(): void {
+        console.log('CardGame: 尝试初始化音频分析器');
+        
+        // 检查是否已经有待处理的初始化
+        if (this.audioAnalyserPending) {
+            console.log('CardGame: 音频分析器已在待处理状态');
+            return;
+        }
+        
+        // 检查是否已经初始化
+        if (this.audioAnalyserInitialized) {
+            console.log('CardGame: 音频分析器已初始化');
+            return;
+        }
+        
         try {
-            // 如果已经存在音频上下文，先暂停并重置
-            if (this.audioContext) {
-                this.audioContext.suspend();
-            }
-            
-            // 创建音频上下文
-            this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-            
-            // 创建分析器节点
-            this.analyser = this.audioContext.createAnalyser();
-            this.analyser.fftSize = 64; // 较小的fftSize以获得更平滑的效果
-            
             // 获取背景音乐元素
             const musicElement = document.getElementById('music') as HTMLAudioElement;
-            if (musicElement && musicElement.src) {
-                // 创建媒体元素源
+            console.log('CardGame: 查找音乐元素结果:', musicElement);
+            console.log('CardGame: 音乐元素src属性:', musicElement ? musicElement.src : '元素不存在');
+            console.log('CardGame: 音乐元素currentSrc属性:', musicElement ? musicElement.currentSrc : '元素不存在');
+            
+            if (!musicElement) {
+                console.warn('未找到背景音乐元素', {
+                    documentReadyState: document.readyState,
+                    allElementsWithId: Array.from(document.querySelectorAll('[id]')).map(el => ({
+                        id: el.id,
+                        tagName: el.tagName
+                    }))
+                });
+                return;
+            }
+            
+            // 确保音频元素有正确的源
+            this.ensureAudioSource();
+            
+            // 尝试播放音频以确保它能正常工作
+            if (musicElement.src && musicElement.src !== window.location.href) {
+                console.log('CardGame: 音频元素有有效源，尝试播放');
+                // 尝试播放音频
+                try {
+                    // 只在用户交互后尝试播放
+                    if ((window as any).audioContext && (window as any).audioContext.state !== 'suspended') {
+                        musicElement.play().then(() => {
+                            console.log('CardGame: 音频播放成功');
+                        }).catch((playError) => {
+                            console.warn('CardGame: 音频播放失败:', playError);
+                        });
+                    }
+                } catch (playError) {
+                    console.warn('CardGame: 音频播放失败:', playError);
+                }
+            }
+            
+            // 创建一个简单的音频上下文用于可视化
+            if (!this.audioContext) {
+                console.log('CardGame: 创建音频上下文用于可视化');
+                this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+            }
+            
+            // 标记为已初始化
+            this.audioAnalyserInitialized = true;
+            this.audioAnalyserPending = false;
+            
+            console.log('CardGame: 音频初始化完成');
+            
+            // 尝试使用 Audio Worklet 实现可视化
+            this.initWorkletVisualization();
+        } catch (e) {
+            console.warn('无法初始化音频:', e);
+            this.audioAnalyserPending = false;
+        }
+    }
+        // 使用 Audio Worklet 实现可视化
+    private async initWorkletVisualization(): Promise<void> {
+        try {
+            // 检查浏览器是否支持 Audio Worklet
+            if (!this.audioContext || !this.audioContext.audioWorklet) {
+                console.log('CardGame: 浏览器不支持 Audio Worklet，使用备用方案');
+                this.startVisualization();
+                return;
+            }
+            
+            // 创建 Audio Worklet 节点的处理器代码
+            const workletProcessorCode = `
+                class VisualizationProcessor extends AudioWorkletProcessor {
+                    static get parameterDescriptors() {
+                        return [];
+                    }
+                    
+                    constructor() {
+                        super();
+                        this.port.onmessage = (event) => {
+                            // 接收来自主线程的消息
+                        };
+                    }
+                    
+                    process(inputs, outputs, parameters) {
+                        // 获取输入数据（来自音频源）
+                        const input = inputs[0];
+                        
+                        if (input.length > 0) {
+                            // 计算所有通道的平均音量
+                            let sum = 0;
+                            let count = 0;
+                            
+                            for (let channel = 0; channel < input.length; channel++) {
+                                const inputData = input[channel];
+                                for (let i = 0; i < inputData.length; i++) {
+                                    sum += Math.abs(inputData[i]);
+                                    count++;
+                                }
+                            }
+                            
+                            const averageVolume = count > 0 ? sum / count : 0;
+                            
+                            // 将音量数据发送到主线程
+                            this.port.postMessage({
+                                type: 'volumeData',
+                                volume: averageVolume
+                            });
+                        }
+                        
+                        // 继续处理音频
+                        return true;
+                    }
+                }
+                
+                registerProcessor('visualization-processor', VisualizationProcessor);
+            `;
+            
+            // 将处理器代码转换为 Blob URL
+            const workletBlob = new Blob([workletProcessorCode], { type: 'application/javascript' });
+            const workletUrl = URL.createObjectURL(workletBlob);
+            
+            // 添加模块到 Audio Worklet
+            await this.audioContext.audioWorklet.addModule(workletUrl);
+            
+            // 创建 Audio Worklet 节点
+            const workletNode = new AudioWorkletNode(this.audioContext, 'visualization-processor');
+            
+            // 监听来自 Worklet 的消息
+            workletNode.port.onmessage = (event) => {
+                if (event.data.type === 'volumeData') {
+                    // 存储音量数据用于可视化
+                    (window as any).currentAudioVolume = event.data.volume;
+                }
+            };
+            
+            // 获取背景音乐元素并连接到 Worklet 节点
+            const musicElement = document.getElementById('music') as HTMLAudioElement;
+            if (musicElement) {
                 const source = this.audioContext.createMediaElementSource(musicElement);
+                source.connect(workletNode);
+                workletNode.connect(this.audioContext.destination);
+                
+                console.log('CardGame: Audio Worklet 可视化初始化成功');
+                
+                // 开始基于 Worklet 的可视化
+                this.startWorkletVisualization();
+            } else {
+                // 如果没有音频元素，使用备用方案
+                this.startVisualization();
+            }
+            
+            // 清理 Blob URL
+            URL.revokeObjectURL(workletUrl);
+        } catch (error) {
+            console.warn('CardGame: Audio Worklet 可视化初始化失败:', error);
+            // 使用备用方案
+            this.startVisualization();
+        }
+    }
+    
+    // 开始基于 Audio Worklet 的可视化
+    private startWorkletVisualization(): void {
+        console.log('CardGame: 开始 Audio Worklet 可视化');
+        
+        // 清除已存在的定时器
+        if (this.visualizationInterval) {
+            clearInterval(this.visualizationInterval);
+        }
+        
+        // 设置新的定时器，定期更新可视化效果
+        this.visualizationInterval = window.setInterval(() => {
+            this.updateWorkletVisualization();
+        }, 50); // 每50毫秒更新一次，更流畅的效果
+    }
+    
+    // 更新基于 Audio Worklet 的可视化
+    private updateWorkletVisualization(): void {
+        if (!this.musicVisualizer) return;
+        
+        // 获取存储的音量数据
+        const volume = (window as any).currentAudioVolume || 0;
+        
+        // 获取所有可视化条
+        const bars = this.musicVisualizer.querySelectorAll('div');
+        if (bars.length === 0) return;
+        
+        // 基于音量数据更新可视化条
+        bars.forEach((bar, index) => {
+            // 添加一些随机性和波动效果，使可视化更有趣
+            const timeFactor = Date.now() / 1000;
+            const randomFactor = Math.sin(timeFactor * 2 + index * 0.5) * 0.3 + 0.7;
+            
+            // 结合实际音量和随机波动
+            const value = Math.min(1, volume * 50 + 0.1) * randomFactor;
+            
+            // 应用视觉效果
+            const percentage = value * 100;
+            (bar as HTMLElement).style.width = `${Math.max(percentage, 5)}%`;
+            (bar as HTMLElement).style.opacity = `${0.2 + value * 0.8}`;
+        });
+    }
+
+    // 确保音频元素有正确的源
+    private ensureAudioSource(): void {
+        try {
+            const musicElement = document.getElementById('music') as HTMLAudioElement;
+            if (musicElement) {
+                console.log('CardGame: 检查音频元素源', {
+                    hasSrc: !!musicElement.src,
+                    src: musicElement.src,
+                    currentSrc: musicElement.currentSrc
+                });
+                
+                // 如果音频元素没有源或者源不正确，尝试从localStorage获取
+                if (!musicElement.src || musicElement.src === window.location.href) {
+                    console.log('CardGame: 音频元素没有有效源，尝试设置');
+                    
+                    // 从localStorage获取当前背景音乐
+                    const currentBgm = localStorage.getItem("nowbgm");
+                    console.log('CardGame: 当前背景音乐:', currentBgm);
+                    
+                    if (currentBgm && currentBgm !== "none" && currentBgm !== "#" && currentBgm !== "null") {
+                        // 构造正确的音频路径
+                        let audioPath = currentBgm;
+                        
+                        // 如果不是绝对路径或完整URL，构造相对于当前页面的路径
+                        if (!audioPath.startsWith('/') && !audioPath.startsWith('http')) {
+                            // 检查是否已经有.mp3扩展名
+                            if (!audioPath.endsWith('.mp3') && !audioPath.endsWith('.MP3')) {
+                                audioPath = `${audioPath}.mp3`;
+                            }
+                            
+                            // 在生产环境中，使用相对路径访问assets目录
+                            // 在dist目录中，页面文件在dist/pages/game_scenes/目录下
+                            // 音频文件在dist/assets/bgm/目录下
+                            // 所以需要相对路径为: ../../assets/bgm/
+                            const fullPath = `../../assets/bgm/${audioPath}`;
+                            console.log('CardGame: 设置音频源:', fullPath);
+                            musicElement.src = fullPath;
+                        } else {
+                            console.log('CardGame: 使用绝对路径音频源:', audioPath);
+                            musicElement.src = audioPath;
+                        }
+                        
+                        // 确保设置了循环播放
+                        musicElement.loop = true;
+                        
+                        // 尝试加载音频
+                        musicElement.load();
+                        console.log('CardGame: 音频加载完成');
+                    }
+                }
+                
+                // 添加用户交互事件监听器以播放音频
+                const playAudioOnUserInteraction = () => {
+                    if (musicElement.src && musicElement.src !== window.location.href) {
+                        console.log('CardGame: 用户交互触发，尝试播放音频');
+                        try {
+                            musicElement.play().then(() => {
+                                console.log('CardGame: 音频播放成功');
+                            }).catch((playError) => {
+                                console.warn('CardGame: 音频播放失败:', playError);
+                            });
+                        } catch (playError) {
+                            console.warn('CardGame: 音频播放失败:', playError);
+                        }
+                    }
+                    // 移除事件监听器，只播放一次
+                    document.removeEventListener('click', playAudioOnUserInteraction);
+                    document.removeEventListener('touchstart', playAudioOnUserInteraction);
+                    document.removeEventListener('keydown', playAudioOnUserInteraction);
+                };
+                
+                // 添加多种用户交互事件监听器
+                document.addEventListener('click', playAudioOnUserInteraction, { once: true });
+                document.addEventListener('touchstart', playAudioOnUserInteraction, { once: true });
+                document.addEventListener('keydown', playAudioOnUserInteraction, { once: true });
+            } else {
+                console.warn('CardGame: 未找到音频元素');
+            }
+        } catch (e) {
+            console.warn('CardGame: 确保音频源时出错:', e);
+        }
+    }
+    
+    // 设置音频分析
+    private setupAudioAnalysis(musicElement: HTMLAudioElement): void {
+        try {
+            console.log('CardGame: 设置音频分析');
+            
+            // 创建分析器节点
+            this.analyser = this.audioContext!.createAnalyser();
+            this.analyser.fftSize = 64; // 较小的fftSize以获得更平滑的效果
+            console.log('CardGame: 分析器节点创建成功', this.analyser);
+            
+            // 检查音频元素状态
+            console.log('CardGame: 音频元素状态', {
+                src: musicElement.src,
+                currentSrc: musicElement.currentSrc,
+                readyState: musicElement.readyState,
+                networkState: musicElement.networkState,
+                paused: musicElement.paused
+            });
+            
+            // 尝试创建媒体元素源
+            try {
+                const source = this.audioContext!.createMediaElementSource(musicElement);
+                console.log('CardGame: 媒体元素源创建成功', source);
                 
                 // 连接节点: source -> analyser -> destination
                 source.connect(this.analyser);
-                this.analyser.connect(this.audioContext.destination);
-                
-                // 恢复音频上下文
-                this.audioContext.resume();
-            } else {
-                console.warn('未找到背景音乐元素或音乐未加载');
-                this.analyser = null;
+                this.analyser.connect(this.audioContext!.destination);
+                console.log('CardGame: 音频节点连接成功');
+            } catch (mediaError) {
+                console.warn('CardGame: 创建媒体元素源失败，可能是CORS问题:', mediaError);
+                // 即使无法连接媒体源，我们仍然可以使用分析器进行可视化
+                // 只是不会有基于实际音频的可视化效果
+                this.analyser!.connect(this.audioContext!.destination);
             }
+            
+            // 标记为已初始化
+            this.audioAnalyserInitialized = true;
+            this.audioAnalyserPending = false;
+            
+            console.log('CardGame: 音频分析器初始化完成');
+            
+            // 开始可视化
+            this.startVisualization();
         } catch (e) {
-            console.warn('无法初始化音频分析器:', e);
-            this.analyser = null;
+            console.warn('CardGame: 设置音频分析失败:', e);
+            this.audioAnalyserPending = false;
+            // 即使音频分析失败，也启动备用可视化
+            this.startVisualization();
         }
     }
     
@@ -1089,67 +1407,71 @@ class CardGame extends MiniGame {
     private updateVisualization(): void {
         if (!this.musicVisualizer) return;
         
-        // 如果有音频分析器，使用真实音频数据
+        // 如果有音频分析器，尝试使用真实音频数据
         if (this.analyser && this.audioContext && this.audioContext.state === 'running') {
-            // 获取频域数据
-            const bufferLength = this.analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            this.analyser.getByteFrequencyData(dataArray);
-            
-            // 更新可视化条
-            const bars = this.musicVisualizer.querySelectorAll('div');
-            bars.forEach((bar, index) => {
-                // 创建中间高两边低的效果
-                // 计算条在数组中的位置（0到1之间）
-                const position = index / (bars.length - 1);
-                // 计算距离中心的距离（0到0.5）
-                const distanceFromCenter = Math.abs(position - 0.5);
-                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
-                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
+            try {
+                // 获取频域数据
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                this.analyser.getByteFrequencyData(dataArray);
                 
-                // 使用音频数据更新宽度，并应用中心增强效果
-                const rawValue = dataArray[index % bufferLength] || 0;
-                // 增强波动效果，但减小变化幅度
-                const value = rawValue * centerMultiplier * 1.5;
-                const width = Math.max(30, value); // 最小宽度30像素
-                bar.style.width = `${width}px`;
-                
-                // 根据音频强度调整透明度，增加对比度
-                const opacity = 0.4 + (value / 255) * 0.6;
-                bar.style.opacity = opacity.toString();
-                
-                // 设置为白色
-                bar.style.backgroundColor = '#ffffff';
-            });
+                // 更新可视化条
+                const bars = this.musicVisualizer.querySelectorAll('div');
+                bars.forEach((bar, index) => {
+                    // 创建中间高两边低的效果
+                    // 计算条在数组中的位置（0到1之间）
+                    const position = index / (bars.length - 1);
+                    // 计算距离中心的距离（0到0.5）
+                    const distanceFromCenter = Math.abs(position - 0.5);
+                    // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
+                    const centerBoost = 1.3 - distanceFromCenter * 1.2;
+                    
+                    // 获取对应频率的数据值（0-255）
+                    const value = dataArray[index % bufferLength] / 255;
+                    // 应用中心增强效果
+                    const adjustedValue = Math.min(1, value * centerBoost);
+                    
+                    // 确保值在合理范围内
+                    const clampedValue = Math.max(0, Math.min(1, adjustedValue));
+                    
+                    // 应用视觉效果
+                    const percentage = clampedValue * 100;
+                    (bar as HTMLElement).style.width = `${Math.max(percentage, 5)}%`;
+                    (bar as HTMLElement).style.opacity = `${0.3 + clampedValue * 0.7}`;
+                });
+            } catch (e) {
+                console.warn('CardGame: 音频可视化更新失败，使用备用方案:', e);
+                // 如果音频数据获取失败，使用备用可视化方案
+                this.updateVisualizerBarsWithFallback();
+            }
         } else {
-            // 如果没有音频分析器，使用原来的随机数据模拟
-            const bars = this.musicVisualizer.querySelectorAll('div');
-            bars.forEach((bar, index) => {
-                // 创建中间高两边低的效果
-                // 计算条在数组中的位置（0到1之间）
-                const position = index / (bars.length - 1);
-                // 计算距离中心的距离（0到0.5）
-                const distanceFromCenter = Math.abs(position - 0.5);
-                // 根据距离中心的远近调整值，中心最大(1.3)，边缘最小(0.7)
-                const centerMultiplier = 1.3 - (distanceFromCenter * 1.2);
-                
-                // 使用索引创建更有节奏感的变化
-                const timeOffset = index * 0.5;
-                const time = (Date.now() / 50) + timeOffset; // 更快的变化速度
-                
-                // 生成变化的宽度 (30-120%)，并应用中心增强效果，减小变化幅度
-                const rawWidth = 30 + Math.abs(Math.sin(time * 4)) * 90;
-                const width = rawWidth * centerMultiplier;
-                bar.style.width = `${width}%`;
-                
-                // 根据宽度调整透明度，增加对比度
-                const opacity = 0.4 + (width / 120) * 0.6;
-                bar.style.opacity = opacity.toString();
-                
-                // 设置为白色
-                bar.style.backgroundColor = '#ffffff';
-            });
+            // 如果没有分析器，使用备用的可视化更新方法
+            this.updateVisualizerBarsWithFallback();
         }
+    }
+    
+    // 备用的可视化更新方法（当音频分析不可用时）
+    private updateVisualizerBarsWithFallback(): void {
+        if (!this.musicVisualizer) return;
+        
+        // 获取所有可视化条
+        const bars = this.musicVisualizer.querySelectorAll('div');
+        if (bars.length === 0) return;
+        
+        // 使用基于时间的动画作为备用方案
+        const time = Date.now() / 1000;
+        
+        bars.forEach((bar, index) => {
+            // 创建一个基于时间的波浪动画
+            const wave = Math.sin(time * 2 + index * 0.3) * 0.5 + 0.5;
+            const pulse = Math.sin(time * 0.5) * 0.3 + 0.7;
+            const value = wave * pulse;
+            
+            // 应用视觉效果
+            const percentage = value * 100;
+            (bar as HTMLElement).style.width = `${Math.max(percentage, 10)}%`;
+            (bar as HTMLElement).style.opacity = `${0.4 + value * 0.6}`;
+        });
     }
 
 
@@ -1365,7 +1687,7 @@ class CardGame extends MiniGame {
                                 this.audioManager.setGameVolume(clampedVolume);
                             }
                         }
-                        this.audioManager.playSoundEffect("hover");
+                        // this.audioManager.playSoundEffect("hover");
                     }
                 } catch (e) {
                     console.log("无法播放悬停音效:", e);

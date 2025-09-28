@@ -10,11 +10,12 @@ const scene: Scene = {
     id: "chapter_0_scene_1_0",
     title: "第一章第1幕：斑牛镇",
     nodes: [
-         {
+        {
             id: "video_node_0",
             elements: {
                 name: "旁白",
-                text: "进入斑牛镇",}
+                text: "进入斑牛镇",
+            }
         },
         {
             id: "video_node",
@@ -154,8 +155,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "再次从噩梦中惊醒，发现冷汗从额间流下。",
                 background: "sc1.1/1-1-6.png",
-                bgm:"bgm1.mp3",
-                
+                bgm: "bgm1.mp3",
+
             }
         },
         {
@@ -164,8 +165,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "抬头看去，光泠正静静地注视着我。",
                 sprite: {
-            left: null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -174,8 +175,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "您还好吗？是做了什么可怕的噩梦吗？",
                 sprite: {
-            left: "guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -191,8 +192,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "希望您不要被吓到哭鼻子。我怕哄不好您。",
                 sprite: {
-            left: "guangling/smile1.png"
-        }
+                    left: "guangling/smile1.png"
+                }
             }
         },
         {
@@ -201,8 +202,8 @@ const scene: Scene = {
                 name: "你",
                 text: "当然不会，好吧。我们现在在哪里？",
                 sprite: {
-            left: "guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -211,8 +212,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "斑牛镇。看来您还需要一点时间。",
                 sprite: {
-            left: "guangling/smile1.png"
-        }
+                    left: "guangling/smile1.png"
+                }
             }
         },
         {
@@ -277,8 +278,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "我已经休息得足够，谢谢您。",
                 sprite: {
-            left: "guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -343,8 +344,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "您好些了吗？我们可以出去逛逛，探索一下这里。",
                 sprite: {
-            left: "guangling/smile1.png"
-        }
+                    left: "guangling/smile1.png"
+                }
             }
         },
         {
@@ -388,8 +389,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "假如您真的哭了，我会像哄小孩子一样把您抱在怀里，然后唱首摇篮曲。",
                 sprite: {
-            left: "guangling/smile1.png"
-        }
+                    left: "guangling/smile1.png"
+                }
             }
         },
         {
@@ -405,8 +406,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "那我就用神奇的魔法，把噩梦赶走。",
                 sprite: {
-            left: "guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -486,8 +487,8 @@ const scene: Scene = {
                 text: "好好好，我会的。",
                 bgm: null,
                 sprite: {
-            left: null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -675,8 +676,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "人群爆发出更大的喧嚣与笑声。",
                 sprite: {
-            left: null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -685,8 +686,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "真是糟糕，令人作呕。",
                 sprite: {
-            left: "guangling/down.png"
-        }
+                    left: "guangling/down.png"
+                }
             }
         },
         {
@@ -709,8 +710,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "你所行的道，充满危险。",
                 sprite: {
-            left: null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -740,8 +741,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "转身离开时，又听见旁边的交谈声。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -749,9 +750,9 @@ const scene: Scene = {
             elements: {
                 name: "隐者",
                 text: "你为何要下山？在林中你是纯净的，可以与上帝同在。",
-                        sprite: {
-            left:"NPC/yingzhe.png"
-        }
+                sprite: {
+                    left: "NPC/yingzhe.png"
+                }
             }
         },
         {
@@ -766,7 +767,7 @@ const scene: Scene = {
             elements: {
                 name: "隐者",
                 text: "留下来吧，和我一起在荒林里歌颂上帝。",
-                
+
             }
         },
         {
@@ -775,8 +776,8 @@ const scene: Scene = {
                 name: "？",
                 text: "我爱人类，不是因为他们与上帝同在，而是因为他们需要超越。",
                 sprite: {
-            left:"NPC/questionman.png"
-        }
+                    left: "NPC/questionman.png"
+                }
             }
         },
         {
@@ -791,22 +792,22 @@ const scene: Scene = {
             elements: {
                 name: "隐者",
                 text: "你太年轻，还不懂。人类需要上帝来安慰他们的痛苦。",
-                        sprite: {
-            left:"NPC/yingzhe.png"
-        }
+                sprite: {
+                    left: "NPC/yingzhe.png"
+                }
             }
         },
-         {
+        {
             id: "mysterious_person_2.5",
             elements: {
                 name: "旁白",
                 text: "另一人转身离开",
-                        sprite: {
-            left:null
-        }
+                sprite: {
+                    left: null
+                }
             }
         },
-         {
+        {
             id: "mysterious_person_2.6",
             elements: {
                 name: "旁白",
@@ -823,8 +824,8 @@ const scene: Scene = {
                 bgm: "bgm6.mp3",
                 background: "sc1.1/1-1-4.png",
                 sprite: {
-            left:"NPC/questionman.png"
-        }
+                    left: "NPC/questionman.png"
+                }
             }
         },
         {
@@ -833,8 +834,8 @@ const scene: Scene = {
                 name: "你",
                 text: "你好。",
                 sprite: {
-            left:null,
-        }
+                    left: null,
+                }
             },
         },
         {
@@ -843,8 +844,8 @@ const scene: Scene = {
                 name: "？",
                 text: "我看见你了，行走在深渊之索上的人。",
                 sprite: {
-            left:"NPC/questionman.png"
-        }
+                    left: "NPC/questionman.png"
+                }
             },
         },
         {
@@ -852,7 +853,7 @@ const scene: Scene = {
             elements: {
                 name: "？",
                 text: "你空无一物，却背负全世界的重量。",
-                
+
             },
         },
         {
@@ -868,8 +869,8 @@ const scene: Scene = {
                 name: "你",
                 text: "你在说我？",
                 sprite: {
-            left:null,
-        }
+                    left: null,
+                }
             }
         },
         {
@@ -878,8 +879,8 @@ const scene: Scene = {
                 name: "？",
                 text: "我见过上帝的坟墓，也听见了人群的笑声。",
                 sprite: {
-            left:"NPC/questionman.png"
-        }
+                    left: "NPC/questionman.png"
+                }
             }
         },
         {
@@ -902,8 +903,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "我们该去往何方？",
                 sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
+                    left: "guangling/wubiaoqing.png"
+                }
             }
         },
         {
@@ -912,8 +913,8 @@ const scene: Scene = {
                 name: "？",
                 text: "去那座荒废的村庄吧。那是灵魂的镜子，也是门槛。",
                 sprite: {
-            left:"NPC/questionman.png"
-        }
+                    left: "NPC/questionman.png"
+                }
             }
         },
         {
@@ -936,13 +937,13 @@ const scene: Scene = {
                 name: "你",
                 text: "我已明白。",
                 sprite: {
-            left:null,
-        }
+                    left: null,
+                }
             },
             action: () => {
-                    const bagManager = BagManager.getInstance();
-                    bagManager.addCardsToBag("enlightenment", 1);
-                    },
+                const bagManager = BagManager.getInstance();
+                bagManager.addCardsToBag("enlightenment", 1);
+            },
         },
         {
             id: "mysterious_person_11",
@@ -950,8 +951,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "他转身而去，背影消失在视线中。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -959,9 +960,9 @@ const scene: Scene = {
             elements: {
                 name: "你",
                 text: "我想我已知道该去哪里了。",
-                 sprite: {
-            left:null
-        }
+                sprite: {
+                    left: null
+                }
             }
         },
         {
@@ -970,8 +971,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "嗯。",
                 sprite: {
-            left: "guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -990,8 +991,8 @@ const scene: Scene = {
                 bgm: "bgm1.mp3",
                 background: "sc1.1/1-1-9.jpg",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1021,8 +1022,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "就算迷路，也还有光泠在。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1032,8 +1033,8 @@ const scene: Scene = {
                 text: "到了。",
                 bgm: null,
                 sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
+                    left: "guangling/wubiaoqing.png"
+                }
             }
         },
         {
@@ -1044,8 +1045,8 @@ const scene: Scene = {
                 bgm: "bgm5.mp3",
                 background: "sc1.1/1-1-10.jpg",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1068,8 +1069,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "一块巨石横在道路中央，让人难以忽略它的存在。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1078,8 +1079,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "想必是了。",
                 sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
+                    left: "guangling/wubiaoqing.png"
+                }
             }
         },
         {
@@ -1088,8 +1089,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "靠近巨石，一行字便映入眼帘。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1098,8 +1099,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "“欲寻所需，必经此关”",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1108,8 +1109,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "那么，是要我们通过这石头的考验了。",
                 sprite: {
-            left:"guangling/wubiaoqing.png"
-        }
+                    left: "guangling/wubiaoqing.png"
+                }
             }
         },
         {
@@ -1118,8 +1119,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "您准备好了吗？",
                 sprite: {
-            left:"guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -1128,8 +1129,8 @@ const scene: Scene = {
                 name: "你",
                 text: "等等，如果不理会这块石头，直接进入村庄呢？",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1138,8 +1139,8 @@ const scene: Scene = {
                 name: "旁白",
                 text: "试着绕过巨石进入村庄，却发现眼前变得空无一物。",
                 sprite: {
-            left:null
-        }
+                    left: null
+                }
             }
         },
         {
@@ -1148,8 +1149,8 @@ const scene: Scene = {
                 name: "光泠",
                 text: "看来，这样就什么都发现不了了。",
                 sprite: {
-            left:"guangling/smile.png"
-        }
+                    left: "guangling/smile.png"
+                }
             }
         },
         {
@@ -1166,261 +1167,262 @@ const scene: Scene = {
                 text: "是啊。"
             }
         },
-    {
+        {
             id: "lightling_13_1",
             elements: {
                 name: "光泠",
                 text: "那么，您准备好接受巨石的考验了吗？"
             },
             keyNode: true,
-    choices: [
-        {
-            text: "尽管来吧。",
-            next: "branch_1_1"
-        },
-    ]
-},
-
-    // ========== 分支① ==========
-    {
-        id: "branch_1_1",
-        elements: {
-            name: "光泠",
-            text: "您不会退缩的，我就知道。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
-        },
-        next: "branch_1_2"
-    },
-    {
-        id: "branch_1_2",
-        elements: {
-            name: "光泠",
-            text: "您不会让我失望，我一直相信您。"
-        },
-        next: "branch_1_3"
-    },
-    {
-        id: "branch_1_3",
-        elements: {
-            name: "你",
-            text: "看来我也不能辜负你的信任了。"
-        },
-        next: "branch_1_4"
-    },
-    {
-        id: "branch_1_4",
-        elements: {
-            name: "光泠",
-            text: "嗯，我很荣幸。",
-            sprite: {
-            left:"guangling/smile.png"
-        }
-        },
-        next: "branch_1_5"
-    },
-    {
-        id: "branch_1_5",
-        elements: {
-            name: "光泠",
-            text: "跟您在一起的时候，我总是会很安心。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
-        },
-        next: "branch_1_6"
-    },
-    {
-        id: "branch_1_6",
-        elements: {
-            name: "你",
-            text: "是吗？"
-        },
-        next: "branch_1_7"
-    },
-    {
-        id: "branch_1_7",
-        elements: {
-            name: "光泠",
-            text: "我们会一起走下去，对吧？"
-        },
-        next: "branch_1_8"
-    },
-    {
-        id: "branch_1_8",
-        elements: {
-            name: "你",
-            text: "毫无疑问。"
-        },
-        next: "branch_1_9"
-    },
-    {
-        id: "branch_1_9",
-        elements: {
-            name: "光泠",
-            text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
-        },
-        next: "branch_1_10"
-    },
-    {
-        id: "branch_1_10",
-        elements: {
-            name: "你",
-            text: "第一眼看到你的时候，就觉得我们曾经在哪里相遇过。"
-        },
-        next: "branch_1_11"
-    },
-    {
-        id: "branch_1_11",
-        elements: {
-            name: "你",
-            text: "现在这股感觉更强烈了。"
-        },
-        next: "branch_1_12"
-    },
-    {
-        id: "branch_1_12",
-        elements: {
-            name: "光泠",
-            text: "也许是真的发生过呢？只可惜您已没有过往的记忆。",
-            sprite: {
-            left:"guangling/down.png"
-        }
-        },
-        next: "branch_1_13"
-    },
-    {
-        id: "branch_1_13",
-        elements: {
-            name: "你",
-            text: "但至少现在我们在一起。"
-        },
-        next: "branch_1_14"
-    },
-    {
-        id: "branch_1_14",
-        elements: {
-            name: "你",
-            text: "既然往昔不可追忆，那不妨好好把握当下。"
-        },
-        next: "branch_1_15"
-    },
-    {
-        id: "branch_1_15",
-        elements: {
-            name: "光泠",
-            text: "您还是很乐观呢。",
-            sprite: {
-            left:"guangling/smile.png"
-        }
-        },
-        next: "branch_1_16"
-    },
-    {
-        id: "branch_1_16",
-        elements: {
-            name: "光泠",
-            text: "世界本来就已糟糕至极，还整日郁郁寡欢。"
-        },
-        next: "branch_1_16_1"
-    },
-    {id: "branch_1_16_1",
-        elements: {
-            name: "光泠",
-            text: "就算幸福在身边驻足，也会遗憾地失之交臂。"
-        },
-        next: "branch_1_17"
-    },
-    {
-        id: "branch_1_17",
-        elements: {
-            name: "光泠",
-            text: "您说的对。"
-        },
-        next: "branch_1_18"
-    },
-    {
-        id: "branch_1_18",
-        elements: {
-            name: "旁白",
-            text: "光泠拉起我的手，将我们两人的手轻按在巨石上。"
-        },
-        next: "branch_1_19"
-    },
-    {
-        id: "branch_1_19",
-        elements: {
-            name: "光泠",
-            text: "让我们开始吧。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
-    }
-    },
-    {
-                id: "test_game1",
-                elements: {
-                    name: "巨石",
-                    text: "只有通过我的考验才能进入村庄",
-                    sprite: {
-            left:null
-        }
+            choices: [
+                {
+                    text: "尽管来吧。",
+                    next: "branch_1_1"
                 },
-                game: {
-                    id: "card_game",
-                    config: {
-                        player: {
-                            actionPoints: 1,
-                            hp: 15,
-                            maxHp: 15,
-                            deck: () => {
-                                const bagManager = BagManager.getInstance();
-                                return bagManager.getCardDeckForGame();
-                            },
-                            drawCount: 2,           // 玩家每回合抽2张牌
-                            initialDrawCount: 3     // 玩家开始时抽3张牌
+            ]
+        },
+
+        // ========== 分支① ==========
+        {
+            id: "branch_1_1",
+            elements: {
+                name: "光泠",
+                text: "您不会退缩的，我就知道。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            },
+            next: "branch_1_2"
+        },
+        {
+            id: "branch_1_2",
+            elements: {
+                name: "光泠",
+                text: "您不会让我失望，我一直相信您。"
+            },
+            next: "branch_1_3"
+        },
+        {
+            id: "branch_1_3",
+            elements: {
+                name: "你",
+                text: "看来我也不能辜负你的信任了。"
+            },
+            next: "branch_1_4"
+        },
+        {
+            id: "branch_1_4",
+            elements: {
+                name: "光泠",
+                text: "嗯，我很荣幸。",
+                sprite: {
+                    left: "guangling/smile.png"
+                }
+            },
+            next: "branch_1_5"
+        },
+        {
+            id: "branch_1_5",
+            elements: {
+                name: "光泠",
+                text: "跟您在一起的时候，我总是会很安心。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            },
+            next: "branch_1_6"
+        },
+        {
+            id: "branch_1_6",
+            elements: {
+                name: "你",
+                text: "是吗？"
+            },
+            next: "branch_1_7"
+        },
+        {
+            id: "branch_1_7",
+            elements: {
+                name: "光泠",
+                text: "我们会一起走下去，对吧？"
+            },
+            next: "branch_1_8"
+        },
+        {
+            id: "branch_1_8",
+            elements: {
+                name: "你",
+                text: "毫无疑问。"
+            },
+            next: "branch_1_9"
+        },
+        {
+            id: "branch_1_9",
+            elements: {
+                name: "光泠",
+                text: "谢谢您。愿意承担如此沉重的使命，也愿意相信我。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            },
+            next: "branch_1_10"
+        },
+        {
+            id: "branch_1_10",
+            elements: {
+                name: "你",
+                text: "第一眼看到你的时候，就觉得我们曾经在哪里相遇过。"
+            },
+            next: "branch_1_11"
+        },
+        {
+            id: "branch_1_11",
+            elements: {
+                name: "你",
+                text: "现在这股感觉更强烈了。"
+            },
+            next: "branch_1_12"
+        },
+        {
+            id: "branch_1_12",
+            elements: {
+                name: "光泠",
+                text: "也许是真的发生过呢？只可惜您已没有过往的记忆。",
+                sprite: {
+                    left: "guangling/down.png"
+                }
+            },
+            next: "branch_1_13"
+        },
+        {
+            id: "branch_1_13",
+            elements: {
+                name: "你",
+                text: "但至少现在我们在一起。"
+            },
+            next: "branch_1_14"
+        },
+        {
+            id: "branch_1_14",
+            elements: {
+                name: "你",
+                text: "既然往昔不可追忆，那不妨好好把握当下。"
+            },
+            next: "branch_1_15"
+        },
+        {
+            id: "branch_1_15",
+            elements: {
+                name: "光泠",
+                text: "您还是很乐观呢。",
+                sprite: {
+                    left: "guangling/smile.png"
+                }
+            },
+            next: "branch_1_16"
+        },
+        {
+            id: "branch_1_16",
+            elements: {
+                name: "光泠",
+                text: "世界本来就已糟糕至极，还整日郁郁寡欢。"
+            },
+            next: "branch_1_16_1"
+        },
+        {
+            id: "branch_1_16_1",
+            elements: {
+                name: "光泠",
+                text: "就算幸福在身边驻足，也会遗憾地失之交臂。"
+            },
+            next: "branch_1_17"
+        },
+        {
+            id: "branch_1_17",
+            elements: {
+                name: "光泠",
+                text: "您说的对。"
+            },
+            next: "branch_1_18"
+        },
+        {
+            id: "branch_1_18",
+            elements: {
+                name: "旁白",
+                text: "光泠拉起我的手，将我们两人的手轻按在巨石上。"
+            },
+            next: "branch_1_19"
+        },
+        {
+            id: "branch_1_19",
+            elements: {
+                name: "光泠",
+                text: "让我们开始吧。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            }
+        },
+        {
+            id: "test_game1",
+            elements: {
+                name: "巨石",
+                text: "只有通过我的考验才能进入村庄",
+                sprite: {
+                    left: null
+                }
+            },
+            game: {
+                id: "card_game",
+                config: {
+                    player: {
+                        actionPoints: 1,
+                        hp: 15,
+                        maxHp: 15,
+                        deck: () => {
+                            const bagManager = BagManager.getInstance();
+                            return bagManager.getCardDeckForGame();
                         },
-                        deckSelection: {
+                        drawCount: 2,           // 玩家每回合抽2张牌
+                        initialDrawCount: 3     // 玩家开始时抽3张牌
+                    },
+                    deckSelection: {
                         minDeckSize: 7,   // 设置最小选牌数量
                         maxDeckSize: 10,   // 设置最大选牌数量
                     },
-                        opponent: {
-                            name:"巨石",
-                            actionPoints: 1,
-                            hp: 10,
-                            maxHp: 10,
-                            deck: {
-                                "little_stone": 2,        
-                                "strange_stone": 2,         
-                                "bedrock": 2, 
-                                "large_rock": 2,        
-                            },
-                            drawCount: 1,           // 对手每回合抽1张牌
-                            initialDrawCount: 3     // 对手开始时抽3张牌
+                    opponent: {
+                        name: "巨石",
+                        actionPoints: 1,
+                        hp: 10,
+                        maxHp: 10,
+                        deck: {
+                            "little_stone": 2,
+                            "strange_stone": 2,
+                            "bedrock": 2,
+                            "large_rock": 2,
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
-                        bgm:"bgm29"
+                        drawCount: 1,           // 对手每回合抽1张牌
+                        initialDrawCount: 3     // 对手开始时抽3张牌
                     },
-                   end: [
-                   {
-                            condition: (gameData: CardGameEventData) => gameData.score >0,
-                            next: "happy1"
-                        },
+                    backgroundImage: "sc1.1/1-1-0.jpg",
+                    bgm: "bgm29"
+                },
+                end: [
                     {
-                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
-                            next: "sad1"
-                        }
-                    ],
-                            events: [
+                        condition: (gameData: CardGameEventData) => gameData.score > 0,
+                        next: "happy1"
+                    },
+                    {
+                        condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                        next: "sad1"
+                    }
+                ],
+                events: [
                     {
                         id: 'opponent_critical_health',
                         condition: (gameData: CardGameEventData) => {
                             return gameData.player.lastPlayedCard !== null &&
-                                gameData.opponent.hp <=5;
+                                gameData.opponent.hp <= 5;
                         },
                         elements: {
                             name: '光泠',
@@ -1432,18 +1434,18 @@ const scene: Scene = {
                             conflict: true
                         }
                     },]
+            }
+        },
+        {
+            id: "happy1",
+            elements: {
+                name: "旁白",
+                text: "恭喜通关，是否继续挑战困难模式？",
+                sprite: {
+                    left: null
                 }
             },
-            {
-        id: "happy1",
-        elements: {
-            name: "旁白",
-            text: "恭喜通关，是否继续挑战困难模式？",
-            sprite: {
-            left:null
-        }
-        },
-        choices: [
+            choices: [
                 {
                     text: "是",
                     next: "test_game2",
@@ -1453,118 +1455,119 @@ const scene: Scene = {
                     next: "test_game2"
                 }
             ]
-            }, 
-            {
-                id: "sad1",
-                elements: {
-                    name: "旁白",
-                    text: "很遗憾挑战失败，是否重试？"
-                },
-                choices: [
+        },
+        {
+            id: "sad1",
+            elements: {
+                name: "旁白",
+                text: "很遗憾挑战失败，是否重试？"
+            },
+            choices: [
                 {
                     text: "是",
                     next: "test_game1"
                 },
             ]
-            },    
-            {
-                id: "test_game2",
-                elements: {
-                    name: "巨石",
-                    text: "迎接我的终极挑战吧",
-                    sprite: {
-            left:null
         },
+        {
+            id: "test_game2",
+            elements: {
+                name: "巨石",
+                text: "迎接我的终极挑战吧",
+                sprite: {
+                    left: null
                 },
-                
-                game: {
-                    id: "card_game",
-                    config: {
-                        player: {
-                            actionPoints: 1,
-                            hp: 25,
-                            maxHp: 25,
-                            deck: () => {
-                                const bagManager = BagManager.getInstance();
-                                return bagManager.getCardDeckForGame();
-                            },
-                            drawCount: 2,           // 玩家每回合抽2张牌
-                            initialDrawCount: 3     // 玩家开始时抽3张牌
+            },
+
+            game: {
+                id: "card_game",
+                config: {
+                    player: {
+                        actionPoints: 1,
+                        hp: 25,
+                        maxHp: 25,
+                        deck: () => {
+                            const bagManager = BagManager.getInstance();
+                            return bagManager.getCardDeckForGame();
                         },
-                        deckSelection: {
+                        drawCount: 2,           // 玩家每回合抽2张牌
+                        initialDrawCount: 3     // 玩家开始时抽3张牌
+                    },
+                    deckSelection: {
                         minDeckSize: 7,   // 设置最小选牌数量
                         maxDeckSize: 10,   // 设置最大选牌数量
                     },
-                        opponent: {
-                            name:"巨石",
-                            actionPoints: 1,
-                            hp: 20,
-                            maxHp: 20,
-                            deck: {
-                                "little_stone": 1,        
-                                "strange_stone": 1,         
-                                "bedrock": 1, 
-                                "large_rock": 1,
-                                "red_stone":2,
-                                "diamond":2,
-                                "crushed_stone":2,
-                                "pebble":2,
-                                "meteorite":1,      
-                            },
-                            drawCount: 2,           // 对手每回合抽1张牌
-                            initialDrawCount: 3     // 对手开始时抽3张牌
+                    opponent: {
+                        name: "巨石",
+                        actionPoints: 1,
+                        hp: 20,
+                        maxHp: 20,
+                        deck: {
+                            "little_stone": 1,
+                            "strange_stone": 1,
+                            "bedrock": 1,
+                            "large_rock": 1,
+                            "red_stone": 2,
+                            "diamond": 2,
+                            "crushed_stone": 2,
+                            "pebble": 2,
+                            "meteorite": 1,
                         },
-                        backgroundImage:"sc1.1/1-1-0.jpg",
-                        bgm:"bgm30"
+                        drawCount: 2,           // 对手每回合抽1张牌
+                        initialDrawCount: 3     // 对手开始时抽3张牌
                     },
-                   end: [
-                   {
-                            condition: (gameData: CardGameEventData) => gameData.score >0,
-                            next: "test1"
-                        },
-                    {
-                            condition: (gameData: CardGameEventData) => gameData.score <= 0,
-                            next: "branch_1_21"
-                        }
-                    ]
-            },},
-            {
-                id: "test1",
-                elements: {
-                    name: "旁白",
-                    text: "恭喜全部通过巨石的考验"
+                    backgroundImage: "sc1.1/1-1-0.jpg",
+                    bgm: "bgm30"
                 },
-                action: () => {
+                end: [
+                    {
+                        condition: (gameData: CardGameEventData) => gameData.score > 0,
+                        next: "test1"
+                    },
+                    {
+                        condition: (gameData: CardGameEventData) => gameData.score <= 0,
+                        next: "branch_1_21"
+                    }
+                ]
+            },
+        },
+        {
+            id: "test1",
+            elements: {
+                name: "旁白",
+                text: "恭喜全部通过巨石的考验"
+            },
+            action: () => {
                 let am = AchievementManager.getInstance();
                 am.unlockAchievementWithAnimation("complete_stone_trials");
                 const bagManager = BagManager.getInstance();
                 bagManager.addCardsToBag("strange_stone", 2);
                 bagManager.addCardsToBag("pebble", 2);
             },
-               choices: [
+            choices: [
                 {
                     text: "进入村庄",
                     next: "chapter_0_scene_2_0",
                 },
             ]
+        },
+        {
+            id: "branch_1_20",
+            elements: {
+                name: "旁边",
+                text: "刹那间，一股强大的力量将我击倒在地，手心里传来剧烈的刺痛。"
             },
-            {
-                id: "branch_1_20",
+        },
+        {
+            id: "branch_1_21",
             elements: {
-            name: "旁边",
-            text: "刹那间，一股强大的力量将我击倒在地，手心里传来剧烈的刺痛。"
-        },
-},
-{
-                id: "branch_1_21",
-            elements: {
-            name: "你",
-            text: "我失败了。",
-            sprite: {
-            left:null
-        },
-        },
-        choices: [
+                name: "你",
+                text: "我失败了。",
+                sprite: {
+                    left: null
+                },
+            },
+            choices: [
                 {
                     text: "重新接受巨石的终极考验",
                     next: "test_game2",
@@ -1573,106 +1576,106 @@ const scene: Scene = {
                     text: "继续前行",
                     next: "branch_1_22",
                 },
-            ]  
-},
-{
-                id: "branch_1_22",
-            elements: {
-            name: "你",
-            text: "…………"
+            ]
         },
-},
-{
-                id: "branch_1_23",
+        {
+            id: "branch_1_22",
             elements: {
-            name: "旁白",
-            text: "一股绝望感涌上心头。"
+                name: "你",
+                text: "…………"
+            },
         },
-},
-{
-                id: "branch_1_24",
+        {
+            id: "branch_1_23",
             elements: {
-            name: "旁白",
-            text: "就算光泠通过了巨石的试炼，也会因为我而同样无法进入村庄。",
-            sprite: {
-            left:null
-        }
+                name: "旁白",
+                text: "一股绝望感涌上心头。"
+            },
         },
-},
-{
-                id: "branch_1_25",
+        {
+            id: "branch_1_24",
             elements: {
-            name: "光泠",
-            text: "愣神之际，光泠跪坐在我身边，轻轻地拉起我的手。",
-            sprite: {
-            left:"guangling/smile.png"
-        }
+                name: "旁白",
+                text: "就算光泠通过了巨石的试炼，也会因为我而同样无法进入村庄。",
+                sprite: {
+                    left: null
+                }
+            },
         },
-},
-{
-                id: "branch_1_26",
+        {
+            id: "branch_1_25",
             elements: {
-            name: "光泠",
-            text: "没关系，您已经足够努力了。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
+                name: "光泠",
+                text: "愣神之际，光泠跪坐在我身边，轻轻地拉起我的手。",
+                sprite: {
+                    left: "guangling/smile.png"
+                }
+            },
         },
-},
-{
-                id: "branch_1_27",
+        {
+            id: "branch_1_26",
             elements: {
-            name: "旁白",
-            text: "我感到无比的耻辱与愤怒。"
+                name: "光泠",
+                text: "没关系，您已经足够努力了。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            },
         },
-},
-{
-                id: "branch_1_28",
+        {
+            id: "branch_1_27",
             elements: {
-            name: "旁白",
-            text: "我紧握着她的手。"
+                name: "旁白",
+                text: "我感到无比的耻辱与愤怒。"
+            },
         },
-},
-{
-                id: "branch_1_29",
+        {
+            id: "branch_1_28",
             elements: {
-            name: "光泠",
-            text: "也许还有机会呢。我们还不能在这里停下。",
-            sprite: {
-            left:"guangling/smile.png"
-        }
+                name: "旁白",
+                text: "我紧握着她的手。"
+            },
         },
-},
-{
-                id: "branch_1_30",
+        {
+            id: "branch_1_29",
             elements: {
-            name: "旁白",
-            text: "深呼吸，平复自己难以言喻的烦杂心绪。"
+                name: "光泠",
+                text: "也许还有机会呢。我们还不能在这里停下。",
+                sprite: {
+                    left: "guangling/smile.png"
+                }
+            },
         },
-},
-{
-                id: "branch_1_31",
+        {
+            id: "branch_1_30",
             elements: {
-            name: "你",
-            text: "你说得对。谢谢你，我好些了。"
+                name: "旁白",
+                text: "深呼吸，平复自己难以言喻的烦杂心绪。"
+            },
         },
-},
-{
-                id: "branch_1_32",
+        {
+            id: "branch_1_31",
             elements: {
-            name: "光泠",
-            text: "不论怎样，我会陪您继续走下去。",
-            sprite: {
-            left:"guangling/smile1.png"
-        }
+                name: "你",
+                text: "你说得对。谢谢你，我好些了。"
+            },
         },
-        choices: [
+        {
+            id: "branch_1_32",
+            elements: {
+                name: "光泠",
+                text: "不论怎样，我会陪您继续走下去。",
+                sprite: {
+                    left: "guangling/smile1.png"
+                }
+            },
+            choices: [
                 {
                     text: "进入村庄",
                     next: "chapter_0_scene_2_0",
                 },
             ]
-},
+        },
     ]
 };
 export default scene;
