@@ -625,6 +625,11 @@ class CardGame extends MiniGame {
                     margin: 1em 0;
                     border: 1px solid #8B7D6B;
                     box-shadow: 0 0 15px rgba(139, 125, 107, 0.3);
+                    overflow-x: auto;
+                }
+                
+                .played-card {
+                    flex-shrink: 0;
                 }
                 
                 @media (max-width: 768px) {
