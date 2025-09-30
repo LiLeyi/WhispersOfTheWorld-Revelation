@@ -6077,9 +6077,13 @@ sprite: {
           const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
           const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
           const bagManager = BagManager.getInstance();
-          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+           const hasDarknessErosiveHeart = bagManager.hasCard("darkness_erosive_heart");  // 蚀心刃卡牌
+          const hasShatteredErosiveBlade = bagManager.hasCard("shattered_erosive_blade");  // 破碎蚀心刃卡牌
+          const hasDarknessShatteredErosive = bagManager.hasCard("darkness_shattered_erosive");  // 暗黑破碎蚀心刃卡牌
+     // 当玩家拥有 darkness_erosive_heart 或 shattered_erosive_blade 或 darkness_shattered_erosive 任意一张卡牌时显示此选项
+          const hasSpecialCard = hasDarknessErosiveHeart || hasShatteredErosiveBlade || hasDarknessShatteredErosive;
           // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才显示此选项
-          return hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus;
+          return hasHeartOfPrime && hasEyeOfEternalSun && hasSpecialCard;
         }
     },
     {
