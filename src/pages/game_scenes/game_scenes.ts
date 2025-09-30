@@ -2328,7 +2328,7 @@ class GameScene {
             }
         }
     }
-    /**
+        /**
      * 添加暂停菜单样式
      */
     private addPauseStyles(): void {
@@ -2366,6 +2366,8 @@ class GameScene {
                 transform: scale(0.9);
                 opacity: 0;
                 transition: all 0.3s ease;
+                max-width: 90vw;
+                box-sizing: border-box;
             }
             
             .pause-menu.show {
@@ -2404,8 +2406,82 @@ class GameScene {
             .pause-button:active {
                 transform: translateY(0);
             }
+            
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .pause-menu {
+                    padding: 20px;
+                    width: 250px;
+                    border-radius: 12px;
+                }
+                
+                .pause-menu h2 {
+                    font-size: 20px;
+                    margin-bottom: 20px;
+                }
+                
+                .pause-button {
+                    padding: 10px;
+                    font-size: 14px;
+                    margin: 8px 0;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .pause-menu {
+                    padding: 15px;
+                    width: 200px;
+                    border-radius: 10px;
+                }
+                
+                .pause-menu h2 {
+                    font-size: 18px;
+                    margin-bottom: 15px;
+                }
+                
+                .pause-button {
+                    padding: 8px;
+                    font-size: 12px;
+                    margin: 6px 0;
+                }
+            }
+            
+            @media (max-width: 320px) {
+                .pause-menu {
+                    padding: 10px;
+                    width: 180px;
+                    border-radius: 8px;
+                }
+                
+                .pause-menu h2 {
+                    font-size: 16px;
+                    margin-bottom: 12px;
+                }
+                
+                .pause-button {
+                    padding: 6px;
+                    font-size: 11px;
+                    margin: 5px 0;
+                }
+            }
+            
+            /* 大屏幕优化 */
+            @media (min-width: 1200px) {
+                .pause-menu {
+                    width: 350px;
+                }
+                
+                .pause-menu h2 {
+                    font-size: 28px;
+                }
+                
+                .pause-button {
+                    padding: 15px;
+                    font-size: 18px;
+                }
+            }
         `;
-
+        
         document.head.appendChild(style);
     }
 
