@@ -254,7 +254,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
   large_rock: {
     id: "large_rock",
     name: "大石块",
-    description: "获得2点攻击加成，消耗2行动。",
+    description: "造成2点攻击，消耗2行动。",
     priority: 11,
     effect: [
       {
