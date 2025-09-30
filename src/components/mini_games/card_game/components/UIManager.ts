@@ -527,8 +527,6 @@ static reindexCards(deck: HTMLElement): void {
         
         // 使用相对单位设置基础样式，便于响应式缩放
         cardElement.style.cssText = `
-            width: 110px;
-            height: 160px;
             position: relative;
             border-radius: 10px;
             overflow: hidden;
@@ -538,6 +536,9 @@ static reindexCards(deck: HTMLElement): void {
             color: #000;
             border: 2px solid ${borderColor};
             margin: 0 8px;
+            flex-shrink: 0;
+            width: 110px;
+            height: 160px;
         `;
         
         cardElement.innerHTML = `
@@ -596,10 +597,19 @@ static reindexCards(deck: HTMLElement): void {
             cardElement.dataset.hasPlayedHoverSound = "false";
         });
         
+        // 添加窗口大小变化监听，确保卡牌能够响应式缩放
+        const resizeObserver = new ResizeObserver(() => {
+            UIManager.resizePlayedCards();
+        });
+        
+        const playedCardsContainer = document.getElementById('center-played-cards');
+        if (playedCardsContainer) {
+            resizeObserver.observe(playedCardsContainer);
+        }
+        
         return cardElement;
     }
-    
-    // 新增方法：重新调整已出牌区域所有卡牌的大小
+        // 新增方法：重新调整已出牌区域所有卡牌的大小
     static resizePlayedCards(): void {
         const playedCardsContainer = document.getElementById('center-played-cards');
         if (!playedCardsContainer) return;
@@ -648,8 +658,6 @@ static reindexCards(deck: HTMLElement): void {
             // 更新样式 - 保持等比例缩放
             card.style.width = `${cardWidth}px`;
             card.style.height = `${cardHeight}px`;
-            card.style.minWidth = `${cardWidth}px`;
-            card.style.minHeight = `${cardHeight}px`;
             
             // 计算字体大小比例
             const scaleFactor = cardWidth / baseCardWidth;
