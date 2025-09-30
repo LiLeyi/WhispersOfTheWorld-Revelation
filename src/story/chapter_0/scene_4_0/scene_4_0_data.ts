@@ -5316,7 +5316,7 @@ sprite: {
                 end: [
                     {
                         condition: (gameData: CardGameEventData) => {
-                                    if (gameData.opponent.hp <= 9900) {
+                                    if (gameData.opponent.hp <= 0) {
                                         const am = AchievementManager.getInstance();
                                         am.unlockAchievementWithAnimation("infinite war");
                                     }
@@ -5325,7 +5325,7 @@ sprite: {
                     },
                      {
                         condition: (gameData: CardGameEventData) => {
-                                    if (gameData.opponent.hp <= 9900) {
+                                    if (gameData.opponent.hp <= 0) {
                                         const am = AchievementManager.getInstance();
                                         am.unlockAchievementWithAnimation("infinite war");
                                     }
