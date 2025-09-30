@@ -9,7 +9,14 @@ const scene: Scene = {
 id: "chapter_0_scene_2_0",
     title: "第1章第2幕:村庄",
 nodes: [
-           {
+  {
+            id: "video_node_0",
+            elements: {
+                name: "旁白",
+                text: "进入村庄"
+            },
+        },               
+  {
             id: "video_node",
             elements: {
                 name: "旁白",

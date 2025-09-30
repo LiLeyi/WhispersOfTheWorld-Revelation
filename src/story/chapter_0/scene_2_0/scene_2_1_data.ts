@@ -10,6 +10,13 @@ const scene: Scene = {
   title: "第2章第1幕:齿轮之城",
   nodes: [
     {
+      id: "video_node_0",
+      elements: {
+        name: "旁白",
+        text: "齿轮之城外围"
+      },
+    },
+    {
       id: "video_node",
       elements: {
         name: "旁白",
@@ -2904,7 +2911,7 @@ const scene: Scene = {
       id: "darkblade_161_2_2",
       elements: {
         bgm: "bgm13.MP3",
-        background: "sc2.1/2-1-5.png",
+       background: "sc2.1/2-1-4.png",
         name: "奴隶",
         text: "你还问我为什么？",
       },
@@ -3872,6 +3879,7 @@ const scene: Scene = {
       id: "darkblade_256_2_2_2",
       elements: {
         name: "？？？",
+        background: "sc2.1/2-1-5.png",
         text: "有机体的时代，结束了。"
       }
     },
@@ -4062,7 +4070,7 @@ const scene: Scene = {
       id: "darkblade_274_2_2_2",
       elements: {
         name: "旁白",
-        text: "在轰穿一道墙壁后，出现了一个广阔的地下空间。在深处，似乎有什么东西源源不断地闪耀着光芒。"
+        text: "在轰穿一道墙壁后，出现了一座高塔。在塔顶的深处，似乎有什么东西源源不断地闪耀着光芒。"
       }
     },
     {
@@ -4366,6 +4374,7 @@ const scene: Scene = {
     {
       id: "battle_1_2-1",
       elements: {
+        background: "sc2.1/2-1-11.png",
         name: "光泠",
         text: "以它现在的状态，基本已经无法继续战斗了。",
         sprite: {
@@ -4907,7 +4916,7 @@ const scene: Scene = {
         name: "空木錬真",
         text: "来吧，让我见识一下，你的实力。",
         sprite: {
-          left: "mianjuman.png",
+          left: "NPC/mianjuman.png",
         },
       }
     },
@@ -6178,7 +6187,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "空木先生......",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -6248,7 +6257,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "变成像我们这样，半人类半机械的存在，或者完全成为机械体？",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -6348,7 +6357,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "为什么？为什么会这样？",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -6388,7 +6397,7 @@ const scene: Scene = {
         name: "虚樹",
         text: "我不知道......",
         sprite: {
-          left: "NPC/jixiemian.png",
+          left: "NPC/jixieman.png",
         }
       }
     },
@@ -7416,9 +7425,10 @@ const scene: Scene = {
       id: "battle_1_49-2-1——1",
       elements: {
         name: "旁白",
-        text: "虚樹将关键之物交给了我们",
+        text: "虚樹将关键之物从齿轮之塔的塔顶拿了下来",
         sprite: {
           left: "NPC/jixieman.png",
+          center: null,
         }
       }
     },
@@ -7456,6 +7466,7 @@ choices: [
         text: "还有最后一个问题......",
         sprite: {
           left: "NPC/mianjuman.png",
+          center: null,
         }
       }
     },
@@ -7825,7 +7836,8 @@ choices: [
         name: "旁白",
         text: "向虚樹交代了有关国王的事情，他也把永昼之瞳交给了我们。",
         sprite: {
-          left: null
+          left: null,
+          center: null,
         }
       }
     },
@@ -7835,7 +7847,7 @@ choices: [
         name: "旁白",
         text: "仔细打量这神奇的永昼之瞳，只见它是一个眼球状结晶，内部是一颗微缩太阳，燃烧着金白色光焰。外层如水晶般半透明，但布满放射状裂痕，仿佛光芒正随时要溢出。",
         sprite: {
-          left: "NPC/foreverlight.png"
+          center: "NPC/foreverlight.png"
         }
       }
     },
@@ -7845,7 +7857,8 @@ choices: [
         name: "你",
         text: "这就是象征着真相与意志的“永昼之瞳”！",
         sprite: {
-          left: null
+          left: null,
+          center: null,
         }
       }
     },
@@ -8055,6 +8068,7 @@ choices: [
       elements: {
         name: "旁白",
         text: "如海啸般狂暴的剧痛不停撕扯着神经。",
+        background: "sc2.1/2-1-11.png",
         sprite: {
           left: null,
         }

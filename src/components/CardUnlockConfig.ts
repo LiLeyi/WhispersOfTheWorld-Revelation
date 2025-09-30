@@ -287,6 +287,424 @@ export const CARD_UNLOCK_RULES: CardUnlockRule[] = [
         },
         count: 1                    // 给予1张
     },
+
+    // ==================== 补充CardDatabase中的所有卡牌 ====================
+    // 根据story文件分析，添加所有缺失的卡牌解锁规则
+
+    // 石头系列卡牌
+    {
+        cardId: "little_stone",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "bedrock",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "large_rock",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "red_stone",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "diamond",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "crushed_stone",
+        unlockConditions: {
+            nodeId: "lightling_13_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "meteorite",
+        unlockConditions: {
+            nodeId: "mountain_1"
+        },
+        count: 1
+    },
+
+    // 暗寂系列卡牌
+    {
+        cardId: "darkness_final",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1,
+        replace: true,
+        replaceCardId: "darkness"
+    },
+    {
+        cardId: "darkness_shadow_form",
+        unlockConditions: {
+            nodeId: "mountain_242_2_3_2_1"
+        },
+        count: 1,
+        replace: true,
+        replaceCardId: "darkness_final"
+    },
+    {
+        cardId: "darkness_erosive_heart",
+        unlockConditions: {
+            nodeId: "mountain_241_2_3_2_1"
+        },
+        count: 1,
+        replace: true,
+        replaceCardId: "darkness_final"
+    },
+    {
+        cardId: "darkness_shattered_erosive",
+        unlockConditions: {
+            nodeId: "mountain_242_2_3_2_2"
+        },
+        count: 1,
+        replace: true,
+        replaceCardId: "darkness_final"
+    },
+    {
+        cardId: "darkness_enhanced",
+        unlockConditions: {
+            nodeId: "darkblade_8"
+        },
+        count: 1
+    },
+    {
+        cardId: "darkness_erosive_weakened",
+        unlockConditions: {
+            nodeId: "mountain_242_2_3_2_2"
+        },
+        count: 1
+    },
+
+    // 无痕系列卡牌
+    {
+        cardId: "tear_of_no_trace",
+        unlockConditions: {
+            nodeId: "wake_15"
+        },
+        count: 1
+    },
+    {
+        cardId: "end_tears",
+        unlockConditions: {
+            nodeId: "mountain_242_2_3_2_1"
+        },
+        count: 1,
+        replace: true,
+        replaceCardId: "tear_of_no_trace"
+    },
+
+    // 巫婆系列卡牌
+    {
+        cardId: "ill_fitting_robe",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "faded_page",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "eerie_candlelight",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "boring_staff",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "useless_potion",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "annoying_clock",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+
+    // 机械系列卡牌
+    {
+        cardId: "mechanical_shield",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_defense",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "worn_gear",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_sentry",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_factory",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_bomb",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "brand_new_gear",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "unexpired_oil",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_guard",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_crushed_stone",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "mechanical_meteorite",
+        unlockConditions: {
+            nodeId: "darkblade_56_2"
+        },
+        count: 1
+    },
+
+    // 死神系列卡牌
+    {
+        cardId: "reapers_whisper",
+        unlockConditions: {
+            nodeId: "mountain_1"
+        },
+        count: 1
+    },
+    {
+        cardId: "reapers_groan",
+        unlockConditions: {
+            nodeId: "mountain_131_2_2"
+        },
+        count: 1
+    },
+
+    // 鬼怪系列卡牌
+    {
+        cardId: "mountain_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "forest_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "drowned_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "hungry_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "lonely_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "stingy_ghoul",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "ghostly_figures",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "yin_spirit",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "yang_spirit",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "curse",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "devour",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+    {
+        cardId: "will_o_wisp",
+        unlockConditions: {
+            nodeId: "mountain_150_2_2_2_2"
+        },
+        count: 1
+    },
+
+    // 破碎蚀心系列卡牌
+    {
+        cardId: "shattered_erosive_blade",
+        unlockConditions: {
+            nodeId: "mountain_242_2_3_2_2"
+        },
+        count: 1
+    },
+
+    // 影子卡牌
+    {
+        cardId: "shadow_card",
+        unlockConditions: {
+            nodeId: "node1"
+        },
+        count: 1
+    },
+
+    // 合身长袍系列卡牌
+    {
+        cardId: "well_fitting_robe",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "brand_new_page",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "normal_candlelight",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "interesting_staff",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "wonderful_potion",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "intelligence_reducing_hat",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    },
+    {
+        cardId: "lovable_clock",
+        unlockConditions: {
+            nodeId: "altar_42"
+        },
+        count: 1
+    }
    
 ];
 

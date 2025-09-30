@@ -60,7 +60,7 @@ export class AudioManager {
         if (menuVolume) this.menuVolume = parseFloat(menuVolume) / 100;
     }
 
-   /**
+    /**
      * 获取音频文件的正确路径
      * @param audioPath 音频文件路径
      * @returns 完整的音频文件URL
@@ -80,33 +80,18 @@ export class AudioManager {
         
         // 检查是否已经是完整路径（包含.mp3扩展名）
         if (audioPath.endsWith('.mp3') || audioPath.endsWith('.MP3')) {
-            // 在生产环境中，使用正确的相对路径
-            if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-                // 在生产环境中，使用相对于根目录的路径
-                const fullPath = `/assets/bgm/${audioPath}`;
-                console.log("AudioManager: 构造生产环境音频路径:", fullPath);
-                return fullPath;
-            } else {
-                // 构造相对于当前页面的路径
-                const fullPath = `../../assets/bgm/${audioPath}`;
-                console.log("AudioManager: 构造开发环境音频路径:", fullPath);
-                return fullPath;
-            }
+            // 构造相对于当前页面的路径
+            const fullPath = `../../assets/bgm/${audioPath}`;
+            console.log("AudioManager: 构造音频路径:", fullPath);
+            return fullPath;
         }
         
-        // 在生产环境中，使用正确的相对路径
-        if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            // 在生产环境中，使用相对于根目录的路径
-            const fullPath = `/assets/bgm/${audioPath}.mp3`;
-            console.log("AudioManager: 构造生产环境音频路径:", fullPath);
-            return fullPath;
-        } else {
-            // 构造相对于当前页面的路径（添加.mp3扩展名）
-            const fullPath = `../../assets/bgm/${audioPath}.mp3`;
-            console.log("AudioManager: 构造开发环境音频路径:", fullPath);
-            return fullPath;
-        }
-    }   /**
+        // 构造相对于当前页面的路径（添加.mp3扩展名）
+        const fullPath = `../../assets/bgm/${audioPath}.mp3`;
+        console.log("AudioManager: 构造音频路径:", fullPath);
+        return fullPath;
+    }
+    /**
      * 设置游戏音量
      * @param volume 音量值 (0.0 - 1.0)
      */

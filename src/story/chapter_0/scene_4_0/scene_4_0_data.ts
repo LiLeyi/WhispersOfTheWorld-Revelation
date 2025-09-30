@@ -10,7 +10,17 @@ const scene: Scene = {
 id:"chapter_0_scene_4_0",
 title:"终章第1幕",
 nodes:[
- {
+   {  
+    id: "video_node_0",  
+    elements: {  
+        name: "旁白",  
+        text: "重返斑牛镇的路上",
+        sprite: {
+            left: null,
+        }  
+    }  
+},  
+  {
             id: "video_node",
             elements: {
                 name: "旁白",
