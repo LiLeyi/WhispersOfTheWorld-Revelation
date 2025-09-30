@@ -4451,7 +4451,7 @@ sprite: {
                                 },
                                 drawCount: 6,           // 对手每回合抽3张牌
                                 initialDrawCount: 6 ,    // 对手开始时抽6张牌
-                            initialBuffs: [  // 设置初始buff
+                           initialBuffs: [  // 设置初始buff
                                 {
                                      id: "disaster_lord_phase1",
                                      duration: -1,
@@ -5277,8 +5277,8 @@ sprite: {
                 config: {
                     player: {
                         actionPoints: 5,
-                        hp: 31,
-                        maxHp: 31,
+                        hp: 51,
+                        maxHp: 51,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5297,8 +5297,8 @@ sprite: {
                     opponent: {
                         name:"oiiaioooooiiai",
                         actionPoints: 12,
-                        hp: 10000,
-                        maxHp: 10000,
+                        hp: 500,
+                        maxHp: 500,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5366,7 +5366,11 @@ sprite: {
                 {
                     text: "退出游戏",
                     next: "test100000000"
-                }
+                },
+                {
+                    text: "再次挑战",
+                    next: "infinite_torture"
+                },
             ]
         },
 //结局6//

@@ -3053,7 +3053,7 @@ choices: [
                     id: "test_game6",
                     elements: {
                         name: "恶魂",
-                        text: "楦′綘澶編",//鸡你太美
+                        text: "鍚冩帀浣犱滑（吃掉你们）",
                     },
                     game: {
                         id: "card_game",
@@ -3098,6 +3098,52 @@ choices: [
                             backgroundImage:"game/ehun.jpg",
                             bgm:"ehun"
                         },
+                        events: [
+          {
+            id: 'opponent_critical_health_2',
+            condition: (gameData: CardGameEventData) => {
+              return gameData.opponent.hp <= 30&&gameData.opponent.maxHp ==30 &&gameData.opponent.hp >10;
+            },
+            elements: {
+              name: '恶魂',
+              text: '鐑у厜锛屽噺灏戜綘鐨勬鍣ㄥ拰琛屽姩鑳藉姏！（烧光，减少你的武器和行动能力）'
+            },
+            triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+          },
+          {
+            id: 'player_first_attack_2',
+            condition: (gameData: CardGameEventData) => {
+              return gameData.player.lastPlayedCard !== null &&gameData.opponent.hp <=10&&gameData.opponent.maxHp == 30;
+            },
+            elements: {
+              name: '恶魂',
+              text: '鍑嗗鎺ュ彈鎴戠殑璇呭拻鍚�！（准备接受我的诅咒吧）'
+            },
+            triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+          },
+          {
+                        id: 'opponent_critical_health_3',
+                        condition: (gameData: CardGameEventData) => {  
+                            // 条件：玩家已出牌 且 对手血量降到15以下
+                                return gameData.opponent.hp <=25&&gameData.opponent.maxHp == 25;
+                            // 如果满足条件，则标记为已触发
+                        },
+                        elements: {
+                            name: '光泠',
+                            text: '注意它第二阶段的特质！'
+                        },
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },
+        ],
                         end: [
                             {
                                 condition: (gameData: CardGameEventData) => {

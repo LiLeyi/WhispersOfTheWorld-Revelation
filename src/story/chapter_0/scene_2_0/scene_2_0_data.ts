@@ -1747,7 +1747,30 @@ nodes: [
                             condition: (gameData: CardGameEventData) => gameData.score <= 0,
                             next: "repeat"
                         }
-                    ]
+                    ],
+                  events: [
+                    {
+                        id: 'opponent_critical_health',
+                        condition: (gameData: CardGameEventData) => {
+                            
+                            // 条件：玩家已出牌 且 对手血量降到15以下
+            
+                                return gameData.player.lastPlayedCard !== null &&
+                                gameData.opponent.hp <= 15&&gameData.opponent.hp >0;
+                                
+                            // 如果满足条件，则标记为已触发
+                            
+                        },
+                        elements: {
+                            name: '光泠',
+                            text: '注意利用她的钟表！'
+                        },
+                        next: "player_first_attack_1",
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },]
                 }
             },
 {
