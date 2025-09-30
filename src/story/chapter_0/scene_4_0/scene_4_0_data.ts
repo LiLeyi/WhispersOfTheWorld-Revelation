@@ -4471,14 +4471,14 @@ sprite: {
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 大获全胜：玩家在第三阶段获胜且血量为满血
-                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp === gameData.player.maxHp;
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 3 && gameData.player.hp === gameData.player.maxHp;
                                 },
                                 next: "ending_33_5",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 小胜：玩家在第三阶段获胜但血量不为满血
-                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp < gameData.player.maxHp;
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 3 && gameData.player.hp < gameData.player.maxHp;
                                 },
                                 next: "ending_33_6",
                             },
@@ -4492,7 +4492,7 @@ sprite: {
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 小败：玩家在第三阶段失败了（灾厄之主最大血量为1，说明已经进入第三阶段）
-                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 1;
+                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 3;
                                 },
                                 next: "ending_33_8",
                             },
