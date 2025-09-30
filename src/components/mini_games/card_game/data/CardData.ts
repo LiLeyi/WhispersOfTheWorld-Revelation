@@ -20,7 +20,7 @@ export const CARD_TEMPLATES: Record<string, Card> = {
     effect: [
       {
         id: "do_attack",
-        duration: 10000,
+        duration: 1,
         target: "other"
       }
     ],
