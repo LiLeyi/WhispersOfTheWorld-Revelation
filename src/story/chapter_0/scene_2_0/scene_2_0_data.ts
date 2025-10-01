@@ -22,7 +22,7 @@ nodes: [
                 name: "旁白",
                 text: "播放视频"
             },
-            video: "2.mp4", // 视频文件应放在 src/assets/video/ 目录下
+            video: "5.mp4", // 视频文件应放在 src/assets/video/ 目录下
             next: "mother_1" // 可选，视频播放完成后跳转到的节点
         },      
   {
