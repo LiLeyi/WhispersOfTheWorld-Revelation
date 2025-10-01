@@ -653,7 +653,8 @@ const scene: Scene = {
                             condition: (gameData: CardGameEventData) => gameData.score <= 0,
                             next: "false_1"
                         }
-                    ]
+                    ],
+                   
       }
     },
     {
@@ -4309,27 +4310,48 @@ const scene: Scene = {
           {
             id: 'opponent_critical_health',
             condition: (gameData: CardGameEventData) => {
-              return gameData.opponent.hp <= 5;
+              return gameData.opponent.hp <= 5&&gameData.opponent.maxHp == 15&&gameData.opponent.hp > 0;
             },
             elements: {
               name: '国王',
               text: '有点意思，看来要有些强力的手牌才行。'
             },
-            next: "player_first_attack_1",
             triggerConfig: {
-              onlyOnce: true,
-              conflict: true
-            }
+                            onlyOnce: true,
+                            conflict: true
+                        }
           },
           {
             id: 'player_first_attack_1',
-            condition: () => false,
+            condition: (gameData: CardGameEventData) => {
+              return gameData.player.lastPlayedCard !== null &&gameData.opponent.hp <=20&&gameData.opponent.maxHp == 20;
+            },
             elements: {
               name: '国王',
-              text: '顺便送你些好东西，你会喜欢的。'
+              text: '送你些好东西，你会喜欢的。'
             },
-            next: undefined
-          }
+            triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+          },
+          {
+                        id: 'opponent_critical_health_1',
+                        condition: (gameData: CardGameEventData) => {  
+                            // 条件：玩家已出牌 且 对手血量降到15以下
+                                return gameData.player.lastPlayedCard !== null &&
+                                gameData.opponent.hp <=15&&gameData.opponent.maxHp == 15&&gameData.opponent.hp >5;
+                            // 如果满足条件，则标记为已触发
+                        },
+                        elements: {
+                            name: '光泠',
+                            text: '小心他的满蓄炸弹（尤其是二阶段）！'
+                        },
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },
         ],
         end: [
                    {

@@ -1417,12 +1417,13 @@ const scene: Scene = {
                         next: "sad1"
                     }
                 ],
-                events: [
+                 events: [
                     {
                         id: 'opponent_critical_health',
                         condition: (gameData: CardGameEventData) => {
+                            // 条件：玩家已出牌 且 对手血量降到5以下
                             return gameData.player.lastPlayedCard !== null &&
-                                gameData.opponent.hp <= 5;
+                                gameData.opponent.hp <= 5&&gameData.opponent.hp >0;
                         },
                         elements: {
                             name: '光泠',
@@ -1528,7 +1529,25 @@ const scene: Scene = {
                         condition: (gameData: CardGameEventData) => gameData.score <= 0,
                         next: "branch_1_21"
                     }
-                ]
+                ],
+                  events: [
+                    {
+                        id: 'opponent_critical_health',
+                        condition: (gameData: CardGameEventData) => {
+                            // 条件：玩家已出牌 且 对手血量降到5以下
+                            return gameData.player.lastPlayedCard !== null &&
+                                gameData.opponent.hp <= 5&&gameData.opponent.hp >0;
+                        },
+                        elements: {
+                            name: '光泠',
+                            text: '加油，就要成功了'
+                        },
+                        next: "player_first_attack_1",
+                        triggerConfig: {
+                            onlyOnce: true,
+                            conflict: true
+                        }
+                    },]
             },
         },
         {

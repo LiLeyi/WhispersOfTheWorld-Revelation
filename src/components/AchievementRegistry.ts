@@ -42,7 +42,7 @@ export class AchievementRegistry {
         this.achievements.set("complete_stone_trials", new Achievement("complete_stone_trials", "心魔", "THE BEAST INSIDE", "通过巨石的所有考验（第一章）"));
         this.achievements.set("abandon_human", new Achievement("abandon_human", "恶灵附身", "THE EVIL WITHIN", "拒绝救下人类（第二章）"));
        this.achievements.set("hidden ending", new Achievement("hidden ending", "王者之证", "THE PROOF OF KINGSHIP", "在未集齐三件\"关键之物\"的情况下，击败灾厄之主（终章）"));
-       this.achievements.set("infinite war", new Achievement("infinite war", "无限斗争", "INFINITE WAR", "在一局\"无尽\"模式中使敌方血量小于等于9900Hp（真结局后）"));
+       this.achievements.set("infinite war", new Achievement("infinite war", "无限斗争", "INFINITE WAR", "在一局\"无尽\"模式中使敌方血量小于等于0Hp（真结局后）"));
     }
     static getAchievement(id: string): Achievement | undefined {
         return this.achievements.get(id);

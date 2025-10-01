@@ -3666,7 +3666,7 @@ sprite: {
           const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
           
           // 无论是否集齐都显示此选项
-          return !(hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus);
+          return true;
         }
       }
     ]
@@ -4451,7 +4451,7 @@ sprite: {
                                 },
                                 drawCount: 6,           // 对手每回合抽3张牌
                                 initialDrawCount: 6 ,    // 对手开始时抽6张牌
-                            initialBuffs: [  // 设置初始buff
+                           initialBuffs: [  // 设置初始buff
                                 {
                                      id: "disaster_lord_phase1",
                                      duration: -1,
@@ -4471,14 +4471,14 @@ sprite: {
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 大获全胜：玩家在第三阶段获胜且血量为满血
-                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp === gameData.player.maxHp;
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 3 && gameData.player.hp === gameData.player.maxHp;
                                 },
                                 next: "ending_33_5",
                             },
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 小胜：玩家在第三阶段获胜但血量不为满血
-                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 1 && gameData.player.hp < gameData.player.maxHp;
+                                    return gameData.player.hp  > 0 && gameData.opponent.maxHp === 3 && gameData.player.hp < gameData.player.maxHp;
                                 },
                                 next: "ending_33_6",
                             },
@@ -4492,7 +4492,7 @@ sprite: {
                             {
                                 condition: (gameData: CardGameEventData) => {
                                     // 小败：玩家在第三阶段失败了（灾厄之主最大血量为1，说明已经进入第三阶段）
-                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 1;
+                                    return gameData.player.hp <= 0 && gameData.opponent.maxHp === 3;
                                 },
                                 next: "ending_33_8",
                             },
@@ -5277,8 +5277,8 @@ sprite: {
                 config: {
                     player: {
                         actionPoints: 5,
-                        hp: 31,
-                        maxHp: 31,
+                        hp: 51,
+                        maxHp: 51,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5297,8 +5297,8 @@ sprite: {
                     opponent: {
                         name:"oiiaioooooiiai",
                         actionPoints: 12,
-                        hp: 10000,
-                        maxHp: 10000,
+                        hp: 500,
+                        maxHp: 500,
                         deck: () => {
                             // 返回所有卡牌各3张
                             const allCards: Record<string, number> = {};
@@ -5316,7 +5316,7 @@ sprite: {
                 end: [
                     {
                         condition: (gameData: CardGameEventData) => {
-                                    if (gameData.opponent.hp <= 9900) {
+                                    if (gameData.opponent.hp <= 0) {
                                         const am = AchievementManager.getInstance();
                                         am.unlockAchievementWithAnimation("infinite war");
                                     }
@@ -5325,7 +5325,7 @@ sprite: {
                     },
                      {
                         condition: (gameData: CardGameEventData) => {
-                                    if (gameData.opponent.hp <= 9900) {
+                                    if (gameData.opponent.hp <= 0) {
                                         const am = AchievementManager.getInstance();
                                         am.unlockAchievementWithAnimation("infinite war");
                                     }
@@ -5366,7 +5366,11 @@ sprite: {
                 {
                     text: "退出游戏",
                     next: "test100000000"
-                }
+                },
+                {
+                    text: "再次挑战",
+                    next: "infinite_torture"
+                },
             ]
         },
 //结局6//
@@ -6053,12 +6057,17 @@ sprite: {
                 const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
                 const bagManager = BagManager.getInstance();
                 const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+                const hasDarknessErosiveHeart = bagManager.hasCard("darkness_erosive_heart");  // 蚀心刃卡牌
+          const hasShatteredErosiveBlade = bagManager.hasCard("shattered_erosive_blade");  // 破碎蚀心刃卡牌
+          const hasDarknessShatteredErosive = bagManager.hasCard("darkness_shattered_erosive");  // 暗黑破碎蚀心刃卡牌
+     // 当玩家拥有 darkness_erosive_heart 或 shattered_erosive_blade 或 darkness_shattered_erosive 任意一张卡牌时显示此选项
+          const hasSpecialCard = hasDarknessErosiveHeart || hasShatteredErosiveBlade || hasDarknessShatteredErosive;
                 // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才解锁成就
                 if (hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus) {
                   let am = AchievementManager.getInstance();
                   am.unlockAchievementWithAnimation("ending_6");
                 }
-                if (!hasHeartOfPrime || !hasEyeOfEternalSun || !hasTearOfTerminus) {
+                if (!hasHeartOfPrime || !hasEyeOfEternalSun || hasSpecialCard) {
                   let am = AchievementManager.getInstance();
                   am.unlockAchievementWithAnimation("hidden ending");
                 }
@@ -6073,9 +6082,13 @@ sprite: {
           const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
           const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
           const bagManager = BagManager.getInstance();
-          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+           const hasDarknessErosiveHeart = bagManager.hasCard("darkness_erosive_heart");  // 蚀心刃卡牌
+          const hasShatteredErosiveBlade = bagManager.hasCard("shattered_erosive_blade");  // 破碎蚀心刃卡牌
+          const hasDarknessShatteredErosive = bagManager.hasCard("darkness_shattered_erosive");  // 暗黑破碎蚀心刃卡牌
+     // 当玩家拥有 darkness_erosive_heart 或 shattered_erosive_blade 或 darkness_shattered_erosive 任意一张卡牌时显示此选项
+          const hasSpecialCard = hasDarknessErosiveHeart || hasShatteredErosiveBlade || hasDarknessShatteredErosive;
           // 只有拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌才显示此选项
-          return hasHeartOfPrime && hasEyeOfEternalSun && hasTearOfTerminus;
+          return hasHeartOfPrime && hasEyeOfEternalSun && hasSpecialCard;
         }
     },
     {
@@ -6087,9 +6100,13 @@ sprite: {
           const hasHeartOfPrime = achievementManager.isUnlocked("item_heart_of_prime");  // 始源之心
           const hasEyeOfEternalSun = achievementManager.isUnlocked("item_eye_of_eternal_sun");  // 永昼之瞳
           const bagManager = BagManager.getInstance();
-          const hasTearOfTerminus = bagManager.hasCard("end_tears");  // 终焉之泪卡牌
+           const hasDarknessErosiveHeart = bagManager.hasCard("darkness_erosive_heart");  // 蚀心刃卡牌
+          const hasShatteredErosiveBlade = bagManager.hasCard("shattered_erosive_blade");  // 破碎蚀心刃卡牌
+          const hasDarknessShatteredErosive = bagManager.hasCard("darkness_shattered_erosive");  // 暗黑破碎蚀心刃卡牌
+     // 当玩家拥有 darkness_erosive_heart 或 shattered_erosive_blade 或 darkness_shattered_erosive 任意一张卡牌时显示此选项
+          const hasSpecialCard = hasDarknessErosiveHeart || hasShatteredErosiveBlade || hasDarknessShatteredErosive;
           // 除非未获得始源之心或永昼之瞳的成就或终焉之泪的卡牌才显示此选项
-          return !hasHeartOfPrime || !hasEyeOfEternalSun || !hasTearOfTerminus;
+          return !hasHeartOfPrime || !hasEyeOfEternalSun || hasSpecialCard;
         }
      },
   ],
