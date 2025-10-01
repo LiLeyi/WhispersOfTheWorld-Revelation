@@ -1,58 +1,51 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>设置</title>
-  <link rel="stylesheet" href="../../dist/pages/settings/settings.css">
-</head>
+// ... existing code ...
 <body>
   <div class="settings-container">
-    <h2><span data-zh="设置" data-en="Settings">设置</span></h2>
+    <h2>设置</h2>
     
-    <button class="lang-btn">EN</button>
+    <button class="lang-btn">中</button>
     
     <div class="setting-item">
-      <label for="gameVolume"><span data-zh="游戏音量" data-en="Game Volume">游戏音量</span>:</label>
+      <label for="gameVolume">游戏音量:</label>
       <input type="range" id="gameVolume" min="0" max="100" value="100">
       <span id="gameVolumeValue" class="volume-value">100%</span>
     </div>
     <div class="setting-item">
-            <label for="bgmVolume">背景音乐音量</label>
+            <label for="bgmVolume">背景音乐音量:</label>
             <input type="range" id="bgmVolume" min="0" max="100" value="100">
             <span id="bgmVolumeValue">100%</span>
         </div>
         <div class="setting-item">
-            <label for="gameVolume">游戏音效音量</label>
-            <input type="range" id="gameVolume" min="0" max="100" value="100">
-            <span id="gameVolumeValue">100%</span>
+            <label for="sfxVolume">游戏音效音量:</label>
+            <input type="range" id="sfxVolume" min="0" max="100" value="100">
+            <span id="sfxVolumeValue">100%</span>
         </div>
         <div class="setting-item">
-            <label for="menuVolume">菜单音量</label>
+            <label for="menuVolume">菜单音量:</label>
             <input type="range" id="menuVolume" min="0" max="100" value="100">
             <span id="menuVolumeValue">100%</span>
         </div>
         <div class="setting-item">
-            <label><span data-zh="未读文本允许跳过" data-en="Allow Skipping Unread Text">未读文本允许跳过</span></label>
+            <label>未读文本允许跳过</label>
             <label class="switch">
                 <input type="checkbox" id="skipUnreadText">
                 <span class="slider"></span>
             </label>
         </div>
                <div class="setting-item">
-            <label><span data-zh="变更已读文本颜色" data-en="Change Read Text Color">变更已读文本颜色</span></label>
+            <label>变更已读文本颜色</label>
             <label class="switch">
                 <input type="checkbox" id="changeReadTextColor">
                 <span class="slider"></span>
             </label>
         </div>
                <div class="setting-item">
-            <label for="autoPlaySpeed"><span data-zh="自动播放速度" data-en="Auto Play Speed">自动播放速度</span>:</label>
+            <label for="autoPlaySpeed">自动播放速度:</label>
             <input type="range" id="autoPlaySpeed" min="500" max="5000" step="500" value="1500">
             <span id="autoPlaySpeedValue" class="volume-value">1500ms</span>
         </div>
         <div class="setting-item">
-            <label><span data-zh="点击时停止自动播放" data-en="Stop Auto Play on Click">点击时停止自动播放</span></label>
+            <label>点击时停止自动播放</label>
             <label class="switch">
                 <input type="checkbox" id="stopAutoPlayOnClick">
                 <span class="slider"></span>
@@ -60,11 +53,11 @@
         </div>
     
     <div class="button-group">
-      <button id="saveSettings" data-zh="保存设置" data-en="Save Settings">保存设置</button>
-      <button id="backToMenu" data-zh="返回游戏" data-en="Back to Game">返回游戏</button>
+      <button id="saveSettings">保存设置</button>
+      <button id="backToMenu">返回游戏</button>
     </div>
   </div>
   
   <script type="module" src="../../dist/settings/settings.bundle.js"></script>
 </body>
-</html>
+// ... existing code ...
