@@ -182,16 +182,38 @@ class GameScene {
                     }
                 },
                 onSkipYes: () => {
-                    // 立即关闭跳过弹窗
-                    const skipElement = document.getElementById("skip");
-                    if (skipElement) {
-                        skipElement.classList.remove("active");
+                    console.log("[GameScene] 收到skipYes点击事件");
+                    // 检查是否允许跳过未读文本
+                    const skipUnreadTextSetting = localStorage.getItem("skipUnreadText");
+                    const skipUnreadText = skipUnreadTextSetting === "true";
+                    console.log("[GameScene] 跳过未读文本设置值:", skipUnreadTextSetting, "解析后:", skipUnreadText);
+                    
+                    // 检查是否显示了选项，如果显示了选项则不执行跳过
+                    const selectionBox = document.getElementById("selection_box");
+                    if (selectionBox && selectionBox.style.display !== "none" && selectionBox.children.length > 0) {
+                        console.log("[GameScene] 选项框可见，不执行跳过");
+                        const skipElement = document.getElementById("skip");
+                        if (skipElement) {
+                            skipElement.classList.remove("active");
+                        }
+                        // 显示提示信息
+                        alert("选项界面无法使用跳过功能");
+                        return;
                     }
-
-                    // 简单直接的跳过实现
-                    const skipUnread = localStorage.getItem("skipUnreadText") === "true";
-
-                    if (skipUnread) {
+                    
+                    // 如果正在等待用户选择，则不允许继续跳过
+                    if ((this as any).waitingForChoice) {
+                        console.log("[GameScene] 正在等待用户选择，不执行跳过");
+                        const skipElement = document.getElementById("skip");
+                        if (skipElement) {
+                            skipElement.classList.remove("active");
+                        }
+                        // 显示提示信息
+                        alert("选项界面无法使用跳过功能");
+                        return;
+                    }
+                    
+                    if (skipUnreadText) {
                         // 如果允许跳过未读文本，查找下一个选项节点
                         let foundChoiceNode = false;
                         if (this.currentScene) {
@@ -206,7 +228,7 @@ class GameScene {
                                     // 同步缓存当前节点ID，供兼容型读取
                                     const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                                     localStorage.setItem(currentNodeKey, node.id);
-
+                                    
                                     // 检查是否有小游戏需要执行
                                     if (node.game) {
                                         // 如果遇到小游戏节点，停止跳过并执行小游戏
@@ -216,7 +238,7 @@ class GameScene {
                                         this.renderCurrentNode();
                                         return;
                                     }
-
+                                    
                                     // 检查是否有视频需要播放
                                     if (node.video) {
                                         // 如果遇到视频节点，停止跳过并播放视频
@@ -226,22 +248,22 @@ class GameScene {
                                         this.renderCurrentNode();
                                         return;
                                     }
-
+                                    
                                     // 处理非选项节点的视觉和音频元素
                                     if (node.elements) {
                                         // 合并当前节点元素与前一个节点元素
                                         const mergedElements = this.mergeElements(this.previousElements, node.elements);
                                         this.previousElements = mergedElements;
-
+                                        
                                         // 更新场景元素（背景、立绘、音频等）
                                         this.sceneManager.updateSceneElements(mergedElements);
                                         this.sceneManager.updateBackground(mergedElements);
                                         this.sceneManager.updateAudio(mergedElements);
-
+                                        
                                         // 保存当前的previousElements状态到localStorage
                                         try {
                                             localStorage.setItem("previousElements", JSON.stringify(this.previousElements));
-
+                                            
                                             // 确保背景信息也保存到localStorage中，供自动存档使用
                                             if (mergedElements.background) {
                                                 localStorage.setItem("MSYbackgroundIMG", mergedElements.background);
@@ -250,7 +272,7 @@ class GameScene {
                                             console.error("无法保存previousElements到localStorage", e);
                                         }
                                     }
-
+                                    
                                     // 执行节点动作（仅在动作条件满足时执行）
                                     if (node.action && (!node.actionCondition || node.actionCondition())) {
                                         node.action();
@@ -258,7 +280,7 @@ class GameScene {
                                 } catch (e) {
                                     console.error('[GameScene] 处理节点访问失败:', e);
                                 }
-
+                                
                                 // 如果是选项节点，则停止并跳转到该节点
                                 if (node.choices && node.choices.length > 0) {
                                     this.currentNodeIndex = i;
@@ -280,7 +302,7 @@ class GameScene {
                                         // 同步缓存当前节点ID，供兼容型读取
                                         const currentNodeKey = `currentNodeId_${sceneId}_${i}`;
                                         localStorage.setItem(currentNodeKey, node.id);
-
+                                        
                                         // 检查是否有小游戏需要执行
                                         if (node.game) {
                                             // 如果遇到小游戏节点，停止跳过并执行小游戏
@@ -290,7 +312,7 @@ class GameScene {
                                             this.renderCurrentNode();
                                             return;
                                         }
-
+                                        
                                         // 检查是否有视频需要播放
                                         if (node.video) {
                                             // 如果遇到视频节点，停止跳过并播放视频
@@ -300,22 +322,22 @@ class GameScene {
                                             this.renderCurrentNode();
                                             return;
                                         }
-
-                                        // 处理节点的视觉和音频元素
+                                        
+                                        // 处理非选项节点的视觉和音频元素
                                         if (node.elements) {
                                             // 合并当前节点元素与前一个节点元素
                                             const mergedElements = this.mergeElements(this.previousElements, node.elements);
                                             this.previousElements = mergedElements;
-
+                                            
                                             // 更新场景元素（背景、立绘、音频等）
                                             this.sceneManager.updateSceneElements(mergedElements);
                                             this.sceneManager.updateBackground(mergedElements);
                                             this.sceneManager.updateAudio(mergedElements);
-
+                                            
                                             // 保存当前的previousElements状态到localStorage
                                             try {
                                                 localStorage.setItem("previousElements", JSON.stringify(this.previousElements));
-
+                                                
                                                 // 确保背景信息也保存到localStorage中，供自动存档使用
                                                 if (mergedElements.background) {
                                                     localStorage.setItem("MSYbackgroundIMG", mergedElements.background);
@@ -324,7 +346,7 @@ class GameScene {
                                                 console.error("无法保存previousElements到localStorage", e);
                                             }
                                         }
-
+                                        
                                         // 执行节点动作（仅在动作条件满足时执行）
                                         if (node.action && (!node.actionCondition || node.actionCondition())) {
                                             node.action();
@@ -344,6 +366,12 @@ class GameScene {
                     } else {
                         // 如果不允许跳过未读文本，显示提示信息并不能跳过
                         alert("跳过未读文本功能已关闭");
+                    }
+                    
+                    // 隐藏跳过弹窗
+                    const skipElement = document.getElementById("skip");
+                    if (skipElement) {
+                        skipElement.classList.remove("active");
                     }
                 },
                 onSkipNo: () => {
