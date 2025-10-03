@@ -22,12 +22,11 @@ body {
     opacity: 0;
     z-index: -1; /* 确保背景在最底层 */
 }
-
 .background-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: left center;
+    object-fit: contain;
+    object-position: center;
     display: block;
 }
 
@@ -224,7 +223,15 @@ body {
     .main-container { grid-template-columns: 1.1fr 0.9fr; }
     .content-area { padding-right: 4vw; }
     .logo-panel { --logo-box-width: min(440px, 82%); --logo-box-height: 220px; }
-    .menu-container { width: min(680px, 60vw); grid-template-columns: repeat(4, 1fr); position: absolute; right: 0; bottom: 4vh; margin-top: 0; }
+    .menu-container { 
+        width: min(680px, 60vw); 
+        grid-template-columns: repeat(4, 1fr);
+        position: absolute; 
+        right: 4vw; 
+        bottom: 8vh; 
+        margin-top: 0; 
+        gap: 24px 32px;
+    }
     .page-logo { width: min(860px, 64vw); height: clamp(150px, 20vh, 280px); background-position: right top; margin-right: -1vw; }
 }
 
@@ -232,11 +239,44 @@ body {
     .main-container { grid-template-columns: 1fr; }
     .illustration-panel { height: 46vh; }
     .content-area { justify-items: center; padding: 24px 20px 0; }
-    .menu-container { width: 92vw; grid-template-columns: repeat(2, 1fr); position: absolute; right: 4vw; left: auto; bottom: 4vh; margin-top: 0; }
-    .menu-button { min-width: unset; }
+    .menu-container { 
+        width: 92vw; 
+        grid-template-columns: repeat(2, 1fr); 
+        position: absolute; 
+        right: 4vw; 
+        left: 4vw; 
+        bottom: 4vh; 
+        margin-top: 0; 
+        gap: 20px 30px;
+    }
+    .menu-button { 
+        min-width: unset; 
+        padding: 20px 15px;
+        font-size: 15px;
+    }
     .logo-panel { --logo-box-width: 78vw; --logo-box-height: 26vh; }
     .title-area { justify-content: center; }
     .page-logo { width: 92vw; height: clamp(120px, 22vh, 240px); background-position: center top; margin-right: 0; }
+}
+
+@media (max-width: 480px) {
+    .menu-container {
+        width: 96vw;
+        left: 2vw;
+        right: 2vw;
+        bottom: 2vh;
+        gap: 15px 20px;
+    }
+    
+    .menu-button {
+        padding: 15px 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+    
+    .page-title h1 {
+        font-size: 2.5rem;
+    }
 }
 
 /* 标题排版（右上角） */
