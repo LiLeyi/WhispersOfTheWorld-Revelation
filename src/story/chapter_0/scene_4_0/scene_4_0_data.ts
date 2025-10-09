@@ -1249,10 +1249,30 @@ sprite:{
     choices: [
         {
             text: "达成结局二！！！",
-            next: "chapter_0_scene_0",
+            next: "battle_shadow_666",
         },
     ],
 }, 
+{
+    id: "battle_shadow_666",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"battle_shadow_27",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //无蚀心刃分支// 
 {  
     id: "battle_shadow_33_1",  
@@ -2882,10 +2902,31 @@ sprite:{
     choices: [
         {
             text: "(达成结局三！！！)",
-            next: "chapter_0_scene_0",
+            next: "ending_115_3",
         }
     ]
+    
 },
+{
+    id: "ending_115_3",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_1",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //结局4//
 {
     id: "ending_1_4",
@@ -4405,7 +4446,27 @@ sprite: {
     choices:[
         {
             text:"达成结局四！！！",
-            next:"chapter_0_scene_0",
+            next:"ending_104_4",
+    }
+    ]
+  },
+  {
+    id: "ending_104_4",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_31_4",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
     }
     ]
   },
@@ -6075,7 +6136,7 @@ sprite: {
   choices: [
     {
         text: "达成结局六！！",
-        next: "chapter_0_scene_0",
+        next: "ending_112_6",
         condition: () => {
           // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
           const achievementManager = AchievementManager.getInstance();
@@ -6093,7 +6154,7 @@ sprite: {
     },
     {
         text: "达成隐藏成就！！",
-        next: "chapter_0_scene_0",
+        next: "ending_112_6",
         condition: () => {
           // 检查玩家是否拥有始源之心和永昼之瞳的成就以及终焉之泪的卡牌
           const achievementManager = AchievementManager.getInstance();
@@ -6111,6 +6172,26 @@ sprite: {
      },
   ],
 },
+{
+    id: "ending_112_6",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_31_4",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //结局7//
 {
   id: "ending_33_7",
@@ -6286,10 +6367,30 @@ sprite: {
   choices: [
     {
       text: "死亡结局",
-      next: "chapter_0_scene_0",
+      next: "ending_166_7",
     }
   ]
 },
+{
+    id: "ending_166_7",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_31_4",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //结局八，九的选择//
 {
   id: "ending_33_8",
@@ -7497,10 +7598,30 @@ background:"sc4.1/4-1-25.jpg",
   choices: [
     {
       text: "达成结局七！！！",
-      next: "chapter_0_scene_0",
+      next: "ending_166_8",
     }
   ]
 },
+{
+    id: "ending_166_8",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_31_4",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //结局九//
 {
   id: "ending_49_9",
@@ -8857,10 +8978,30 @@ sprite:{
   choices: [
     {
       text: "达成结局八！！！",
-      next: "chapter_0_scene_0"
+      next: "ending_208_9"
     }
   ]
 },
+{
+    id: "ending_208_9",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"ending_31_4",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
     ]
 }
 export default scene;

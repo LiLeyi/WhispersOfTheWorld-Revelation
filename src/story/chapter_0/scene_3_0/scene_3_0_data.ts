@@ -3890,11 +3890,31 @@ choices: [
             },
     choices: [
         {
-            text: "在重获新生的世界，少女向你献上告别。",//恭喜达成结局一！！！！
-            next: "chapter_0_scene_0",
+            text: "在重获新生的世界，少女向你献上告别。（达成结局一）",//恭喜达成结局一！！！！
+            next: "mountain_261_2_2222222",
         },
     ],
 },
+{
+    id: "mountain_261_2_2222222",
+    elements: {
+      name: "旁白",
+      text: "",
+      sprite: { 
+        left: null,
+     }
+    },
+    choices:[
+        {
+            text:"完成其他结局",
+            next:"mountain_196_2",
+    },
+    {
+            text:"退出",
+            next:"hhhhhhhhhhhhhhhh",
+    }
+    ]
+  },
 //分支3-2-3//
 {
     id: "mountain_198_2_3",
